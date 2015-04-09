@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-09T17:25:42Z" product-name="easyvote_smartvote">
+		<header/>
+		<body>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate">
+				<source>Candidate</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.first_name">
+				<source>First Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.last_name">
+				<source>Last Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.gender">
+				<source>Gender</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.year_of_birth">
+				<source>Year Of Birth</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.language">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.incumbent">
+				<source>Incumbent</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.elected">
+				<source>Elected</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.party">
+				<source>Party</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.district">
+				<source>District</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party">
+				<source>Party</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.name_short">
+				<source>Name Short</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.logo">
+				<source>Logo</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.number_of_candidates">
+				<source>Number Of Candidates</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.number_of_answers">
+				<source>Number Of Answers</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.facebook_profile">
+				<source>Facebook Profile</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.website">
+				<source>Website</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.candidates">
+				<source>Candidates</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_district">
+				<source>District</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_district.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_district.seats">
+				<source>Seats</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_district.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_district.candidates">
+				<source>Candidates</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_district.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_election.smart_vote_identifier">
+				<source>Smart Vote Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_election.type">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_election.year">
+				<source>Year</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

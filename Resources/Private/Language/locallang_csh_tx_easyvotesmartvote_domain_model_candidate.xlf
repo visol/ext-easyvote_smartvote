@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-09T17:25:42Z" product-name="easyvote_smartvote">
+		<header/>
+		<body>
+			<trans-unit id="first_name.description">
+				<source>firstName</source>
+			</trans-unit>
+			<trans-unit id="last_name.description">
+				<source>lastName</source>
+			</trans-unit>
+			<trans-unit id="internal_identifier.description">
+				<source>internalIdentifier</source>
+			</trans-unit>
+			<trans-unit id="gender.description">
+				<source>gender</source>
+			</trans-unit>
+			<trans-unit id="year_of_birth.description">
+				<source>yearOfBirth</source>
+			</trans-unit>
+			<trans-unit id="language.description">
+				<source>language</source>
+			</trans-unit>
+			<trans-unit id="city.description">
+				<source>city</source>
+			</trans-unit>
+			<trans-unit id="incumbent.description">
+				<source>incumbent</source>
+			</trans-unit>
+			<trans-unit id="elected.description">
+				<source>elected</source>
+			</trans-unit>
+			<trans-unit id="party.description">
+				<source>party</source>
+			</trans-unit>
+			<trans-unit id="district.description">
+				<source>district</source>
+			</trans-unit>
+			<trans-unit id="election.description">
+				<source>election</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
