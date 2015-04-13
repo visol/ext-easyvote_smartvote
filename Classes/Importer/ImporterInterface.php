@@ -16,7 +16,7 @@ namespace Visol\EasyvoteSmartvote\Importer;
 
 
 /**
- * Interface for importing data from smart vote
+ * Interface for importing data from SmartVote
  */
 interface ImporterInterface {
 

@@ -14,46 +14,40 @@ namespace Visol\EasyvoteSmartvote\Importer;
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Visol\EasyvoteSmartvote\Domain\Model\Election;
+use Visol\EasyvoteSmartvote\Enumeration\Language;
 use Visol\EasyvoteSmartvote\Enumeration\Model;
 
 /**
- * Import Parties from the SmartVote platform.
+ * Import Districts from the SmartVote platform.
  */
-class PartyImporter extends AbstractImporter {
+class DistrictImporter extends AbstractImporter {
 
 	/**
 	 * @var
 	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_party';
+	protected $tableName = 'tx_easyvotesmartvote_domain_model_district';
 
 	/**
 	 * @var
 	 */
-	protected $internalIdentifier = 'ID_party';
+	protected $internalIdentifier = 'ID_district';
 
 	/**
 	 * @var
 	 */
 	protected $mappingFields = array(
-		'party' => 'name',
-		'party_short' => 'name_short',
-		'logo' => 'logo',
-		'n_candidates' => 'number_of_candidates',
-		'n_answers' => 'number_of_answers',
-		'facebookProfile' => 'facebook_profile',
-		'website' => 'website',
-		#'parents' => 'parents',
-		#'constituencies' => 'districts',
-		#'lists' => 'lists',
-		#'answers' => 'answers',
+		'district' => 'name',
+		'seats' => 'seats',
 	);
 
 	/**
 	 * @return int
 	 */
 	public function import() {
-		return parent::import(Model::PARTY);
+		return parent::import(Model::DISTRICT);
 	}
+
 
 	/**
 	 * @param array $item

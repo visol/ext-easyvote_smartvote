@@ -16,7 +16,7 @@ namespace Visol\EasyvoteSmartvote\Command;
 
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
-use Visol\EasyvoteSmartvote\Importer\PartyImporter;
+use Visol\EasyvoteSmartvote\Importer\ImporterInterface;
 
 /**
  * Command Controller which imports the Postal Box as voting location.
@@ -45,15 +45,32 @@ class SmartVoteCommandController extends CommandController {
 			$this->outputLine('Smart Vote identifier: ' . $election->getSmartVoteIdentifier());
 			$this->outputLine();
 
-			// Party
-			$this->output('Importing Parties... ');
+			$this->import('Party', $election);
+			$this->import('District', $election);
+			$this->import('Candidate', $election);
+			$this->import('Question', $election);
+			$this->import('QuestionCategory', $election);
+			$this->import('Denomination', $election);
+			$this->import('CivilState', $election);
+			$this->import('Education', $election);
 
-			/** @var PartyImporter $partyImporter */
-			$partyImporter = $this->objectManager->get(PartyImporter::class, $election);
-			$numberOfItems = $partyImporter->import();
-			$this->outputLine(sprintf('%s Parties', $numberOfItems));
-			$this->outputLine();
 		}
+	}
+
+	/**
+	 * @param string $dataType
+	 * @param Election $election
+	 */
+	protected function import($dataType, Election $election){
+
+		// Party
+		$this->output(sprintf('Importing %s... ', $dataType));
+
+		/** @var ImporterInterface $importer */
+		$className = sprintf('Visol\EasyvoteSmartvote\Importer\%sImporter', $dataType);
+		$importer = $this->objectManager->get($className, $election);
+		$numberOfItems = $importer->import();
+		$this->outputLine(sprintf('%s', $numberOfItems));
 	}
 
 }

@@ -89,39 +89,11 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $website = '';
 
 	/**
-	 * candidates
-	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<>
-	 * @cascade remove
-	 */
-	protected $candidates = NULL;
-
-	/**
 	 * election
 	 *
 	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
 	 */
 	protected $election = NULL;
-
-	/**
-	 * __construct
-	 */
-	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
-	}
-
-	/**
-	 * Initializes all ObjectStorage properties
-	 * Do not modify this method!
-	 * It will be rewritten on each save in the extension builder
-	 * You may modify the constructor of this class instead
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		$this->candidates = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-	}
 
 	/**
 	 * Returns the name
@@ -273,45 +245,6 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setWebsite($website) {
 		$this->website = $website;
-	}
-
-	/**
-	 * Adds a
-	 *
-	 * @param  $candidate
-	 * @return void
-	 */
-	public function addCandidate($candidate) {
-		$this->candidates->attach($candidate);
-	}
-
-	/**
-	 * Removes a
-	 *
-	 * @param $candidateToRemove The  to be removed
-	 * @return void
-	 */
-	public function removeCandidate($candidateToRemove) {
-		$this->candidates->detach($candidateToRemove);
-	}
-
-	/**
-	 * Returns the candidates
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<> $candidates
-	 */
-	public function getCandidates() {
-		return $this->candidates;
-	}
-
-	/**
-	 * Sets the candidates
-	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<> $candidates
-	 * @return void
-	 */
-	public function setCandidates(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $candidates) {
-		$this->candidates = $candidates;
 	}
 
 	/**

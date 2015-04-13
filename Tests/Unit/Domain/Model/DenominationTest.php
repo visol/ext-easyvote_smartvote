@@ -27,21 +27,21 @@ namespace Visol\EasyvoteSmartvote\Tests\Unit\Domain\Model;
  ***************************************************************/
 
 /**
- * Test case for class \Visol\EasyvoteSmartvote\Domain\Model\Party.
+ * Test case for class \Visol\EasyvoteSmartvote\Domain\Model\Denomination.
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  * @author Fabien Udriot <fabien@omic.ch>
  */
-class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class DenominationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Party
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Denomination
 	 */
 	protected $subject = NULL;
 
 	protected function setUp() {
-		$this->subject = new \Visol\EasyvoteSmartvote\Domain\Model\Party();
+		$this->subject = new \Visol\EasyvoteSmartvote\Domain\Model\Denomination();
 	}
 
 	protected function tearDown() {
@@ -90,144 +90,6 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
 			'internalIdentifier',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getNameShortReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getNameShort()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setNameShortForStringSetsNameShort() {
-		$this->subject->setNameShort('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'nameShort',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getLogoReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getLogo()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setLogoForStringSetsLogo() {
-		$this->subject->setLogo('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'logo',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getNumberOfCandidatesReturnsInitialValueForInteger() {
-		$this->assertSame(
-			0,
-			$this->subject->getNumberOfCandidates()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setNumberOfCandidatesForIntegerSetsNumberOfCandidates() {
-		$this->subject->setNumberOfCandidates(12);
-
-		$this->assertAttributeEquals(
-			12,
-			'numberOfCandidates',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getNumberOfAnswersReturnsInitialValueForInteger() {
-		$this->assertSame(
-			0,
-			$this->subject->getNumberOfAnswers()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setNumberOfAnswersForIntegerSetsNumberOfAnswers() {
-		$this->subject->setNumberOfAnswers(12);
-
-		$this->assertAttributeEquals(
-			12,
-			'numberOfAnswers',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getFacebookProfileReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getFacebookProfile()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setFacebookProfileForStringSetsFacebookProfile() {
-		$this->subject->setFacebookProfile('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'facebookProfile',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getWebsiteReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getWebsite()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setWebsiteForStringSetsWebsite() {
-		$this->subject->setWebsite('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'website',
 			$this->subject
 		);
 	}

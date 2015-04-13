@@ -6,14 +6,8 @@
 			<trans-unit id="name.description">
 				<source>name</source>
 			</trans-unit>
-			<trans-unit id="seats.description">
-				<source>seats</source>
-			</trans-unit>
 			<trans-unit id="internal_identifier.description">
 				<source>internalIdentifier</source>
-			</trans-unit>
-			<trans-unit id="candidates.description">
-				<source>candidates</source>
 			</trans-unit>
 			<trans-unit id="election.description">
 				<source>election</source>

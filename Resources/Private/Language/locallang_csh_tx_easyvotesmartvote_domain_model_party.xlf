@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-09T17:25:42Z" product-name="easyvote_smartvote">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-13T12:10:25Z" product-name="easyvote_smartvote">
 		<header/>
 		<body>
 			<trans-unit id="name.description">
@@ -26,9 +26,6 @@
 			</trans-unit>
 			<trans-unit id="website.description">
 				<source>website</source>
-			</trans-unit>
-			<trans-unit id="candidates.description">
-				<source>candidates</source>
 			</trans-unit>
 			<trans-unit id="election.description">
 				<source>election</source>

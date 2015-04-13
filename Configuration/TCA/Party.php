@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, candidates, election',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, election',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, candidates, election, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, election, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -127,24 +127,6 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 				'size' => 30,
 				'eval' => 'trim'
 			),
-		),
-		'candidates' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.candidates',
-			'config' => array(
-				'type' => 'inline',
-				'foreign_table' => '',
-				'foreign_field' => 'party',
-				'maxitems'      => 9999,
-				'appearance' => array(
-					'collapseAll' => 0,
-					'levelLinksPosition' => 'top',
-					'showSynchronizationLink' => 1,
-					'showPossibleLocalizationRecords' => 1,
-					'showAllLocalizationLink' => 1
-				),
-			),
-
 		),
 		'election' => array(
 			'exclude' => 0,

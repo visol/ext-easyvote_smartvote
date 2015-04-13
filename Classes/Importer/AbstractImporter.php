@@ -14,11 +14,14 @@ namespace Visol\EasyvoteSmartvote\Importer;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Visol\EasyvoteSmartvote\Domain\Model\Election;
+use Visol\EasyvoteSmartvote\Enumeration\Language;
 use Visol\EasyvoteSmartvote\Enumeration\Model;
 
 /**
- * Import Parties from Smart Vote
+ * Import Data from SmartVote
  */
 abstract class AbstractImporter implements ImporterInterface {
 
@@ -37,9 +40,127 @@ abstract class AbstractImporter implements ImporterInterface {
 	 */
 	protected $models = array(
 		Model::PARTY => 'parties.json',
-		Model::DISTRICT => 'candidates.json',
-		Model::DISTRICT => 'parties.json',
+		Model::CANDIDATE => 'candidates.json',
+		Model::DISTRICT => 'constituencies.json',
+		Model::QUESTION => 'questions.json',
+		Model::QUESTION_CATEGORY => 'categories.json',
+		Model::DENOMINATION => 'denominations.json',
+		Model::CIVIL_STATE => 'civilStates.json',
+		Model::EDUCATION => 'educations.json',
 	);
+
+	/**
+	 * @var
+	 */
+	protected $tableName = '';
+
+	/**
+	 * @var
+	 */
+	protected $internalIdentifier = '';
+
+	/**
+	 * @var Election
+	 */
+	protected $election;
+
+	/**
+	 * @var
+	 */
+	protected $mappingFields = array();
+
+	/**
+	 * @param Election $election
+	 */
+	public function __construct(Election $election){
+		$this->election = $election;
+	}
+
+	/**
+	 * Import the
+	 *
+	 * @param string $dataType
+	 * @return int
+	 */
+	public function import($dataType = '') {
+
+		$items = $this->getItemsFromDatasource($dataType);
+
+		$counter = 0;
+		foreach ($items as $item) {
+			if (!$this->itemExists($item)) {
+				$this->createItem($item);
+			}
+
+			$this->updateItem($item);
+			$counter++;
+		}
+
+		return $counter;
+	}
+
+	/**
+	 * @param string $modelType
+	 * @return array
+	 */
+	protected function getItemsFromDatasource($modelType) {
+		$url = $this->getUrl($this->election->getSmartVoteIdentifier(), $modelType, Language::GERMAN);
+
+		$items = array();
+		try {
+			$data = file_get_contents($url);
+			$items = json_decode($data, TRUE);
+		} catch(\Exception $e) {
+			$this->getLogger()->alert('I could not load SmartVote data given the URL', $url);
+
+		}
+		return $items;
+	}
+
+	/**
+	 * @param array $item
+	 * @return bool
+	 */
+	protected function itemExists(array $item) {
+
+		$clause = sprintf('internal_identifier = "%s"', $item[$this->internalIdentifier]);
+		$clause .= BackendUtility::deleteClause($this->tableName);
+
+		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', $this->tableName, $clause);
+		return !empty($record);
+	}
+
+	/**
+	 * @param array $item
+	 * @return bool
+	 */
+	protected function createItem(array $item) {
+		$values['internal_identifier'] = $item[$this->internalIdentifier];
+		$values['crdate'] = time();
+		$this->getDatabaseConnection()->exec_INSERTquery($this->tableName, $values);
+	}
+
+	/**
+	 * @param array $item
+	 * @return bool
+	 */
+	protected function updateItem(array $item) {
+
+		$values = array();
+		foreach ($this->mappingFields as $key => $field) {
+			if (isset($item[$key]) && is_scalar($item[$key])) {
+				$values[$this->mappingFields[$key]] = $item[$key];
+			}
+		}
+
+		// Automatic values
+		$values['election'] = $this->election->getUid();
+		$values['tstamp'] = time();
+
+		$clause = sprintf('internal_identifier = "%s"', $item[$this->internalIdentifier]);
+		$clause .= BackendUtility::deleteClause($this->tableName);
+		$this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values);
+	}
 
 	/**
 	 * @param string $smartVoteIdentifier

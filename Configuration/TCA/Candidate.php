@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, first_name, last_name, internal_identifier, gender, year_of_birth, language, city, incumbent, elected, party, district, election',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, first_name, last_name, internal_identifier, gender, year_of_birth, city, language, district_name, party_short, incumbent, elected, civil_status_name, denomination_name, education_name, employment_name, occupation, number_of_children, hobbies, favorite_books, favorite_music, favorite_movies, link_to_smart_spider, link_to_portrait, link_to_facebook, link_to_twitter, link_to_politnetz, link_to_youtube, link_to_vimeo, email, why_me, slogan, personal_website, party, district, election',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, first_name, last_name, internal_identifier, gender, year_of_birth, language, city, incumbent, elected, party, district, election, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, first_name, last_name, internal_identifier, gender, year_of_birth, city, language, district_name, party_short, incumbent, elected, civil_status_name, denomination_name, education_name, employment_name, occupation, number_of_children, hobbies, favorite_books, favorite_music, favorite_movies, link_to_smart_spider, link_to_portrait, link_to_facebook, link_to_twitter, link_to_politnetz, link_to_youtube, link_to_vimeo, email, why_me, slogan, personal_website, party, district, election, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -101,6 +101,15 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 				'eval' => 'trim'
 			),
 		),
+		'city' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.city',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
 		'language' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.language',
@@ -110,9 +119,18 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 				'eval' => 'trim'
 			),
 		),
-		'city' => array(
+		'district_name' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.city',
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.district_name',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'party_short' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.party_short',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -134,6 +152,202 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 				'type' => 'check',
 				'default' => 0
 			)
+		),
+		'civil_status_name' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.civil_status_name',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'denomination_name' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.denomination_name',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'education_name' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.education_name',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'employment_name' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.employment_name',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'occupation' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.occupation',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'number_of_children' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.number_of_children',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'hobbies' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.hobbies',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'favorite_books' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.favorite_books',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'favorite_music' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.favorite_music',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'favorite_movies' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.favorite_movies',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'link_to_smart_spider' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.link_to_smart_spider',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'link_to_portrait' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.link_to_portrait',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'link_to_facebook' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.link_to_facebook',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'link_to_twitter' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.link_to_twitter',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'link_to_politnetz' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.link_to_politnetz',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'link_to_youtube' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.link_to_youtube',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'link_to_vimeo' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.link_to_vimeo',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'email' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.email',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'why_me' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.why_me',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'slogan' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.slogan',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'personal_website' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.personal_website',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
 		),
 		'party' => array(
 			'exclude' => 1,

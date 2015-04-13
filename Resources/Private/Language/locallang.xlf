@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-09T17:25:42Z" product-name="easyvote_smartvote">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-13T12:10:25Z" product-name="easyvote_smartvote">
 		<header/>
 		<body>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate">
@@ -21,17 +21,86 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.year_of_birth">
 				<source>Year Of Birth</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.city">
+				<source>City</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.language">
 				<source>Language</source>
 			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.city">
-				<source>City</source>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.district_name">
+				<source>District Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.party_short">
+				<source>Party Short</source>
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.incumbent">
 				<source>Incumbent</source>
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.elected">
 				<source>Elected</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.civil_status_name">
+				<source>Civil Status Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.denomination_name">
+				<source>Denomination Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.education_name">
+				<source>Education Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.employment_name">
+				<source>Employment Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.occupation">
+				<source>Occupation</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.number_of_children">
+				<source>Number Of Children</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.hobbies">
+				<source>Hobbies</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.favorite_books">
+				<source>Favorite Books</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.favorite_music">
+				<source>Favorite Music</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.favorite_movies">
+				<source>Favorite Movies</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.link_to_smart_spider">
+				<source>Link To Smart Spider</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.link_to_portrait">
+				<source>Link To Portrait</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.link_to_facebook">
+				<source>Link To Facebook</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.link_to_twitter">
+				<source>Link To Twitter</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.link_to_politnetz">
+				<source>Link To Politnetz</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.link_to_youtube">
+				<source>Link To Youtube</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.link_to_vimeo">
+				<source>Link To Vimeo</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.why_me">
+				<source>Why Me</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.slogan">
+				<source>Slogan</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.personal_website">
+				<source>Personal Website</source>
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.party">
 				<source>Party</source>
@@ -69,9 +138,6 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party.website">
 				<source>Website</source>
 			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_party.candidates">
-				<source>Candidates</source>
-			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party.election">
 				<source>Election</source>
 			</trans-unit>
@@ -104,6 +170,108 @@
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_election.year">
 				<source>Year</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_education">
+				<source>Education</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_education.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_education.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_education.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_civilstate">
+				<source>Civil State</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_civilstate.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_civilstate.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_civilstate.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_denomination">
+				<source>Denomination</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_denomination.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_denomination.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_denomination.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_questioncategory">
+				<source>Question Category</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_questioncategory.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_questioncategory.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_questioncategory.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.groupping">
+				<source>Groupping</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.type">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.rapide">
+				<source>Rapide</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.education">
+				<source>Education</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.cleavage1">
+				<source>Cleavage1</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.cleavage2">
+				<source>Cleavage2</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.cleavage3">
+				<source>Cleavage3</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.cleavage4">
+				<source>Cleavage4</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.cleavage5">
+				<source>Cleavage5</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.cleavage6">
+				<source>Cleavage6</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.cleavage7">
+				<source>Cleavage7</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.cleavage8">
+				<source>Cleavage8</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.info">
+				<source>Info</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.pro">
+				<source>Pro</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.contra">
+				<source>Contra</source>
 			</trans-unit>
 		</body>
 	</file>

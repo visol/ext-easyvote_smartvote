@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-13T12:10:25Z" product-name="easyvote_smartvote">
+		<header/>
+		<body>
+			<trans-unit id="name.description">
+				<source>name</source>
+			</trans-unit>
+			<trans-unit id="internal_identifier.description">
+				<source>internalIdentifier</source>
+			</trans-unit>
+			<trans-unit id="groupping.description">
+				<source>groupping</source>
+			</trans-unit>
+			<trans-unit id="type.description">
+				<source>type</source>
+			</trans-unit>
+			<trans-unit id="rapide.description">
+				<source>rapide</source>
+			</trans-unit>
+			<trans-unit id="education.description">
+				<source>education</source>
+			</trans-unit>
+			<trans-unit id="cleavage1.description">
+				<source>cleavage1</source>
+			</trans-unit>
+			<trans-unit id="cleavage2.description">
+				<source>cleavage2</source>
+			</trans-unit>
+			<trans-unit id="cleavage3.description">
+				<source>cleavage3</source>
+			</trans-unit>
+			<trans-unit id="cleavage4.description">
+				<source>cleavage4</source>
+			</trans-unit>
+			<trans-unit id="cleavage5.description">
+				<source>cleavage5</source>
+			</trans-unit>
+			<trans-unit id="cleavage6.description">
+				<source>cleavage6</source>
+			</trans-unit>
+			<trans-unit id="cleavage7.description">
+				<source>cleavage7</source>
+			</trans-unit>
+			<trans-unit id="cleavage8.description">
+				<source>cleavage8</source>
+			</trans-unit>
+			<trans-unit id="info.description">
+				<source>info</source>
+			</trans-unit>
+			<trans-unit id="pro.description">
+				<source>pro</source>
+			</trans-unit>
+			<trans-unit id="contra.description">
+				<source>contra</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

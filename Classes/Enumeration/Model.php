@@ -24,5 +24,10 @@ class Model extends Enumeration {
 	const PARTY = 'party';
 	const CANDIDATE = 'candidate';
 	const DISTRICT = 'district';
+	const QUESTION = 'question';
+	const QUESTION_CATEGORY = 'question_category';
+	const DENOMINATION = 'denomination';
+	const CIVIL_STATE = 'civil_state';
+	const EDUCATION = 'education';
 
 }

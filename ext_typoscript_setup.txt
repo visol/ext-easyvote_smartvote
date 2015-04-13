@@ -1,0 +1,14 @@
+
+config.tx_extbase{
+    persistence{
+        classes{
+
+            Visol\EasyvoteSmartvote\Domain\Model\Question {
+                mapping {
+                    
+                }
+            }
+            
+    	}
+    }
+}

@@ -68,6 +68,13 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $yearOfBirth = '';
 
 	/**
+	 * city
+	 *
+	 * @var string
+	 */
+	protected $city = '';
+
+	/**
 	 * language
 	 *
 	 * @var string
@@ -75,11 +82,18 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $language = '';
 
 	/**
-	 * city
+	 * districtName
 	 *
 	 * @var string
 	 */
-	protected $city = '';
+	protected $districtName = '';
+
+	/**
+	 * partyShort
+	 *
+	 * @var string
+	 */
+	protected $partyShort = '';
 
 	/**
 	 * incumbent
@@ -94,6 +108,153 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var boolean
 	 */
 	protected $elected = FALSE;
+
+	/**
+	 * civilStatusName
+	 *
+	 * @var string
+	 */
+	protected $civilStatusName = '';
+
+	/**
+	 * denominationName
+	 *
+	 * @var string
+	 */
+	protected $denominationName = '';
+
+	/**
+	 * educationName
+	 *
+	 * @var string
+	 */
+	protected $educationName = '';
+
+	/**
+	 * employmentName
+	 *
+	 * @var string
+	 */
+	protected $employmentName = '';
+
+	/**
+	 * occupation
+	 *
+	 * @var string
+	 */
+	protected $occupation = '';
+
+	/**
+	 * numberOfChildren
+	 *
+	 * @var integer
+	 */
+	protected $numberOfChildren = 0;
+
+	/**
+	 * hobbies
+	 *
+	 * @var string
+	 */
+	protected $hobbies = '';
+
+	/**
+	 * favoriteBooks
+	 *
+	 * @var string
+	 */
+	protected $favoriteBooks = '';
+
+	/**
+	 * favoriteMusic
+	 *
+	 * @var string
+	 */
+	protected $favoriteMusic = '';
+
+	/**
+	 * favoriteMovies
+	 *
+	 * @var string
+	 */
+	protected $favoriteMovies = '';
+
+	/**
+	 * linkToSmartSpider
+	 *
+	 * @var string
+	 */
+	protected $linkToSmartSpider = '';
+
+	/**
+	 * linkToPortrait
+	 *
+	 * @var string
+	 */
+	protected $linkToPortrait = '';
+
+	/**
+	 * linkToFacebook
+	 *
+	 * @var string
+	 */
+	protected $linkToFacebook = '';
+
+	/**
+	 * linkToTwitter
+	 *
+	 * @var string
+	 */
+	protected $linkToTwitter = '';
+
+	/**
+	 * linkToPolitnetz
+	 *
+	 * @var string
+	 */
+	protected $linkToPolitnetz = '';
+
+	/**
+	 * linkToYoutube
+	 *
+	 * @var string
+	 */
+	protected $linkToYoutube = '';
+
+	/**
+	 * linkToVimeo
+	 *
+	 * @var string
+	 */
+	protected $linkToVimeo = '';
+
+	/**
+	 * email
+	 *
+	 * @var string
+	 */
+	protected $email = '';
+
+	/**
+	 * whyMe
+	 *
+	 * @var string
+	 */
+	protected $whyMe = '';
+
+	/**
+	 * slogan
+	 *
+	 * @var string
+	 */
+	protected $slogan = '';
+
+	/**
+	 * personalWebsite
+	 *
+	 * @var string
+	 */
+	protected $personalWebsite = '';
 
 	/**
 	 * party
@@ -212,6 +373,25 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the city
+	 *
+	 * @return string $city
+	 */
+	public function getCity() {
+		return $this->city;
+	}
+
+	/**
+	 * Sets the city
+	 *
+	 * @param string $city
+	 * @return void
+	 */
+	public function setCity($city) {
+		$this->city = $city;
+	}
+
+	/**
 	 * Returns the language
 	 *
 	 * @return string $language
@@ -231,22 +411,41 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the city
+	 * Returns the districtName
 	 *
-	 * @return string $city
+	 * @return string $districtName
 	 */
-	public function getCity() {
-		return $this->city;
+	public function getDistrictName() {
+		return $this->districtName;
 	}
 
 	/**
-	 * Sets the city
+	 * Sets the districtName
 	 *
-	 * @param string $city
+	 * @param string $districtName
 	 * @return void
 	 */
-	public function setCity($city) {
-		$this->city = $city;
+	public function setDistrictName($districtName) {
+		$this->districtName = $districtName;
+	}
+
+	/**
+	 * Returns the partyShort
+	 *
+	 * @return string $partyShort
+	 */
+	public function getPartyShort() {
+		return $this->partyShort;
+	}
+
+	/**
+	 * Sets the partyShort
+	 *
+	 * @param string $partyShort
+	 * @return void
+	 */
+	public function setPartyShort($partyShort) {
+		$this->partyShort = $partyShort;
 	}
 
 	/**
@@ -303,6 +502,405 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function isElected() {
 		return $this->elected;
+	}
+
+	/**
+	 * Returns the civilStatusName
+	 *
+	 * @return string $civilStatusName
+	 */
+	public function getCivilStatusName() {
+		return $this->civilStatusName;
+	}
+
+	/**
+	 * Sets the civilStatusName
+	 *
+	 * @param string $civilStatusName
+	 * @return void
+	 */
+	public function setCivilStatusName($civilStatusName) {
+		$this->civilStatusName = $civilStatusName;
+	}
+
+	/**
+	 * Returns the denominationName
+	 *
+	 * @return string $denominationName
+	 */
+	public function getDenominationName() {
+		return $this->denominationName;
+	}
+
+	/**
+	 * Sets the denominationName
+	 *
+	 * @param string $denominationName
+	 * @return void
+	 */
+	public function setDenominationName($denominationName) {
+		$this->denominationName = $denominationName;
+	}
+
+	/**
+	 * Returns the educationName
+	 *
+	 * @return string $educationName
+	 */
+	public function getEducationName() {
+		return $this->educationName;
+	}
+
+	/**
+	 * Sets the educationName
+	 *
+	 * @param string $educationName
+	 * @return void
+	 */
+	public function setEducationName($educationName) {
+		$this->educationName = $educationName;
+	}
+
+	/**
+	 * Returns the employmentName
+	 *
+	 * @return string $employmentName
+	 */
+	public function getEmploymentName() {
+		return $this->employmentName;
+	}
+
+	/**
+	 * Sets the employmentName
+	 *
+	 * @param string $employmentName
+	 * @return void
+	 */
+	public function setEmploymentName($employmentName) {
+		$this->employmentName = $employmentName;
+	}
+
+	/**
+	 * Returns the occupation
+	 *
+	 * @return string $occupation
+	 */
+	public function getOccupation() {
+		return $this->occupation;
+	}
+
+	/**
+	 * Sets the occupation
+	 *
+	 * @param string $occupation
+	 * @return void
+	 */
+	public function setOccupation($occupation) {
+		$this->occupation = $occupation;
+	}
+
+	/**
+	 * Returns the numberOfChildren
+	 *
+	 * @return integer $numberOfChildren
+	 */
+	public function getNumberOfChildren() {
+		return $this->numberOfChildren;
+	}
+
+	/**
+	 * Sets the numberOfChildren
+	 *
+	 * @param integer $numberOfChildren
+	 * @return void
+	 */
+	public function setNumberOfChildren($numberOfChildren) {
+		$this->numberOfChildren = $numberOfChildren;
+	}
+
+	/**
+	 * Returns the hobbies
+	 *
+	 * @return string $hobbies
+	 */
+	public function getHobbies() {
+		return $this->hobbies;
+	}
+
+	/**
+	 * Sets the hobbies
+	 *
+	 * @param string $hobbies
+	 * @return void
+	 */
+	public function setHobbies($hobbies) {
+		$this->hobbies = $hobbies;
+	}
+
+	/**
+	 * Returns the favoriteBooks
+	 *
+	 * @return string $favoriteBooks
+	 */
+	public function getFavoriteBooks() {
+		return $this->favoriteBooks;
+	}
+
+	/**
+	 * Sets the favoriteBooks
+	 *
+	 * @param string $favoriteBooks
+	 * @return void
+	 */
+	public function setFavoriteBooks($favoriteBooks) {
+		$this->favoriteBooks = $favoriteBooks;
+	}
+
+	/**
+	 * Returns the favoriteMusic
+	 *
+	 * @return string $favoriteMusic
+	 */
+	public function getFavoriteMusic() {
+		return $this->favoriteMusic;
+	}
+
+	/**
+	 * Sets the favoriteMusic
+	 *
+	 * @param string $favoriteMusic
+	 * @return void
+	 */
+	public function setFavoriteMusic($favoriteMusic) {
+		$this->favoriteMusic = $favoriteMusic;
+	}
+
+	/**
+	 * Returns the favoriteMovies
+	 *
+	 * @return string $favoriteMovies
+	 */
+	public function getFavoriteMovies() {
+		return $this->favoriteMovies;
+	}
+
+	/**
+	 * Sets the favoriteMovies
+	 *
+	 * @param string $favoriteMovies
+	 * @return void
+	 */
+	public function setFavoriteMovies($favoriteMovies) {
+		$this->favoriteMovies = $favoriteMovies;
+	}
+
+	/**
+	 * Returns the linkToSmartSpider
+	 *
+	 * @return string $linkToSmartSpider
+	 */
+	public function getLinkToSmartSpider() {
+		return $this->linkToSmartSpider;
+	}
+
+	/**
+	 * Sets the linkToSmartSpider
+	 *
+	 * @param string $linkToSmartSpider
+	 * @return void
+	 */
+	public function setLinkToSmartSpider($linkToSmartSpider) {
+		$this->linkToSmartSpider = $linkToSmartSpider;
+	}
+
+	/**
+	 * Returns the linkToPortrait
+	 *
+	 * @return string $linkToPortrait
+	 */
+	public function getLinkToPortrait() {
+		return $this->linkToPortrait;
+	}
+
+	/**
+	 * Sets the linkToPortrait
+	 *
+	 * @param string $linkToPortrait
+	 * @return void
+	 */
+	public function setLinkToPortrait($linkToPortrait) {
+		$this->linkToPortrait = $linkToPortrait;
+	}
+
+	/**
+	 * Returns the linkToFacebook
+	 *
+	 * @return string $linkToFacebook
+	 */
+	public function getLinkToFacebook() {
+		return $this->linkToFacebook;
+	}
+
+	/**
+	 * Sets the linkToFacebook
+	 *
+	 * @param string $linkToFacebook
+	 * @return void
+	 */
+	public function setLinkToFacebook($linkToFacebook) {
+		$this->linkToFacebook = $linkToFacebook;
+	}
+
+	/**
+	 * Returns the linkToTwitter
+	 *
+	 * @return string $linkToTwitter
+	 */
+	public function getLinkToTwitter() {
+		return $this->linkToTwitter;
+	}
+
+	/**
+	 * Sets the linkToTwitter
+	 *
+	 * @param string $linkToTwitter
+	 * @return void
+	 */
+	public function setLinkToTwitter($linkToTwitter) {
+		$this->linkToTwitter = $linkToTwitter;
+	}
+
+	/**
+	 * Returns the linkToPolitnetz
+	 *
+	 * @return string $linkToPolitnetz
+	 */
+	public function getLinkToPolitnetz() {
+		return $this->linkToPolitnetz;
+	}
+
+	/**
+	 * Sets the linkToPolitnetz
+	 *
+	 * @param string $linkToPolitnetz
+	 * @return void
+	 */
+	public function setLinkToPolitnetz($linkToPolitnetz) {
+		$this->linkToPolitnetz = $linkToPolitnetz;
+	}
+
+	/**
+	 * Returns the linkToYoutube
+	 *
+	 * @return string $linkToYoutube
+	 */
+	public function getLinkToYoutube() {
+		return $this->linkToYoutube;
+	}
+
+	/**
+	 * Sets the linkToYoutube
+	 *
+	 * @param string $linkToYoutube
+	 * @return void
+	 */
+	public function setLinkToYoutube($linkToYoutube) {
+		$this->linkToYoutube = $linkToYoutube;
+	}
+
+	/**
+	 * Returns the linkToVimeo
+	 *
+	 * @return string $linkToVimeo
+	 */
+	public function getLinkToVimeo() {
+		return $this->linkToVimeo;
+	}
+
+	/**
+	 * Sets the linkToVimeo
+	 *
+	 * @param string $linkToVimeo
+	 * @return void
+	 */
+	public function setLinkToVimeo($linkToVimeo) {
+		$this->linkToVimeo = $linkToVimeo;
+	}
+
+	/**
+	 * Returns the email
+	 *
+	 * @return string $email
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
+
+	/**
+	 * Sets the email
+	 *
+	 * @param string $email
+	 * @return void
+	 */
+	public function setEmail($email) {
+		$this->email = $email;
+	}
+
+	/**
+	 * Returns the whyMe
+	 *
+	 * @return string $whyMe
+	 */
+	public function getWhyMe() {
+		return $this->whyMe;
+	}
+
+	/**
+	 * Sets the whyMe
+	 *
+	 * @param string $whyMe
+	 * @return void
+	 */
+	public function setWhyMe($whyMe) {
+		$this->whyMe = $whyMe;
+	}
+
+	/**
+	 * Returns the slogan
+	 *
+	 * @return string $slogan
+	 */
+	public function getSlogan() {
+		return $this->slogan;
+	}
+
+	/**
+	 * Sets the slogan
+	 *
+	 * @param string $slogan
+	 * @return void
+	 */
+	public function setSlogan($slogan) {
+		$this->slogan = $slogan;
+	}
+
+	/**
+	 * Returns the personalWebsite
+	 *
+	 * @return string $personalWebsite
+	 */
+	public function getPersonalWebsite() {
+		return $this->personalWebsite;
+	}
+
+	/**
+	 * Sets the personalWebsite
+	 *
+	 * @param string $personalWebsite
+	 * @return void
+	 */
+	public function setPersonalWebsite($personalWebsite) {
+		$this->personalWebsite = $personalWebsite;
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-09T17:25:42Z" product-name="easyvote_smartvote">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-13T12:10:25Z" product-name="easyvote_smartvote">
 		<header/>
 		<body>
 			<trans-unit id="first_name.description">
@@ -18,17 +18,86 @@
 			<trans-unit id="year_of_birth.description">
 				<source>yearOfBirth</source>
 			</trans-unit>
+			<trans-unit id="city.description">
+				<source>city</source>
+			</trans-unit>
 			<trans-unit id="language.description">
 				<source>language</source>
 			</trans-unit>
-			<trans-unit id="city.description">
-				<source>city</source>
+			<trans-unit id="district_name.description">
+				<source>districtName</source>
+			</trans-unit>
+			<trans-unit id="party_short.description">
+				<source>partyShort</source>
 			</trans-unit>
 			<trans-unit id="incumbent.description">
 				<source>incumbent</source>
 			</trans-unit>
 			<trans-unit id="elected.description">
 				<source>elected</source>
+			</trans-unit>
+			<trans-unit id="civil_status_name.description">
+				<source>civilStatusName</source>
+			</trans-unit>
+			<trans-unit id="denomination_name.description">
+				<source>denominationName</source>
+			</trans-unit>
+			<trans-unit id="education_name.description">
+				<source>educationName</source>
+			</trans-unit>
+			<trans-unit id="employment_name.description">
+				<source>employmentName</source>
+			</trans-unit>
+			<trans-unit id="occupation.description">
+				<source>occupation</source>
+			</trans-unit>
+			<trans-unit id="number_of_children.description">
+				<source>numberOfChildren</source>
+			</trans-unit>
+			<trans-unit id="hobbies.description">
+				<source>hobbies</source>
+			</trans-unit>
+			<trans-unit id="favorite_books.description">
+				<source>favoriteBooks</source>
+			</trans-unit>
+			<trans-unit id="favorite_music.description">
+				<source>favoriteMusic</source>
+			</trans-unit>
+			<trans-unit id="favorite_movies.description">
+				<source>favoriteMovies</source>
+			</trans-unit>
+			<trans-unit id="link_to_smart_spider.description">
+				<source>linkToSmartSpider</source>
+			</trans-unit>
+			<trans-unit id="link_to_portrait.description">
+				<source>linkToPortrait</source>
+			</trans-unit>
+			<trans-unit id="link_to_facebook.description">
+				<source>linkToFacebook</source>
+			</trans-unit>
+			<trans-unit id="link_to_twitter.description">
+				<source>linkToTwitter</source>
+			</trans-unit>
+			<trans-unit id="link_to_politnetz.description">
+				<source>linkToPolitnetz</source>
+			</trans-unit>
+			<trans-unit id="link_to_youtube.description">
+				<source>linkToYoutube</source>
+			</trans-unit>
+			<trans-unit id="link_to_vimeo.description">
+				<source>linkToVimeo</source>
+			</trans-unit>
+			<trans-unit id="email.description">
+				<source>email</source>
+			</trans-unit>
+			<trans-unit id="why_me.description">
+				<source>whyMe</source>
+			</trans-unit>
+			<trans-unit id="slogan.description">
+				<source>slogan</source>
+			</trans-unit>
+			<trans-unit id="personal_website.description">
+				<source>personalWebsite</source>
 			</trans-unit>
 			<trans-unit id="party.description">
 				<source>party</source>
