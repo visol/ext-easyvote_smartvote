@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Easyvote Smartvote',
-	'description' => '',
+	'description' => 'Import data from the Smartvote platform and display questionnaire to the User',
 	'category' => 'plugin',
 	'author' => 'Fabien Udriot',
 	'author_email' => 'fabien@omic.ch',
@@ -25,6 +25,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '6.2',
+			'vidi' => '6.2',
 		),
 		'conflicts' => array(
 		),

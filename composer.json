@@ -1,0 +1,7 @@
+{
+	"name": "visol/easyvote-smartvote",
+	"type": "typo3-cms-extension",
+	"description": "Import data from the Smartvote platform and display questionnaire to the User",
+	"homepage": "https://github.com/visol/ext-easyvote_smartvote",
+	"license": ["GPL-2.0+"]
+}
