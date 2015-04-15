@@ -102,34 +102,4 @@ class CandidateImporter extends AbstractImporter {
 		return parent::import(Model::CANDIDATE);
 	}
 
-	/**
-	 * @param array $item
-	 * @return bool
-	 */
-	protected function updateItem(array $item) {
-
-		$values = array();
-		foreach ($this->mappingFields as $key => $field) {
-			if (isset($item[$key]) && is_scalar($item[$key])) {
-				$values[$this->mappingFields[$key]] = $item[$key];
-			}
-		}
-
-		// Automatic values
-		$values['election'] = $this->election->getUid();
-		$values['tstamp'] = time();
-
-		$clause = sprintf('internal_identifier = "%s"', $item[$this->internalIdentifier]);
-		$clause .= BackendUtility::deleteClause($this->tableName);
-		$result = $this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values);
-		if (!$result) {
-			$query = $this->getDatabaseConnection()->UPDATEquery($this->tableName, $clause, $values);
-
-			$message = 'SQL query failed when importing data from SmartVote';
-			print $message . chr(10) . chr(10);
-			$this->getLogger()->warning($message, array($query));
-			die($query);
-		}
-	}
-
 }

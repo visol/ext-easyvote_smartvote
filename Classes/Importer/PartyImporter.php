@@ -55,26 +55,4 @@ class PartyImporter extends AbstractImporter {
 		return parent::import(Model::PARTY);
 	}
 
-	/**
-	 * @param array $item
-	 * @return bool
-	 */
-	protected function updateItem(array $item) {
-
-		$values = array();
-		foreach ($this->mappingFields as $key => $field) {
-			if (isset($item[$key]) && is_scalar($item[$key])) {
-				$values[$this->mappingFields[$key]] = $item[$key];
-			}
-		}
-
-		// Automatic values
-		$values['election'] = $this->election->getUid();
-		$values['tstamp'] = time();
-
-		$clause = sprintf('internal_identifier = "%s"', $item[$this->internalIdentifier]);
-		$clause .= BackendUtility::deleteClause($this->tableName);
-		$this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values);
-	}
-
 }

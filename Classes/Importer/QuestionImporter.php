@@ -37,10 +37,10 @@ class QuestionImporter extends AbstractImporter {
 	 * @var
 	 */
 	protected $mappingFields = array(
-		'question' => 'question',
-		'category' => 'category',
+		'question' => 'name',
+//		'category' => 'category',
 		'group' => 'groupping',
-		'type' => 'Standard-4',
+		'type' => 'type',
 		'rapide' => 'rapide',
 		'edu' => 'education',
 		'cleavage_1' => 'cleavage1',
@@ -62,7 +62,7 @@ class QuestionImporter extends AbstractImporter {
 	 * @return int
 	 */
 	public function import() {
-		return parent::import(Model::CANDIDATE);
+		return parent::import(Model::QUESTION);
 	}
 
 }

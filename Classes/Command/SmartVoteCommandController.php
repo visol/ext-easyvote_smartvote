@@ -54,6 +54,7 @@ class SmartVoteCommandController extends CommandController {
 			$this->import('CivilState', $election);
 			$this->import('Education', $election);
 
+			$this->outputLine();
 		}
 	}
 

@@ -123,7 +123,11 @@ abstract class AbstractImporter implements ImporterInterface {
 	 */
 	protected function itemExists(array $item) {
 
-		$clause = sprintf('internal_identifier = "%s"', $item[$this->internalIdentifier]);
+		$clause = sprintf(
+			'internal_identifier = "%s" AND election = %s',
+			$item[$this->internalIdentifier],
+			$this->election->getUid()
+		);
 		$clause .= BackendUtility::deleteClause($this->tableName);
 
 		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', $this->tableName, $clause);
@@ -137,7 +141,17 @@ abstract class AbstractImporter implements ImporterInterface {
 	protected function createItem(array $item) {
 		$values['internal_identifier'] = $item[$this->internalIdentifier];
 		$values['crdate'] = time();
-		$this->getDatabaseConnection()->exec_INSERTquery($this->tableName, $values);
+		$values['election'] = $this->election->getUid();
+
+		$result = $this->getDatabaseConnection()->exec_INSERTquery($this->tableName, $values);
+		if (!$result) {
+			$query = $result = $this->getDatabaseConnection()->INSERTquery($this->tableName, $values);
+
+			$message = 'SQL query failed when importing data from SmartVote - ERROR 1429115031';
+			print $message . chr(10) . chr(10);
+			$this->getLogger()->error($message, array($query));
+			die($query);
+		}
 	}
 
 	/**
@@ -156,10 +170,24 @@ abstract class AbstractImporter implements ImporterInterface {
 		// Automatic values
 		$values['election'] = $this->election->getUid();
 		$values['tstamp'] = time();
+		$values['pid'] = '276';
 
-		$clause = sprintf('internal_identifier = "%s"', $item[$this->internalIdentifier]);
+		$clause = sprintf(
+			'internal_identifier = "%s" AND election = %s',
+			$item[$this->internalIdentifier],
+			$this->election->getUid()
+		);
+
 		$clause .= BackendUtility::deleteClause($this->tableName);
-		$this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values);
+		$result = $this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values);
+		if (!$result) {
+			$query = $this->getDatabaseConnection()->UPDATEquery($this->tableName, $clause, $values);
+
+			$message = 'SQL query failed when importing data from SmartVote - ERROR 1429115032';
+			print $message . chr(10) . chr(10);
+			$this->getLogger()->error($message, array($query));
+			die($query);
+		}
 	}
 
 	/**

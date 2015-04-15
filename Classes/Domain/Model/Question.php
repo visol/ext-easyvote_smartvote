@@ -152,6 +152,13 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $contra = '';
 
 	/**
+	 * election
+	 *
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
+	 */
+	protected $election = NULL;
+
+	/**
 	 * Returns the name
 	 *
 	 * @return string $name
@@ -490,6 +497,25 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setContra($contra) {
 		$this->contra = $contra;
+	}
+
+	/**
+	 * Returns the election
+	 *
+	 * @return \Visol\EasyvoteSmartvote\Domain\Model\Election $election
+	 */
+	public function getElection() {
+		return $this->election;
+	}
+
+	/**
+	 * Sets the election
+	 *
+	 * @param \Visol\EasyvoteSmartvote\Domain\Model\Election $election
+	 * @return void
+	 */
+	public function setElection(\Visol\EasyvoteSmartvote\Domain\Model\Election $election) {
+		$this->election = $election;
 	}
 
 }

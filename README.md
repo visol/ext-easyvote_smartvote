@@ -3,6 +3,13 @@ EasyVote Location
 
 TYPO3 CMS extension for form importing data from EasyVote using its API.
 
+TODO
+----
+
+* remove localization
+* Add Vidi module
+* Change module of Votewecker
+* Configure Logger to send email
 
 Command Line Interface
 ----------------------

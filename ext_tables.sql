@@ -297,6 +297,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_question (
 	info text NOT NULL,
 	pro text NOT NULL,
 	contra varchar(255) DEFAULT '' NOT NULL,
+	election int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

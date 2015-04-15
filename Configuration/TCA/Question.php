@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, groupping, type, rapide, education, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8, info, pro, contra',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, groupping, type, rapide, education, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8, info, pro, contra, election',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, groupping, type, rapide, education, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8, info, pro, contra, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, groupping, type, rapide, education, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8, info, pro, contra, election, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -208,6 +208,16 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question'] = array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+		'election' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.election',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_easyvotesmartvote_domain_model_election',
+				'minitems' => 0,
+				'maxitems' => 1,
 			),
 		),
 		

@@ -438,4 +438,28 @@ class QuestionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			$this->subject
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getElectionReturnsInitialValueForElection() {
+		$this->assertEquals(
+			NULL,
+			$this->subject->getElection()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setElectionForElectionSetsElection() {
+		$electionFixture = new \Visol\EasyvoteSmartvote\Domain\Model\Election();
+		$this->subject->setElection($electionFixture);
+
+		$this->assertAttributeEquals(
+			$electionFixture,
+			'election',
+			$this->subject
+		);
+	}
 }
