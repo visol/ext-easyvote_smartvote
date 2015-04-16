@@ -47,6 +47,7 @@ abstract class AbstractImporter implements ImporterInterface {
 		Model::DENOMINATION => 'denominations.json',
 		Model::CIVIL_STATE => 'civilStates.json',
 		Model::EDUCATION => 'educations.json',
+		Model::ELECTION_LIST => 'lists.json',
 	);
 
 	/**
@@ -70,6 +71,21 @@ abstract class AbstractImporter implements ImporterInterface {
 	protected $mappingFields = array();
 
 	/**
+	 * @var array
+	 */
+	protected $relations = array();
+
+	/**
+	 * @var array
+	 */
+	protected $collectedData = array();
+
+	/**
+	 * @var array
+	 */
+	protected $serializedFields = array();
+
+	/**
 	 * @param Election $election
 	 */
 	public function __construct(Election $election){
@@ -80,7 +96,7 @@ abstract class AbstractImporter implements ImporterInterface {
 	 * Import the
 	 *
 	 * @param string $dataType
-	 * @return int
+	 * @return array
 	 */
 	public function import($dataType = '') {
 
@@ -96,7 +112,8 @@ abstract class AbstractImporter implements ImporterInterface {
 			$counter++;
 		}
 
-		return $counter;
+		$this->collectData('numberOfItems', $counter);
+		return $this->collectedData;
 	}
 
 	/**
@@ -105,6 +122,7 @@ abstract class AbstractImporter implements ImporterInterface {
 	 */
 	protected function getItemsFromDatasource($modelType) {
 		$url = $this->getUrl($this->election->getSmartVoteIdentifier(), $modelType, Language::GERMAN);
+		$this->collectData('url', $url);
 
 		$items = array();
 		try {
@@ -115,6 +133,15 @@ abstract class AbstractImporter implements ImporterInterface {
 
 		}
 		return $items;
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed $data
+	 * @return void
+	 */
+	protected function collectData($key, $data) {
+		$this->collectedData[$key] = $data;
 	}
 
 	/**
@@ -156,7 +183,7 @@ abstract class AbstractImporter implements ImporterInterface {
 
 	/**
 	 * @param array $item
-	 * @return bool
+	 * @return void
 	 */
 	protected function updateItem(array $item) {
 
@@ -171,6 +198,12 @@ abstract class AbstractImporter implements ImporterInterface {
 		$values['election'] = $this->election->getUid();
 		$values['tstamp'] = time();
 		$values['pid'] = '276';
+
+		// Resolve the foreign relations.
+		$values = $this->resolveForeignFieldValues($values, $item);
+
+		// Serialize some fields
+		$values = $this->serializeSomeFields($values, $item);
 
 		$clause = sprintf(
 			'internal_identifier = "%s" AND election = %s',
@@ -188,6 +221,61 @@ abstract class AbstractImporter implements ImporterInterface {
 			$this->getLogger()->error($message, array($query));
 			die($query);
 		}
+	}
+
+	/**
+	 * @param array $values
+	 * @param array $item
+	 * @return array
+	 */
+	protected function resolveForeignFieldValues(array $values, array $item) {
+		foreach ($this->relations as $key => $relation) {
+			if (!empty($item[$key])) {
+				$foreignInternalIdentifier = $item[$key];
+				$foreignTable = $relation['foreignTable'];
+				$foreignIdentifier = $this->getForeignIdentifier($foreignInternalIdentifier, $foreignTable);
+				$values[$relation['localField']] = $foreignIdentifier;
+			}
+		}
+		return $values;
+	}
+
+	/**
+	 * @param array $values
+	 * @param array $item
+	 * @return array
+	 */
+	protected function serializeSomeFields(array $values, array $item) {
+		foreach ($this->serializedFields as $key => $fieldName) {
+			$values[$fieldName] = json_encode($item[$key]);
+		}
+		return $values;
+	}
+
+	/**
+	 * @param string $internalIdentifier
+	 * @param string $tableName
+	 * @return int
+	 */
+	protected function getForeignIdentifier($internalIdentifier, $tableName) {
+		$clause = sprintf(
+			'internal_identifier = %s AND election = %s',
+			$internalIdentifier,
+			$this->election->getUid()
+		);
+		$clause .= BackendUtility::deleteClause($tableName);
+		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', $tableName, $clause);
+		if (empty($record)) {
+			$query = $this->getDatabaseConnection()->SELECTquery('*', $tableName, $clause);
+
+			$message = 'SQL query failed for retrieving foreign relation - ERROR 1429115033';
+			print $message . chr(10) . chr(10);
+			$this->getLogger()->error($message, array($query));
+			die($query);
+
+		}
+		return empty($record) ? 0 : (int)$record['uid'];
+
 	}
 
 	/**

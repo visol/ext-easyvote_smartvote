@@ -29,5 +29,6 @@ class Model extends Enumeration {
 	const DENOMINATION = 'denomination';
 	const CIVIL_STATE = 'civil_state';
 	const EDUCATION = 'education';
+	const ELECTION_LIST = 'election_list';
 
 }

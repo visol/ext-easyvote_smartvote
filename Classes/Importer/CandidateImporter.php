@@ -39,6 +39,47 @@ class CandidateImporter extends AbstractImporter {
 	protected $election;
 
 	/**
+	 * @var array
+	 */
+	protected $relations = array(
+		'ID_district' => array(
+			'localField' => 'district',
+			'foreignTable' => 'tx_easyvotesmartvote_domain_model_district',
+		),
+		'ID_party' => array(
+			'localField' => 'party',
+			'foreignTable' => 'tx_easyvotesmartvote_domain_model_party',
+		),
+		'ID_list' => array(
+			'localField' => 'election_list',
+			'foreignTable' => 'tx_easyvotesmartvote_domain_model_electionlist',
+		),
+		'ID_civil_status' => array(
+			'localField' => 'civil_state',
+			'foreignTable' => 'tx_easyvotesmartvote_domain_model_civilstate',
+		),
+		'ID_denomination' => array(
+			'localField' => 'denomination',
+			'foreignTable' => 'tx_easyvotesmartvote_domain_model_denomination',
+		),
+		'ID_education' => array(
+			'localField' => 'education',
+			'foreignTable' => 'tx_easyvotesmartvote_domain_model_education',
+		),
+	);
+
+	/**
+	 * @var array
+	 */
+	protected $serializedFields = array(
+		'photos' => 'photos',
+		'links' => 'links',
+		'answers' => 'answers',
+		'spiderValues' => 'spider_values',
+		'mapValues' => 'coordinates',
+	);
+
+	/**
 	 * @var
 	 */
 	protected $mappingFields = array(
@@ -48,20 +89,20 @@ class CandidateImporter extends AbstractImporter {
 	'year_of_birth' => 'year_of_birth',
 	'city' => 'city',
 	'language' => 'language',
-	//'ID_district' => 10200000000,
+	#'ID_district' => 10200000000, -> handled via $this->relations
 	'district' => 'district_name',
-	#'ID_party' => 10200000028,
+	#'ID_party' => 10200000028, -> handled via $this->relations
 	'party_short' => 'party_short',
-	#'ID_list' => null,
-	#'list' => null,
+	#'ID_list' => null, -> handled via $this->relations
+	'list' => 'election_list_name',
 	#'listPlaces' => [ ],
 	'incumbent' => 'incumbent',
 	'elected' => 'elected',
-	#'ID_civil_status' => null,
-	'civil_status' => 'civil_status_name',
-	#'ID_denomination' => null,
+	#'ID_civil_status' => null, -> handled via $this->relations
+	'civil_status' => 'civil_state_name',
+	#'ID_denomination' => null, -> handled via $this->relations
 	'denomination' => 'denomination_name',
-	#'ID_education' => 13,
+	#'ID_education' => 13, -> handled via $this->relations
 	'education' => 'education_name',
 	#'ID_employment' => 2,
 	'employment' => 'employment_name',
@@ -73,24 +114,23 @@ class CandidateImporter extends AbstractImporter {
 	'fav_movies' => 'favorite_movies',
 	'LINK_smartspider' => 'link_to_smart_spider',
 	'LINK_portrait' => 'link_to_portrait',
-	#'photos' => [ ],
+	#'photos' => [ ], -> serialized
 	'LINK_facebook' => 'link_to_facebook',
 	'LINK_twitter' => 'link_to_twitter',
 	'LINK_politnetz' => 'link_to_politnetz',
 	'LINK_youtube' => 'link_to_youtube',
 	'LINK_vimeo' => 'link_to_vimeo',
 	'e-mail_public' => 'email',
-	#'termsInOffice' => [
+	#'termsInOffice' =>  -> skipped
 	'whyMe' => 'why_me',
 	'slogan' => 'slogan',
 	#'politicalTopics' => [
 	'personalWebsite' => 'personal_website',
-	#'vestedInterests' => [ ],
-	#'links' => [ ],
-	#'answers'
-	#'spiderValues'
-	#'latitude'
-	#'longitudes'
+	#'vestedInterests' => [ ], -> skipped
+	#'links' => [ ], -> serialized
+	#'answers' -> serialized
+	#'spiderValues' -> serialized
+	#'coordinate' -> serialized
 	);
 
 	/**

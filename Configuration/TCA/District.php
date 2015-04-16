@@ -79,9 +79,9 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_district'] = array(
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_district.internal_identifier',
 			'config' => array(
 				'type' => 'input',
-				'size' => 4,
-				'eval' => 'int'
-			)
+				'size' => 30,
+				'eval' => 'trim'
+			),
 		),
 		'candidates' => array(
 			'exclude' => 0,

@@ -97,9 +97,9 @@ class DistrictTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getInternalIdentifierReturnsInitialValueForInteger() {
+	public function getInternalIdentifierReturnsInitialValueForString() {
 		$this->assertSame(
-			0,
+			'',
 			$this->subject->getInternalIdentifier()
 		);
 	}
@@ -107,11 +107,11 @@ class DistrictTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setInternalIdentifierForIntegerSetsInternalIdentifier() {
-		$this->subject->setInternalIdentifier(12);
+	public function setInternalIdentifierForStringSetsInternalIdentifier() {
+		$this->subject->setInternalIdentifier('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
-			12,
+			'Conceived at T3CON10',
 			'internalIdentifier',
 			$this->subject
 		);

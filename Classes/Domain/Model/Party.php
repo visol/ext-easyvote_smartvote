@@ -89,6 +89,27 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $website = '';
 
 	/**
+	 * districts
+	 *
+	 * @var string
+	 */
+	protected $districts = '';
+
+	/**
+	 * electionLists
+	 *
+	 * @var string
+	 */
+	protected $electionLists = '';
+
+	/**
+	 * answers
+	 *
+	 * @var string
+	 */
+	protected $answers = '';
+
+	/**
 	 * election
 	 *
 	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
@@ -245,6 +266,63 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setWebsite($website) {
 		$this->website = $website;
+	}
+
+	/**
+	 * Returns the districts
+	 *
+	 * @return string $districts
+	 */
+	public function getDistricts() {
+		return $this->districts;
+	}
+
+	/**
+	 * Sets the districts
+	 *
+	 * @param string $districts
+	 * @return void
+	 */
+	public function setDistricts($districts) {
+		$this->districts = $districts;
+	}
+
+	/**
+	 * Returns the electionLists
+	 *
+	 * @return string $electionLists
+	 */
+	public function getElectionLists() {
+		return $this->electionLists;
+	}
+
+	/**
+	 * Sets the electionLists
+	 *
+	 * @param string $electionLists
+	 * @return void
+	 */
+	public function setElectionLists($electionLists) {
+		$this->electionLists = $electionLists;
+	}
+
+	/**
+	 * Returns the answers
+	 *
+	 * @return string $answers
+	 */
+	public function getAnswers() {
+		return $this->answers;
+	}
+
+	/**
+	 * Sets the answers
+	 *
+	 * @param string $answers
+	 * @return void
+	 */
+	public function setAnswers($answers) {
+		$this->answers = $answers;
 	}
 
 	/**

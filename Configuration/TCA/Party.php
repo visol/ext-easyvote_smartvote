@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, election',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, districts, election_lists, answers, election',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, election, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, districts, election_lists, answers, election, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -122,6 +122,35 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 		'website' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.website',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'districts' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.districts',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'election_lists' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.election_lists',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'answers' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.answers',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,

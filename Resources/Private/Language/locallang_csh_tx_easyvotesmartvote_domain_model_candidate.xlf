@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-15T18:21:59Z" product-name="easyvote_smartvote">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-16T18:20:38Z" product-name="easyvote_smartvote">
 		<header/>
 		<body>
 			<trans-unit id="first_name.description">
@@ -36,8 +36,8 @@
 			<trans-unit id="elected.description">
 				<source>elected</source>
 			</trans-unit>
-			<trans-unit id="civil_status_name.description">
-				<source>civilStatusName</source>
+			<trans-unit id="civil_state_name.description">
+				<source>civilStateName</source>
 			</trans-unit>
 			<trans-unit id="denomination_name.description">
 				<source>denominationName</source>
@@ -99,6 +99,24 @@
 			<trans-unit id="personal_website.description">
 				<source>personalWebsite</source>
 			</trans-unit>
+			<trans-unit id="election_list_name.description">
+				<source>electionListName</source>
+			</trans-unit>
+			<trans-unit id="photos.description">
+				<source>photos</source>
+			</trans-unit>
+			<trans-unit id="links.description">
+				<source>links</source>
+			</trans-unit>
+			<trans-unit id="answers.description">
+				<source>answers</source>
+			</trans-unit>
+			<trans-unit id="spider_values.description">
+				<source>spiderValues</source>
+			</trans-unit>
+			<trans-unit id="coordinates.description">
+				<source>coordinates</source>
+			</trans-unit>
 			<trans-unit id="party.description">
 				<source>party</source>
 			</trans-unit>
@@ -107,6 +125,18 @@
 			</trans-unit>
 			<trans-unit id="election.description">
 				<source>election</source>
+			</trans-unit>
+			<trans-unit id="election_list.description">
+				<source>electionList</source>
+			</trans-unit>
+			<trans-unit id="civil_state.description">
+				<source>civilState</source>
+			</trans-unit>
+			<trans-unit id="denomination.description">
+				<source>denomination</source>
+			</trans-unit>
+			<trans-unit id="education.description">
+				<source>education</source>
 			</trans-unit>
 		</body>
 	</file>

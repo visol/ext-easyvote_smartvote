@@ -49,9 +49,9 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * internalIdentifier
 	 *
-	 * @var integer
+	 * @var string
 	 */
-	protected $internalIdentifier = 0;
+	protected $internalIdentifier = '';
 
 	/**
 	 * candidates
@@ -131,7 +131,7 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the internalIdentifier
 	 *
-	 * @return integer $internalIdentifier
+	 * @return string $internalIdentifier
 	 */
 	public function getInternalIdentifier() {
 		return $this->internalIdentifier;
@@ -140,7 +140,7 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the internalIdentifier
 	 *
-	 * @param integer $internalIdentifier
+	 * @param string $internalIdentifier
 	 * @return void
 	 */
 	public function setInternalIdentifier($internalIdentifier) {

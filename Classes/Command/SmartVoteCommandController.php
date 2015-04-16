@@ -30,11 +30,18 @@ class SmartVoteCommandController extends CommandController {
 	protected $electionRepository;
 
 	/**
+	 * @var bool
+	 */
+	protected $verbose;
+
+	/**
 	 * Import a bunch of data form SmartVote using its API.
 	 *
-	 * @return void
+	 * @param bool $verbose
 	 */
-	public function importCommand() {
+	public function importCommand($verbose = FALSE) {
+
+		$this->verbose = $verbose;
 
 		$elections = $this->electionRepository->findAll();
 
@@ -45,14 +52,15 @@ class SmartVoteCommandController extends CommandController {
 			$this->outputLine('Smart Vote identifier: ' . $election->getSmartVoteIdentifier());
 			$this->outputLine();
 
-			$this->import('Party', $election);
-			$this->import('District', $election);
-			$this->import('Candidate', $election);
-			$this->import('Question', $election);
-			$this->import('QuestionCategory', $election);
 			$this->import('Denomination', $election);
 			$this->import('CivilState', $election);
 			$this->import('Education', $election);
+			$this->import('District', $election);
+			$this->import('ElectionList', $election);
+			$this->import('Party', $election);
+			$this->import('Candidate', $election);
+			$this->import('Question', $election);
+			$this->import('QuestionCategory', $election);
 
 			$this->outputLine();
 		}
@@ -70,8 +78,12 @@ class SmartVoteCommandController extends CommandController {
 		/** @var ImporterInterface $importer */
 		$className = sprintf('Visol\EasyvoteSmartvote\Importer\%sImporter', $dataType);
 		$importer = $this->objectManager->get($className, $election);
-		$numberOfItems = $importer->import();
-		$this->outputLine(sprintf('%s', $numberOfItems));
+		$collectedData = $importer->import();
+		$this->outputLine(sprintf('%s', $collectedData['numberOfItems']));
+
+		if ($this->verbose) {
+			$this->outputLine(sprintf('  -> %s', $collectedData['url']));
+		}
 	}
 
 }

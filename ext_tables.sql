@@ -17,7 +17,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_candidate (
 	party_short varchar(255) DEFAULT '' NOT NULL,
 	incumbent tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	elected tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	civil_status_name varchar(255) DEFAULT '' NOT NULL,
+	civil_state_name varchar(255) DEFAULT '' NOT NULL,
 	denomination_name varchar(255) DEFAULT '' NOT NULL,
 	education_name varchar(255) DEFAULT '' NOT NULL,
 	employment_name text NOT NULL,
@@ -38,9 +38,19 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_candidate (
 	why_me text NOT NULL,
 	slogan text NOT NULL,
 	personal_website varchar(255) DEFAULT '' NOT NULL,
+	election_list_name varchar(255) DEFAULT '' NOT NULL,
+	photos text NOT NULL,
+	links text NOT NULL,
+	answers text NOT NULL,
+	spider_values text NOT NULL,
+	coordinates text NOT NULL,
 	party int(11) unsigned DEFAULT '0',
 	district int(11) unsigned DEFAULT '0',
 	election int(11) unsigned DEFAULT '0',
+	election_list int(11) unsigned DEFAULT '0',
+	civil_state int(11) unsigned DEFAULT '0',
+	denomination int(11) unsigned DEFAULT '0',
+	education int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -75,6 +85,9 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_party (
 	number_of_answers int(11) DEFAULT '0' NOT NULL,
 	facebook_profile varchar(255) DEFAULT '' NOT NULL,
 	website varchar(255) DEFAULT '' NOT NULL,
+	districts text NOT NULL,
+	election_lists text NOT NULL,
+	answers varchar(255) DEFAULT '' NOT NULL,
 	election int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -104,7 +117,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_district (
 
 	name varchar(255) DEFAULT '' NOT NULL,
 	seats int(11) DEFAULT '0' NOT NULL,
-	internal_identifier int(11) DEFAULT '0' NOT NULL,
+	internal_identifier varchar(255) DEFAULT '' NOT NULL,
 	candidates int(11) unsigned DEFAULT '0' NOT NULL,
 	election int(11) unsigned DEFAULT '0' NOT NULL,
 
@@ -298,6 +311,41 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_question (
 	pro text NOT NULL,
 	contra varchar(255) DEFAULT '' NOT NULL,
 	election int(11) unsigned DEFAULT '0',
+	category int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_easyvotesmartvote_domain_model_electionlist'
+#
+CREATE TABLE tx_easyvotesmartvote_domain_model_electionlist (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	name varchar(255) DEFAULT '' NOT NULL,
+	number_of_candidates int(11) DEFAULT '0' NOT NULL,
+	number_of_answers int(11) DEFAULT '0' NOT NULL,
+	internal_identifier varchar(255) DEFAULT '' NOT NULL,
+	link_to_list varchar(255) DEFAULT '' NOT NULL,
+	list_number varchar(255) DEFAULT '' NOT NULL,
+	election int(11) unsigned DEFAULT '0',
+	district int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

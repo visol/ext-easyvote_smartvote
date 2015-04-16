@@ -27,21 +27,21 @@ namespace Visol\EasyvoteSmartvote\Tests\Unit\Domain\Model;
  ***************************************************************/
 
 /**
- * Test case for class \Visol\EasyvoteSmartvote\Domain\Model\Party.
+ * Test case for class \Visol\EasyvoteSmartvote\Domain\Model\List.
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  * @author Fabien Udriot <fabien@omic.ch>
  */
-class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class ListTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Party
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\List
 	 */
 	protected $subject = NULL;
 
 	protected function setUp() {
-		$this->subject = new \Visol\EasyvoteSmartvote\Domain\Model\Party();
+		$this->subject = new \Visol\EasyvoteSmartvote\Domain\Model\List();
 	}
 
 	protected function tearDown() {
@@ -67,75 +67,6 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
 			'name',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getInternalIdentifierReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getInternalIdentifier()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setInternalIdentifierForStringSetsInternalIdentifier() {
-		$this->subject->setInternalIdentifier('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'internalIdentifier',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getNameShortReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getNameShort()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setNameShortForStringSetsNameShort() {
-		$this->subject->setNameShort('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'nameShort',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getLogoReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getLogo()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setLogoForStringSetsLogo() {
-		$this->subject->setLogo('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'logo',
 			$this->subject
 		);
 	}
@@ -189,22 +120,22 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getFacebookProfileReturnsInitialValueForString() {
+	public function getInternalIdentifierReturnsInitialValueForString() {
 		$this->assertSame(
 			'',
-			$this->subject->getFacebookProfile()
+			$this->subject->getInternalIdentifier()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setFacebookProfileForStringSetsFacebookProfile() {
-		$this->subject->setFacebookProfile('Conceived at T3CON10');
+	public function setInternalIdentifierForStringSetsInternalIdentifier() {
+		$this->subject->setInternalIdentifier('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
-			'facebookProfile',
+			'internalIdentifier',
 			$this->subject
 		);
 	}
@@ -212,22 +143,22 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getWebsiteReturnsInitialValueForString() {
+	public function getLinkToListReturnsInitialValueForString() {
 		$this->assertSame(
 			'',
-			$this->subject->getWebsite()
+			$this->subject->getLinkToList()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setWebsiteForStringSetsWebsite() {
-		$this->subject->setWebsite('Conceived at T3CON10');
+	public function setLinkToListForStringSetsLinkToList() {
+		$this->subject->setLinkToList('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
-			'website',
+			'linkToList',
 			$this->subject
 		);
 	}
@@ -235,68 +166,22 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getDistrictsReturnsInitialValueForString() {
+	public function getListNumberReturnsInitialValueForString() {
 		$this->assertSame(
 			'',
-			$this->subject->getDistricts()
+			$this->subject->getListNumber()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setDistrictsForStringSetsDistricts() {
-		$this->subject->setDistricts('Conceived at T3CON10');
+	public function setListNumberForStringSetsListNumber() {
+		$this->subject->setListNumber('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
-			'districts',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getElectionListsReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getElectionLists()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setElectionListsForStringSetsElectionLists() {
-		$this->subject->setElectionLists('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'electionLists',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getAnswersReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getAnswers()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setAnswersForStringSetsAnswers() {
-		$this->subject->setAnswers('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'answers',
+			'listNumber',
 			$this->subject
 		);
 	}
@@ -321,6 +206,30 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$this->assertAttributeEquals(
 			$electionFixture,
 			'election',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDistrictReturnsInitialValueForDistrict() {
+		$this->assertEquals(
+			NULL,
+			$this->subject->getDistrict()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDistrictForDistrictSetsDistrict() {
+		$districtFixture = new \Visol\EasyvoteSmartvote\Domain\Model\District();
+		$this->subject->setDistrict($districtFixture);
+
+		$this->assertAttributeEquals(
+			$districtFixture,
+			'district',
 			$this->subject
 		);
 	}

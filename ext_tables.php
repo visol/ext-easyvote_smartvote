@@ -24,7 +24,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 			'disabled' => 'hidden',
 
 		),
-		'searchFields' => 'first_name,last_name,internal_identifier,gender,year_of_birth,city,language,district_name,party_short,incumbent,elected,civil_status_name,denomination_name,education_name,employment_name,occupation,number_of_children,hobbies,favorite_books,favorite_music,favorite_movies,link_to_smart_spider,link_to_portrait,link_to_facebook,link_to_twitter,link_to_politnetz,link_to_youtube,link_to_vimeo,email,why_me,slogan,personal_website,party,district,election,',
+		'searchFields' => 'first_name,last_name,internal_identifier,gender,year_of_birth,city,language,district_name,party_short,incumbent,elected,civil_state_name,denomination_name,education_name,employment_name,occupation,number_of_children,hobbies,favorite_books,favorite_music,favorite_movies,link_to_smart_spider,link_to_portrait,link_to_facebook,link_to_twitter,link_to_politnetz,link_to_youtube,link_to_vimeo,email,why_me,slogan,personal_website,election_list_name,photos,links,answers,spider_values,coordinates,party,district,election,election_list,civil_state,denomination,education,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Candidate.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_candidate.gif'
 	),
@@ -49,7 +49,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 			'disabled' => 'hidden',
 
 		),
-		'searchFields' => 'name,internal_identifier,name_short,logo,number_of_candidates,number_of_answers,facebook_profile,website,election,',
+		'searchFields' => 'name,internal_identifier,name_short,logo,number_of_candidates,number_of_answers,facebook_profile,website,districts,election_lists,answers,election,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Party.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_party.gif'
 	),
@@ -224,8 +224,33 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question'] = array(
 			'disabled' => 'hidden',
 
 		),
-		'searchFields' => 'name,internal_identifier,groupping,type,rapide,education,cleavage1,cleavage2,cleavage3,cleavage4,cleavage5,cleavage6,cleavage7,cleavage8,info,pro,contra,election,',
+		'searchFields' => 'name,internal_identifier,groupping,type,rapide,education,cleavage1,cleavage2,cleavage3,cleavage4,cleavage5,cleavage6,cleavage7,cleavage8,info,pro,contra,election,category,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Question.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_question.gif'
+	),
+);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_easyvotesmartvote_domain_model_electionlist', 'EXT:easyvote_smartvote/Resources/Private/Language/locallang_csh_tx_easyvotesmartvote_domain_model_electionlist.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_electionlist');
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_electionlist'] = array(
+	'ctrl' => array(
+		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_electionlist',
+		'label' => 'name',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+
+		),
+		'searchFields' => 'name,number_of_candidates,number_of_answers,internal_identifier,link_to_list,list_number,election,district,',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/ElectionList.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_electionlist.gif'
 	),
 );

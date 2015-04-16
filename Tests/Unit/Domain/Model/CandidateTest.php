@@ -304,22 +304,22 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getCivilStatusNameReturnsInitialValueForString() {
+	public function getCivilStateNameReturnsInitialValueForString() {
 		$this->assertSame(
 			'',
-			$this->subject->getCivilStatusName()
+			$this->subject->getCivilStateName()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setCivilStatusNameForStringSetsCivilStatusName() {
-		$this->subject->setCivilStatusName('Conceived at T3CON10');
+	public function setCivilStateNameForStringSetsCivilStateName() {
+		$this->subject->setCivilStateName('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
-			'civilStatusName',
+			'civilStateName',
 			$this->subject
 		);
 	}
@@ -787,6 +787,144 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
+	public function getElectionListNameReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getElectionListName()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setElectionListNameForStringSetsElectionListName() {
+		$this->subject->setElectionListName('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'electionListName',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPhotosReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getPhotos()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPhotosForStringSetsPhotos() {
+		$this->subject->setPhotos('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'photos',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getLinksReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getLinks()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setLinksForStringSetsLinks() {
+		$this->subject->setLinks('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'links',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAnswersReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getAnswers()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setAnswersForStringSetsAnswers() {
+		$this->subject->setAnswers('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'answers',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSpiderValuesReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSpiderValues()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSpiderValuesForStringSetsSpiderValues() {
+		$this->subject->setSpiderValues('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'spiderValues',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCoordinatesReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getCoordinates()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setCoordinatesForStringSetsCoordinates() {
+		$this->subject->setCoordinates('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'coordinates',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getPartyReturnsInitialValueForParty() {
 		$this->assertEquals(
 			NULL,
@@ -852,6 +990,102 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$this->assertAttributeEquals(
 			$electionFixture,
 			'election',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getElectionListReturnsInitialValueForElectionList() {
+		$this->assertEquals(
+			NULL,
+			$this->subject->getElectionList()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setElectionListForElectionListSetsElectionList() {
+		$electionListFixture = new \Visol\EasyvoteSmartvote\Domain\Model\ElectionList();
+		$this->subject->setElectionList($electionListFixture);
+
+		$this->assertAttributeEquals(
+			$electionListFixture,
+			'electionList',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCivilStateReturnsInitialValueForCivilState() {
+		$this->assertEquals(
+			NULL,
+			$this->subject->getCivilState()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setCivilStateForCivilStateSetsCivilState() {
+		$civilStateFixture = new \Visol\EasyvoteSmartvote\Domain\Model\CivilState();
+		$this->subject->setCivilState($civilStateFixture);
+
+		$this->assertAttributeEquals(
+			$civilStateFixture,
+			'civilState',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDenominationReturnsInitialValueForDenomination() {
+		$this->assertEquals(
+			NULL,
+			$this->subject->getDenomination()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDenominationForDenominationSetsDenomination() {
+		$denominationFixture = new \Visol\EasyvoteSmartvote\Domain\Model\Denomination();
+		$this->subject->setDenomination($denominationFixture);
+
+		$this->assertAttributeEquals(
+			$denominationFixture,
+			'denomination',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getEducationReturnsInitialValueForEducation() {
+		$this->assertEquals(
+			NULL,
+			$this->subject->getEducation()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setEducationForEducationSetsEducation() {
+		$educationFixture = new \Visol\EasyvoteSmartvote\Domain\Model\Education();
+		$this->subject->setEducation($educationFixture);
+
+		$this->assertAttributeEquals(
+			$educationFixture,
+			'education',
 			$this->subject
 		);
 	}

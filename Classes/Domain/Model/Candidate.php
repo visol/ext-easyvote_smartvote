@@ -110,11 +110,11 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $elected = FALSE;
 
 	/**
-	 * civilStatusName
+	 * civilStateName
 	 *
 	 * @var string
 	 */
-	protected $civilStatusName = '';
+	protected $civilStateName = '';
 
 	/**
 	 * denominationName
@@ -257,6 +257,48 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $personalWebsite = '';
 
 	/**
+	 * electionListName
+	 *
+	 * @var string
+	 */
+	protected $electionListName = '';
+
+	/**
+	 * photos
+	 *
+	 * @var string
+	 */
+	protected $photos = '';
+
+	/**
+	 * links
+	 *
+	 * @var string
+	 */
+	protected $links = '';
+
+	/**
+	 * answers
+	 *
+	 * @var string
+	 */
+	protected $answers = '';
+
+	/**
+	 * spiderValues
+	 *
+	 * @var string
+	 */
+	protected $spiderValues = '';
+
+	/**
+	 * coordinates
+	 *
+	 * @var string
+	 */
+	protected $coordinates = '';
+
+	/**
 	 * party
 	 *
 	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Party
@@ -276,6 +318,34 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
 	 */
 	protected $election = NULL;
+
+	/**
+	 * electionList
+	 *
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\ElectionList
+	 */
+	protected $electionList = NULL;
+
+	/**
+	 * civilState
+	 *
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\CivilState
+	 */
+	protected $civilState = NULL;
+
+	/**
+	 * denomination
+	 *
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Denomination
+	 */
+	protected $denomination = NULL;
+
+	/**
+	 * education
+	 *
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Education
+	 */
+	protected $education = NULL;
 
 	/**
 	 * Returns the firstName
@@ -505,22 +575,22 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the civilStatusName
+	 * Returns the civilStateName
 	 *
-	 * @return string $civilStatusName
+	 * @return string $civilStateName
 	 */
-	public function getCivilStatusName() {
-		return $this->civilStatusName;
+	public function getCivilStateName() {
+		return $this->civilStateName;
 	}
 
 	/**
-	 * Sets the civilStatusName
+	 * Sets the civilStateName
 	 *
-	 * @param string $civilStatusName
+	 * @param string $civilStateName
 	 * @return void
 	 */
-	public function setCivilStatusName($civilStatusName) {
-		$this->civilStatusName = $civilStatusName;
+	public function setCivilStateName($civilStateName) {
+		$this->civilStateName = $civilStateName;
 	}
 
 	/**
@@ -904,6 +974,120 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the electionListName
+	 *
+	 * @return string $electionListName
+	 */
+	public function getElectionListName() {
+		return $this->electionListName;
+	}
+
+	/**
+	 * Sets the electionListName
+	 *
+	 * @param string $electionListName
+	 * @return void
+	 */
+	public function setElectionListName($electionListName) {
+		$this->electionListName = $electionListName;
+	}
+
+	/**
+	 * Returns the photos
+	 *
+	 * @return string $photos
+	 */
+	public function getPhotos() {
+		return $this->photos;
+	}
+
+	/**
+	 * Sets the photos
+	 *
+	 * @param string $photos
+	 * @return void
+	 */
+	public function setPhotos($photos) {
+		$this->photos = $photos;
+	}
+
+	/**
+	 * Returns the links
+	 *
+	 * @return string $links
+	 */
+	public function getLinks() {
+		return $this->links;
+	}
+
+	/**
+	 * Sets the links
+	 *
+	 * @param string $links
+	 * @return void
+	 */
+	public function setLinks($links) {
+		$this->links = $links;
+	}
+
+	/**
+	 * Returns the answers
+	 *
+	 * @return string $answers
+	 */
+	public function getAnswers() {
+		return $this->answers;
+	}
+
+	/**
+	 * Sets the answers
+	 *
+	 * @param string $answers
+	 * @return void
+	 */
+	public function setAnswers($answers) {
+		$this->answers = $answers;
+	}
+
+	/**
+	 * Returns the spiderValues
+	 *
+	 * @return string $spiderValues
+	 */
+	public function getSpiderValues() {
+		return $this->spiderValues;
+	}
+
+	/**
+	 * Sets the spiderValues
+	 *
+	 * @param string $spiderValues
+	 * @return void
+	 */
+	public function setSpiderValues($spiderValues) {
+		$this->spiderValues = $spiderValues;
+	}
+
+	/**
+	 * Returns the coordinates
+	 *
+	 * @return string $coordinates
+	 */
+	public function getCoordinates() {
+		return $this->coordinates;
+	}
+
+	/**
+	 * Sets the coordinates
+	 *
+	 * @param string $coordinates
+	 * @return void
+	 */
+	public function setCoordinates($coordinates) {
+		$this->coordinates = $coordinates;
+	}
+
+	/**
 	 * Returns the party
 	 *
 	 * @return \Visol\EasyvoteSmartvote\Domain\Model\Party $party
@@ -958,6 +1142,82 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setElection(\Visol\EasyvoteSmartvote\Domain\Model\Election $election) {
 		$this->election = $election;
+	}
+
+	/**
+	 * Returns the electionList
+	 *
+	 * @return \Visol\EasyvoteSmartvote\Domain\Model\ElectionList $electionList
+	 */
+	public function getElectionList() {
+		return $this->electionList;
+	}
+
+	/**
+	 * Sets the electionList
+	 *
+	 * @param \Visol\EasyvoteSmartvote\Domain\Model\ElectionList $electionList
+	 * @return void
+	 */
+	public function setElectionList(\Visol\EasyvoteSmartvote\Domain\Model\ElectionList $electionList) {
+		$this->electionList = $electionList;
+	}
+
+	/**
+	 * Returns the civilState
+	 *
+	 * @return \Visol\EasyvoteSmartvote\Domain\Model\CivilState $civilState
+	 */
+	public function getCivilState() {
+		return $this->civilState;
+	}
+
+	/**
+	 * Sets the civilState
+	 *
+	 * @param \Visol\EasyvoteSmartvote\Domain\Model\CivilState $civilState
+	 * @return void
+	 */
+	public function setCivilState(\Visol\EasyvoteSmartvote\Domain\Model\CivilState $civilState) {
+		$this->civilState = $civilState;
+	}
+
+	/**
+	 * Returns the denomination
+	 *
+	 * @return \Visol\EasyvoteSmartvote\Domain\Model\Denomination $denomination
+	 */
+	public function getDenomination() {
+		return $this->denomination;
+	}
+
+	/**
+	 * Sets the denomination
+	 *
+	 * @param \Visol\EasyvoteSmartvote\Domain\Model\Denomination $denomination
+	 * @return void
+	 */
+	public function setDenomination(\Visol\EasyvoteSmartvote\Domain\Model\Denomination $denomination) {
+		$this->denomination = $denomination;
+	}
+
+	/**
+	 * Returns the education
+	 *
+	 * @return \Visol\EasyvoteSmartvote\Domain\Model\Education $education
+	 */
+	public function getEducation() {
+		return $this->education;
+	}
+
+	/**
+	 * Sets the education
+	 *
+	 * @param \Visol\EasyvoteSmartvote\Domain\Model\Education $education
+	 * @return void
+	 */
+	public function setEducation(\Visol\EasyvoteSmartvote\Domain\Model\Education $education) {
+		$this->education = $education;
 	}
 
 }

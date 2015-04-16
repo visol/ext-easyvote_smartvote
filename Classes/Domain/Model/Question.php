@@ -159,6 +159,13 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $election = NULL;
 
 	/**
+	 * category
+	 *
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\QuestionCategory
+	 */
+	protected $category = NULL;
+
+	/**
 	 * Returns the name
 	 *
 	 * @return string $name
@@ -516,6 +523,25 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setElection(\Visol\EasyvoteSmartvote\Domain\Model\Election $election) {
 		$this->election = $election;
+	}
+
+	/**
+	 * Returns the category
+	 *
+	 * @return \Visol\EasyvoteSmartvote\Domain\Model\QuestionCategory $category
+	 */
+	public function getCategory() {
+		return $this->category;
+	}
+
+	/**
+	 * Sets the category
+	 *
+	 * @param \Visol\EasyvoteSmartvote\Domain\Model\QuestionCategory $category
+	 * @return void
+	 */
+	public function setCategory(\Visol\EasyvoteSmartvote\Domain\Model\QuestionCategory $category) {
+		$this->category = $category;
 	}
 
 }

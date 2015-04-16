@@ -13,54 +13,60 @@ namespace Visol\EasyvoteSmartvote\Importer;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Visol\EasyvoteSmartvote\Domain\Model\Election;
+use Visol\EasyvoteSmartvote\Enumeration\Language;
 use Visol\EasyvoteSmartvote\Enumeration\Model;
 
 /**
- * Import Parties from the SmartVote platform.
+ * Import Lists from the SmartVote platform.
  */
-class PartyImporter extends AbstractImporter {
+class ElectionListImporter extends AbstractImporter {
 
 	/**
 	 * @var
 	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_party';
+	protected $tableName = 'tx_easyvotesmartvote_domain_model_electionlist';
 
 	/**
 	 * @var
 	 */
-	protected $internalIdentifier = 'ID_party';
+	protected $internalIdentifier = 'ID_list';
+
+	/**
+	 * @var Election
+	 */
+	protected $election;
 
 	/**
 	 * @var array
 	 */
-	protected $serializedFields = array(
-		'constituencies' => 'districts',
-		'lists' => 'election_lists',
-		'answers' => 'answers',
+	protected $relations = array(
+		'ID_district' => array(
+			'localField' => 'district',
+			'foreignTable' => 'tx_easyvotesmartvote_domain_model_district',
+		),
 	);
 
 	/**
 	 * @var
 	 */
 	protected $mappingFields = array(
-		'party' => 'name',
-		'party_short' => 'name_short',
-		'logo' => 'logo',
+		'list' => 'name',
+		#'ID_district' => 10200000000, -> handled via $this->relations
+		'list_number' => 'list_number',
+		'LINK_list' => 'link_to_list',
 		'n_candidates' => 'number_of_candidates',
 		'n_answers' => 'number_of_answers',
-		'facebookProfile' => 'facebook_profile',
-		'website' => 'website',
-		#'parents' => 'parents',
-		#'constituencies' => 'districts', -> serialized
-		#'lists' => 'lists',  -> serialized
-		#'answers' => 'answers',  -> serialized
 	);
 
 	/**
+	 * Import the
+	 *
 	 * @return int
 	 */
 	public function import() {
-		return parent::import(Model::PARTY);
+		return parent::import(Model::ELECTION_LIST);
 	}
 
 }

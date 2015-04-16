@@ -6,17 +6,26 @@
 			<trans-unit id="name.description">
 				<source>name</source>
 			</trans-unit>
-			<trans-unit id="seats.description">
-				<source>seats</source>
+			<trans-unit id="number_of_candidates.description">
+				<source>numberOfCandidates</source>
+			</trans-unit>
+			<trans-unit id="number_of_answers.description">
+				<source>numberOfAnswers</source>
 			</trans-unit>
 			<trans-unit id="internal_identifier.description">
 				<source>internalIdentifier</source>
 			</trans-unit>
-			<trans-unit id="candidates.description">
-				<source>candidates</source>
+			<trans-unit id="link_to_list.description">
+				<source>linkToList</source>
+			</trans-unit>
+			<trans-unit id="list_number.description">
+				<source>listNumber</source>
 			</trans-unit>
 			<trans-unit id="election.description">
 				<source>election</source>
+			</trans-unit>
+			<trans-unit id="district.description">
+				<source>district</source>
 			</trans-unit>
 		</body>
 	</file>

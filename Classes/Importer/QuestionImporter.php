@@ -34,11 +34,21 @@ class QuestionImporter extends AbstractImporter {
 	protected $internalIdentifier = 'ID_question';
 
 	/**
+	 * @var array
+	 */
+	protected $relations = array(
+		'category' => array(
+			'localField' => 'category',
+			'foreignTable' => 'tx_easyvotesmartvote_domain_model_questioncategory',
+		),
+	);
+
+	/**
 	 * @var
 	 */
 	protected $mappingFields = array(
 		'question' => 'name',
-//		'category' => 'category',
+//		'category' => 'category', -> relation
 		'group' => 'groupping',
 		'type' => 'type',
 		'rapide' => 'rapide',

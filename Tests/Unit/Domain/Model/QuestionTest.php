@@ -462,4 +462,28 @@ class QuestionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			$this->subject
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getCategoryReturnsInitialValueForQuestionCategory() {
+		$this->assertEquals(
+			NULL,
+			$this->subject->getCategory()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setCategoryForQuestionCategorySetsCategory() {
+		$categoryFixture = new \Visol\EasyvoteSmartvote\Domain\Model\QuestionCategory();
+		$this->subject->setCategory($categoryFixture);
+
+		$this->assertAttributeEquals(
+			$categoryFixture,
+			'category',
+			$this->subject
+		);
+	}
 }
