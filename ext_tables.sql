@@ -39,11 +39,16 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_candidate (
 	slogan text NOT NULL,
 	personal_website varchar(255) DEFAULT '' NOT NULL,
 	election_list_name varchar(255) DEFAULT '' NOT NULL,
-	photos text NOT NULL,
-	links text NOT NULL,
-	answers text NOT NULL,
-	spider_values text NOT NULL,
-	coordinates text NOT NULL,
+	photos int(11) DEFAULT '0' NOT NULL,
+	links int(11) DEFAULT '0' NOT NULL,
+	answers int(11) DEFAULT '0' NOT NULL,
+	spider_values int(11) DEFAULT '0' NOT NULL,
+	coordinate int(11) DEFAULT '0' NOT NULL,
+	serialized_photos text NOT NULL,
+	serialized_links text NOT NULL,
+	serialized_answers text NOT NULL,
+	serialized_spider_values text NOT NULL,
+	serialized_coordinate text NOT NULL,
 	party int(11) unsigned DEFAULT '0',
 	district int(11) unsigned DEFAULT '0',
 	election int(11) unsigned DEFAULT '0',
@@ -85,9 +90,12 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_party (
 	number_of_answers int(11) DEFAULT '0' NOT NULL,
 	facebook_profile varchar(255) DEFAULT '' NOT NULL,
 	website varchar(255) DEFAULT '' NOT NULL,
-	districts text NOT NULL,
-	election_lists text NOT NULL,
-	answers varchar(255) DEFAULT '' NOT NULL,
+	districts int(11) DEFAULT '0' NOT NULL,
+	election_lists int(11) DEFAULT '0' NOT NULL,
+	answers int(11) DEFAULT '0' NOT NULL,
+	serialized_districts text NOT NULL,
+	serialized_election_lists text NOT NULL,
+	serialized_answers text NOT NULL,
 	election int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -346,6 +354,153 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_electionlist (
 	list_number varchar(255) DEFAULT '' NOT NULL,
 	election int(11) unsigned DEFAULT '0',
 	district int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_easyvotesmartvote_domain_model_photo'
+#
+CREATE TABLE tx_easyvotesmartvote_domain_model_photo (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	file_name_and_path varchar(255) DEFAULT '' NOT NULL,
+	election int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_easyvotesmartvote_domain_model_link'
+#
+CREATE TABLE tx_easyvotesmartvote_domain_model_link (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	url varchar(255) DEFAULT '' NOT NULL,
+	description text NOT NULL,
+	election int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_easyvotesmartvote_domain_model_answer'
+#
+CREATE TABLE tx_easyvotesmartvote_domain_model_answer (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	question int(11) DEFAULT '0' NOT NULL,
+	internal_identifier int(11) DEFAULT '0' NOT NULL,
+	value int(11) DEFAULT '0' NOT NULL,
+	comment text NOT NULL,
+	election int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_easyvotesmartvote_domain_model_spidervalue'
+#
+CREATE TABLE tx_easyvotesmartvote_domain_model_spidervalue (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	cleavage int(11) DEFAULT '0' NOT NULL,
+	internal_identifier int(11) DEFAULT '0' NOT NULL,
+	value double(11,2) DEFAULT '0.00' NOT NULL,
+	election int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_easyvotesmartvote_domain_model_coordinate'
+#
+CREATE TABLE tx_easyvotesmartvote_domain_model_coordinate (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	x double(11,2) DEFAULT '0.00' NOT NULL,
+	y double(11,2) DEFAULT '0.00' NOT NULL,
+	election int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

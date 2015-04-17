@@ -72,11 +72,11 @@ class CandidateImporter extends AbstractImporter {
 	 * @var array
 	 */
 	protected $serializedFields = array(
-		'photos' => 'photos',
-		'links' => 'links',
-		'answers' => 'answers',
-		'spiderValues' => 'spider_values',
-		'mapValues' => 'coordinates',
+		'photos' => 'serialized_photos',
+		'links' => 'serialized_links',
+		'answers' => 'serialized_answers',
+		'spiderValues' => 'serialized_spider_values',
+		'mapValues' => 'serialized_coordinate',
 	);
 
 	/**

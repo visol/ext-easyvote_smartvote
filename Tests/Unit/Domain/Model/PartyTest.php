@@ -235,9 +235,9 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getDistrictsReturnsInitialValueForString() {
+	public function getDistrictsReturnsInitialValueForInteger() {
 		$this->assertSame(
-			'',
+			0,
 			$this->subject->getDistricts()
 		);
 	}
@@ -245,11 +245,11 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setDistrictsForStringSetsDistricts() {
-		$this->subject->setDistricts('Conceived at T3CON10');
+	public function setDistrictsForIntegerSetsDistricts() {
+		$this->subject->setDistricts(12);
 
 		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
+			12,
 			'districts',
 			$this->subject
 		);
@@ -258,9 +258,9 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getElectionListsReturnsInitialValueForString() {
+	public function getElectionListsReturnsInitialValueForInteger() {
 		$this->assertSame(
-			'',
+			0,
 			$this->subject->getElectionLists()
 		);
 	}
@@ -268,11 +268,11 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setElectionListsForStringSetsElectionLists() {
-		$this->subject->setElectionLists('Conceived at T3CON10');
+	public function setElectionListsForIntegerSetsElectionLists() {
+		$this->subject->setElectionLists(12);
 
 		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
+			12,
 			'electionLists',
 			$this->subject
 		);
@@ -281,9 +281,9 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getAnswersReturnsInitialValueForString() {
+	public function getAnswersReturnsInitialValueForInteger() {
 		$this->assertSame(
-			'',
+			0,
 			$this->subject->getAnswers()
 		);
 	}
@@ -291,12 +291,81 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setAnswersForStringSetsAnswers() {
-		$this->subject->setAnswers('Conceived at T3CON10');
+	public function setAnswersForIntegerSetsAnswers() {
+		$this->subject->setAnswers(12);
+
+		$this->assertAttributeEquals(
+			12,
+			'answers',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSerializedDistrictsReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSerializedDistricts()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSerializedDistrictsForStringSetsSerializedDistricts() {
+		$this->subject->setSerializedDistricts('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
-			'answers',
+			'serializedDistricts',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSerializedElectionListsReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSerializedElectionLists()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSerializedElectionListsForStringSetsSerializedElectionLists() {
+		$this->subject->setSerializedElectionLists('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'serializedElectionLists',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSerializedAnswersReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSerializedAnswers()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSerializedAnswersForStringSetsSerializedAnswers() {
+		$this->subject->setSerializedAnswers('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'serializedAnswers',
 			$this->subject
 		);
 	}

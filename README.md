@@ -11,6 +11,24 @@ TODO
 * Change module of Votewecker
 * Configure Logger to send email
 
+* Check whether to keep or not those models
+
+```
+	Candidate
+	---------
+	'photos' => [ ], -> serialized
+	'links' => [ ], -> serialized
+	'answers' -> serialized
+	'spiderValues' -> serialized
+	'coordinate' -> serialized
+
+	Party
+	-----
+	#'constituencies' => 'districts', -> serialized
+	#'lists' => 'lists',  -> serialized
+	#'answers' => 'answers',  -> serialized
+```
+
 Command Line Interface
 ----------------------
 

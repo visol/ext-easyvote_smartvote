@@ -266,37 +266,72 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * photos
 	 *
-	 * @var string
+	 * @var integer
 	 */
-	protected $photos = '';
+	protected $photos = 0;
 
 	/**
 	 * links
 	 *
-	 * @var string
+	 * @var integer
 	 */
-	protected $links = '';
+	protected $links = 0;
 
 	/**
 	 * answers
 	 *
-	 * @var string
+	 * @var integer
 	 */
-	protected $answers = '';
+	protected $answers = 0;
 
 	/**
 	 * spiderValues
 	 *
-	 * @var string
+	 * @var integer
 	 */
-	protected $spiderValues = '';
+	protected $spiderValues = 0;
 
 	/**
-	 * coordinates
+	 * coordinate
+	 *
+	 * @var integer
+	 */
+	protected $coordinate = 0;
+
+	/**
+	 * serializedPhotos
 	 *
 	 * @var string
 	 */
-	protected $coordinates = '';
+	protected $serializedPhotos = '';
+
+	/**
+	 * serializedLinks
+	 *
+	 * @var string
+	 */
+	protected $serializedLinks = '';
+
+	/**
+	 * serializedAnswers
+	 *
+	 * @var string
+	 */
+	protected $serializedAnswers = '';
+
+	/**
+	 * serializedSpiderValues
+	 *
+	 * @var string
+	 */
+	protected $serializedSpiderValues = '';
+
+	/**
+	 * serializedCoordinate
+	 *
+	 * @var string
+	 */
+	protected $serializedCoordinate = '';
 
 	/**
 	 * party
@@ -995,7 +1030,7 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the photos
 	 *
-	 * @return string $photos
+	 * @return integer $photos
 	 */
 	public function getPhotos() {
 		return $this->photos;
@@ -1004,7 +1039,7 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the photos
 	 *
-	 * @param string $photos
+	 * @param integer $photos
 	 * @return void
 	 */
 	public function setPhotos($photos) {
@@ -1014,7 +1049,7 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the links
 	 *
-	 * @return string $links
+	 * @return integer $links
 	 */
 	public function getLinks() {
 		return $this->links;
@@ -1023,7 +1058,7 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the links
 	 *
-	 * @param string $links
+	 * @param integer $links
 	 * @return void
 	 */
 	public function setLinks($links) {
@@ -1033,7 +1068,7 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the answers
 	 *
-	 * @return string $answers
+	 * @return integer $answers
 	 */
 	public function getAnswers() {
 		return $this->answers;
@@ -1042,7 +1077,7 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the answers
 	 *
-	 * @param string $answers
+	 * @param integer $answers
 	 * @return void
 	 */
 	public function setAnswers($answers) {
@@ -1052,7 +1087,7 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the spiderValues
 	 *
-	 * @return string $spiderValues
+	 * @return integer $spiderValues
 	 */
 	public function getSpiderValues() {
 		return $this->spiderValues;
@@ -1061,7 +1096,7 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the spiderValues
 	 *
-	 * @param string $spiderValues
+	 * @param integer $spiderValues
 	 * @return void
 	 */
 	public function setSpiderValues($spiderValues) {
@@ -1069,22 +1104,117 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the coordinates
+	 * Returns the coordinate
 	 *
-	 * @return string $coordinates
+	 * @return integer $coordinate
 	 */
-	public function getCoordinates() {
-		return $this->coordinates;
+	public function getCoordinate() {
+		return $this->coordinate;
 	}
 
 	/**
-	 * Sets the coordinates
+	 * Sets the coordinate
 	 *
-	 * @param string $coordinates
+	 * @param integer $coordinate
 	 * @return void
 	 */
-	public function setCoordinates($coordinates) {
-		$this->coordinates = $coordinates;
+	public function setCoordinate($coordinate) {
+		$this->coordinate = $coordinate;
+	}
+
+	/**
+	 * Returns the serializedPhotos
+	 *
+	 * @return string $serializedPhotos
+	 */
+	public function getSerializedPhotos() {
+		return $this->serializedPhotos;
+	}
+
+	/**
+	 * Sets the serializedPhotos
+	 *
+	 * @param string $serializedPhotos
+	 * @return void
+	 */
+	public function setSerializedPhotos($serializedPhotos) {
+		$this->serializedPhotos = $serializedPhotos;
+	}
+
+	/**
+	 * Returns the serializedLinks
+	 *
+	 * @return string $serializedLinks
+	 */
+	public function getSerializedLinks() {
+		return $this->serializedLinks;
+	}
+
+	/**
+	 * Sets the serializedLinks
+	 *
+	 * @param string $serializedLinks
+	 * @return void
+	 */
+	public function setSerializedLinks($serializedLinks) {
+		$this->serializedLinks = $serializedLinks;
+	}
+
+	/**
+	 * Returns the serializedAnswers
+	 *
+	 * @return string $serializedAnswers
+	 */
+	public function getSerializedAnswers() {
+		return $this->serializedAnswers;
+	}
+
+	/**
+	 * Sets the serializedAnswers
+	 *
+	 * @param string $serializedAnswers
+	 * @return void
+	 */
+	public function setSerializedAnswers($serializedAnswers) {
+		$this->serializedAnswers = $serializedAnswers;
+	}
+
+	/**
+	 * Returns the serializedSpiderValues
+	 *
+	 * @return string $serializedSpiderValues
+	 */
+	public function getSerializedSpiderValues() {
+		return $this->serializedSpiderValues;
+	}
+
+	/**
+	 * Sets the serializedSpiderValues
+	 *
+	 * @param string $serializedSpiderValues
+	 * @return void
+	 */
+	public function setSerializedSpiderValues($serializedSpiderValues) {
+		$this->serializedSpiderValues = $serializedSpiderValues;
+	}
+
+	/**
+	 * Returns the serializedCoordinate
+	 *
+	 * @return string $serializedCoordinate
+	 */
+	public function getSerializedCoordinate() {
+		return $this->serializedCoordinate;
+	}
+
+	/**
+	 * Sets the serializedCoordinate
+	 *
+	 * @param string $serializedCoordinate
+	 * @return void
+	 */
+	public function setSerializedCoordinate($serializedCoordinate) {
+		$this->serializedCoordinate = $serializedCoordinate;
 	}
 
 	/**

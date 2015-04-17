@@ -34,9 +34,9 @@ class PartyImporter extends AbstractImporter {
 	 * @var array
 	 */
 	protected $serializedFields = array(
-		'constituencies' => 'districts',
-		'lists' => 'election_lists',
-		'answers' => 'answers',
+		'constituencies' => 'serialized_districts',
+		'lists' => 'serialized_election_lists',
+		'answers' => 'serialized_answers',
 	);
 
 	/**

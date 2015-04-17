@@ -24,7 +24,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 			'disabled' => 'hidden',
 
 		),
-		'searchFields' => 'first_name,last_name,internal_identifier,gender,year_of_birth,city,language,district_name,party_short,incumbent,elected,civil_state_name,denomination_name,education_name,employment_name,occupation,number_of_children,hobbies,favorite_books,favorite_music,favorite_movies,link_to_smart_spider,link_to_portrait,link_to_facebook,link_to_twitter,link_to_politnetz,link_to_youtube,link_to_vimeo,email,why_me,slogan,personal_website,election_list_name,photos,links,answers,spider_values,coordinates,party,district,election,election_list,civil_state,denomination,education,',
+		'searchFields' => 'first_name,last_name,internal_identifier,gender,year_of_birth,city,language,district_name,party_short,incumbent,elected,civil_state_name,denomination_name,education_name,employment_name,occupation,number_of_children,hobbies,favorite_books,favorite_music,favorite_movies,link_to_smart_spider,link_to_portrait,link_to_facebook,link_to_twitter,link_to_politnetz,link_to_youtube,link_to_vimeo,email,why_me,slogan,personal_website,election_list_name,photos,links,answers,spider_values,coordinate,serialized_photos,serialized_links,serialized_answers,serialized_spider_values,serialized_coordinate,party,district,election,election_list,civil_state,denomination,education,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Candidate.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_candidate.gif'
 	),
@@ -49,7 +49,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 			'disabled' => 'hidden',
 
 		),
-		'searchFields' => 'name,internal_identifier,name_short,logo,number_of_candidates,number_of_answers,facebook_profile,website,districts,election_lists,answers,election,',
+		'searchFields' => 'name,internal_identifier,name_short,logo,number_of_candidates,number_of_answers,facebook_profile,website,districts,election_lists,answers,serialized_districts,serialized_election_lists,serialized_answers,election,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Party.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_party.gif'
 	),
@@ -252,5 +252,130 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_electionlist'] = array(
 		'searchFields' => 'name,number_of_candidates,number_of_answers,internal_identifier,link_to_list,list_number,election,district,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/ElectionList.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_electionlist.gif'
+	),
+);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_easyvotesmartvote_domain_model_photo', 'EXT:easyvote_smartvote/Resources/Private/Language/locallang_csh_tx_easyvotesmartvote_domain_model_photo.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_photo');
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_photo'] = array(
+	'ctrl' => array(
+		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_photo',
+		'label' => 'file_name_and_path',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+
+		),
+		'searchFields' => 'file_name_and_path,election,',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Photo.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_photo.gif'
+	),
+);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_easyvotesmartvote_domain_model_link', 'EXT:easyvote_smartvote/Resources/Private/Language/locallang_csh_tx_easyvotesmartvote_domain_model_link.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_link');
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_link'] = array(
+	'ctrl' => array(
+		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_link',
+		'label' => 'url',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+
+		),
+		'searchFields' => 'url,description,election,',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Link.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_link.gif'
+	),
+);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_easyvotesmartvote_domain_model_answer', 'EXT:easyvote_smartvote/Resources/Private/Language/locallang_csh_tx_easyvotesmartvote_domain_model_answer.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_answer');
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_answer'] = array(
+	'ctrl' => array(
+		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_answer',
+		'label' => 'question',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+
+		),
+		'searchFields' => 'question,internal_identifier,value,comment,election,',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Answer.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_answer.gif'
+	),
+);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_easyvotesmartvote_domain_model_spidervalue', 'EXT:easyvote_smartvote/Resources/Private/Language/locallang_csh_tx_easyvotesmartvote_domain_model_spidervalue.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_spidervalue');
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_spidervalue'] = array(
+	'ctrl' => array(
+		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_spidervalue',
+		'label' => 'cleavage',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+
+		),
+		'searchFields' => 'cleavage,internal_identifier,value,election,',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/SpiderValue.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_spidervalue.gif'
+	),
+);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_easyvotesmartvote_domain_model_coordinate', 'EXT:easyvote_smartvote/Resources/Private/Language/locallang_csh_tx_easyvotesmartvote_domain_model_coordinate.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_coordinate');
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_coordinate'] = array(
+	'ctrl' => array(
+		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_coordinate',
+		'label' => 'x',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+
+		),
+		'searchFields' => 'x,y,election,',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Coordinate.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_coordinate.gif'
 	),
 );

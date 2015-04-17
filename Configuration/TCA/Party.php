@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, districts, election_lists, answers, election',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, districts, election_lists, answers, serialized_districts, serialized_election_lists, serialized_answers, election',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, districts, election_lists, answers, election, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, districts, election_lists, answers, serialized_districts, serialized_election_lists, serialized_answers, election, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -132,20 +132,18 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.districts',
 			'config' => array(
-				'type' => 'text',
-				'cols' => 40,
-				'rows' => 15,
-				'eval' => 'trim'
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
 			)
 		),
 		'election_lists' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.election_lists',
 			'config' => array(
-				'type' => 'text',
-				'cols' => 40,
-				'rows' => 15,
-				'eval' => 'trim'
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
 			)
 		),
 		'answers' => array(
@@ -153,9 +151,39 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.answers',
 			'config' => array(
 				'type' => 'input',
-				'size' => 30,
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'serialized_districts' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.serialized_districts',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
 				'eval' => 'trim'
-			),
+			)
+		),
+		'serialized_election_lists' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.serialized_election_lists',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'serialized_answers' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.serialized_answers',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
 		),
 		'election' => array(
 			'exclude' => 0,

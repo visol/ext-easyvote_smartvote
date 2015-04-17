@@ -810,9 +810,9 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getPhotosReturnsInitialValueForString() {
+	public function getPhotosReturnsInitialValueForInteger() {
 		$this->assertSame(
-			'',
+			0,
 			$this->subject->getPhotos()
 		);
 	}
@@ -820,11 +820,11 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setPhotosForStringSetsPhotos() {
-		$this->subject->setPhotos('Conceived at T3CON10');
+	public function setPhotosForIntegerSetsPhotos() {
+		$this->subject->setPhotos(12);
 
 		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
+			12,
 			'photos',
 			$this->subject
 		);
@@ -833,9 +833,9 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getLinksReturnsInitialValueForString() {
+	public function getLinksReturnsInitialValueForInteger() {
 		$this->assertSame(
-			'',
+			0,
 			$this->subject->getLinks()
 		);
 	}
@@ -843,11 +843,11 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setLinksForStringSetsLinks() {
-		$this->subject->setLinks('Conceived at T3CON10');
+	public function setLinksForIntegerSetsLinks() {
+		$this->subject->setLinks(12);
 
 		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
+			12,
 			'links',
 			$this->subject
 		);
@@ -856,9 +856,9 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getAnswersReturnsInitialValueForString() {
+	public function getAnswersReturnsInitialValueForInteger() {
 		$this->assertSame(
-			'',
+			0,
 			$this->subject->getAnswers()
 		);
 	}
@@ -866,11 +866,11 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setAnswersForStringSetsAnswers() {
-		$this->subject->setAnswers('Conceived at T3CON10');
+	public function setAnswersForIntegerSetsAnswers() {
+		$this->subject->setAnswers(12);
 
 		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
+			12,
 			'answers',
 			$this->subject
 		);
@@ -879,9 +879,9 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getSpiderValuesReturnsInitialValueForString() {
+	public function getSpiderValuesReturnsInitialValueForInteger() {
 		$this->assertSame(
-			'',
+			0,
 			$this->subject->getSpiderValues()
 		);
 	}
@@ -889,11 +889,11 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setSpiderValuesForStringSetsSpiderValues() {
-		$this->subject->setSpiderValues('Conceived at T3CON10');
+	public function setSpiderValuesForIntegerSetsSpiderValues() {
+		$this->subject->setSpiderValues(12);
 
 		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
+			12,
 			'spiderValues',
 			$this->subject
 		);
@@ -902,22 +902,137 @@ class CandidateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getCoordinatesReturnsInitialValueForString() {
+	public function getCoordinateReturnsInitialValueForInteger() {
 		$this->assertSame(
-			'',
-			$this->subject->getCoordinates()
+			0,
+			$this->subject->getCoordinate()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setCoordinatesForStringSetsCoordinates() {
-		$this->subject->setCoordinates('Conceived at T3CON10');
+	public function setCoordinateForIntegerSetsCoordinate() {
+		$this->subject->setCoordinate(12);
+
+		$this->assertAttributeEquals(
+			12,
+			'coordinate',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSerializedPhotosReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSerializedPhotos()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSerializedPhotosForStringSetsSerializedPhotos() {
+		$this->subject->setSerializedPhotos('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
-			'coordinates',
+			'serializedPhotos',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSerializedLinksReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSerializedLinks()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSerializedLinksForStringSetsSerializedLinks() {
+		$this->subject->setSerializedLinks('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'serializedLinks',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSerializedAnswersReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSerializedAnswers()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSerializedAnswersForStringSetsSerializedAnswers() {
+		$this->subject->setSerializedAnswers('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'serializedAnswers',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSerializedSpiderValuesReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSerializedSpiderValues()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSerializedSpiderValuesForStringSetsSerializedSpiderValues() {
+		$this->subject->setSerializedSpiderValues('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'serializedSpiderValues',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSerializedCoordinateReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSerializedCoordinate()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSerializedCoordinateForStringSetsSerializedCoordinate() {
+		$this->subject->setSerializedCoordinate('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'serializedCoordinate',
 			$this->subject
 		);
 	}

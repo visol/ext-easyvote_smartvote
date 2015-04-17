@@ -3,11 +3,11 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-17T15:15:14Z" product-name="easyvote_smartvote">
 		<header/>
 		<body>
-			<trans-unit id="name.description">
-				<source>name</source>
+			<trans-unit id="x.description">
+				<source>x</source>
 			</trans-unit>
-			<trans-unit id="internal_identifier.description">
-				<source>internalIdentifier</source>
+			<trans-unit id="y.description">
+				<source>y</source>
 			</trans-unit>
 			<trans-unit id="election.description">
 				<source>election</source>

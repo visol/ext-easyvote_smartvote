@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-16T18:20:38Z" product-name="easyvote_smartvote">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-17T15:15:14Z" product-name="easyvote_smartvote">
 		<header/>
 		<body>
 			<trans-unit id="first_name.description">
@@ -114,8 +114,23 @@
 			<trans-unit id="spider_values.description">
 				<source>spiderValues</source>
 			</trans-unit>
-			<trans-unit id="coordinates.description">
-				<source>coordinates</source>
+			<trans-unit id="coordinate.description">
+				<source>coordinate</source>
+			</trans-unit>
+			<trans-unit id="serialized_photos.description">
+				<source>serializedPhotos</source>
+			</trans-unit>
+			<trans-unit id="serialized_links.description">
+				<source>serializedLinks</source>
+			</trans-unit>
+			<trans-unit id="serialized_answers.description">
+				<source>serializedAnswers</source>
+			</trans-unit>
+			<trans-unit id="serialized_spider_values.description">
+				<source>serializedSpiderValues</source>
+			</trans-unit>
+			<trans-unit id="serialized_coordinate.description">
+				<source>serializedCoordinate</source>
 			</trans-unit>
 			<trans-unit id="party.description">
 				<source>party</source>

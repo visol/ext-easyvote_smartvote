@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-16T18:20:38Z" product-name="easyvote_smartvote">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-17T15:15:14Z" product-name="easyvote_smartvote">
 		<header/>
 		<body>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate">
@@ -117,8 +117,23 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.spider_values">
 				<source>Spider Values</source>
 			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.coordinates">
-				<source>Coordinates</source>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.coordinate">
+				<source>Coordinate</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_photos">
+				<source>Serialized Photos</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_links">
+				<source>Serialized Links</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_answers">
+				<source>Serialized Answers</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_spider_values">
+				<source>Serialized Spider Values</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_coordinate">
+				<source>Serialized Coordinate</source>
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.party">
 				<source>Party</source>
@@ -176,6 +191,15 @@
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party.answers">
 				<source>Answers</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.serialized_districts">
+				<source>Serialized Districts</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.serialized_election_lists">
+				<source>Serialized Election Lists</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.serialized_answers">
+				<source>Serialized Answers</source>
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party.election">
 				<source>Election</source>
@@ -344,6 +368,72 @@
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_electionlist.district">
 				<source>District</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_photo">
+				<source>Photo</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_photo.file_name_and_path">
+				<source>File Name And Path</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_photo.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_link.url">
+				<source>Url</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_link.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_link.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_answer">
+				<source>Answer</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_answer.question">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_answer.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_answer.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_answer.comment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_answer.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue">
+				<source>Spider Value</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue.cleavage">
+				<source>Cleavage</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue.internal_identifier">
+				<source>Internal Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue.election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_coordinate">
+				<source>Coordinate</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_coordinate.x">
+				<source>X</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_coordinate.y">
+				<source>Y</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_coordinate.election">
+				<source>Election</source>
 			</trans-unit>
 		</body>
 	</file>

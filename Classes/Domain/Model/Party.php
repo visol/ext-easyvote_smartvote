@@ -91,23 +91,44 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * districts
 	 *
-	 * @var string
+	 * @var integer
 	 */
-	protected $districts = '';
+	protected $districts = 0;
 
 	/**
 	 * electionLists
 	 *
-	 * @var string
+	 * @var integer
 	 */
-	protected $electionLists = '';
+	protected $electionLists = 0;
 
 	/**
 	 * answers
 	 *
+	 * @var integer
+	 */
+	protected $answers = 0;
+
+	/**
+	 * serializedDistricts
+	 *
 	 * @var string
 	 */
-	protected $answers = '';
+	protected $serializedDistricts = '';
+
+	/**
+	 * serializedElectionLists
+	 *
+	 * @var string
+	 */
+	protected $serializedElectionLists = '';
+
+	/**
+	 * serializedAnswers
+	 *
+	 * @var string
+	 */
+	protected $serializedAnswers = '';
 
 	/**
 	 * election
@@ -271,7 +292,7 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the districts
 	 *
-	 * @return string $districts
+	 * @return integer $districts
 	 */
 	public function getDistricts() {
 		return $this->districts;
@@ -280,7 +301,7 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the districts
 	 *
-	 * @param string $districts
+	 * @param integer $districts
 	 * @return void
 	 */
 	public function setDistricts($districts) {
@@ -290,7 +311,7 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the electionLists
 	 *
-	 * @return string $electionLists
+	 * @return integer $electionLists
 	 */
 	public function getElectionLists() {
 		return $this->electionLists;
@@ -299,7 +320,7 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the electionLists
 	 *
-	 * @param string $electionLists
+	 * @param integer $electionLists
 	 * @return void
 	 */
 	public function setElectionLists($electionLists) {
@@ -309,7 +330,7 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the answers
 	 *
-	 * @return string $answers
+	 * @return integer $answers
 	 */
 	public function getAnswers() {
 		return $this->answers;
@@ -318,11 +339,68 @@ class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the answers
 	 *
-	 * @param string $answers
+	 * @param integer $answers
 	 * @return void
 	 */
 	public function setAnswers($answers) {
 		$this->answers = $answers;
+	}
+
+	/**
+	 * Returns the serializedDistricts
+	 *
+	 * @return string $serializedDistricts
+	 */
+	public function getSerializedDistricts() {
+		return $this->serializedDistricts;
+	}
+
+	/**
+	 * Sets the serializedDistricts
+	 *
+	 * @param string $serializedDistricts
+	 * @return void
+	 */
+	public function setSerializedDistricts($serializedDistricts) {
+		$this->serializedDistricts = $serializedDistricts;
+	}
+
+	/**
+	 * Returns the serializedElectionLists
+	 *
+	 * @return string $serializedElectionLists
+	 */
+	public function getSerializedElectionLists() {
+		return $this->serializedElectionLists;
+	}
+
+	/**
+	 * Sets the serializedElectionLists
+	 *
+	 * @param string $serializedElectionLists
+	 * @return void
+	 */
+	public function setSerializedElectionLists($serializedElectionLists) {
+		$this->serializedElectionLists = $serializedElectionLists;
+	}
+
+	/**
+	 * Returns the serializedAnswers
+	 *
+	 * @return string $serializedAnswers
+	 */
+	public function getSerializedAnswers() {
+		return $this->serializedAnswers;
+	}
+
+	/**
+	 * Sets the serializedAnswers
+	 *
+	 * @param string $serializedAnswers
+	 * @return void
+	 */
+	public function setSerializedAnswers($serializedAnswers) {
+		$this->serializedAnswers = $serializedAnswers;
 	}
 
 	/**
