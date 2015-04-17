@@ -166,10 +166,6 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_election (
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
-
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 
@@ -516,14 +512,5 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_coordinate (
 	KEY parent (pid),
 
  KEY language (l10n_parent,sys_language_uid)
-
-);
-
-#
-# Table structure for table 'tx_easyvotesmartvote_domain_model_election'
-#
-CREATE TABLE tx_easyvotesmartvote_domain_model_election (
-
-	district  int(11) unsigned DEFAULT '0' NOT NULL,
 
 );
