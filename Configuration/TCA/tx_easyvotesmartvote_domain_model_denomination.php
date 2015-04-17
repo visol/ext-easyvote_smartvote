@@ -3,10 +3,25 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_questioncategory'] = array(
-	'ctrl' => $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_questioncategory']['ctrl'],
-	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, internal_identifier, election',
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_denomination'] = array(
+	'ctrl' => array(
+		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_denomination',
+		'label' => 'name',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+
+		),
+		'searchFields' => 'name,internal_identifier,election,',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_denomination.gif'
 	),
 	'types' => array(
 		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, election, '),
@@ -15,7 +30,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_questioncategory'] = array(
 		'1' => array('showitem' => ''),
 	),
 	'columns' => array(
-	
+
 		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
@@ -38,8 +53,8 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_questioncategory'] = array(
 				'items' => array(
 					array('', 0),
 				),
-				'foreign_table' => 'tx_easyvotesmartvote_domain_model_questioncategory',
-				'foreign_table_where' => 'AND tx_easyvotesmartvote_domain_model_questioncategory.pid=###CURRENT_PID### AND tx_easyvotesmartvote_domain_model_questioncategory.sys_language_uid IN (-1,0)',
+				'foreign_table' => 'tx_easyvotesmartvote_domain_model_denomination',
+				'foreign_table_where' => 'AND tx_easyvotesmartvote_domain_model_denomination.pid=###CURRENT_PID### AND tx_easyvotesmartvote_domain_model_denomination.sys_language_uid IN (-1,0)',
 			),
 		),
 		'l10n_diffsource' => array(
@@ -58,7 +73,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_questioncategory'] = array(
 
 		'name' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_questioncategory.name',
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_denomination.name',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -67,7 +82,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_questioncategory'] = array(
 		),
 		'internal_identifier' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_questioncategory.internal_identifier',
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_denomination.internal_identifier',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -76,7 +91,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_questioncategory'] = array(
 		),
 		'election' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_questioncategory.election',
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_denomination.election',
 			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_election',
@@ -84,6 +99,6 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_questioncategory'] = array(
 				'maxitems' => 1,
 			),
 		),
-		
+
 	),
 );
