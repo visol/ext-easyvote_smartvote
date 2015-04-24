@@ -17,30 +17,21 @@ namespace Visol\EasyvoteSmartvote\Controller;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
- * CandidateController
+ * Question Controller
  */
-class CandidateController extends ActionController {
+class QuestionController extends ActionController {
 
 	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\CandidateRepository
+	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\QuestionRepository
 	 * @inject
 	 */
-	protected $candidateRepository = NULL;
+	protected $questionRepository = NULL;
 
 	/**
 	 * @return void
 	 */
-	public function listAction() {
-		$candidates = $this->candidateRepository->findAll();
-		$this->view->assign('candidates', $candidates);
-	}
+	public function indexAction() {
 
-	/**
-	 * @param \Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate
-	 * @return void
-	 */
-	public function showAction(\Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate) {
-		$this->view->assign('candidate', $candidate);
 	}
 
 }

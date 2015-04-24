@@ -5,7 +5,25 @@ if (!defined('TYPO3_MODE')) {
 
 if (TYPO3_MODE === 'BE') {
 
-	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('easyvote_smartvote', 'Configuration/TypoScript', 'Easyvote Smartvote');
+	// Register plugins in the BE.
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+		'easyvote_smartvote',
+		'Pi1',
+		'easyvote Smartvote: Voting recommendation - poll'
+	);
+
+	// Flexform for pi1
+	$TCA['tt_content']['types']['list']['subtypes_addlist']['easyvotesmartvote_pi1'] = 'pi_flexform';
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+		'easyvotesmartvote_pi1',
+		'FILE:EXT:easyvote_smartvote/Configuration/FlexForm/question.xml'
+	);
+
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+		'easyvote_smartvote',
+		'Pi2',
+		'easyvote Smartvote: Voting recommendation - spider chart'
+	);
 
 	// Register a few models on standard pages
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_candidate');

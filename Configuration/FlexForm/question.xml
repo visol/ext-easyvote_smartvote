@@ -1,0 +1,35 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>Elections</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.elections>
+						<TCEforms>
+							<label>Related elections</label>
+							<config>
+								<type>select</type>
+								<foreign_table>tx_easyvotesmartvote_domain_model_election</foreign_table>
+								<allowed>tx_easyvotesmartvote_domain_model_election</allowed>
+								<size>10</size>
+								<minitems>1</minitems>
+								<maxitems>10</maxitems>
+								<wizards type="array">
+									<suggest>
+										<type>suggest</type>
+									</suggest>
+								</wizards>
+							</config>
+						</TCEforms>
+					</settings.elections>
+				</el>
+			</ROOT>
+		</sDEF>
+	</sheets>
+</T3DataStructure>
