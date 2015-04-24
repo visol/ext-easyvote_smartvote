@@ -435,6 +435,10 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_coordinate.election">
 				<source>Election</source>
 			</trans-unit>
+
+			<trans-unit id="who_to_elect">
+				<source>Wen soll ich wählen?</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

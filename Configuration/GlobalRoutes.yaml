@@ -1,0 +1,12 @@
+####################
+# Question
+####################
+-
+  name: 'List all questions for an election'
+  uriPattern: 'questions/{election}'
+  defaults:
+    '@package':    'Visol.Easyvote_smartvote'
+    '@plugin':     'Question'
+    '@controller': 'QuestionApi'
+    '@action':     'list'
+  httpMethods: ['GET']

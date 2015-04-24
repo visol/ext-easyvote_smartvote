@@ -1,11 +1,19 @@
 <html xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
-      xmlns:s="http://typo3.org/ns/Visol/EasyvoteSmartvote/ViewHelpers">
+      xmlns:smartvote="http://typo3.org/ns/Visol/EasyvoteSmartvote/ViewHelpers">
 
 <f:layout name="Default"/>
 
 <f:section name="main">
 
-	hello
+	<h2 class="content-box">
+		<f:translate key="who_to_elect" />
+	</h2>
+
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/Bundle.js')}"/>
+
+	<template>
+		asdf
+	</template>
 
 </f:section>
 
