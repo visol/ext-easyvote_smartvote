@@ -10,10 +10,26 @@
 	</h2>
 
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/Bundle.js')}"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.6.1/webcomponents.min.js"></script>
+
+	<button onclick="useIt()">Use me</button>
+	<div id="container"></div>
+	<script>
+		function useIt() {
+			var content = document.querySelector('template').content;
+			// Update something in the template DOM.
+			var span = content.querySelector('span');
+			span.textContent = parseInt(span.textContent) + 1;
+			document.querySelector('#container').appendChild(
+					document.importNode(content, true));
+		}
+	</script>
 
 	<template>
-		asdf
+		<div>Template used: <span>0</span></div>
 	</template>
+
+
 
 </f:section>
 

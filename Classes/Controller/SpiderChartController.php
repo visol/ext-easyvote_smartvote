@@ -26,8 +26,7 @@ class SpiderChartController extends ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
-		var_dump(123);
-		exit();
+
 	}
 
 }
