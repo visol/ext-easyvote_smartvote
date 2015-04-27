@@ -5,11 +5,14 @@
 
 <f:section name="main">
 
+
 	<h2 class="content-box">
 		<f:translate key="who_to_elect" />
 	</h2>
 
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/Bundle.js')}"/>
+
+	<h2>HTML5 template</h2>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.6.1/webcomponents.min.js"></script>
 
 	<button onclick="useIt()">Use me</button>
@@ -28,6 +31,44 @@
 	<template>
 		<div>Template used: <span>0</span></div>
 	</template>
+
+
+
+<h2>Mutache</h2>
+
+	<ul id="talktitles">
+	</ul>
+
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+	<script id="speakers-template" type="text/template">
+		{{#speakers}}
+		<li>{{title}}</li>
+		{{/speakers}}
+	</script>
+
+	<script>
+		$(function() {
+			var data = {
+				"speakers": [
+					{
+						"firstname": "Ray",
+						"lastname": "Villalobos",
+						"category": "Front End",
+						"title": "Bootstrap & CSS Preprocessors",
+						"image": "http://barcampdeland.org/images/speaker_rayvillalobos.jpg",
+						"link": "http://iviewsource.com",
+						"bio": "Ray Villalobos is a full-time author and teacher at lynda.com. He is author of the book, Exploring Multimedia for Designers. He has more than 20 years experience in developing and programming multimedia projects. Previously at Entravision Communications, he designed and developed a network of radio station and TV web sites. As a senior producer for Tribune Interactive, he was responsible for designing orlandosentinel.com and for creating immersive multimedia projects and Flash games for the site.",
+						"description": "As responsive design continues to take over the web, front-end developers and designers have turned to preprocessors and layout systems that simplify their workflow. Lynda.com staff author Ray Villalobos will talk about using the Bootstrap framework from Twitter to scaffold and fast track your responsive design. He'll talk about how you can use CodeKit and LESS to put together designs in hours instead of days."
+					}
+				]
+			};
+
+			var template = $('#speakers-template').html();
+			var info = Mustache.to_html(template, data);
+			$('#talktitles').html(info);
+		});
+	</script>
 
 
 
