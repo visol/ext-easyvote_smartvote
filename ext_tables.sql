@@ -168,9 +168,6 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_election (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
-
- KEY language (l10n_parent,sys_language_uid)
-
 );
 
 #
