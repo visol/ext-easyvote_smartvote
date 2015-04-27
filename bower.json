@@ -1,0 +1,8 @@
+{
+  "name": "easyvote_smartvote",
+  "version": "1.0.0",
+  "ignore": [],
+  "dependencies": {
+    "mustache": "~2.0.0"
+  }
+}

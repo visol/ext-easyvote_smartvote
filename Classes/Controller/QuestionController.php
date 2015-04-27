@@ -31,7 +31,7 @@ class QuestionController extends ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
-
+		$this->view->assign('settings', $this->settings);
 	}
 
 }

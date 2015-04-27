@@ -439,6 +439,21 @@
 			<trans-unit id="who_to_elect">
 				<source>Wen soll ich wählen?</source>
 			</trans-unit>
+			<trans-unit id="yes">
+				<source>Ja</source>
+			</trans-unit>
+			<trans-unit id="rather_yes">
+				<source>Eher Ja</source>
+			</trans-unit>
+			<trans-unit id="rather_no">
+				<source>Eher Nein</source>
+			</trans-unit>
+			<trans-unit id="no">
+				<source>Nein</source>
+			</trans-unit>
+			<trans-unit id="no_answer">
+				<source>Keine Antwort</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

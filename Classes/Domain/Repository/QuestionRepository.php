@@ -24,10 +24,36 @@ class QuestionRepository extends Repository {
 
 	/**
 	 * @param Election $election
+	 * @return array|NULL
 	 */
 	public function findByElection(Election $election){
 
+		$tableName = 'tx_easyvotesmartvote_domain_model_question';
 
+		$clause = 'election = ' . $election->getUid();
+		$clause .= $this->getPageRepository()->deleteClause($tableName);
+		$clause .= $this->getPageRepository()->enableFields($tableName);
+
+		$fields = 'uid, name';
+		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause);
 	}
 
+
+	/**
+	 * Returns a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
+	 * Returns an instance of the page repository.
+	 *
+	 * @return \TYPO3\CMS\Frontend\Page\PageRepository
+	 */
+	protected function getPageRepository() {
+		return $GLOBALS['TSFE']->sys_page;
+	}
 }

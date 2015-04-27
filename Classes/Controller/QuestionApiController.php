@@ -34,14 +34,22 @@ class QuestionApiController extends AbstractBaseApiController {
 	public function listAction(Election $election = NULL) {
 		$this->initializeCache();
 
-
 		$cacheIdentifier = 'questions';
 		$questions = $this->cacheInstance->get($cacheIdentifier);
 
 		if (!$questions) {
 
-			$this->questionRepository->findByElection($election);
-			$questions = array(array('uid' => 1));
+			$questions = $this->questionRepository->findByElection($election);
+//			$questions = array(
+//				'questions' => array(
+//					array('uid' => 1, 'name' => 'asdf', 'position' => 1),
+//					array('uid' => 2, 'name' => 'qwer', 'position' => 2),
+//				)
+//			);
+//			$questions = array(
+//				array('uid' => 1, 'name' => 'asdf', 'position' => 1),
+//				array('uid' => 2, 'name' => 'qwer', 'position' => 2),
+//			);
 //			$locations = $this->locationRepository->findAllForMaps();
 //			$questions = $this->getLocationEncoder()->encode($locations);
 
