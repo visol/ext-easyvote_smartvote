@@ -9,8 +9,116 @@
 		<f:translate key="who_to_elect"/>
 	</h2>
 
-	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Mustache/mustache.min.js')}"/>
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Underscore/underscore-min.js')}"/>
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Backbone/backbone-min.js')}"/>
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/BackboneLocalStorage/backbone.localStorage-min.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/Bundle.js')}"/>
+
+	<section id="container-questions">
+
+		<div id="container-progress">
+
+		</div>
+
+		<div id="container-question-list">
+
+		</div>
+	</section>
+
+	<script type="text/template" id="template-progress">
+
+		<div class="progress">
+			<div class="progress-bar"
+			     role="progressbar"
+			     aria-valuenow="<%- progress %>"
+			     aria-valuemin="0"
+			     aria-valuemax="100"
+			     style="width: <%- progress %>%;">
+				<span class="sr-only"><%- progress %>% Complete</span>
+			</div>
+		</div>
+
+	</script>
+
+	<script type="text/template" id="template-question">
+		<form action="">
+			<div class="question-name">
+				<div class="question-name-left">
+					<%- index %>
+				</div>
+				<div class="question-name-right">
+					<%- name %>
+				</div>
+			</div>
+
+			<div class="row" style="text-align: center">
+				<div class="col-md-2 col-md-offset-2">
+					<label>
+						<span>
+							<f:translate key="yes"/>
+						</span>
+						<br/>
+
+						<input type="radio" class="btn-answer" name="weight" value="100"
+						<%= answer === 100 ? 'checked' : '' %>
+						/>
+					</label>
+				</div>
+				<div class="col-md-2">
+					<label>
+						<span>
+							<f:translate key="rather_yes"/>
+						</span>
+						<br/>
+
+						<input type="radio" class="btn-answer" name="weight" value="75"
+						<%= answer === 75 ? 'checked' : '' %>
+						/>
+					</label>
+				</div>
+				<div class="col-md-2">
+					<label>
+						<span>
+							<f:translate key="rather_no"/>
+						</span>
+						<br/>
+
+						<input type="radio" class="btn-answer" name="weight" value="25"
+						<%= answer === 25 ? 'checked' : '' %>
+						/>
+					</label>
+				</div>
+				<div class="col-md-2">
+					<label>
+						<span>
+							<f:translate key="no"/>
+						</span>
+						<br/>
+
+						<input type="radio" class="btn-answer" name="weight" value="0"
+						<%= answer === 0 ? 'checked' : '' %>
+						/>
+					</label>
+				</div>
+				<div class="col-md-2">
+					<label>
+						<span>
+							<f:translate key="no_answer"/>
+						</span>
+						<br/>
+
+
+						<input type="radio" class="btn-answer" name="weight" value="-1"
+						<%= answer === -1 ? 'checked' : '' %>
+						/>
+
+					</label>
+				</div>
+			</div>
+		</form>
+		<hr/>
+	</script>
+
 
 	<style>
 		.question-name {
@@ -46,79 +154,6 @@
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
 		EasyvoteSmartvote.currentElection = '{smartvote:currentElection()}';
 	</script>
-
-	<div id="container-questions">
-
-		<script id="template-questions" type="text/template">
-			{{#questions}}
-
-			<form action="">
-				<div class="question-name">
-					<div class="question-name-left">
-						{{index}}
-					</div>
-					<div class="question-name-right">
-						{{name}}
-					</div>
-				</div>
-
-				<div class="row" style="text-align: center">
-					<div class="col-md-2 col-md-offset-2">
-						<label>
-						<span>
-							<f:translate key="yes"/>
-						</span>
-							<br/>
-
-							<input type="radio" name="weight" value="100"/>
-						</label>
-					</div>
-					<div class="col-md-2">
-						<label>
-						<span>
-							<f:translate key="rather_yes"/>
-						</span>
-							<br/>
-
-							<input type="radio" name="weight" value="75"/>
-						</label>
-					</div>
-					<div class="col-md-2">
-						<label>
-						<span>
-							<f:translate key="rather_no"/>
-						</span>
-							<br/>
-
-							<input type="radio" name="weight" value="25"/>
-						</label>
-					</div>
-					<div class="col-md-2">
-						<label>
-						<span>
-							<f:translate key="no"/>
-						</span>
-							<br/>
-
-							<input type="radio" name="weight" value="0"/>
-						</label>
-					</div>
-					<div class="col-md-2">
-						<label>
-						<span>
-							<f:translate key="no_answer"/>
-						</span>
-							<br/>
-
-							<input type="radio" name="weight" value="-1" checked/>
-						</label>
-					</div>
-				</div>
-			</form>
-			{{/questions}}
-			{{resetIndex}}
-		</script>
-	</div>
 
 </f:section>
 

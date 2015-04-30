@@ -1,5 +1,5 @@
 <?php
-namespace Visol\EasyvoteSmartvote\Importer;
+namespace Visol\EasyvoteSmartvote\Tests\Unit\Importer;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -13,8 +13,11 @@ namespace Visol\EasyvoteSmartvote\Importer;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Enumeration\Language;
 use Visol\EasyvoteSmartvote\Enumeration\Model;
+use Visol\EasyvoteSmartvote\Importer\PartyImporter;
 
 /**
  * Import Parties from Smart Vote
@@ -32,7 +35,8 @@ class PartyTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	protected $reflection;
 
 	protected function setUp() {
-		$this->fixture = new PartyImporter();
+		$election = new Election();
+		$this->fixture = new PartyImporter($election);
 		$this->reflection = new \ReflectionClass($this->fixture);
 
 		$property = $this->reflection->getProperty('baseUrl');

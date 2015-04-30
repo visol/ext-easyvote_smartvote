@@ -13,6 +13,7 @@ namespace Visol\EasyvoteSmartvote\Importer;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 use Visol\EasyvoteSmartvote\Enumeration\Model;
 
 /**

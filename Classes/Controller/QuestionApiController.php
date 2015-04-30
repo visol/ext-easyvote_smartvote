@@ -15,6 +15,7 @@ namespace Visol\EasyvoteSmartvote\Controller;
  */
 
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
+use Visol\EasyvoteSmartvote\Processor\QuestionProcessor;
 
 /**
  * Question Controller
@@ -40,16 +41,8 @@ class QuestionApiController extends AbstractBaseApiController {
 		if (!$questions) {
 
 			$questions = $this->questionRepository->findByElection($election);
-//			$questions = array(
-//				'questions' => array(
-//					array('uid' => 1, 'name' => 'asdf', 'position' => 1),
-//					array('uid' => 2, 'name' => 'qwer', 'position' => 2),
-//				)
-//			);
-//			$questions = array(
-//				array('uid' => 1, 'name' => 'asdf', 'position' => 1),
-//				array('uid' => 2, 'name' => 'qwer', 'position' => 2),
-//			);
+			$questions = $this->getQuestionProcessor()->process($questions);
+
 //			$locations = $this->locationRepository->findAllForMaps();
 //			$questions = $this->getLocationEncoder()->encode($locations);
 
@@ -62,4 +55,10 @@ class QuestionApiController extends AbstractBaseApiController {
 		return json_encode($questions);
 	}
 
+	/**
+	 * @return QuestionProcessor
+	 */
+	public function getQuestionProcessor() {
+		return $this->objectManager->get(QuestionProcessor::class);
+	}
 }

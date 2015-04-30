@@ -131,47 +131,6 @@ class DistrictTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setCandidatesForObjectStorageContainingSetsCandidates() {
-		$candidate = new ();
-		$objectStorageHoldingExactlyOneCandidates = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$objectStorageHoldingExactlyOneCandidates->attach($candidate);
-		$this->subject->setCandidates($objectStorageHoldingExactlyOneCandidates);
-
-		$this->assertAttributeEquals(
-			$objectStorageHoldingExactlyOneCandidates,
-			'candidates',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function addCandidateToObjectStorageHoldingCandidates() {
-		$candidate = new ();
-		$candidatesObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
-		$candidatesObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($candidate));
-		$this->inject($this->subject, 'candidates', $candidatesObjectStorageMock);
-
-		$this->subject->addCandidate($candidate);
-	}
-
-	/**
-	 * @test
-	 */
-	public function removeCandidateFromObjectStorageHoldingCandidates() {
-		$candidate = new ();
-		$candidatesObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
-		$candidatesObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($candidate));
-		$this->inject($this->subject, 'candidates', $candidatesObjectStorageMock);
-
-		$this->subject->removeCandidate($candidate);
-
-	}
-
-	/**
-	 * @test
-	 */
 	public function getElectionReturnsInitialValueForElection() {
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->assertEquals(

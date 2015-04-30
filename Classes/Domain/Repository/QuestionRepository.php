@@ -35,7 +35,7 @@ class QuestionRepository extends Repository {
 		$clause .= $this->getPageRepository()->enableFields($tableName);
 
 		$fields = 'uid, name';
-		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause);
+		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 	}
 
 
