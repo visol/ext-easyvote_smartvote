@@ -4,8 +4,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	grunt.initConfig({
+
+		pkg: grunt.file.readJSON("package.json"),
 
 		'babel': {
 			options: {
@@ -35,9 +38,20 @@ module.exports = function(grunt) {
 				files: ["Resources/Public/JavaScript/App/*.js"],
 				tasks: ["default"]
 			}
+		},
+
+		uglify: {
+			options: {
+				banner: "/*! <%= pkg.name %> <%= grunt.template.today(\"dd-mm-yyyy\") %> */\n\n"
+			},
+			dist: {
+				files: {
+					'Resources/Public/JavaScript/Build/Bundle.min.js': 'Resources/Public/JavaScript/Build/Bundle.js'
+				}
+			}
 		}
 	});
 
-	grunt.registerTask('default', ['babel', 'browserify']);
+	grunt.registerTask('default', ['babel', 'browserify', 'uglify']);
 
 };

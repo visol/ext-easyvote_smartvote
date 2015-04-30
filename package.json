@@ -1,13 +1,13 @@
 {
-  "name": "babel-runners",
+  "name": "ext-easyvote-smartvote",
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "grunt": "grunt"
   },
-  "author": "Luís Couto",
-  "license": "ISC",
+  "author": "Fabien Udriot",
   "devDependencies": {
+    "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "babel-core": "^4.7.16",
     "babel-loader": "^4.2.0",
