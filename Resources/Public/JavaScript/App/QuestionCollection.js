@@ -10,35 +10,60 @@ import QuestionModel from './QuestionModel'
 export default class QuestionCollection extends Backbone.Collection {
 
 	/**
-	 *
 	 * @param options
 	 */
 	constructor(options) {
 		super(options);
 
-		// *Hold a reference to this collection's model.*
+		// Hold a reference to this collection's model.
 		this.model = QuestionModel;
 
-		// *Save all of the question items under the `'questions'` namespace.*
-		//this.localStorage = new Backbone.LocalStorage('smartvote-questions');
+		// Save all of the question items under the `'questions'` namespace.
+		if (this.isUserAnonymous()) {
+			this.localStorage = new Backbone.LocalStorage(EasyvoteSmartvote.token);
+		}
 	}
 
 	/**
-	 * Fetch the data.
+	 * Override parent fetch.
 	 *
 	 * @returns {*}
 	 */
 	fetch() {
-		return super.fetch();
+
+		// Check whether localStorage contains record about this collection
+		let records = [];
+		if (this.localStorage) {
+			records = this.localStorage.findAll();
+		}
+
+		if(_.isEmpty(records)) {
+			var self = this;
+			// fetch from server once
+			$.ajax({
+				url: this.url()
+			}).done(function(response) {
+				$.each(response, function(i, item) {
+					self.add(item);  // saves model to local storage
+				});
+			});
+		} else {
+			// call original fetch method
+			return super.fetch();
+		}
 	}
 
 	/**
-	 * Return the URL being used.
+	 * Return the URL to be used.
 	 *
 	 * @returns {string}
 	 */
 	url() {
-		return 'routing/questions/' + EasyvoteSmartvote.currentElection;
+		let token = '';
+		if (EasyvoteSmartvote.isUserAuthenticated) {
+			token += '?token=' + EasyvoteSmartvote.token;
+		}
+		return 'routing/questions/' + EasyvoteSmartvote.currentElection + token;
 	}
 
 	/**
@@ -69,5 +94,11 @@ export default class QuestionCollection extends Backbone.Collection {
 		return this.filter(question => question.get('visible')).length;
 	}
 
+	/**
+	 * @return QuestionCollection
+	 */
+	isUserAnonymous() {
+		return !EasyvoteSmartvote.isUserAuthenticated
+	}
 
 }

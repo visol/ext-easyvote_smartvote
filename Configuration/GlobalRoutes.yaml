@@ -10,3 +10,16 @@
     '@controller': 'QuestionApi'
     '@action':     'list'
   httpMethods: ['GET']
+
+####################
+# Save
+####################
+-
+  name: 'Save the state of an object'
+  uriPattern: 'state'
+  defaults:
+    '@package':    'Visol.Easyvote_smartvote'
+    '@plugin':     'State'
+    '@controller': 'StateApi'
+    '@action':     'save'
+  httpMethods: ['POST']

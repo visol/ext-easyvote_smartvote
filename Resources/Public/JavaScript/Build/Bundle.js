@@ -3,131 +3,479 @@
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var Poll = _interopRequire(require("./Poll.js"));
+var QuestionListView = _interopRequire(require("./QuestionListView"));
 
-var poll = new Poll();
-
-var url = "routing/questions/" + EasyvoteSmartvote.currentElection;
-poll.load(url).then(function (questions) {
-
-	var data = {
-		questions: questions,
-		index: function () {
-			return ++window.INDEX || (window.INDEX = 1);
-		},
-		resetIndex: function () {
-			window.INDEX = null;
-		}
-	};
-	var template = $("#template-questions").html();
-	var info = Mustache.render(template, data);
-	//console.log(Mustache.render(template, data));
-	$("#container-questions").html(info);
-}, function (err) {
-	var message = "Something when wrong when loading the data";
-	$("#container-questions").html(message);
-	console.log(err); // Error: "It broke"
+$(function () {
+	new QuestionListView();
 });
-},{"./Poll.js":2,"babel-runtime/helpers/interop-require":6}],2:[function(require,module,exports){
+},{"./QuestionListView":3,"babel-runtime/helpers/interop-require":11}],2:[function(require,module,exports){
+/*jshint esnext:true */
 "use strict";
 
 var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
 
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
 
 var _core = require("babel-runtime/core-js")["default"];
 
-var Poll = (function () {
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var QuestionModel = _interopRequire(require("./QuestionModel"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var QuestionCollection = (function (_Backbone$Collection) {
 
 	/**
-  * Constructor
+  * @param options
   */
 
-	function Poll() {
-		_classCallCheck(this, Poll);
+	function QuestionCollection(options) {
+		_classCallCheck(this, QuestionCollection);
 
-		console.log(321321);
+		_get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "constructor", this).call(this, options);
 
-		// @todo use promise
+		// Hold a reference to this collection's model.
+		this.model = QuestionModel;
 
-		//	$(".communityUser-citySelection").select2({
-		//		placeholder: EasyvoteLabels.enterZipOrCity,
-		//		minimumInputLength: 2,
-		//		ajax: {
-		//			url: '/?eID=easyvote_cityselection',
-		//			dataType: 'json',
-		//			data: function(term, page) {
-		//				return {
-		//					q: term // search term
-		//				};
-		//			},
-		//			results: function(data, page) {
-		//				return {results: data.results};
-		//			}
-		//		},
-		//		initSelection: function(element, callback) {
-		//			//callback({ id: initialValue, text: initialValue });
-		//		},
-		//		dropdownCssClass: "bigdrop",
-		//		escapeMarkup: function(m) {
-		//			return m;
-		//		}
-		//	}).on('change', function(e) {
-		//		var data = $(this).select2('data');
-		//		Maps.getInstance().getMap().setCenter(new google.maps.LatLng(data.latitude, data.longitude));
-		//		Maps.getInstance().getMap().setZoom(14);
-		//	});
+		// Save all of the question items under the `'questions'` namespace.
+		if (this.isUserAnonymous()) {
+			this.localStorage = new Backbone.LocalStorage(EasyvoteSmartvote.token);
+		}
 	}
 
-	_createClass(Poll, {
-		load: {
+	_inherits(QuestionCollection, _Backbone$Collection);
+
+	_createClass(QuestionCollection, {
+		fetch: {
 
 			/**
-    * Load
+    * Override parent fetch.
+    *
+    * @returns {*}
     */
 
-			value: function load(url) {
+			value: function fetch() {
 
-				// Return a new promise.
-				return new _core.Promise(function (resolve, reject) {
+				// Check whether localStorage contains record about this collection
+				var records = [];
+				if (this.localStorage) {
+					records = this.localStorage.findAll();
+				}
 
-					// Do the usual XHR stuff
-					var request = new XMLHttpRequest();
-					request.open("GET", url);
+				if (_.isEmpty(records)) {
+					var self = this;
+					// fetch from server once
+					$.ajax({
+						url: this.url()
+					}).done(function (response) {
+						$.each(response, function (i, item) {
+							self.add(item); // saves model to local storage
+						});
+					});
+				} else {
+					// call original fetch method
+					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
+				}
+			}
+		},
+		url: {
 
-					request.onload = function () {
-						// This is called even on 404 etc
-						// so check the status
-						if (request.status == 200) {
+			/**
+    * Return the URL to be used.
+    *
+    * @returns {string}
+    */
 
-							var response = JSON.parse(request.response);
+			value: function url() {
+				var token = "";
+				if (EasyvoteSmartvote.isUserAuthenticated) {
+					token += "?token=" + EasyvoteSmartvote.token;
+				}
+				return "routing/questions/" + EasyvoteSmartvote.currentElection + token;
+			}
+		},
+		count: {
 
-							// Resolve the promise with the response text
-							resolve(response);
-						} else {
-							// Otherwise reject with the status text
-							// which will hopefully be a meaningful error
-							reject(Error(request.statusText));
-						}
-					};
+			/**
+    * Return the total number of questions in this collection.
+    *
+    * @returns int
+    */
 
-					// Handle network errors
-					request.onerror = function () {
-						reject(Error("Network Error"));
-					};
+			value: function count() {
+				return this.length;
+			}
+		},
+		countVisible: {
 
-					// Make the request
-					request.send();
-				});
+			/**
+    * Return the number of visible questions.
+    *
+    * @returns int
+    */
+
+			value: function countVisible() {
+				return this.filter(function (question) {
+					return question.get("visible");
+				}).length;
+			}
+		},
+		isUserAnonymous: {
+
+			/**
+    * @return QuestionCollection
+    */
+
+			value: function isUserAnonymous() {
+				return !EasyvoteSmartvote.isUserAuthenticated;
+			}
+		}
+	}, {
+		getInstance: {
+
+			/**
+    * @return QuestionCollection
+    */
+
+			value: function getInstance() {
+				if (!this.instance) {
+					this.instance = new QuestionCollection();
+				}
+				return this.instance;
 			}
 		}
 	});
 
-	return Poll;
-})();
+	return QuestionCollection;
+})(Backbone.Collection);
 
-module.exports = Poll;
-},{"babel-runtime/core-js":3,"babel-runtime/helpers/class-call-check":4,"babel-runtime/helpers/create-class":5}],3:[function(require,module,exports){
+module.exports = QuestionCollection;
+},{"./QuestionModel":4,"babel-runtime/core-js":6,"babel-runtime/helpers/class-call-check":7,"babel-runtime/helpers/create-class":8,"babel-runtime/helpers/get":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/interop-require":11}],3:[function(require,module,exports){
+/*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var QuestionCollection = _interopRequire(require("./QuestionCollection"));
+
+var QuestionView = _interopRequire(require("./QuestionView"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var QuestionListView = (function (_Backbone$View) {
+	function QuestionListView() {
+		_classCallCheck(this, QuestionListView);
+
+		// Instead of generating a new element, bind to the existing skeleton of
+		// the App already present in the HTML.
+		this.setElement($("#container-questions"), true);
+
+		this.progressTemplate = _.template($("#template-progress").html());
+
+		this.$progress = this.$("#container-progress");
+
+		/** @var questionCollection QuestionCollection*/
+		var questionCollection = QuestionCollection.getInstance();
+
+		this.listenTo(questionCollection, "add", this.addOne);
+		this.listenTo(questionCollection, "change:answer", this.changeAnswer);
+		this.listenTo(questionCollection, "all", this.render);
+
+		questionCollection.fetch();
+		_get(_core.Object.getPrototypeOf(QuestionListView.prototype), "constructor", this).call(this);
+	}
+
+	_inherits(QuestionListView, _Backbone$View);
+
+	_createClass(QuestionListView, {
+		render: {
+
+			/**
+    * Render the main template.
+    */
+
+			value: function render() {
+
+				this.$progress.html(this.progressTemplate({
+					progress: this.getProgress(),
+					numberOfQuestionAnswered: QuestionCollection.getInstance().countVisible(),
+					totalNumberOfQuestions: QuestionCollection.getInstance().count()
+				}));
+			}
+		},
+		getProgress: {
+
+			/**
+    * @returns {number}
+    */
+
+			value: function getProgress() {
+
+				var questionCollection = QuestionCollection.getInstance();
+
+				var progress = 0; // default
+				if (questionCollection.count() > 1) {
+					progress = questionCollection.countVisible() / questionCollection.count() * 100;
+				}
+				return progress;
+			}
+		},
+		changeAnswer: {
+
+			/**
+    * @param argument
+    */
+
+			value: function changeAnswer(argument) {
+				var question = argument.attributes;
+				var questionCollection = QuestionCollection.getInstance();
+				var nextIndex = questionCollection.length - 1 - question.index;
+				var nextQuestion = questionCollection.at(nextIndex);
+				nextQuestion.trigger("visible");
+			}
+		},
+		addOne: {
+
+			/**
+    * Add a single question item to the list by creating a view for it, then
+    * appending its element to the `<div>`.
+    * @param model
+    */
+
+			value: function addOne(model) {
+				var view = new QuestionView({ model: model });
+				$("#container-question-list").append(view.render());
+			}
+		},
+		addAll: {
+
+			// *Add all items in the **Todos** collection at once.*
+
+			value: function addAll() {
+				this.$("#todo-list").html("");
+				Todos.each(this.addOne, this);
+			}
+		}
+	});
+
+	return QuestionListView;
+})(Backbone.View);
+
+module.exports = QuestionListView;
+},{"./QuestionCollection":2,"./QuestionView":5,"babel-runtime/core-js":6,"babel-runtime/helpers/class-call-check":7,"babel-runtime/helpers/create-class":8,"babel-runtime/helpers/get":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/interop-require":11}],4:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var QuestionModel = (function (_Backbone$Model) {
+	function QuestionModel() {
+		_classCallCheck(this, QuestionModel);
+
+		if (_Backbone$Model != null) {
+			_Backbone$Model.apply(this, arguments);
+		}
+	}
+
+	_inherits(QuestionModel, _Backbone$Model);
+
+	_createClass(QuestionModel, {
+		defaults: {
+
+			/**
+    * @returns {{name: string, answer: number, index: number, visible: boolean}}
+    */
+
+			value: function defaults() {
+
+				this.counter = this.counter++ || 1;
+				return {
+					name: "",
+					answer: 100,
+					index: 0,
+					visible: false
+				};
+			}
+		},
+		url: {
+
+			/**
+    * Return the URL to be used.
+    *
+    * @returns {string}
+    */
+
+			value: function url() {
+				var token = "";
+				if (EasyvoteSmartvote.isUserAuthenticated) {
+					token += "?token=" + EasyvoteSmartvote.token;
+				}
+				return "routing/state/" + token;
+			}
+		},
+		save: {
+
+			/**
+    * Override save as we have to know whether to store in the LocalStorage
+    * or persist to the server.
+    */
+
+			value: function save(values) {
+				var options = {};
+				if (EasyvoteSmartvote.isUserAuthenticated) {
+					options = { ajaxSync: true };
+				}
+				_get(_core.Object.getPrototypeOf(QuestionModel.prototype), "save", this).call(this, values, options);
+			}
+		}
+	});
+
+	return QuestionModel;
+})(Backbone.Model);
+
+module.exports = QuestionModel;
+},{"babel-runtime/core-js":6,"babel-runtime/helpers/class-call-check":7,"babel-runtime/helpers/create-class":8,"babel-runtime/helpers/get":9,"babel-runtime/helpers/inherits":10}],5:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var QuestionView = (function (_Backbone$View) {
+
+	/**
+  * @param options
+  */
+
+	function QuestionView(options) {
+		_classCallCheck(this, QuestionView);
+
+		// *... is a list tag.*
+		this.tagName = "div";
+
+		// *Cache the template function for a single item.*
+		this.template = _.template($("#template-question").html());
+
+		//// *Define the DOM events specific to an item.*
+		this.events = {
+			"click .btn-answer": "edit"
+		};
+
+		_get(_core.Object.getPrototypeOf(QuestionView.prototype), "constructor", this).call(this, options);
+
+		this.listenTo(this.model, "change", this.render);
+		this.listenTo(this.model, "visible", this.changeVisible);
+	}
+
+	_inherits(QuestionView, _Backbone$View);
+
+	_createClass(QuestionView, {
+		render: {
+
+			/**
+    * Render the question view
+    *
+    * @returns string
+    */
+
+			value: function render() {
+				this.$el.html(this.template(this.model.toJSON()));
+				this.defineVisibility();
+				return this.el;
+			}
+		},
+		changeVisible: {
+
+			/**
+    * Set visible true
+    */
+
+			value: function changeVisible() {
+				this.model.save({ visible: true });
+				this.render();
+			}
+		},
+		defineVisibility: {
+
+			/**
+    * Define visibility of the question.
+    */
+
+			value: function defineVisibility() {
+				this.$el.toggleClass("hidden", !this.model.get("visible"));
+			}
+		},
+		edit: {
+
+			/**
+    * @return void
+    */
+
+			value: function edit(e) {
+				// retrieve the selected value and update the underlying model.
+				var value = parseInt(e.target.value);
+				this.model.save({ answer: value });
+			}
+		}
+	});
+
+	return QuestionView;
+})(Backbone.View);
+
+module.exports = QuestionView;
+},{"babel-runtime/core-js":6,"babel-runtime/helpers/class-call-check":7,"babel-runtime/helpers/create-class":8,"babel-runtime/helpers/get":9,"babel-runtime/helpers/inherits":10}],6:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -2469,7 +2817,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -2479,7 +2827,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -2501,7 +2849,71 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],6:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
+"use strict";
+
+var _core = require("babel-runtime/core-js")["default"];
+
+exports["default"] = function get(_x, _x2, _x3) {
+  var _again = true;
+
+  _function: while (_again) {
+    _again = false;
+    var object = _x,
+        property = _x2,
+        receiver = _x3;
+    desc = parent = getter = undefined;
+
+    var desc = _core.Object.getOwnPropertyDescriptor(object, property);
+
+    if (desc === undefined) {
+      var parent = _core.Object.getPrototypeOf(object);
+
+      if (parent === null) {
+        return undefined;
+      } else {
+        _x = parent;
+        _x2 = property;
+        _x3 = receiver;
+        _again = true;
+        continue _function;
+      }
+    } else if ("value" in desc && desc.writable) {
+      return desc.value;
+    } else {
+      var getter = desc.get;
+
+      if (getter === undefined) {
+        return undefined;
+      }
+
+      return getter.call(receiver);
+    }
+  }
+};
+
+exports.__esModule = true;
+},{"babel-runtime/core-js":6}],10:[function(require,module,exports){
+"use strict";
+
+exports["default"] = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) subClass.__proto__ = superClass;
+};
+
+exports.__esModule = true;
+},{}],11:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {

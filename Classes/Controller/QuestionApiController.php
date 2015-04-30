@@ -14,8 +14,11 @@ namespace Visol\EasyvoteSmartvote\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Processor\QuestionProcessor;
+use Visol\EasyvoteSmartvote\Service\TokenService;
+use Visol\EasyvoteSmartvote\Service\UserService;
 
 /**
  * Question Controller
@@ -33,22 +36,18 @@ class QuestionApiController extends AbstractBaseApiController {
 	 * @return string
 	 */
 	public function listAction(Election $election = NULL) {
-		$this->initializeCache();
 
-		$cacheIdentifier = 'questions';
-		$questions = $this->cacheInstance->get($cacheIdentifier);
+		$token = GeneralUtility::_GP('token');
+		$questions = $this->retrieveQuestionsFromUserPreferences($token);
 
-		if (!$questions) {
+		if (empty($questions)) {
 
 			$questions = $this->questionRepository->findByElection($election);
 			$questions = $this->getQuestionProcessor()->process($questions);
 
-//			$locations = $this->locationRepository->findAllForMaps();
-//			$questions = $this->getLocationEncoder()->encode($locations);
-
-//			$tags = array();
-//			$lifetime = $this->getLifeTime();
-//			$this->cacheInstance->set($cacheIdentifier, $questions, $tags, $lifetime);
+			if ($this->getUserService()->isAuthenticated()) {
+				$this->getUserService()->set($token, $questions);
+			}
 		}
 
 		$this->response->setHeader('Content-Type', 'application/json');
@@ -60,5 +59,35 @@ class QuestionApiController extends AbstractBaseApiController {
 	 */
 	public function getQuestionProcessor() {
 		return $this->objectManager->get(QuestionProcessor::class);
+	}
+
+	/**
+	 * @param string $token
+	 * @return array
+	 */
+	protected function retrieveQuestionsFromUserPreferences($token) {
+		$questions = array();
+		if (!empty($token) && $this->getUserService()->isAuthenticated()) {
+			$isAllowed = $this->getTokenService()->isAllowed($token);
+
+			if ($isAllowed) {
+				$questions = $this->getUserService()->get($token);
+			}
+		}
+		return $questions;
+	}
+
+	/**
+	 * @return UserService
+	 */
+	protected function getUserService() {
+		return $this->objectManager->get(UserService::class);
+	}
+
+	/**
+	 * @return TokenService
+	 */
+	protected function getTokenService() {
+		return $this->objectManager->get(TokenService::class);
 	}
 }

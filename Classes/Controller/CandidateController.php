@@ -15,6 +15,7 @@ namespace Visol\EasyvoteSmartvote\Controller;
  */
 
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Visol\EasyvoteSmartvote\Domain\Model\Candidate;
 
 /**
  * CandidateController
@@ -31,15 +32,19 @@ class CandidateController extends ActionController {
 	 * @return void
 	 */
 	public function listAction() {
+
+		// @todo this action is not being used. Possibly remove me.
 		$candidates = $this->candidateRepository->findAll();
 		$this->view->assign('candidates', $candidates);
 	}
 
 	/**
-	 * @param \Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate
+	 * @param Candidate $candidate
 	 * @return void
 	 */
-	public function showAction(\Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate) {
+	public function showAction(Candidate $candidate) {
+
+		// @todo this action is not being used. Possibly remove me.
 		$this->view->assign('candidate', $candidate);
 	}
 

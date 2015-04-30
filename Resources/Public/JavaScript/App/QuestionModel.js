@@ -9,7 +9,6 @@
 export default class QuestionModel extends Backbone.Model {
 
 	/**
-	 *
 	 * @returns {{name: string, answer: number, index: number, visible: boolean}}
 	 */
 	defaults() {
@@ -18,40 +17,34 @@ export default class QuestionModel extends Backbone.Model {
 		return {
 			name: '',
 			answer: 100,
-			index: QuestionModel.getIndex(),
+			index: 0,
 			visible: false
 		};
 	}
 
 	/**
-	 * Setter for property "answer".
-	 */
-	setAnswer(value) {
-		console.log(value);
-		this.set('answer', parseInt(value));
-		this.set('visible', !this.get('visible')); // @todo toggle
-	}
-
-	/**
-	 * Return the URL being used.
+	 * Return the URL to be used.
 	 *
 	 * @returns {string}
 	 */
 	url() {
-		return 'routing/state/';
+		let token = '';
+		if (EasyvoteSmartvote.isUserAuthenticated) {
+			token += '?token=' + EasyvoteSmartvote.token;
+		}
+		return 'routing/state/' + token;
 	}
 
 	/**
-	 * Return an incremental index
-	 *
-	 * @returns {number}
+	 * Override save as we have to know whether to store in the LocalStorage
+	 * or persist to the server.
 	 */
-	static getIndex() {
-
-		if (typeof QuestionModel.counter === 'undefined') {
-			QuestionModel.counter = 0;
+	save(values) {
+		let options = {};
+		if (EasyvoteSmartvote.isUserAuthenticated) {
+			options = { ajaxSync: true }
 		}
-		QuestionModel.counter++; // increment
-		return QuestionModel.counter;
+		super.save(values, options);
 	}
+
 }

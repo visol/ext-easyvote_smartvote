@@ -12,29 +12,25 @@
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Underscore/underscore-min.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Backbone/backbone-min.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/BackboneLocalStorage/backbone.localStorage-min.js')}"/>
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/JQueryAjaxManager/jquery.ajaxmanager.js')}"/>
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/BackboneSyncAjaxQueue/backbone.sync.ajaxman.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/Bundle.min.js')}"/>
 
 	<section id="container-questions">
-
-		<div id="container-progress">
-
-		</div>
-
-		<div id="container-question-list">
-
-		</div>
+		<div id="container-progress"></div>
+		<div id="container-question-list"></div>
 	</section>
 
 	<script type="text/template" id="template-progress">
 
 		<div class="progress">
-			<div class="progress-bar"
+			<div class="progress-bar progress-bar-striped"
 			     role="progressbar"
 			     aria-valuenow="<%- progress %>"
 			     aria-valuemin="0"
 			     aria-valuemax="100"
 			     style="width: <%- progress %>%;">
-				<span class="sr-only"><%- progress %>% Complete</span>
+				<%- numberOfQuestionAnswered %>  / <%- totalNumberOfQuestions %>
 			</div>
 		</div>
 
@@ -153,6 +149,8 @@
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
 		EasyvoteSmartvote.currentElection = '{smartvote:currentElection()}';
+		EasyvoteSmartvote.token = '{smartvote:token()}';
+		EasyvoteSmartvote.isUserAuthenticated = {smartvote:isUserAuthenticated()};
 	</script>
 
 </f:section>

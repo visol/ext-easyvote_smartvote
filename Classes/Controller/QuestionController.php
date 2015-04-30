@@ -31,6 +31,7 @@ class QuestionController extends ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
+		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
 		$this->view->assign('settings', $this->settings);
 	}
 

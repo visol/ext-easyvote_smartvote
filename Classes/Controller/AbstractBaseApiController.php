@@ -49,41 +49,4 @@ abstract class AbstractBaseApiController extends ActionController {
 		}
 	}
 
-	/**
-	 * Initialize cache instance to be ready to use
-	 *
-	 * @return void
-	 */
-	protected function initializeCache() {
-		Cache::initializeCachingFramework();
-		try {
-			$this->cacheInstance = $this->getCacheManager()->getCache('easyvote_location');
-		} catch (NoSuchCacheException $e) {
-			$this->cacheInstance = $this->getCacheFactory()->create(
-				'easyvote_location',
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_location']['frontend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_location']['backend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_location']['options']
-			);
-		}
-	}
-
-	/**
-	 * Return the Cache Manager
-	 *
-	 * @return \TYPO3\CMS\Core\Cache\CacheManager
-	 */
-	protected function getCacheManager() {
-		return GeneralUtility::makeInstance(CacheManager::class);
-	}
-
-	/**
-	 * Return the Cache Factory
-	 *
-	 * @return \TYPO3\CMS\Core\Cache\CacheFactory
-	 */
-	protected function getCacheFactory() {
-		return $GLOBALS['typo3CacheFactory'];
-	}
-
 }

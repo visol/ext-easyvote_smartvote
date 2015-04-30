@@ -41,13 +41,19 @@ if (!defined('TYPO3_MODE')) {
 	)
 );
 
-// Register cache
-if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_question'])) {
-	$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_question'] = array();
-}
 
-// Register the cache table to be deleted when general caches is hit.
-$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['cf_easyvote_question'] = 'cf_easyvote_question';
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Visol.easyvote_smartvote',
+	'State',
+	array(
+		'StateApi' => 'save',
+	),
+	// non-cacheable actions
+	array(
+		'StateApi' => 'save',
+	)
+);
+
 
 // Register global route
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['routing']['globalRoutes'][] = 'EXT:easyvote_smartvote/Configuration/GlobalRoutes.yaml';

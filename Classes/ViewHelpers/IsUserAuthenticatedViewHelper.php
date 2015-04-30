@@ -16,21 +16,27 @@ namespace Visol\EasyvoteSmartvote\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use Visol\EasyvoteSmartvote\Service\UserService;
 
 /**
- * View helper to return the Election out of the settings
+ * View helper to return whether the User is authenticated.
  */
-class CurrentElectionViewHelper extends AbstractViewHelper {
+class IsUserAuthenticatedViewHelper extends AbstractViewHelper {
 
 	/**
-	 * Return the first election identifier.
+	 * Returns whether the User is authenticated.
 	 *
-	 * @return int
+	 * @return string
 	 */
 	public function render() {
-		$settings = $this->templateVariableContainer->get('settings');
-		$elections = GeneralUtility::trimExplode(',', $settings['elections'], TRUE);
-		return (int)array_shift($elections);
+		return $this->getUserService()->isAuthenticated() ? 'true' : 'false';
+	}
+
+	/**
+	 * @return UserService
+	 */
+	protected function getUserService(){
+		return $this->objectManager->get(UserService::class);
 	}
 
 }
