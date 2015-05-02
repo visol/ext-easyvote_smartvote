@@ -27,7 +27,11 @@ export default class QuestionListView extends Backbone.View {
 		this.listenTo(questionCollection, 'change:answer', this.changeAnswer);
 		this.listenTo(questionCollection, 'all', this.render);
 
-		questionCollection.fetch();
+		if (this._isAnonymous()) {
+			questionCollection.fetchForAnonymousUser();
+		} else {
+			questionCollection.fetchForAuthenticatedUser();
+		}
 		super();
 	}
 
@@ -80,10 +84,11 @@ export default class QuestionListView extends Backbone.View {
 		$('#container-question-list').append(view.render());
 	}
 
-	// *Add all items in the **Todos** collection at once.*
-	addAll() {
-		this.$('#todo-list').html('');
-		Todos.each(this.addOne, this);
+	/**
+	 * @return {bool}
+	 * @private
+	 */
+	_isAnonymous() {
+		return !EasyvoteSmartvote.isUserAuthenticated
 	}
-
 }

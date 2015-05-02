@@ -19,24 +19,18 @@ export default class QuestionCollection extends Backbone.Collection {
 		this.model = QuestionModel;
 
 		// Save all of the question items under the `'questions'` namespace.
-		if (this.isUserAnonymous()) {
+		if (this._isAnonymous()) {
 			this.localStorage = new Backbone.LocalStorage(EasyvoteSmartvote.token);
 		}
 	}
 
 	/**
-	 * Override parent fetch.
-	 *
 	 * @returns {*}
 	 */
-	fetch() {
+	fetchForAnonymousUser() {
 
 		// Check whether localStorage contains record about this collection
-		let records = [];
-		if (this.localStorage) {
-			records = this.localStorage.findAll();
-		}
-
+		let records = this.localStorage.findAll();
 		if(_.isEmpty(records)) {
 			var self = this;
 			// fetch from server once
@@ -44,13 +38,20 @@ export default class QuestionCollection extends Backbone.Collection {
 				url: this.url()
 			}).done(function(response) {
 				$.each(response, function(i, item) {
-					self.add(item);  // saves model to local storage
+					self.create(item);  // saves model to local storage
 				});
 			});
 		} else {
 			// call original fetch method
 			return super.fetch();
 		}
+	}
+
+	/**
+	 * @returns {*}
+	 */
+	fetchForAuthenticatedUser() {
+		return super.fetch();
 	}
 
 	/**
@@ -95,10 +96,10 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
-	 * @return QuestionCollection
+	 * @return {bool}
+	 * @private
 	 */
-	isUserAnonymous() {
+	_isAnonymous() {
 		return !EasyvoteSmartvote.isUserAuthenticated
 	}
-
 }

@@ -51,7 +51,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		this.model = QuestionModel;
 
 		// Save all of the question items under the `'questions'` namespace.
-		if (this.isUserAnonymous()) {
+		if (this._isAnonymous()) {
 			this.localStorage = new Backbone.LocalStorage(EasyvoteSmartvote.token);
 		}
 	}
@@ -59,22 +59,16 @@ var QuestionCollection = (function (_Backbone$Collection) {
 	_inherits(QuestionCollection, _Backbone$Collection);
 
 	_createClass(QuestionCollection, {
-		fetch: {
+		fetchForAnonymousUser: {
 
 			/**
-    * Override parent fetch.
-    *
     * @returns {*}
     */
 
-			value: function fetch() {
+			value: function fetchForAnonymousUser() {
 
 				// Check whether localStorage contains record about this collection
-				var records = [];
-				if (this.localStorage) {
-					records = this.localStorage.findAll();
-				}
-
+				var records = this.localStorage.findAll();
 				if (_.isEmpty(records)) {
 					var self = this;
 					// fetch from server once
@@ -82,13 +76,23 @@ var QuestionCollection = (function (_Backbone$Collection) {
 						url: this.url()
 					}).done(function (response) {
 						$.each(response, function (i, item) {
-							self.add(item); // saves model to local storage
+							self.create(item); // saves model to local storage
 						});
 					});
 				} else {
 					// call original fetch method
 					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 				}
+			}
+		},
+		fetchForAuthenticatedUser: {
+
+			/**
+    * @returns {*}
+    */
+
+			value: function fetchForAuthenticatedUser() {
+				return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 			}
 		},
 		url: {
@@ -133,13 +137,14 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				}).length;
 			}
 		},
-		isUserAnonymous: {
+		_isAnonymous: {
 
 			/**
-    * @return QuestionCollection
+    * @return {bool}
+    * @private
     */
 
-			value: function isUserAnonymous() {
+			value: function _isAnonymous() {
 				return !EasyvoteSmartvote.isUserAuthenticated;
 			}
 		}
@@ -208,7 +213,11 @@ var QuestionListView = (function (_Backbone$View) {
 		this.listenTo(questionCollection, "change:answer", this.changeAnswer);
 		this.listenTo(questionCollection, "all", this.render);
 
-		questionCollection.fetch();
+		if (this._isAnonymous()) {
+			questionCollection.fetchForAnonymousUser();
+		} else {
+			questionCollection.fetchForAuthenticatedUser();
+		}
 		_get(_core.Object.getPrototypeOf(QuestionListView.prototype), "constructor", this).call(this);
 	}
 
@@ -274,13 +283,15 @@ var QuestionListView = (function (_Backbone$View) {
 				$("#container-question-list").append(view.render());
 			}
 		},
-		addAll: {
+		_isAnonymous: {
 
-			// *Add all items in the **Todos** collection at once.*
+			/**
+    * @return {bool}
+    * @private
+    */
 
-			value: function addAll() {
-				this.$("#todo-list").html("");
-				Todos.each(this.addOne, this);
+			value: function _isAnonymous() {
+				return !EasyvoteSmartvote.isUserAuthenticated;
 			}
 		}
 	});
@@ -304,11 +315,7 @@ var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default
 
 var _inherits = require("babel-runtime/helpers/inherits")["default"];
 
-var _get = require("babel-runtime/helpers/get")["default"];
-
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var _core = require("babel-runtime/core-js")["default"];
 
 var QuestionModel = (function (_Backbone$Model) {
 	function QuestionModel() {
@@ -354,21 +361,6 @@ var QuestionModel = (function (_Backbone$Model) {
 				}
 				return "routing/state/" + token;
 			}
-		},
-		save: {
-
-			/**
-    * Override save as we have to know whether to store in the LocalStorage
-    * or persist to the server.
-    */
-
-			value: function save(values) {
-				var options = {};
-				if (EasyvoteSmartvote.isUserAuthenticated) {
-					options = { ajaxSync: true };
-				}
-				_get(_core.Object.getPrototypeOf(QuestionModel.prototype), "save", this).call(this, values, options);
-			}
 		}
 	});
 
@@ -376,7 +368,7 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/core-js":6,"babel-runtime/helpers/class-call-check":7,"babel-runtime/helpers/create-class":8,"babel-runtime/helpers/get":9,"babel-runtime/helpers/inherits":10}],5:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":7,"babel-runtime/helpers/create-class":8,"babel-runtime/helpers/inherits":10}],5:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*

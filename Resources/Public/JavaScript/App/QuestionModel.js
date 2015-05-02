@@ -35,16 +35,4 @@ export default class QuestionModel extends Backbone.Model {
 		return 'routing/state/' + token;
 	}
 
-	/**
-	 * Override save as we have to know whether to store in the LocalStorage
-	 * or persist to the server.
-	 */
-	save(values) {
-		let options = {};
-		if (EasyvoteSmartvote.isUserAuthenticated) {
-			options = { ajaxSync: true }
-		}
-		super.save(values, options);
-	}
-
 }

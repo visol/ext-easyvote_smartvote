@@ -29,7 +29,7 @@ class IsUserAuthenticatedViewHelper extends AbstractViewHelper {
 	 * @return string
 	 */
 	public function render() {
-		return $this->getUserService()->isAuthenticated() ? 'true' : 'false';
+		return $this->getUserService()->isAuthenticated();
 	}
 
 	/**
