@@ -7,6 +7,10 @@ var QuestionListView = _interopRequire(require("./QuestionListView"));
 
 $(function () {
 	new QuestionListView();
+
+	var data = [[{ axis: "strength", value: 13 }, { axis: "intelligence", value: 1 }, { axis: "charisma", value: 8 }, { axis: "dexterity", value: 4 }, { axis: "luck", value: 9 }]];
+
+	RadarChart.draw("#chart", data, { w: 200, h: 200 });
 });
 },{"./QuestionListView":3,"babel-runtime/helpers/interop-require":11}],2:[function(require,module,exports){
 /*jshint esnext:true */
