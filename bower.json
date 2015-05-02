@@ -4,6 +4,8 @@
   "ignore": [],
   "dependencies": {
     "backbone": "~1.1.2",
-    "backbone.localStorage": "~1.1.16"
+    "backbone.localStorage": "~1.1.16",
+    "d3": "~3.5.5",
+    "radar-chart-d3": "*"
   }
 }
