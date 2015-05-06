@@ -272,7 +272,6 @@ abstract class AbstractImporter implements ImporterInterface {
 			print $message . chr(10) . chr(10);
 			$this->getLogger()->error($message, array($query));
 			die($query);
-
 		}
 		return empty($record) ? 0 : (int)$record['uid'];
 

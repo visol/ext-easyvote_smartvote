@@ -13,8 +13,34 @@
 				<source>Election</source>
 			</trans-unit>
 
-			<trans-unit id="wizard" xml:space="preserve">
-				<source>Smartvote data import</source>
+
+			<trans-unit id="election">
+				<source>Election</source>
+			</trans-unit>
+			<trans-unit id="smart_vote_identifier">
+				<source>Smart Vote Identifier</source>
+			</trans-unit>
+			<trans-unit id="type">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="short_title">
+				<source>Short title</source>
+			</trans-unit>
+			<trans-unit id="election_date">
+				<source>Election date</source>
+			</trans-unit>
+			<trans-unit id="import_log">
+				<source>Import log</source>
+			</trans-unit>
+			<trans-unit id="year">
+				<source>Year</source>
+			</trans-unit>
+
+			<trans-unit id="import" xml:space="preserve">
+				<source>Import</source>
 			</trans-unit>
 		</body>
 	</file>

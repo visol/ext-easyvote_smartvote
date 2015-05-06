@@ -19,7 +19,7 @@ use Fab\Vidi\Grid\GenericRendererComponent;
 /**
  * Class for configuring a "Button Group" Grid Renderer.
  */
-class ImportWizardColumn extends GenericRendererComponent {
+class ImportLogColumn extends GenericRendererComponent {
 
 	/**
 	 * Configure the "Button Group" Grid Renderer.
@@ -27,10 +27,8 @@ class ImportWizardColumn extends GenericRendererComponent {
 	public function __construct() {
 		$configuration = array(
 			'sortable' => FALSE,
-			'canBeHidden' => FALSE,
-			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:import',
-			'width' => '70px',
+			'width' => '300px',
 		);
-		parent::__construct(ImportWizardColumnRenderer::class, $configuration);
+		parent::__construct(ImportLogColumnRenderer::class, $configuration);
 	}
 }

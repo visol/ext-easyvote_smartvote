@@ -14,36 +14,41 @@ namespace Visol\EasyvoteSmartvote\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * Election
  */
-class Election extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Election extends AbstractEntity {
 
 	/**
-	 * smartVoteIdentifier
-	 *
+	 * @var string
+	 * @validate NotEmpty
+	 */
+	protected $title = '';
+
+	/**
+	 * @var string
+	 */
+	protected $shortTitle = '';
+
+	/**
+	 * @var int
+	 */
+	protected $electionDate = 0;
+
+	/**
 	 * @var string
 	 * @validate NotEmpty
 	 */
 	protected $smartVoteIdentifier = '';
 
 	/**
-	 * type
-	 *
-	 * @var integer
+	 * @var string
 	 */
-	protected $type = 0;
+	protected $importLog = 'wer';
 
 	/**
-	 * year
-	 *
-	 * @var integer
-	 */
-	protected $year = 0;
-
-	/**
-	 * Returns the smartVoteIdentifier
-	 *
 	 * @return string $smartVoteIdentifier
 	 */
 	public function getSmartVoteIdentifier() {
@@ -51,8 +56,6 @@ class Election extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Sets the smartVoteIdentifier
-	 *
 	 * @param string $smartVoteIdentifier
 	 * @return void
 	 */
@@ -61,41 +64,67 @@ class Election extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the type
-	 *
-	 * @return integer $type
+	 * @return string
 	 */
-	public function getType() {
-		return $this->type;
+	public function getTitle() {
+		return $this->title;
 	}
 
 	/**
-	 * Sets the type
-	 *
-	 * @param integer $type
-	 * @return void
+	 * @param string $title
+	 * @return $this
 	 */
-	public function setType($type) {
-		$this->type = $type;
+	public function setTitle($title) {
+		$this->title = $title;
+		return $this;
 	}
 
 	/**
-	 * Returns the year
-	 *
-	 * @return integer $year
+	 * @return string
 	 */
-	public function getYear() {
-		return $this->year;
+	public function getShortTitle() {
+		return $this->shortTitle;
 	}
 
 	/**
-	 * Sets the year
-	 *
-	 * @param integer $year
-	 * @return void
+	 * @param string $shortTitle
+	 * @return $this
 	 */
-	public function setYear($year) {
-		$this->year = $year;
+	public function setShortTitle($shortTitle) {
+		$this->shortTitle = $shortTitle;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getElectionDate() {
+		return $this->electionDate;
+	}
+
+	/**
+	 * @param int $electionDate
+	 * @return $this
+	 */
+	public function setElectionDate($electionDate) {
+		$this->electionDate = $electionDate;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getImportLog() {
+		return $this->importLog;
+	}
+
+	/**
+	 * @param string $importLog
+	 * @return $this
+	 */
+	public function setImportLog($importLog) {
+		$this->importLog = $importLog;
+		return $this;
 	}
 
 }

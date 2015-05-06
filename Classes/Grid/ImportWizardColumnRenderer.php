@@ -14,7 +14,10 @@ namespace Visol\EasyvoteSmartvote\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
+use Fab\Vidi\Grid\GridRendererAbstract;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Backend\Utility\IconUtility;
+use Visol\EasyvoteSmartvote\Module\ModuleParameter;
 
 /**
  * Class for configuring a "Button Group" Grid Renderer.
@@ -26,23 +29,28 @@ class ImportWizardColumnRenderer extends GridRendererAbstract {
 	 */
 	public function render() {
 
-		// @todo display icon
+		$out = sprintf(
+			'<div style="text-align: center"><a href="%s" class="btn-import-voting">%s</a></div>',
+			$this->getImportUri(),
+			IconUtility::getSpriteIcon('extensions-easyvote-smartvote-export')
+		);
 
-		return '<a href="#"><i class="icon-pencil"></i></a>';
+		return $out;
+	}
 
-		return '123';
 
-//		$components = $this->getModuleLoader()->getGridButtonsComponents();
-//
-//		$result = '';
-//		foreach ($components as $component) {
-//
-//			/** @var  $view */
-//			$view = GeneralUtility::makeInstance($component);
-//			$result .= $view->render($this->getObject());
-//		}
-//
-//		return $result;
+	/**
+	 * @return string
+	 */
+	protected function getImportUri() {
+		$urlParameters = array(
+			ModuleParameter::PREFIX => array(
+				'controller' => 'Election',
+				'action' => 'import',
+				'election' => $this->getObject()->getUid(),
+			),
+		);
+		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
 	}
 
 }

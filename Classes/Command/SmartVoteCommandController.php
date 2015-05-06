@@ -14,9 +14,10 @@ namespace Visol\EasyvoteSmartvote\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
-use Visol\EasyvoteSmartvote\Importer\ImporterInterface;
+use Visol\EasyvoteSmartvote\Importer\ImporterService;
 
 /**
  * Command Controller which imports the Postal Box as voting location.
@@ -30,18 +31,11 @@ class SmartVoteCommandController extends CommandController {
 	protected $electionRepository;
 
 	/**
-	 * @var bool
-	 */
-	protected $verbose;
-
-	/**
 	 * Import a bunch of data form SmartVote using its API.
 	 *
 	 * @param bool $verbose
 	 */
 	public function importCommand($verbose = FALSE) {
-
-		$this->verbose = $verbose;
 
 		$elections = $this->electionRepository->findAll();
 
@@ -50,40 +44,25 @@ class SmartVoteCommandController extends CommandController {
 			/** @var $election Election */
 			$this->outputLine('***********************************************');
 			$this->outputLine('Smart Vote identifier: ' . $election->getSmartVoteIdentifier());
+			$this->outputLine('***********************************************');
 			$this->outputLine();
 
-			$this->import('Denomination', $election);
-			$this->import('CivilState', $election);
-			$this->import('Education', $election);
-			$this->import('District', $election);
-			$this->import('ElectionList', $election);
-			$this->import('Party', $election);
-			$this->import('Candidate', $election);
-			$this->import('Question', $election);
-			$this->import('QuestionCategory', $election);
+			$logs = $this->getImporterService($election)->import($verbose);
+			$logLines = implode('', $logs);
 
-			$this->outputLine();
+			$election->setImportLog($logLines);
+			$this->electionRepository->update($election);
+
+			$this->outputLine($logLines);
 		}
 	}
 
 	/**
-	 * @param string $dataType
 	 * @param Election $election
+	 * @return ImporterService
 	 */
-	protected function import($dataType, Election $election){
-
-		// Party
-		$this->output(sprintf('Importing %s... ', $dataType));
-
-		/** @var ImporterInterface $importer */
-		$className = sprintf('Visol\EasyvoteSmartvote\Importer\%sImporter', $dataType);
-		$importer = $this->objectManager->get($className, $election);
-		$collectedData = $importer->import();
-		$this->outputLine(sprintf('%s', $collectedData['numberOfItems']));
-
-		if ($this->verbose) {
-			$this->outputLine(sprintf('  -> %s', $collectedData['url']));
-		}
+	protected function getImporterService(Election $election){
+		return GeneralUtility::makeInstance(ImporterService::class, $election);
 	}
 
 }

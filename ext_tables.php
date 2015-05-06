@@ -64,16 +64,48 @@ if (TYPO3_MODE === 'BE') {
 	);
 	foreach ($dataTypes as $dataType) {
 
-		/** @var \TYPO3\CMS\Vidi\Module\ModuleLoader $moduleLoader */
-		$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Module\ModuleLoader', $dataType);
+		/** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
+		$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader', $dataType);
 
-		/** @var \TYPO3\CMS\Vidi\Module\ModuleLoader $moduleLoader */
+		/** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
 		$moduleLoader->setIcon(sprintf('EXT:easyvote_smartvote/Resources/Public/Icons/%s.png', $dataType))
 			->setMainModule('easyvote')
 			->setModuleLanguageFile(sprintf('LLL:EXT:easyvote_smartvote/Resources/Private/Language/%s.xlf', $dataType))
-			->addJavaScriptFiles(array(sprintf('EXT:easyvote_smartvote/Resources/Public/JavaScript/%s.js', $dataType)))
+			->addJavaScriptFile(sprintf('EXT:easyvote_smartvote/Resources/Public/JavaScript/%s.js', $dataType))
 			->setDefaultPid(276) // hard-coded for now
 			->register();
 	}
 
+	// Add new sprite icon.
+	\TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
+		array(
+			'export' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/import.png',
+		),
+		'easyvote-smartvote'
+	);
+
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+		'easyvote_smartvote',
+		'content', // Make media module a submodule of 'user'
+		'm1',
+		'bottom', // Position
+		array(
+			'Election' => 'import',
+		),
+		array(          // Additional configuration
+			'access'    => 'user,group',
+			'labels'    => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_mod.xlf',
+		)
+	);
+
+
+	// Default User TSConfig to be added in any case.
+	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
+
+		# Hide the module in the BE.
+		options.hideModules.content := addToList(EasyvoteSmartvoteM1)
+
+	');
 }
+
+

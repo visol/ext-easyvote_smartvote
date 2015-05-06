@@ -14,23 +14,22 @@ namespace Visol\EasyvoteSmartvote\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Vidi\Grid\GenericRendererComponent;
+use Fab\Vidi\Grid\GridRendererAbstract;
+use TYPO3\CMS\Backend\Utility\IconUtility;
 
 /**
  * Class for configuring a "Button Group" Grid Renderer.
  */
-class ImportWizardColumn extends GenericRendererComponent {
+class ImportLogColumnRenderer extends GridRendererAbstract {
 
 	/**
-	 * Configure the "Button Group" Grid Renderer.
+	 * @return string
 	 */
-	public function __construct() {
-		$configuration = array(
-			'sortable' => FALSE,
-			'canBeHidden' => FALSE,
-			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:import',
-			'width' => '70px',
+	public function render() {
+		return sprintf(
+			'<pre style="font-size: 90%%">%s</pre>',
+			$this->object[$this->fieldName]
 		);
-		parent::__construct(ImportWizardColumnRenderer::class, $configuration);
 	}
+
 }

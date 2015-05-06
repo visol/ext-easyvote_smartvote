@@ -221,19 +221,6 @@
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_district.election">
 				<source>Election</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_election">
-				<source>Election</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_election.smart_vote_identifier">
-				<source>Smart Vote Identifier</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_election.type">
-				<source>Type</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_election.year">
-				<source>Year</source>
-			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_education">
 				<source>Education</source>
 			</trans-unit>
