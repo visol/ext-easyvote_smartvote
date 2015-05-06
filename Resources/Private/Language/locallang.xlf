@@ -221,6 +221,7 @@
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_district.election">
 				<source>Election</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_education">
 				<source>Education</source>
 			</trans-unit>
