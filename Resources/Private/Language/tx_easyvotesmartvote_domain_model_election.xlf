@@ -33,7 +33,7 @@
 				<source>Election date</source>
 			</trans-unit>
 			<trans-unit id="import_log">
-				<source>Import log</source>
+				<source>Log</source>
 			</trans-unit>
 			<trans-unit id="year">
 				<source>Year</source>
