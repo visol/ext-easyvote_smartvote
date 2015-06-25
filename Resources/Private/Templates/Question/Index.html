@@ -158,7 +158,7 @@
 
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
-		EasyvoteSmartvote.currentElection = '{smartvote:currentElection()}';
+		EasyvoteSmartvote.currentElection = '{currentElection.uid}';
 		EasyvoteSmartvote.token = 'd{smartvote:token()}';
 		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')}
 	</script>
