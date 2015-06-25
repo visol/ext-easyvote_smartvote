@@ -42,6 +42,31 @@
 			<trans-unit id="import" xml:space="preserve">
 				<source>Import</source>
 			</trans-unit>
+
+			<trans-unit id="total_cleavage1">
+				<source>Total cleavage 1</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage2">
+				<source>Total cleavage 2</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage3">
+				<source>Total cleavage 3</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage4">
+				<source>Total cleavage 4</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage5">
+				<source>Total cleavage 5</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage6">
+				<source>Total cleavage 6</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage7">
+				<source>Total cleavage 7</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage8">
+				<source>Total cleavage 8</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

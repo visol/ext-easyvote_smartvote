@@ -1,6 +1,7 @@
 /*jshint esnext:true */
 import QuestionCollection from './QuestionCollection'
 import QuestionView from './QuestionView'
+import Chart from './Chart'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -8,7 +9,8 @@ import QuestionView from './QuestionView'
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default class QuestionListView extends Backbone.View {
+export default
+class QuestionListView extends Backbone.View {
 
 	constructor() {
 
@@ -68,10 +70,33 @@ export default class QuestionListView extends Backbone.View {
 	 */
 	changeAnswer(argument) {
 		let question = argument.attributes;
+
+		this.updateChart(question);
+
 		let questionCollection = QuestionCollection.getInstance();
 		let nextIndex = (questionCollection.length - 1) - question.index;
 		let nextQuestion = questionCollection.at(nextIndex);
 		nextQuestion.trigger('visible');
+	}
+
+	/**
+	 * @param question
+	 */
+	updateChart(question) {
+
+		if (typeof question.answer === 'number') {
+			Chart.getInstance()
+				.addToCleavage1(question.uid, question.answer, question.cleavage1)
+				.addToCleavage2(question.uid, question.answer, question.cleavage2)
+				.addToCleavage3(question.uid, question.answer, question.cleavage3)
+				.addToCleavage4(question.uid, question.answer, question.cleavage4)
+				.addToCleavage5(question.uid, question.answer, question.cleavage5)
+				.addToCleavage6(question.uid, question.answer, question.cleavage6)
+				.addToCleavage7(question.uid, question.answer, question.cleavage7)
+				.addToCleavage8(question.uid, question.answer, question.cleavage8)
+				.draw();
+		}
+
 	}
 
 	/**
@@ -80,7 +105,9 @@ export default class QuestionListView extends Backbone.View {
 	 * @param model
 	 */
 	addOne(model) {
-		let view = new QuestionView({ model });
+		let question = model.attributes;
+		this.updateChart(question);
+		let view = new QuestionView({model});
 		$('#container-question-list').append(view.render());
 	}
 

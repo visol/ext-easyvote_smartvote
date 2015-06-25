@@ -41,7 +41,6 @@ Source is located at `Resources/Public/JavaScript/App/*.js`. Grunt will watch th
 ```
 
 
-
 Command Line Interface
 ----------------------
 
@@ -56,7 +55,6 @@ Unit Test
 Guidance for running the Unit Test in this extension
 
 ```
-
 	# Install the PHPUnit Framework
 	cd typo3_src
 	composer install

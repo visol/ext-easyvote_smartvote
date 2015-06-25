@@ -159,6 +159,14 @@
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
 		EasyvoteSmartvote.currentElection = '{currentElection.uid}';
+		EasyvoteSmartvote.totalCleavage1 = '{currentElection.totalCleavage1}' - 0;
+		EasyvoteSmartvote.totalCleavage2 = '{currentElection.totalCleavage2}' - 0;
+		EasyvoteSmartvote.totalCleavage3 = '{currentElection.totalCleavage3}' - 0;
+		EasyvoteSmartvote.totalCleavage4 = '{currentElection.totalCleavage4}' - 0;
+		EasyvoteSmartvote.totalCleavage5 = '{currentElection.totalCleavage5}' - 0;
+		EasyvoteSmartvote.totalCleavage6 = '{currentElection.totalCleavage6}' - 0;
+		EasyvoteSmartvote.totalCleavage7 = '{currentElection.totalCleavage7}' - 0;
+		EasyvoteSmartvote.totalCleavage8 = '{currentElection.totalCleavage8}' - 0;
 		EasyvoteSmartvote.token = 'd{smartvote:token()}';
 		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')}
 	</script>

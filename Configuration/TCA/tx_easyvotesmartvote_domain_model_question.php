@@ -3,248 +3,246 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question'] = array(
-	'ctrl' => array(
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question'] = [
+	'ctrl' => [
 		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question',
 		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-
 		'languageField' => 'sys_language_uid',
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'delete' => 'deleted',
-		'enablecolumns' => array(
+		'enablecolumns' => [
 			'disabled' => 'hidden',
-
-		),
+		],
 		'searchFields' => 'name,internal_identifier,groupping,type,rapide,education,cleavage1,cleavage2,cleavage3,cleavage4,cleavage5,cleavage6,cleavage7,cleavage8,info,pro,contra,election,category,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_question.gif'
-	),
-	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, groupping, type, rapide, education, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8, info, pro, contra, election, category, '),
-	),
-	'palettes' => array(
-		'1' => array('showitem' => ''),
-	),
-	'columns' => array(
+	],
+	'types' => [
+		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, groupping, type, rapide, education, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8, info, pro, contra, election, category, '],
+	],
+	'palettes' => [
+		'1' => ['showitem' => ''],
+	],
+	'columns' => [
 
-		'sys_language_uid' => array(
+		'sys_language_uid' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
-					array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0)
-				),
-			),
-		),
-		'l10n_parent' => array(
+				'items' => [
+					['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
+					['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0]
+				],
+			],
+		],
+		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
-				'items' => array(
-					array('', 0),
-				),
+				'items' => [
+					['', 0],
+				],
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_question',
 				'foreign_table_where' => 'AND tx_easyvotesmartvote_domain_model_question.pid=###CURRENT_PID### AND tx_easyvotesmartvote_domain_model_question.sys_language_uid IN (-1,0)',
-			),
-		),
-		'l10n_diffsource' => array(
-			'config' => array(
+			],
+		],
+		'l10n_diffsource' => [
+			'config' => [
 				'type' => 'passthrough',
-			),
-		),
+			],
+		],
 
-		'hidden' => array(
+		'hidden' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
-			'config' => array(
+			'config' => [
 				'type' => 'check',
-			),
-		),
+			],
+		],
 
-		'name' => array(
+		'name' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.name',
-			'config' => array(
+			'config' => [
 				'type' => 'text',
 				'cols' => 40,
 				'rows' => 15,
 				'eval' => 'trim'
-			)
-		),
-		'internal_identifier' => array(
+			]
+		],
+		'internal_identifier' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.internal_identifier',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-		'groupping' => array(
+			],
+		],
+		'groupping' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.groupping',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 4,
 				'eval' => 'int'
-			)
-		),
-		'type' => array(
+			]
+		],
+		'type' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.type',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-		'rapide' => array(
+			],
+		],
+		'rapide' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.rapide',
-			'config' => array(
+			'config' => [
 				'type' => 'check',
 				'default' => 0
-			)
-		),
-		'education' => array(
+			]
+		],
+		'education' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.education',
-			'config' => array(
+			'config' => [
 				'type' => 'check',
 				'default' => 0
-			)
-		),
-		'cleavage1' => array(
+			]
+		],
+		'cleavage1' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.cleavage1',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 4,
 				'eval' => 'int'
-			)
-		),
-		'cleavage2' => array(
+			]
+		],
+		'cleavage2' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.cleavage2',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 4,
 				'eval' => 'int'
-			)
-		),
-		'cleavage3' => array(
+			]
+		],
+		'cleavage3' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.cleavage3',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 4,
 				'eval' => 'int'
-			)
-		),
-		'cleavage4' => array(
+			]
+		],
+		'cleavage4' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.cleavage4',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
-			),
-		),
-		'cleavage5' => array(
+				'eval' => 'int'
+			],
+		],
+		'cleavage5' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.cleavage5',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
-			),
-		),
-		'cleavage6' => array(
+				'eval' => 'int'
+			],
+		],
+		'cleavage6' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.cleavage6',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
-			),
-		),
-		'cleavage7' => array(
+				'eval' => 'int'
+			],
+		],
+		'cleavage7' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.cleavage7',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
-			),
-		),
-		'cleavage8' => array(
+				'eval' => 'int'
+			],
+		],
+		'cleavage8' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.cleavage8',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
-			),
-		),
-		'info' => array(
+				'eval' => 'int'
+			],
+		],
+		'info' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.info',
-			'config' => array(
+			'config' => [
 				'type' => 'text',
 				'cols' => 40,
 				'rows' => 15,
-				'eval' => 'trim'
-			)
-		),
-		'pro' => array(
+				'eval' => 'int'
+			]
+		],
+		'pro' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.pro',
-			'config' => array(
+			'config' => [
 				'type' => 'text',
 				'cols' => 40,
 				'rows' => 15,
-				'eval' => 'trim'
-			)
-		),
-		'contra' => array(
+				'eval' => 'int'
+			]
+		],
+		'contra' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.contra',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
-			),
-		),
-		'election' => array(
+				'eval' => 'int'
+			],
+		],
+		'election' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.election',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_election',
 				'minitems' => 0,
 				'maxitems' => 1,
-			),
-		),
-		'category' => array(
+			],
+		],
+		'category' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.category',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_questioncategory',
 				'minitems' => 0,
 				'maxitems' => 1,
-			),
-		),
+			],
+		],
 
-	),
-);
+	],
+];

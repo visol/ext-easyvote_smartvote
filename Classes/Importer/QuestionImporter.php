@@ -72,7 +72,26 @@ class QuestionImporter extends AbstractImporter {
 	 * @return int
 	 */
 	public function import() {
-		return parent::import(Model::QUESTION);
+
+		$items = parent::import(Model::QUESTION);
+
+		// Update the election with the total cleavage.
+		$values = array();
+		for ($index = 1; $index <= 8; $index++) {
+
+			$clause = sprintf('cleavage%s != 0 AND election = %s', $index, $this->election->getUid());
+			$clause .= BackendUtility::deleteClause($this->tableName);
+			$totalCleavage = $this->getDatabaseConnection()->exec_SELECTcountRows('cleavage' . $index, $this->tableName, $clause);
+			$values['total_cleavage' . $index] = $totalCleavage;
+		}
+
+		$this->getDatabaseConnection()->exec_UPDATEquery(
+			'tx_easyvotesmartvote_domain_model_election',
+			'uid = ' . $this->election->getUid(),
+			$values
+		);
+
+		return $items;
 	}
 
 }

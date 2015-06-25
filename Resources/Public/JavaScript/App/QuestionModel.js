@@ -18,6 +18,14 @@ export default class QuestionModel extends Backbone.Model {
 			name: '',
 			answer: 100,
 			index: 0,
+			cleavage1: 0,
+			cleavage2: 0,
+			cleavage3: 0,
+			cleavage4: 0,
+			cleavage5: 0,
+			cleavage6: 0,
+			cleavage7: 0,
+			cleavage8: 0,
 			visible: false
 		};
 	}
@@ -32,7 +40,7 @@ export default class QuestionModel extends Backbone.Model {
 		if (EasyvoteSmartvote.isUserAuthenticated) {
 			token += '?token=' + EasyvoteSmartvote.token;
 		}
-		return 'routing/state/' + token;
+		return '/routing/state/' + token;
 	}
 
 }

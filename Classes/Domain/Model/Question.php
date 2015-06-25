@@ -36,7 +36,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * groupping
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $groupping = 0;
 
@@ -62,58 +62,42 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $education = FALSE;
 
 	/**
-	 * cleavage1
-	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $cleavage1 = 0;
 
 	/**
-	 * cleavage2
-	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $cleavage2 = 0;
 
 	/**
-	 * cleavage3
-	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $cleavage3 = 0;
 
 	/**
-	 * cleavage4
-	 *
-	 * @var string
+	 * @var int
 	 */
 	protected $cleavage4 = '';
 
 	/**
-	 * cleavage5
-	 *
-	 * @var string
+	 * @var int
 	 */
 	protected $cleavage5 = '';
 
 	/**
-	 * cleavage6
-	 *
-	 * @var string
+	 * @var int
 	 */
 	protected $cleavage6 = '';
 
 	/**
-	 * cleavage7
-	 *
-	 * @var string
+	 * @var int
 	 */
 	protected $cleavage7 = '';
 
 	/**
-	 * cleavage8
-	 *
-	 * @var string
+	 * @var int
 	 */
 	protected $cleavage8 = '';
 
@@ -193,7 +177,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the groupping
 	 *
-	 * @return integer $groupping
+	 * @return int $groupping
 	 */
 	public function getGroupping() {
 		return $this->groupping;
@@ -202,7 +186,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the groupping
 	 *
-	 * @param integer $groupping
+	 * @param int $groupping
 	 * @return void
 	 */
 	public function setGroupping($groupping) {
@@ -285,18 +269,14 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the cleavage1
-	 *
-	 * @return integer $cleavage1
+	 * @return int $cleavage1
 	 */
 	public function getCleavage1() {
 		return $this->cleavage1;
 	}
 
 	/**
-	 * Sets the cleavage1
-	 *
-	 * @param integer $cleavage1
+	 * @param int $cleavage1
 	 * @return void
 	 */
 	public function setCleavage1($cleavage1) {
@@ -304,18 +284,14 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the cleavage2
-	 *
-	 * @return integer $cleavage2
+	 * @return int $cleavage2
 	 */
 	public function getCleavage2() {
 		return $this->cleavage2;
 	}
 
 	/**
-	 * Sets the cleavage2
-	 *
-	 * @param integer $cleavage2
+	 * @param int $cleavage2
 	 * @return void
 	 */
 	public function setCleavage2($cleavage2) {
@@ -323,18 +299,14 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the cleavage3
-	 *
-	 * @return integer $cleavage3
+	 * @return int $cleavage3
 	 */
 	public function getCleavage3() {
 		return $this->cleavage3;
 	}
 
 	/**
-	 * Sets the cleavage3
-	 *
-	 * @param integer $cleavage3
+	 * @param int $cleavage3
 	 * @return void
 	 */
 	public function setCleavage3($cleavage3) {
@@ -344,7 +316,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the cleavage4
 	 *
-	 * @return string $cleavage4
+	 * @return int $cleavage4
 	 */
 	public function getCleavage4() {
 		return $this->cleavage4;
@@ -353,7 +325,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the cleavage4
 	 *
-	 * @param string $cleavage4
+	 * @param int $cleavage4
 	 * @return void
 	 */
 	public function setCleavage4($cleavage4) {
@@ -361,18 +333,14 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the cleavage5
-	 *
-	 * @return string $cleavage5
+	 * @return int $cleavage5
 	 */
 	public function getCleavage5() {
 		return $this->cleavage5;
 	}
 
 	/**
-	 * Sets the cleavage5
-	 *
-	 * @param string $cleavage5
+	 * @param int $cleavage5
 	 * @return void
 	 */
 	public function setCleavage5($cleavage5) {
@@ -380,18 +348,14 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the cleavage6
-	 *
-	 * @return string $cleavage6
+	 * @return int $cleavage6
 	 */
 	public function getCleavage6() {
 		return $this->cleavage6;
 	}
 
 	/**
-	 * Sets the cleavage6
-	 *
-	 * @param string $cleavage6
+	 * @param int $cleavage6
 	 * @return void
 	 */
 	public function setCleavage6($cleavage6) {
@@ -399,18 +363,14 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the cleavage7
-	 *
-	 * @return string $cleavage7
+	 * @return int $cleavage7
 	 */
 	public function getCleavage7() {
 		return $this->cleavage7;
 	}
 
 	/**
-	 * Sets the cleavage7
-	 *
-	 * @param string $cleavage7
+	 * @param int $cleavage7
 	 * @return void
 	 */
 	public function setCleavage7($cleavage7) {
@@ -418,18 +378,14 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the cleavage8
-	 *
-	 * @return string $cleavage8
+	 * @return int $cleavage8
 	 */
 	public function getCleavage8() {
 		return $this->cleavage8;
 	}
 
 	/**
-	 * Sets the cleavage8
-	 *
-	 * @param string $cleavage8
+	 * @param int $cleavage8
 	 * @return void
 	 */
 	public function setCleavage8($cleavage8) {
