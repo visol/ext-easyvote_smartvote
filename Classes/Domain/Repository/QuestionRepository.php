@@ -34,7 +34,7 @@ class QuestionRepository extends Repository {
 		$clause .= $this->getPageRepository()->deleteClause($tableName);
 		$clause .= $this->getPageRepository()->enableFields($tableName);
 
-		$fields = 'uid, name';
+		$fields = 'uid, name, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8';
 		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 	}
 
