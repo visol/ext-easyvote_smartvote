@@ -1,9 +1,9 @@
 "use strict";
 
-import QuestionListView from './QuestionListView';
-import Chart from './Chart';
+import QuestionListView from './Views/QuestionListView';
+import RadarChart from './Chart/RadarChart';
 
 $(() => {
 	new QuestionListView();
-	Chart.getInstance().draw();
+	RadarChart.getInstance().draw();
 });

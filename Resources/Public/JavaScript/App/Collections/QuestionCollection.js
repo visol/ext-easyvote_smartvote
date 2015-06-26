@@ -1,5 +1,5 @@
 /*jshint esnext:true */
-import QuestionModel from './QuestionModel'
+import QuestionModel from '../Models/QuestionModel'
 
 /*
  * This file is part of the TYPO3 CMS project.

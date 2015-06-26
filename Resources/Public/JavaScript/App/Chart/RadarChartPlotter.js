@@ -1,5 +1,14 @@
-var RadarChart = {
-	draw: function(id, d, options) {
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+export default class RadarChartPlotter {
+
+	static plot(id, d, options) {
 		var config = {
 			radius: 5,
 			w: 600,
@@ -111,7 +120,7 @@ var RadarChart = {
 		//   .text(Format((j+1)*config.maxValue/config.levels));
 		//}
 
-		series = 0;
+		var series = 0;
 
 		var axis = g.selectAll('.axis')
 			.data(allAxis)
@@ -152,8 +161,8 @@ var RadarChart = {
 			});
 
 
+		var dataValues = [];
 		d.forEach(function(y, x) {
-			dataValues = [];
 			g.selectAll(".nodes")
 				.data(y, function(j, i) {
 					dataValues.push([
@@ -197,7 +206,6 @@ var RadarChart = {
 			series++;
 		});
 		series = 0;
-
 
 		d.forEach(function(y, x) {
 			g.selectAll(".nodes")
@@ -260,4 +268,4 @@ var RadarChart = {
 		//		   .style('font-family', 'sans-serif')
 		//		   .style('font-size', '13px');
 	}
-};
+}

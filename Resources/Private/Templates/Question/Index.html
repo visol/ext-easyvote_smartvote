@@ -24,7 +24,11 @@
 			<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/BackboneLocalStorage/backbone.localStorage-min.js')}"/>
 		</f:else>
 	</f:if>
+
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/D3/d3.min.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/Bundle.min.js')}"/>
+
+	<button>Show my profile</button>
 
 	<section id="container-questions">
 		<div id="container-progress"></div>
@@ -32,7 +36,6 @@
 	</section>
 
 	<script type="text/template" id="template-progress">
-
 		<div class="progress">
 			<div class="progress-bar progress-bar-striped"
 			     role="progressbar"
@@ -43,8 +46,8 @@
 				<%- numberOfQuestionAnswered %>  / <%- totalNumberOfQuestions %>
 			</div>
 		</div>
-
 	</script>
+
 
 	<script type="text/template" id="template-question">
 		<form action="">
@@ -122,6 +125,11 @@
 				</div>
 			</div>
 		</form>
+		<hr/>
+	</script>
+
+	<script type="text/template" id="template-candidate">
+		<div>First Name / Last name</div>
 		<hr/>
 	</script>
 

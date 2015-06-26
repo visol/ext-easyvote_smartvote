@@ -1,4 +1,5 @@
 /*jshint esnext:true */
+import RadarChartPlotter from './RadarChartPlotter'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -6,7 +7,7 @@
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default class Chart {
+export default class RadarChart {
 
 	/**
 	 * Constructor
@@ -236,7 +237,7 @@ export default class Chart {
 			{value: this.computeValueForCleavage2() / (EasyvoteSmartvote.totalCleavage2 * 100)}  // Liberale Wirtschaftspolitik    2 - 8
 		];
 
-		RadarChart.draw(
+		RadarChartPlotter.plot(
 			"#chart",
 			[data],
 			{
@@ -253,7 +254,7 @@ export default class Chart {
 	 */
 	static getInstance() {
 		if (!this.instance) {
-			this.instance = new Chart();
+			this.instance = new RadarChart();
 		}
 		return this.instance;
 	}

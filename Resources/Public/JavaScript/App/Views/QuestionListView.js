@@ -1,7 +1,7 @@
 /*jshint esnext:true */
-import QuestionCollection from './QuestionCollection'
+import QuestionCollection from '../Collections/QuestionCollection'
 import QuestionView from './QuestionView'
-import Chart from './Chart'
+import RadarChart from '../Chart/RadarChart'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -9,8 +9,7 @@ import Chart from './Chart'
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default
-class QuestionListView extends Backbone.View {
+export default class QuestionListView extends Backbone.View {
 
 	constructor() {
 
@@ -85,7 +84,7 @@ class QuestionListView extends Backbone.View {
 	updateChart(question) {
 
 		if (typeof question.answer === 'number') {
-			Chart.getInstance()
+			RadarChart.getInstance()
 				.addToCleavage1(question.uid, question.answer, question.cleavage1)
 				.addToCleavage2(question.uid, question.answer, question.cleavage2)
 				.addToCleavage3(question.uid, question.answer, question.cleavage3)
@@ -96,7 +95,6 @@ class QuestionListView extends Backbone.View {
 				.addToCleavage8(question.uid, question.answer, question.cleavage8)
 				.draw();
 		}
-
 	}
 
 	/**

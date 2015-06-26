@@ -3,16 +3,25 @@
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var QuestionListView = _interopRequire(require("./QuestionListView"));
+var QuestionListView = _interopRequire(require("./Views/QuestionListView"));
 
-var Chart = _interopRequire(require("./Chart"));
+var RadarChart = _interopRequire(require("./Chart/RadarChart"));
 
 $(function () {
 	new QuestionListView();
-	Chart.getInstance().draw();
+	RadarChart.getInstance().draw();
 });
-},{"./Chart":2,"./QuestionListView":4,"babel-runtime/helpers/interop-require":12}],2:[function(require,module,exports){
+},{"./Chart/RadarChart":2,"./Views/QuestionListView":6,"babel-runtime/helpers/interop-require":13}],2:[function(require,module,exports){
 /*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var RadarChartPlotter = _interopRequire(require("./RadarChartPlotter"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -20,20 +29,14 @@ $(function () {
  * See LICENSE.txt that was shipped with this package.
  */
 
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var Chart = (function () {
+var RadarChart = (function () {
 
 	/**
   * Constructor
   */
 
-	function Chart() {
-		_classCallCheck(this, Chart);
+	function RadarChart() {
+		_classCallCheck(this, RadarChart);
 
 		this.cleavage1 = [];
 		this.cleavage2 = [];
@@ -54,7 +57,7 @@ var Chart = (function () {
 		this.totalCleavage8 = EasyvoteSmartvote.totalCleavage8;
 	}
 
-	_createClass(Chart, {
+	_createClass(RadarChart, {
 		addToCleavage1: {
 
 			/**
@@ -330,7 +333,7 @@ var Chart = (function () {
 				{ value: this.computeValueForCleavage2() / (EasyvoteSmartvote.totalCleavage2 * 100) } // Liberale Wirtschaftspolitik    2 - 8
 				];
 
-				RadarChart.draw("#chart", [data], {
+				RadarChartPlotter.plot("#chart", [data], {
 					w: 240,
 					h: 240,
 					levels: 5,
@@ -347,18 +350,219 @@ var Chart = (function () {
 
 			value: function getInstance() {
 				if (!this.instance) {
-					this.instance = new Chart();
+					this.instance = new RadarChart();
 				}
 				return this.instance;
 			}
 		}
 	});
 
-	return Chart;
+	return RadarChart;
 })();
 
-module.exports = Chart;
-},{"babel-runtime/helpers/class-call-check":8,"babel-runtime/helpers/create-class":9}],3:[function(require,module,exports){
+module.exports = RadarChart;
+},{"./RadarChartPlotter":3,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/interop-require":13}],3:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var RadarChartPlotter = (function () {
+	function RadarChartPlotter() {
+		_classCallCheck(this, RadarChartPlotter);
+	}
+
+	_createClass(RadarChartPlotter, null, {
+		plot: {
+			value: function plot(id, d, options) {
+				var config = {
+					radius: 5,
+					w: 600,
+					h: 600,
+					factor: 1,
+					factorLegend: 0.85,
+					levels: 3,
+					maxValue: 0,
+					radians: 2 * Math.PI,
+					opacityArea: 0.5,
+					ToRight: 5,
+					TranslateX: 8,
+					TranslateY: 8,
+					ExtraWidthX: 16,
+					ExtraWidthY: 16,
+					color: d3.scale.category10()
+				};
+
+				if ("undefined" !== typeof options) {
+					for (var i in options) {
+						if ("undefined" !== typeof options[i]) {
+							config[i] = options[i];
+						}
+					}
+				}
+				config.maxValue = Math.max(config.maxValue, d3.max(d, function (i) {
+					return d3.max(i.map(function (o) {
+						return o.value;
+					}));
+				}));
+				var allAxis = d[0].map(function (i, j) {
+					return i.axis;
+				});
+				var total = allAxis.length;
+				var radius = config.factor * Math.min(config.w / 2, config.h / 2);
+				var Format = d3.format("%");
+				d3.select(id).select("svg").remove();
+
+				var g = d3.select(id).append("svg").attr("width", config.w + config.ExtraWidthX).attr("height", config.h + config.ExtraWidthY).append("g").attr("transform", "translate(" + config.TranslateX + "," + config.TranslateY + ")");
+
+				// append rectangle with background image
+				d3.select(id).selectAll("svg").insert("rect", ":first-child").attr("height", "240").attr("width", "240").attr("fill", "url(#image)").attr("transform", "translate(" + config.TranslateX + "," + config.TranslateY + ")");
+
+				// append defs > pattern to load the background image
+				d3.select(id).selectAll("svg").insert("defs", ":first-child").append("pattern").attr("id", "image").attr("width", "1").attr("height", "1").append("image").attr("xlink:href", "/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/spider-labels.png").attr("width", "240").attr("height", "240");
+
+				var tooltip;
+
+				//Circular segments
+				for (var j = 0; j < config.levels - 1; j++) {
+					var levelFactor = config.factor * radius * ((j + 1) / config.levels);
+					g.selectAll(".levels").data(allAxis).enter().append("svg:line").attr("x1", function (d, i) {
+						return levelFactor * (1 - config.factor * Math.sin(i * config.radians / total));
+					}).attr("y1", function (d, i) {
+						return levelFactor * (1 - config.factor * Math.cos(i * config.radians / total));
+					}).attr("x2", function (d, i) {
+						return levelFactor * (1 - config.factor * Math.sin((i + 1) * config.radians / total));
+					}).attr("y2", function (d, i) {
+						return levelFactor * (1 - config.factor * Math.cos((i + 1) * config.radians / total));
+					}).attr("class", "line").style("stroke", "grey").style("stroke-opacity", "0.75").style("stroke-width", "0.3px").attr("transform", "translate(" + (config.w / 2 - levelFactor) + ", " + (config.h / 2 - levelFactor) + ")");
+				}
+
+				//Text indicating at what % each level is
+				//for(var j=0; j<config.levels; j++){
+				//  var levelFactor = config.factor*radius*((j+1)/config.levels);
+				//  g.selectAll(".levels")
+				//   .data([1]) //dummy data
+				//   .enter()
+				//   .append("svg:text")
+				//   .attr("x", function(d){return levelFactor*(1-config.factor*Math.sin(0));})
+				//   .attr("y", function(d){return levelFactor*(1-config.factor*Math.cos(0));})
+				//   .attr('class', "legend")
+				//   .style("font-family", "sans-serif")
+				//   .style("font-size", "10px")
+				//   .attr('transform', "translate(" + (config.w/2-levelFactor + config.ToRight) + ", " + (config.h/2-levelFactor) + ")")
+				//   .attr("fill", "#737373")
+				//   .text(Format((j+1)*config.maxValue/config.levels));
+				//}
+
+				var series = 0;
+
+				var axis = g.selectAll(".axis").data(allAxis).enter().append("g").attr("class", "axis");
+
+				//axis.append('line')
+				//	.attr("x1", config.w / 2)
+				//	.attr("y1", config.h / 2)
+				//	.attr("x2", function(d, i) {
+				//		return config.w / 2 * (1 - config.factor * Math.sin(i * config.radians / total));
+				//	})
+				//	.attr("y2", function(d, i) {
+				//		return config.h / 2 * (1 - config.factor * Math.cos(i * config.radians / total));
+				//	})
+				//	.attr('class', 'line')
+				//	.style('stroke', 'grey')
+				//	.style('stroke-width', '1px');
+
+				axis.append("text").attr("class", "legend").text(function (d) {
+					return d;
+				}).style("font-family", "sans-serif").style("font-size", "11px").attr("text-anchor", "middle").attr("dy", "1.5em").attr("transform", function (d, i) {
+					return "translate(0, -10)";
+				}).attr("x", function (d, i) {
+					return config.w / 2 * (1 - config.factorLegend * Math.sin(i * config.radians / total)) - 60 * Math.sin(i * config.radians / total);
+				}).attr("y", function (d, i) {
+					return config.h / 2 * (1 - Math.cos(i * config.radians / total)) - 20 * Math.cos(i * config.radians / total);
+				});
+
+				var dataValues = [];
+				d.forEach(function (y, x) {
+					g.selectAll(".nodes").data(y, function (j, i) {
+						dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
+					});
+					dataValues.push(dataValues[0]);
+					g.selectAll(".area").data([dataValues]).enter().append("polygon").attr("class", "radar-chart-serie" + series).style("stroke-width", "2px").style("stroke", config.color(series)).attr("points", function (d) {
+						var str = "";
+						for (var pti = 0; pti < d.length; pti++) {
+							str = str + d[pti][0] + "," + d[pti][1] + " ";
+						}
+						return str;
+					}).style("fill", function (j, i) {
+						return config.color(series);
+					}).style("fill-opacity", config.opacityArea).on("mouseover", function (d) {
+						z = "polygon." + d3.select(this).attr("class");
+						g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
+						g.selectAll(z).transition(200).style("fill-opacity", 0.7);
+					}).on("mouseout", function () {
+						g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
+					});
+					series++;
+				});
+				series = 0;
+
+				d.forEach(function (y, x) {
+					g.selectAll(".nodes").data(y).enter().append("svg:circle").attr("class", "radar-chart-serie" + series).attr("r", config.radius).attr("alt", function (j) {
+						return Math.max(j.value, 0);
+					}).attr("cx", function (j, i) {
+						dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
+						return config.w / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.sin(i * config.radians / total));
+					}).attr("cy", function (j, i) {
+						return config.h / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.cos(i * config.radians / total));
+					}).attr("data-id", function (j) {
+						return j.axis;
+					}).style("fill", config.color(series)).style("fill-opacity", 0.9).on("mouseover", function (d) {
+						newX = parseFloat(d3.select(this).attr("cx")) - 10;
+						newY = parseFloat(d3.select(this).attr("cy")) - 5;
+
+						//tooltip
+						//	.attr('x', newX)
+						//	.attr('y', newY)
+						//	.text(Format(d.value))
+						//	.transition(200)
+						//	.style('opacity', 1);
+
+						z = "polygon." + d3.select(this).attr("class");
+						g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
+						g.selectAll(z).transition(200).style("fill-opacity", 0.7);
+					}).on("mouseout", function () {
+						//tooltip
+						//	.transition(200)
+						//	.style('opacity', 0);
+						g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
+					}).append("svg:title");
+					//.text(function(j){return Math.max(j.value, 0)});
+
+					series++;
+				});
+				//Tooltip
+				//tooltip = g.append('text')
+				//		   .style('opacity', 0)
+				//		   .style('font-family', 'sans-serif')
+				//		   .style('font-size', '13px');
+			}
+		}
+	});
+
+	return RadarChartPlotter;
+})();
+
+module.exports = RadarChartPlotter;
+},{"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -374,7 +578,7 @@ var _core = require("babel-runtime/core-js")["default"];
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var QuestionModel = _interopRequire(require("./QuestionModel"));
+var QuestionModel = _interopRequire(require("../Models/QuestionModel"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -514,7 +718,83 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"./QuestionModel":5,"babel-runtime/core-js":7,"babel-runtime/helpers/class-call-check":8,"babel-runtime/helpers/create-class":9,"babel-runtime/helpers/get":10,"babel-runtime/helpers/inherits":11,"babel-runtime/helpers/interop-require":12}],4:[function(require,module,exports){
+},{"../Models/QuestionModel":5,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],5:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var QuestionModel = (function (_Backbone$Model) {
+	function QuestionModel() {
+		_classCallCheck(this, QuestionModel);
+
+		if (_Backbone$Model != null) {
+			_Backbone$Model.apply(this, arguments);
+		}
+	}
+
+	_inherits(QuestionModel, _Backbone$Model);
+
+	_createClass(QuestionModel, {
+		defaults: {
+
+			/**
+    * @returns {{name: string, answer: number, index: number, visible: boolean}}
+    */
+
+			value: function defaults() {
+
+				this.counter = this.counter++ || 1;
+				return {
+					name: "",
+					answer: 100,
+					index: 0,
+					cleavage1: 0,
+					cleavage2: 0,
+					cleavage3: 0,
+					cleavage4: 0,
+					cleavage5: 0,
+					cleavage6: 0,
+					cleavage7: 0,
+					cleavage8: 0,
+					visible: false
+				};
+			}
+		},
+		url: {
+
+			/**
+    * Return the URL to be used.
+    *
+    * @returns {string}
+    */
+
+			value: function url() {
+				var token = "";
+				if (EasyvoteSmartvote.isUserAuthenticated) {
+					token += "?token=" + EasyvoteSmartvote.token;
+				}
+				return "/routing/state/" + token;
+			}
+		}
+	});
+
+	return QuestionModel;
+})(Backbone.Model);
+
+module.exports = QuestionModel;
+},{"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/inherits":12}],6:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -530,11 +810,11 @@ var _core = require("babel-runtime/core-js")["default"];
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var QuestionCollection = _interopRequire(require("./QuestionCollection"));
+var QuestionCollection = _interopRequire(require("../Collections/QuestionCollection"));
 
 var QuestionView = _interopRequire(require("./QuestionView"));
 
-var Chart = _interopRequire(require("./Chart"));
+var RadarChart = _interopRequire(require("../Chart/RadarChart"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -630,7 +910,7 @@ var QuestionListView = (function (_Backbone$View) {
 			value: function updateChart(question) {
 
 				if (typeof question.answer === "number") {
-					Chart.getInstance().addToCleavage1(question.uid, question.answer, question.cleavage1).addToCleavage2(question.uid, question.answer, question.cleavage2).addToCleavage3(question.uid, question.answer, question.cleavage3).addToCleavage4(question.uid, question.answer, question.cleavage4).addToCleavage5(question.uid, question.answer, question.cleavage5).addToCleavage6(question.uid, question.answer, question.cleavage6).addToCleavage7(question.uid, question.answer, question.cleavage7).addToCleavage8(question.uid, question.answer, question.cleavage8).draw();
+					RadarChart.getInstance().addToCleavage1(question.uid, question.answer, question.cleavage1).addToCleavage2(question.uid, question.answer, question.cleavage2).addToCleavage3(question.uid, question.answer, question.cleavage3).addToCleavage4(question.uid, question.answer, question.cleavage4).addToCleavage5(question.uid, question.answer, question.cleavage5).addToCleavage6(question.uid, question.answer, question.cleavage6).addToCleavage7(question.uid, question.answer, question.cleavage7).addToCleavage8(question.uid, question.answer, question.cleavage8).draw();
 				}
 			}
 		},
@@ -666,83 +946,7 @@ var QuestionListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = QuestionListView;
-},{"./Chart":2,"./QuestionCollection":3,"./QuestionView":6,"babel-runtime/core-js":7,"babel-runtime/helpers/class-call-check":8,"babel-runtime/helpers/create-class":9,"babel-runtime/helpers/get":10,"babel-runtime/helpers/inherits":11,"babel-runtime/helpers/interop-require":12}],5:[function(require,module,exports){
-/*jshint esnext:true */
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _inherits = require("babel-runtime/helpers/inherits")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var QuestionModel = (function (_Backbone$Model) {
-	function QuestionModel() {
-		_classCallCheck(this, QuestionModel);
-
-		if (_Backbone$Model != null) {
-			_Backbone$Model.apply(this, arguments);
-		}
-	}
-
-	_inherits(QuestionModel, _Backbone$Model);
-
-	_createClass(QuestionModel, {
-		defaults: {
-
-			/**
-    * @returns {{name: string, answer: number, index: number, visible: boolean}}
-    */
-
-			value: function defaults() {
-
-				this.counter = this.counter++ || 1;
-				return {
-					name: "",
-					answer: 100,
-					index: 0,
-					cleavage1: 0,
-					cleavage2: 0,
-					cleavage3: 0,
-					cleavage4: 0,
-					cleavage5: 0,
-					cleavage6: 0,
-					cleavage7: 0,
-					cleavage8: 0,
-					visible: false
-				};
-			}
-		},
-		url: {
-
-			/**
-    * Return the URL to be used.
-    *
-    * @returns {string}
-    */
-
-			value: function url() {
-				var token = "";
-				if (EasyvoteSmartvote.isUserAuthenticated) {
-					token += "?token=" + EasyvoteSmartvote.token;
-				}
-				return "/routing/state/" + token;
-			}
-		}
-	});
-
-	return QuestionModel;
-})(Backbone.Model);
-
-module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":8,"babel-runtime/helpers/create-class":9,"babel-runtime/helpers/inherits":11}],6:[function(require,module,exports){
+},{"../Chart/RadarChart":2,"../Collections/QuestionCollection":4,"./QuestionView":7,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],7:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -845,7 +1049,7 @@ var QuestionView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = QuestionView;
-},{"babel-runtime/core-js":7,"babel-runtime/helpers/class-call-check":8,"babel-runtime/helpers/create-class":9,"babel-runtime/helpers/get":10,"babel-runtime/helpers/inherits":11}],7:[function(require,module,exports){
+},{"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12}],8:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -3187,7 +3391,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -3197,7 +3401,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -3219,7 +3423,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -3263,7 +3467,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":7}],11:[function(require,module,exports){
+},{"babel-runtime/core-js":8}],12:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -3283,7 +3487,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
