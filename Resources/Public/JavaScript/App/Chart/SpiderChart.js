@@ -1,5 +1,5 @@
 /*jshint esnext:true */
-import RadarChartPlotter from './RadarChartPlotter'
+import SpiderChartPlotter from './SpiderChartPlotter'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -7,7 +7,7 @@ import RadarChartPlotter from './RadarChartPlotter'
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default class RadarChart {
+export default class SpiderChart {
 
 	/**
 	 * Constructor
@@ -237,7 +237,7 @@ export default class RadarChart {
 			{value: this.computeValueForCleavage2() / (EasyvoteSmartvote.totalCleavage2 * 100)}  // Liberale Wirtschaftspolitik    2 - 8
 		];
 
-		RadarChartPlotter.plot(
+		SpiderChartPlotter.plot(
 			"#chart",
 			[data],
 			{
@@ -254,7 +254,7 @@ export default class RadarChart {
 	 */
 	static getInstance() {
 		if (!this.instance) {
-			this.instance = new RadarChart();
+			this.instance = new SpiderChart();
 		}
 		return this.instance;
 	}

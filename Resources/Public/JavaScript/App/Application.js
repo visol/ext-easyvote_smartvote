@@ -2,10 +2,10 @@
 
 import QuestionListView from './Views/QuestionListView';
 import CandidateListView from './Views/CandidateListView';
-import RadarChart from './Chart/RadarChart';
+import SpiderChart from './Chart/SpiderChart';
 
 $(() => {
 	new QuestionListView();
 	new CandidateListView();
-	RadarChart.getInstance().draw();
+	SpiderChart.getInstance().draw();
 });

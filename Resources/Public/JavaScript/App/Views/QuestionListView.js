@@ -1,7 +1,7 @@
 /*jshint esnext:true */
 import QuestionCollection from '../Collections/QuestionCollection'
 import QuestionView from './QuestionView'
-import RadarChart from '../Chart/RadarChart'
+import SpiderChart from '../Chart/SpiderChart'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -83,7 +83,7 @@ export default class QuestionListView extends Backbone.View {
 	updateChart(question) {
 
 		if (typeof question.answer === 'number') {
-			RadarChart.getInstance()
+			SpiderChart.getInstance()
 				.addToCleavage1(question.uid, question.answer, question.cleavage1)
 				.addToCleavage2(question.uid, question.answer, question.cleavage2)
 				.addToCleavage3(question.uid, question.answer, question.cleavage3)

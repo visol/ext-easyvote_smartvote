@@ -6,7 +6,7 @@
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default class RadarChartPlotter {
+export default class SpiderChartPlotter {
 
 	static plot(id, d, options) {
 		var config = {

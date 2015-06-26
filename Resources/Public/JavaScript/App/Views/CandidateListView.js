@@ -1,6 +1,7 @@
 /*jshint esnext:true */
 import CandidateCollection from '../Collections/CandidateCollection'
 import CandidateView from './CandidateView'
+import SpiderChartPlotter from '../Chart/SpiderChartPlotter'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -78,8 +79,33 @@ export default class CandidateListView extends Backbone.View {
 	 * @param model
 	 */
 	addOne(model) {
-		let content = new CandidateView({model}).render();
+		let view = new CandidateView({model});
+		let content = view.render();
 		$('#container-candidate-list').append(content);
+
+		let values = model.attributes.spiderChart;
+		let data = [
+			//                                                                                     cleavage* - position in circle
+			{value: values[0].value / EasyvoteSmartvote.totalCleavage1}, // Offene Aussenpolitik           1 - 1
+			{value: values[7].value / EasyvoteSmartvote.totalCleavage8}, // Liberale Gesellschaft          8 - 2
+			{value: values[6].value / EasyvoteSmartvote.totalCleavage7}, // Ausgebauter Sozialstaat        7 - 3
+			{value: values[5].value / EasyvoteSmartvote.totalCleavage6}, // Ausgebauter Umweltschutz       6 - 4
+			{value: values[4].value / EasyvoteSmartvote.totalCleavage5}, // Restrictive Migrationspolitik  5 - 5
+			{value: values[3].value / EasyvoteSmartvote.totalCleavage4}, // Law & Order                    4 - 6
+			{value: values[2].value / EasyvoteSmartvote.totalCleavage3}, // Restrictive Finanzpolitik      3 - 7
+			{value: values[1].value / EasyvoteSmartvote.totalCleavage2}  // Liberale Wirtschaftspolitik    2 - 8
+		];
+
+		SpiderChartPlotter.plot(
+			'#chart-candidate-' + model.attributes.uid,
+			[data],
+			{
+				w: 240,
+				h: 240,
+				levels: 5,
+				maxValue: 1
+			}
+		);
 	}
 
 	/**
