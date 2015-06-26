@@ -3,7 +3,6 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Visol.easyvote_smartvote',
 	'Pi1',
@@ -28,16 +27,28 @@ if (!defined('TYPO3_MODE')) {
 	)
 );
 
-
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Visol.easyvote_smartvote',
 	'Question',
 	array(
-		'QuestionApi' => 'list, show',
+		'QuestionApi' => 'list',
 	),
 	// non-cacheable actions
 	array(
-		'QuestionApi' => 'list, show',
+		'QuestionApi' => 'list',
+	)
+);
+
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Visol.easyvote_smartvote',
+	'Candidate',
+	array(
+		'CandidateApi' => 'list',
+	),
+	// non-cacheable actions
+	array(
+		'CandidateApi' => 'list', // @todo check if it can be cached.
 	)
 );
 
@@ -53,7 +64,6 @@ if (!defined('TYPO3_MODE')) {
 		'StateApi' => 'save',
 	)
 );
-
 
 // Register global route
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['routing']['globalRoutes'][] = 'EXT:easyvote_smartvote/Configuration/GlobalRoutes.yaml';

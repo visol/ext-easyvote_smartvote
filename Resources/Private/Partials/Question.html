@@ -1,0 +1,85 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+	<f:section name="Question">
+
+		<script type="text/template" id="template-question">
+			<form action="">
+				<div class="question-name">
+					<div class="question-name-left">
+						<%- index %>
+					</div>
+					<div class="question-name-right">
+						<%- name %>
+					</div>
+				</div>
+
+				<div class="row" style="text-align: center">
+					<div class="col-md-2 col-md-offset-2">
+						<label>
+						<span>
+							<f:translate key="yes"/>
+						</span>
+							<br/>
+
+							<input type="radio" class="btn-answer" name="weight" value="100"
+							<%= answer === 100 ? 'checked' : '' %>
+							/>
+						</label>
+					</div>
+					<div class="col-md-2">
+						<label>
+						<span>
+							<f:translate key="rather_yes"/>
+						</span>
+							<br/>
+
+							<input type="radio" class="btn-answer" name="weight" value="75"
+							<%= answer === 75 ? 'checked' : '' %>
+							/>
+						</label>
+					</div>
+					<div class="col-md-2">
+						<label>
+						<span>
+							<f:translate key="rather_no"/>
+						</span>
+							<br/>
+
+							<input type="radio" class="btn-answer" name="weight" value="25"
+							<%= answer === 25 ? 'checked' : '' %>
+							/>
+						</label>
+					</div>
+					<div class="col-md-2">
+						<label>
+						<span>
+							<f:translate key="no"/>
+						</span>
+							<br/>
+
+							<input type="radio" class="btn-answer" name="weight" value="0"
+							<%= answer === 0 ? 'checked' : '' %>
+							/>
+						</label>
+					</div>
+					<div class="col-md-2">
+						<label>
+						<span>
+							<f:translate key="no_answer"/>
+						</span>
+							<br/>
+
+
+							<input type="radio" class="btn-answer" name="weight" value="-1"
+							<%= answer === -1 ? 'checked' : '' %>
+							/>
+
+						</label>
+					</div>
+				</div>
+			</form>
+			<hr/>
+		</script>
+	</f:section>
+</div>

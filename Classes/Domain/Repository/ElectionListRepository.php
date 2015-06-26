@@ -14,10 +14,12 @@ namespace Visol\EasyvoteSmartvote\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
 /**
  * The repository for ElectionLists
  */
-class ElectionListRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class ElectionListRepository extends Repository {
 
 
 }

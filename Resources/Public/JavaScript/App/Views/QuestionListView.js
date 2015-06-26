@@ -40,14 +40,13 @@ export default class QuestionListView extends Backbone.View {
 	 * Render the main template.
 	 */
 	render() {
+		let content = this.progressTemplate({
+			progress: this.getProgress(),
+			numberOfQuestionAnswered: QuestionCollection.getInstance().countVisible(),
+			totalNumberOfQuestions: QuestionCollection.getInstance().count()
+		});
 
-		this.$progress.html(
-			this.progressTemplate({
-				progress: this.getProgress(),
-				numberOfQuestionAnswered: QuestionCollection.getInstance().countVisible(),
-				totalNumberOfQuestions: QuestionCollection.getInstance().count()
-			})
-		);
+		this.$progress.html(content);
 	}
 
 	/**

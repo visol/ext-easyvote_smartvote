@@ -1,0 +1,18 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+	<f:section name="ProgressBar">
+		<script type="text/template" id="template-progress">
+			<div class="progress">
+				<div class="progress-bar progress-bar-striped"
+				     role="progressbar"
+				     aria-valuenow="<%- progress %>"
+				     aria-valuemin="0"
+				     aria-valuemax="100"
+				     style="width: <%- progress %>%;">
+					<%- numberOfQuestionAnswered %> / <%- totalNumberOfQuestions %>
+				</div>
+			</div>
+		</script>
+	</f:section>
+</div>

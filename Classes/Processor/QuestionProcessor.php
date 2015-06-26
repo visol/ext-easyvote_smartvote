@@ -17,7 +17,7 @@ namespace Visol\EasyvoteSmartvote\Processor;
 /**
  * Processor Interface
  */
-class QuestionProcessor implements ProcessorInterface {
+class QuestionProcessor extends AbstractProcessor {
 
 	/**
 	 * @param $items
@@ -26,6 +26,7 @@ class QuestionProcessor implements ProcessorInterface {
 	public function process(array $items) {
 		$items = $this->addSomeDynamicValues($items);
 		$items = $this->revertOrderOfItems($items);
+		$items = $this->convertKeysToCamelCase($items);
 		return $items;
 	}
 

@@ -1,0 +1,29 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+	<f:section name="Candidate">
+		<script type="text/template" id="template-candidate">
+			<div class="content-box">
+				<div class="row">
+					<div class="col-md-3">
+						<img src="<%- photo %>" alt="" width="99%"/>
+					</div>
+					<div class="col-md-9">
+						<div>
+							<%- partyShort %>
+						</div>
+						<div>
+							<strong><%- firstName %>  <%- lastName %></strong>, <%- city %>
+						</div>
+						<div>
+							<%- slogan %>
+						</div>
+					</div>
+				</div>
+
+				<div>Spider Chart!</div>
+			</div>
+			<hr/>
+		</script>
+	</f:section>
+</div>

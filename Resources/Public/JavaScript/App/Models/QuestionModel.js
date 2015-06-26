@@ -13,7 +13,6 @@ export default class QuestionModel extends Backbone.Model {
 	 */
 	defaults() {
 
-		this.counter = this.counter++ || 1;
 		return {
 			name: '',
 			answer: 100,

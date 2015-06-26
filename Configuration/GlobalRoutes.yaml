@@ -12,6 +12,19 @@
   httpMethods: ['GET']
 
 ####################
+# Candidate
+####################
+-
+  name: 'List all candidate for an election'
+  uriPattern: 'candidates/{election}'
+  defaults:
+    '@package':    'Visol.Easyvote_smartvote'
+    '@plugin':     'Candidate'
+    '@controller': 'CandidateApi'
+    '@action':     'list'
+  httpMethods: ['GET']
+
+####################
 # Save
 ####################
 -

@@ -1,5 +1,5 @@
 /*jshint esnext:true */
-import QuestionModel from '../Models/QuestionModel'
+import CandidateModel from '../Models/CandidateModel'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -7,7 +7,7 @@ import QuestionModel from '../Models/QuestionModel'
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default class QuestionCollection extends Backbone.Collection {
+export default class CandidateCollection extends Backbone.Collection {
 
 	/**
 	 * @param options
@@ -16,11 +16,11 @@ export default class QuestionCollection extends Backbone.Collection {
 		super(options);
 
 		// Hold a reference to this collection's model.
-		this.model = QuestionModel;
+		this.model = CandidateModel;
 
-		// Save all of the question items under the `'questions'` namespace.
+		// Save all of the candidate items under the `'candidates'` namespace.
 		if (this._isAnonymous()) {
-			this.localStorage = new Backbone.LocalStorage('questions-' +EasyvoteSmartvote.token);
+			this.localStorage = new Backbone.LocalStorage('candidates-' + EasyvoteSmartvote.token);
 		}
 	}
 
@@ -31,6 +31,7 @@ export default class QuestionCollection extends Backbone.Collection {
 
 		// Check whether localStorage contains record about this collection
 		let records = this.localStorage.findAll();
+		records = [];
 		if(_.isEmpty(records)) {
 			var self = this;
 			// fetch from server once
@@ -64,21 +65,21 @@ export default class QuestionCollection extends Backbone.Collection {
 		if (EasyvoteSmartvote.isUserAuthenticated) {
 			token += '?token=' + EasyvoteSmartvote.token;
 		}
-		return '/routing/questions/' + EasyvoteSmartvote.currentElection + token;
+		return '/routing/candidates/' + EasyvoteSmartvote.currentElection + token;
 	}
 
 	/**
-	 * @return QuestionCollection
+	 * @return CandidateCollection
 	 */
 	static getInstance() {
 		if (!this.instance) {
-			this.instance = new QuestionCollection();
+			this.instance = new CandidateCollection();
 		}
 		return this.instance;
 	}
 
 	/**
-	 * Return the total number of questions in this collection.
+	 * Return the total number of candidates in this collection.
 	 *
 	 * @returns int
 	 */
@@ -87,12 +88,12 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
-	 * Return the number of visible questions.
+	 * Return the number of visible candidates.
 	 *
 	 * @returns int
 	 */
 	countVisible() {
-		return this.filter(question => question.get('visible')).length;
+		return this.filter(candidate => candidate.get('visible')).length;
 	}
 
 	/**

@@ -19,7 +19,7 @@ export default class QuestionView extends Backbone.View {
 		// *Cache the template function for a single item.*
 		this.template = _.template($('#template-question').html());
 
-		//// *Define the DOM events specific to an item.*
+		// *Define the DOM events specific to an item.*
 		this.events = {
 			'click .btn-answer': 'edit'
 		};
