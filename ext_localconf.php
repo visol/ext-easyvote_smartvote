@@ -8,10 +8,12 @@ if (!defined('TYPO3_MODE')) {
 	'Pi1',
 	array(
 		'Question' => 'index',
+		'SpiderChart' => 'index',
 	),
 	// non-cacheable actions
 	array(
 		'Question' => 'index',
+		'SpiderChart' => 'index', // @todo check if it can be removed
 	)
 );
 
@@ -19,11 +21,11 @@ if (!defined('TYPO3_MODE')) {
 	'Visol.easyvote_smartvote',
 	'Pi2',
 	array(
-		'SpiderChart' => 'index',
+		'Candidate' => 'index, filter',
 	),
 	// non-cacheable actions
 	array(
-		'SpiderChart' => 'index', // @todo check if it can be removed
+		'Candidate' => 'index, filter',
 	)
 );
 
@@ -39,7 +41,6 @@ if (!defined('TYPO3_MODE')) {
 	)
 );
 
-
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Visol.easyvote_smartvote',
 	'Candidate',
@@ -51,7 +52,6 @@ if (!defined('TYPO3_MODE')) {
 		'CandidateApi' => 'list', // @todo check if it can be cached.
 	)
 );
-
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Visol.easyvote_smartvote',

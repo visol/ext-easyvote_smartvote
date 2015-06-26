@@ -31,7 +31,6 @@ export default class CandidateCollection extends Backbone.Collection {
 
 		// Check whether localStorage contains record about this collection
 		let records = this.localStorage.findAll();
-		records = [];
 		if(_.isEmpty(records)) {
 			var self = this;
 			// fetch from server once

@@ -9,7 +9,12 @@ if (TYPO3_MODE === 'BE') {
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 		'easyvote_smartvote',
 		'Pi1',
-		'easyvote Smartvote: Voting recommendation - poll'
+		'easyvote Smartvote: Questionnaire - voting advices'
+	);
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+		'easyvote_smartvote',
+		'Pi2',
+		'easyvote Smartvote: Candidate directory'
 	);
 
 	// Flexform for pi1
@@ -19,10 +24,11 @@ if (TYPO3_MODE === 'BE') {
 		'FILE:EXT:easyvote_smartvote/Configuration/FlexForm/question.xml'
 	);
 
-	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-		'easyvote_smartvote',
-		'Pi2',
-		'easyvote Smartvote: Voting recommendation - spider chart'
+	// Flexform for pi2
+	$TCA['tt_content']['types']['list']['subtypes_addlist']['easyvotesmartvote_pi2'] = 'pi_flexform';
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+		'easyvotesmartvote_pi2',
+		'FILE:EXT:easyvote_smartvote/Configuration/FlexForm/candidate.xml'
 	);
 
 	// Register a few models on standard pages

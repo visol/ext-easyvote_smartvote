@@ -427,6 +427,12 @@
 			<trans-unit id="who_to_elect">
 				<source>Wen soll ich wählen?</source>
 			</trans-unit>
+			<trans-unit id="voting_recommendation">
+				<source>Deine Wahlenempfehlung</source>
+			</trans-unit>
+			<trans-unit id="filter_candidate">
+				<source>Kandidaten filtern</source>
+			</trans-unit>
 			<trans-unit id="yes">
 				<source>Ja</source>
 			</trans-unit>

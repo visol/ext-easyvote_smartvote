@@ -23,12 +23,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class QuestionController extends ActionController {
 
 	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\QuestionRepository
-	 * @inject
-	 */
-	protected $questionRepository;
-
-	/**
 	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\ElectionRepository
 	 * @inject
 	 */
@@ -38,20 +32,11 @@ class QuestionController extends ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
-		$currentElection = $this->electionRepository->findByUid($this->getCurrentElectionIdentifier());
+		$electionIdentifier = (int)$this->settings['elections'];
+		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
 		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
 		$this->view->assign('currentElection', $currentElection);
 		$this->view->assign('settings', $this->settings);
-	}
-
-	/**
-	 * Return the first election identifier.
-	 *
-	 * @return int
-	 */
-	protected function getCurrentElectionIdentifier() {
-		$elections = GeneralUtility::trimExplode(',', $this->settings['elections'], TRUE);
-		return (int)array_shift($elections);
 	}
 
 }

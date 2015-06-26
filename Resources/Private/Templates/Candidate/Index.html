@@ -5,36 +5,6 @@
 
 <f:section name="main">
 
-	<style>
-		.question-name {
-			min-width: 300px;
-		}
-
-		.question-name-left {
-			float: left;
-			width: 20px;
-			margin-right: -20px;
-			height: 100%;
-		}
-
-		.question-name-right {
-			margin-left: 20px;
-		}
-
-		#container-questions label {
-			font-weight: normal;
-		}
-
-		#container-questions label span {
-			line-height: 25px;
-			font-size: 90%;
-		}
-
-		#container-questions div[class|='col-md'] {
-			padding: 0;
-		}
-	</style>
-
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Underscore/underscore-min.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Backbone/backbone-min.js')}"/>
 
@@ -52,19 +22,17 @@
 	</f:if>
 
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/D3/d3.min.js')}"/>
-	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/QuestionBundle.min.js')}"/>
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/CandidateBundle.min.js')}"/>
 
 	<h2 class="content-box">
-		<f:translate key="who_to_elect"/>
+		<f:translate key="voting_recommendation"/>
 	</h2>
 
-	<section id="container-questions">
-		<div id="container-progress"></div>
-		<div id="container-question-list"></div>
-	</section>
+	<div id="container-candidates">
+		<div id="container-candidate-list"></div>
+	</div>
 
-	<f:render partial="ProgressBar" section="ProgressBar"/>
-	<f:render partial="Question" section="Question"/>
+	<f:render partial="Candidate" section="Candidate"/>
 
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
@@ -80,7 +48,6 @@
 		EasyvoteSmartvote.token = '{smartvote:token()}';
 		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')}
 	</script>
-
 </f:section>
 
 </html>

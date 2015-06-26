@@ -23,29 +23,27 @@ use Visol\EasyvoteSmartvote\Domain\Model\Candidate;
 class CandidateController extends ActionController {
 
 	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\CandidateRepository
+	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\ElectionRepository
 	 * @inject
 	 */
-	protected $candidateRepository = NULL;
+	protected $electionRepository;
 
 	/**
 	 * @return void
 	 */
-	public function listAction() {
-
-		// @todo this action is not being used. Possibly remove me.
-		$candidates = $this->candidateRepository->findAll();
-		$this->view->assign('candidates', $candidates);
+	public function indexAction() {
+		$electionIdentifier = (int)$this->settings['elections'];
+		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
+		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
+		$this->view->assign('currentElection', $currentElection);
+		$this->view->assign('settings', $this->settings);
 	}
 
 	/**
-	 * @param Candidate $candidate
 	 * @return void
 	 */
-	public function showAction(Candidate $candidate) {
+	public function filterAction() {
 
-		// @todo this action is not being used. Possibly remove me.
-		$this->view->assign('candidate', $candidate);
 	}
 
 }

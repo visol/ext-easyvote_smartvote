@@ -6,7 +6,7 @@
 		<sDEF>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>Voting advices</sheetTitle>
+					<sheetTitle>Candidate directory</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
@@ -19,15 +19,15 @@
 								<items type="array">
 									<numIndex index="1">
 										<numIndex index="0">
-											Show spider chart
+											Show filters
 										</numIndex>
-										<numIndex index="1">SpiderChart->index;</numIndex>
+										<numIndex index="1">Candidate->filter;</numIndex>
 									</numIndex>
 									<numIndex index="2">
 										<numIndex index="0">
-											Show questionnaire
+											Show candidate list
 										</numIndex>
-										<numIndex index="1">Question->index;</numIndex>
+										<numIndex index="1">Candidate->index;</numIndex>
 									</numIndex>
 								</items>
 								<size>1</size>
@@ -37,7 +37,7 @@
 					<settings.elections>
 						<TCEforms>
 							<label>Related elections</label>
-							<displayCond>FIELD:switchableControllerActions:=:Question->index;</displayCond>
+							<displayCond>FIELD:switchableControllerActions:=:Candidate->index;</displayCond>
 							<config>
 								<type>select</type>
 								<foreign_table>tx_easyvotesmartvote_domain_model_election</foreign_table>

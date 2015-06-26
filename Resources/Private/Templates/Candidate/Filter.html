@@ -1,0 +1,72 @@
+<html xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+	<div class="content-box">
+		<strong><f:translate key="filter_candidate"/></strong>
+
+		<form class="form">
+			<fieldset>
+
+				<div class="form-group">
+					<select id="party" name="party" class="form-control">
+						<option>Partei auswählen</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<select id="canton" name="canton" class="form-control">
+						<option>Kanton</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<select id="type" name="type" class="form-control">
+						<option>easyvote-Typ</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label" for="minAge">Alter</label>
+					<div class="row">
+						<div class="col-md-4">
+							<select id="minAge" name="minAge" class="form-control">
+								<option>25</option>
+							</select>
+						</div>
+						<div class="col-md-1">
+							<label class="control-label" for="maxAge">bis</label>
+						</div>
+						<div class="col-md-4">
+							<select id="maxAge" name="maxAge" class="form-control" style="display: inline">
+								<option>65</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<select id="gender" name="gender" class="form-control">
+						<option>Geschlecht</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<select id="elected" name="elected" class="form-control">
+						<option>bisherig ja / nein</option>
+					</select>
+				</div>
+
+				<!-- Button -->
+				<div class="form-group">
+					<button id="submit" name="submit" class="btn btn-primary">Filter</button>
+				</div>
+
+			</fieldset>
+		</form>
+
+	</div>
+</f:section>
+
+</html>

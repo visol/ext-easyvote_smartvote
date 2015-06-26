@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 
 		pkg: grunt.file.readJSON("package.json"),
 
-		'babel': {
+		babel: {
 			options: {
 				optional: ['runtime'],
 				experimental: true
@@ -25,10 +25,11 @@ module.exports = function(grunt) {
 			}
 		},
 
-		'browserify': {
+		browserify: {
 			dist: {
 				files: {
-					'Resources/Public/JavaScript/Build/Bundle.js': 'Resources/Public/JavaScript/Build/Application.js'
+					'Resources/Public/JavaScript/Build/QuestionBundle.js': 'Resources/Public/JavaScript/Build/QuestionApplication.js',
+					'Resources/Public/JavaScript/Build/CandidateBundle.js': 'Resources/Public/JavaScript/Build/CandidateApplication.js'
 				}
 			}
 		},
@@ -46,7 +47,8 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				files: {
-					'Resources/Public/JavaScript/Build/Bundle.min.js': 'Resources/Public/JavaScript/Build/Bundle.js'
+					'Resources/Public/JavaScript/Build/QuestionBundle.min.js': 'Resources/Public/JavaScript/Build/QuestionBundle.js',
+					'Resources/Public/JavaScript/Build/CandidateBundle.min.js': 'Resources/Public/JavaScript/Build/CandidateBundle.js'
 				}
 			}
 		}
