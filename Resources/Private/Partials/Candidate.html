@@ -3,30 +3,44 @@
 
 	<f:section name="Candidate">
 		<script type="text/template" id="template-candidate">
-			<div class="content-box">
-				<div class="row">
-					<div class="col-md-3">
-						<div>100%</div>
-						<img src="<%- photo %>" alt="" width="99%"/>
-					</div>
-					<div class="col-md-9">
-						<div>
-							<%- partyShort %>
+			<div class="content-box content-box-expandable">
+				<div class="box-teaser">
+					<div class="row">
+						<div class="col-xs-3 col-md-3">
+							<div class="matching-badge">
+								<div class="inner">99%</div>
+							</div>
+							<img src="<%- photo %>" alt=""/>
+							<div class="supporters-count">
+								<span class="number">86</span> Unterstützer
+							</div>
 						</div>
-						<div>
-							<strong><%- firstName %>  <%- lastName %></strong>, <%- city %>
+						<div class="col-xs-9 col-md-9">
+							<div class="actions">
+								<f:comment>
+									@TODO
+									<div class="action share">
+									</div>
+								</f:comment>
+								<div class="action toggle handle">
+									<i class="evicon-down-open"></i>
+								</div>
+							</div>
+							<div class="supertitle">
+								<%- partyShort %>, <%- city %>
+							</div>
+							<h2><%- firstName %>  <%- lastName %></h2>
+							<p>
+								<%- slogan %>
+							</p>
+							<a href="#" class="btn btn-primary pull-right">Meiner Liste hinzufügen</a>
 						</div>
-						<div style="margin: 10px 0">
-							<%- slogan %>
-						</div>
-						<a href="#" class="link-box">Meiner List hinzufügen</a>
 					</div>
 				</div>
-
-				<br/>
-				<div id="chart-candidate-<%- uid %>"></div>
+				<div class="box-content">
+					<div id="chart-candidate-<%- uid %>"></div>
+				</div>
 			</div>
-			<hr/>
 		</script>
 	</f:section>
 </div>
