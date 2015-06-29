@@ -14,6 +14,7 @@ namespace Visol\EasyvoteSmartvote\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -31,9 +32,16 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class ScriptViewHelper extends AbstractViewHelper {
 
 	/**
-	 * @param string $file JavaScript file to load in the backend module
+	 * JavaScript file to load
+	 *
+	 * @param string $file
+	 * @param bool $canBeMinified
 	 */
-	public function render($file) {
+	public function render($file, $canBeMinified = FALSE) {
+		// Sipped minified file in Production context.
+		if ($canBeMinified && (string)GeneralUtility::getApplicationContext() === 'Production') {
+			$file = str_replace('.js', '.min.js', $file);
+		}
 		$this->getPageRenderer()->addJsFooterFile($file);
 	}
 

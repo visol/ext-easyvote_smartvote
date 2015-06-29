@@ -26,7 +26,23 @@ class CandidateProcessor extends AbstractProcessor {
 	public function process(array $items) {
 		$items = $this->deserializeSomeValues($items);
 		$items = $this->convertKeysToCamelCase($items);
+		$items = $this->convertToInteger($items);
 		return $items;
+	}
+
+	/**
+	 * @param array $items
+	 * @return array
+	 */
+	protected function convertToInteger(array $items) {
+		$convertedItems = array();
+		foreach ($items as $item) {
+			$item['uid'] = (int)$item['uid'];
+			$item['yearOfBirth'] = (int)$item['yearOfBirth'];
+			$item['elected'] = (int)$item['elected'];
+			$convertedItems[] = $item;
+		}
+		return $convertedItems;
 	}
 
 	/**
@@ -36,7 +52,6 @@ class CandidateProcessor extends AbstractProcessor {
 	protected function deserializeSomeValues(array $items) {
 		$itemsWithNewValues = array();
 		foreach ($items as $index => $item) {
-
 
 			// Adding SpiderChartValues
 			$spiderChartValues = json_decode($item['serialized_photos'], TRUE);
