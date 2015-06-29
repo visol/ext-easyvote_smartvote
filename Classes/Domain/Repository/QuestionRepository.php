@@ -27,15 +27,19 @@ class QuestionRepository extends Repository {
 	 * @return array|NULL
 	 */
 	public function findByElection(Election $election){
-
 		$tableName = 'tx_easyvotesmartvote_domain_model_question';
-
-		$clause = 'election = ' . $election->getUid();
+		$tableNameAndJoin = 'tx_easyvotesmartvote_domain_model_question
+			JOIN tx_easyvotesmartvote_domain_model_questioncategory AS cat
+			ON tx_easyvotesmartvote_domain_model_question.category = cat.uid';
+		$clause = 'tx_easyvotesmartvote_domain_model_question.election = ' . $election->getUid();
 		$clause .= $this->getPageRepository()->deleteClause($tableName);
 		$clause .= $this->getPageRepository()->enableFields($tableName);
 
-		$fields = 'uid, name, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8';
-		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
+		$fields = 'tx_easyvotesmartvote_domain_model_question.uid, tx_easyvotesmartvote_domain_model_question.name,
+			cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8,
+			cat.name as category_name';
+
+		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableNameAndJoin, $clause, '', 'uid ASC');
 	}
 
 

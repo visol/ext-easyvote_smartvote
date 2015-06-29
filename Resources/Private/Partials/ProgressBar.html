@@ -3,14 +3,16 @@
 
 	<f:section name="ProgressBar">
 		<script type="text/template" id="template-progress">
-			<div class="progress">
-				<div class="progress-bar progress-bar-striped"
+			<div class="progress progress-easyvotesmartvote">
+				<div class="progress-current">
+					<%- numberOfQuestionAnswered %> / <%- totalNumberOfQuestions %>
+				</div>
+				<div class="progress-bar"
 				     role="progressbar"
 				     aria-valuenow="<%- progress %>"
 				     aria-valuemin="0"
 				     aria-valuemax="100"
 				     style="width: <%- progress %>%;">
-					<%- numberOfQuestionAnswered %> / <%- totalNumberOfQuestions %>
 				</div>
 			</div>
 		</script>
