@@ -27,6 +27,7 @@ class CandidateProcessor extends AbstractProcessor {
 		$items = $this->deserializeSomeValues($items);
 		$items = $this->convertKeysToCamelCase($items);
 		$items = $this->convertToInteger($items);
+		$items = $this->convertUidToId($items);
 		return $items;
 	}
 

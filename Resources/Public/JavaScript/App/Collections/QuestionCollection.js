@@ -20,18 +20,18 @@ export default class QuestionCollection extends Backbone.Collection {
 
 		// Save all of the question items under the `'questions'` namespace.
 		if (this._isAnonymous()) {
-			this.localStorage = new Backbone.LocalStorage('questions-' +EasyvoteSmartvote.token);
+			this.localStorage = new Backbone.LocalStorage('questions-' + EasyvoteSmartvote.token);
 		}
 	}
 
 	/**
-	 * @returns {*}
-	 */
+	* @returns {*}
+	*/
 	fetchForAnonymousUser() {
 
 		// Check whether localStorage contains record about this collection
 		let records = this.localStorage.findAll();
-		if(_.isEmpty(records)) {
+		if (_.isEmpty(records)) {
 			var self = this;
 			// fetch from server once
 			$.ajax({
@@ -48,8 +48,8 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
-	 * @returns {*}
-	 */
+	* @returns {*}
+	*/
 	fetchForAuthenticatedUser() {
 		return super.fetch();
 	}
@@ -76,6 +76,19 @@ export default class QuestionCollection extends Backbone.Collection {
 		}
 		return this.instance;
 	}
+
+	/**
+	 * @return QuestionCollection
+	 */
+	load() {
+		if (this._isAnonymous()) {
+			this.fetchForAnonymousUser();
+		} else {
+			this.fetchForAuthenticatedUser();
+		}
+		return this;
+	}
+
 
 	/**
 	 * Return the total number of questions in this collection.

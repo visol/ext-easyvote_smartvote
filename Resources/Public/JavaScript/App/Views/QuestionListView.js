@@ -28,11 +28,8 @@ export default class QuestionListView extends Backbone.View {
 		this.listenTo(questionCollection, 'change:answer', this.changeAnswer);
 		this.listenTo(questionCollection, 'all', this.render);
 
-		if (this._isAnonymous()) {
-			questionCollection.fetchForAnonymousUser();
-		} else {
-			questionCollection.fetchForAuthenticatedUser();
-		}
+		questionCollection.load();
+
 		super();
 	}
 
@@ -84,14 +81,14 @@ export default class QuestionListView extends Backbone.View {
 
 		if (typeof question.answer === 'number') {
 			SpiderChart.getInstance()
-				.addToCleavage1(question.uid, question.answer, question.cleavage1)
-				.addToCleavage2(question.uid, question.answer, question.cleavage2)
-				.addToCleavage3(question.uid, question.answer, question.cleavage3)
-				.addToCleavage4(question.uid, question.answer, question.cleavage4)
-				.addToCleavage5(question.uid, question.answer, question.cleavage5)
-				.addToCleavage6(question.uid, question.answer, question.cleavage6)
-				.addToCleavage7(question.uid, question.answer, question.cleavage7)
-				.addToCleavage8(question.uid, question.answer, question.cleavage8)
+				.addToCleavage1(question.id, question.answer, question.cleavage1)
+				.addToCleavage2(question.id, question.answer, question.cleavage2)
+				.addToCleavage3(question.id, question.answer, question.cleavage3)
+				.addToCleavage4(question.id, question.answer, question.cleavage4)
+				.addToCleavage5(question.id, question.answer, question.cleavage5)
+				.addToCleavage6(question.id, question.answer, question.cleavage6)
+				.addToCleavage7(question.id, question.answer, question.cleavage7)
+				.addToCleavage8(question.id, question.answer, question.cleavage8)
 				.draw();
 		}
 	}
@@ -115,4 +112,5 @@ export default class QuestionListView extends Backbone.View {
 	_isAnonymous() {
 		return !EasyvoteSmartvote.isUserAuthenticated
 	}
+
 }

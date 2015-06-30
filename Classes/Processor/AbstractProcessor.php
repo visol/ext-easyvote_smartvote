@@ -51,4 +51,19 @@ abstract class AbstractProcessor {
 		$lowerCamelCase = lcfirst($upperCamelCase);
 		return $lowerCamelCase;
 	}
+
+	/**
+	 * @param array $items
+	 * @return array
+	 */
+	protected function convertUidToId(array $items) {
+		$convertedItems = array();
+		foreach ($items as $item) {
+			$item['id'] = $item['uid'];
+			unset($item['uid']);
+			$convertedItems[] = $item;
+		}
+		return $convertedItems;
+	}
+
 }

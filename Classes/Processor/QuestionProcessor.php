@@ -27,7 +27,22 @@ class QuestionProcessor extends AbstractProcessor {
 		$items = $this->addSomeDynamicValues($items);
 		$items = $this->revertOrderOfItems($items);
 		$items = $this->convertKeysToCamelCase($items);
+		$items = $this->convertToInteger($items);
+		$items = $this->convertUidToId($items);
 		return $items;
+	}
+
+	/**
+	 * @param array $items
+	 * @return array
+	 */
+	protected function convertToInteger(array $items) {
+		$convertedItems = array();
+		foreach ($items as $item) {
+			$item['uid'] = (int)$item['uid'];
+			$convertedItems[] = $item;
+		}
+		return $convertedItems;
 	}
 
 	/**

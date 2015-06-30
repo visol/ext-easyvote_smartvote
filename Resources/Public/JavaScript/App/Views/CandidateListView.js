@@ -2,7 +2,7 @@
 import CandidateCollection from '../Collections/CandidateCollection'
 import CandidateView from './CandidateView'
 import SpiderChartPlotter from '../Chart/SpiderChartPlotter'
-
+import QuestionCollection from '../Collections/QuestionCollection'
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -17,50 +17,48 @@ export default class CandidateListView extends Backbone.View {
 		// the App already present in the HTML.
 		this.setElement($('#container-candidates'), true);
 
+		// Load first the Question collection.
+		/** @var questionCollection QuestionCollection*/
+		//QuestionCollection.getInstance().load();
+
 		/** @var candidateCollection CandidateCollection*/
 		let candidateCollection = CandidateCollection.getInstance();
 
-		this.listenTo(candidateCollection, 'add', this.addOne);
-		this.listenTo(candidateCollection, 'all', this.render);
+		//this.listenTo(candidateCollection, 'add', this.addOne);
+		//this.listenTo(candidateCollection, 'all', this.render);
+		this.listenTo(candidateCollection, 'sort reset', this.render);
 
-		if (this._isAnonymous()) {
-			candidateCollection.fetchForAnonymousUser();
-		} else {
-			candidateCollection.fetchForAuthenticatedUser();
-		}
+		candidateCollection.fetch();
+
+		// Call parent constructor
 		super();
 	}
 
 	/**
-	 * Render the main template.
+	 * Render template.
 	 */
-	render() {
-
-		//this.$progress.html(
-		//	this.progressTemplate({
-		//		progress: this.getProgress(),
-		//		numberOfCandidateAnswered: CandidateCollection.getInstance().countVisible(),
-		//		totalNumberOfCandidates: CandidateCollection.getInstance().count()
-		//	})
-		//);
+	render(candidates) {
+		candidates.each(candidate => {
+			this.addOne(candidate);
+		});
 	}
 
 	/**
 	 * @param argument
 	 */
-	//changeAnswer(argument) {
-	//	let question = argument.attributes;
-	//
-	//	this.updateChart(question);
-	//
-	//	let candidateCollection = CandidateCollection.getInstance();
-	//	let nextIndex = (candidateCollection.length - 1) - question.index;
-	//	let nextCandidate = candidateCollection.at(nextIndex);
-	//	nextCandidate.trigger('visible');
-	//}
+	changeAnswer(argument) {
+		let candidate = argument.attributes;
+
+		this.updateChart(candidate);
+
+		let candidateCollection = CandidateCollection.getInstance();
+		let nextIndex = (candidateCollection.length - 1) - candidate.index;
+		let nextCandidate = candidateCollection.at(nextIndex);
+		nextCandidate.trigger('visible');
+	}
 
 	/**
-	 * Add a single question item to the list by creating a view for it, then
+	 * Add a single candidate item to the list by creating a view for it, then
 	 * appending its element to the `<div>`.
 	 * @param model
 	 */
@@ -69,10 +67,10 @@ export default class CandidateListView extends Backbone.View {
 		let content = view.render();
 		$('#container-candidate-list').append(content);
 
-		let values = model.attributes.spiderChart;
-		if (values.length > 0) {
-			this.drawChart(model.attributes.uid, values);
-		}
+		//let values = model.attributes.spiderChart;
+		//if (values.length > 0) {
+		//	this.drawChart(model.attributes.id, values);
+		//}
 	}
 
 	/**

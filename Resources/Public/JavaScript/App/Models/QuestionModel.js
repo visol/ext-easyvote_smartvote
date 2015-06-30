@@ -9,7 +9,7 @@
 export default class QuestionModel extends Backbone.Model {
 
 	/**
-	 * @returns {{name: string, answer: number, index: number, visible: boolean}}
+	 * @returns {{name: string, answer: number, index: number, cleavage1: number, cleavage2: number, cleavage3: number, cleavage4: number, cleavage5: number, cleavage6: number, cleavage7: number, cleavage8: number, visible: boolean}}
 	 */
 	defaults() {
 
