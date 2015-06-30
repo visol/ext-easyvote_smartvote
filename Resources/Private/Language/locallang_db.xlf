@@ -172,6 +172,9 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party.name_short">
 				<source>Name Short</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.national_party">
+				<source>National Party</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party.logo">
 				<source>Logo</source>
 			</trans-unit>

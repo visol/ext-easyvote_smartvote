@@ -97,6 +97,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_party (
 	serialized_election_lists text NOT NULL,
 	serialized_answers text NOT NULL,
 	election int(11) unsigned DEFAULT '0',
+	national_party int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
