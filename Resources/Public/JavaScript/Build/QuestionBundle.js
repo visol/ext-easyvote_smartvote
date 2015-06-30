@@ -599,8 +599,8 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		fetchForAnonymousUser: {
 
 			/**
-    * @returns {*}
-    */
+   * @returns {*}
+   */
 
 			value: function fetchForAnonymousUser() {
 
@@ -625,8 +625,8 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		fetchForAuthenticatedUser: {
 
 			/**
-    * @returns {*}
-    */
+   * @returns {*}
+   */
 
 			value: function fetchForAuthenticatedUser() {
 				return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
@@ -646,6 +646,21 @@ var QuestionCollection = (function (_Backbone$Collection) {
 					token += "?token=" + EasyvoteSmartvote.token;
 				}
 				return "/routing/questions/" + EasyvoteSmartvote.currentElection + token;
+			}
+		},
+		load: {
+
+			/**
+    * @return QuestionCollection
+    */
+
+			value: function load() {
+				if (this._isAnonymous()) {
+					this.fetchForAnonymousUser();
+				} else {
+					this.fetchForAuthenticatedUser();
+				}
+				return this;
 			}
 		},
 		count: {
@@ -737,7 +752,7 @@ var QuestionModel = (function (_Backbone$Model) {
 		defaults: {
 
 			/**
-    * @returns {{name: string, answer: number, index: number, visible: boolean}}
+    * @returns {{name: string, answer: number, index: number, cleavage1: number, cleavage2: number, cleavage3: number, cleavage4: number, cleavage5: number, cleavage6: number, cleavage7: number, cleavage8: number, visible: boolean}}
     */
 
 			value: function defaults() {
@@ -840,11 +855,8 @@ var QuestionListView = (function (_Backbone$View) {
 		this.listenTo(questionCollection, "change:answer", this.changeAnswer);
 		this.listenTo(questionCollection, "all", this.render);
 
-		if (this._isAnonymous()) {
-			questionCollection.fetchForAnonymousUser();
-		} else {
-			questionCollection.fetchForAuthenticatedUser();
-		}
+		questionCollection.load();
+
 		_get(_core.Object.getPrototypeOf(QuestionListView.prototype), "constructor", this).call(this);
 	}
 
@@ -910,7 +922,7 @@ var QuestionListView = (function (_Backbone$View) {
 			value: function updateChart(question) {
 
 				if (typeof question.answer === "number") {
-					SpiderChart.getInstance().addToCleavage1(question.uid, question.answer, question.cleavage1).addToCleavage2(question.uid, question.answer, question.cleavage2).addToCleavage3(question.uid, question.answer, question.cleavage3).addToCleavage4(question.uid, question.answer, question.cleavage4).addToCleavage5(question.uid, question.answer, question.cleavage5).addToCleavage6(question.uid, question.answer, question.cleavage6).addToCleavage7(question.uid, question.answer, question.cleavage7).addToCleavage8(question.uid, question.answer, question.cleavage8).draw();
+					SpiderChart.getInstance().addToCleavage1(question.id, question.answer, question.cleavage1).addToCleavage2(question.id, question.answer, question.cleavage2).addToCleavage3(question.id, question.answer, question.cleavage3).addToCleavage4(question.id, question.answer, question.cleavage4).addToCleavage5(question.id, question.answer, question.cleavage5).addToCleavage6(question.id, question.answer, question.cleavage6).addToCleavage7(question.id, question.answer, question.cleavage7).addToCleavage8(question.id, question.answer, question.cleavage8).draw();
 				}
 			}
 		},
