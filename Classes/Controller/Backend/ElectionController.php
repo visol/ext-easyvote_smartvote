@@ -18,6 +18,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Importer\ImporterService;
+use Visol\EasyvoteSmartvote\Importer\PartyMatcherService;
 
 /**
  * Question Controller
@@ -40,6 +41,8 @@ class ElectionController extends ActionController {
 		$election->setImportLog(implode('', $logs));
 		$this->electionRepository->update($election);
 
+		$this->getPartyMatcherService($election)->matchPartiesToNationalParty();
+
 		# Json header is not automatically sent in the BE...
 		$this->response->setHeader('Content-Type', 'application/json');
 		$this->response->sendHeaders();
@@ -52,6 +55,15 @@ class ElectionController extends ActionController {
 	 */
 	protected function getImporterService(Election $election){
 		return GeneralUtility::makeInstance(ImporterService::class, $election);
+	}
+
+	/**
+	 * @return PartyMatcherService
+	 */
+	protected function getPartyMatcherService(Election $election){
+		$partyMatcherService = $this->objectManager->get(PartyMatcherService::class);
+		$partyMatcherService->setElection($election);
+		return $partyMatcherService;
 	}
 
 }
