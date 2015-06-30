@@ -30,7 +30,6 @@ class TokenViewHelper extends AbstractViewHelper {
 	 */
 	public function render() {
 		return $this->getTokenService()->generate(
-			$this->getContentObjectUid(),
 			$this->getCurrentElectionUid()
 		);
 	}
@@ -46,19 +45,9 @@ class TokenViewHelper extends AbstractViewHelper {
 	 * @return int
 	 * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
 	 */
-	protected function getContentObjectUid(){
-		$contentObjectData = $this->templateVariableContainer->get('contentObjectData');
-		return (int)$contentObjectData['uid'];
-	}
-
-	/**
-	 * @return int
-	 * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
-	 */
 	protected function getCurrentElectionUid(){
 		$settings = $this->templateVariableContainer->get('settings');
-		$elections = GeneralUtility::trimExplode(',', $settings['elections'], TRUE);
-		return (int)array_shift($elections);
+		return trim($settings['elections']);
 	}
 
 }

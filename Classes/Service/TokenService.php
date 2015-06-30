@@ -25,14 +25,12 @@ class TokenService implements SingletonInterface {
 	/**
 	 * Return a storage token.
 	 *
-	 * @param int $contentObjectUid
 	 * @param int $currentElectionUid
 	 * @return int
 	 */
-	public function generate($contentObjectUid, $currentElectionUid) {
+	public function generate($currentElectionUid) {
 		$token = sprintf(
-			'ext-easyvote-smart-%s-%s%s',
-			$contentObjectUid,
+			'ext-easyvote-smart-%s%s',
 			$currentElectionUid,
 			$this->getUserService()->isAuthenticated() ?
 				'-' . $this->getUserService()->getUserData()['uid'] :
