@@ -4,43 +4,62 @@
 
 <f:section name="main">
 	<div class="content-box">
-		<strong><f:translate key="filter_candidate"/></strong>
+		<h2><f:translate key="filter_candidates"/></h2>
 
-		<form class="form">
+		<form class="form filter-candidates">
 			<fieldset>
 
 				<div class="form-group">
-					<select id="party" name="party" class="form-control">
-						<option>Partei auswählen</option>
-					</select>
+					<f:form.select name="nationalParty" options="{nationalParties}"
+								   optionValueField="uid" optionLabelField="title"
+								   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.party.title')}"
+								   prependOptionValue="" class="form-control" />
 				</div>
 
 				<div class="form-group">
-					<select id="canton" name="canton" class="form-control">
-						<option>Kanton</option>
-					</select>
+					<f:form.select name="canton" options="{cantons}"
+								   optionValueField="uid" optionLabelField="name"
+								   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.canton.title')}"
+								   prependOptionValue="" class="form-control" />
 				</div>
 
-				<div class="form-group">
-					<select id="type" name="type" class="form-control">
-						<option>easyvote-Typ</option>
-					</select>
-				</div>
+				<f:comment>
+					@ TODO not yet implemented in smartvote
+					<div class="form-group">
+						<select id="type" name="type" class="form-control">
+							<option>{f:translate(key:'filter.easyvote.title')}</option>
+						</select>
+					</div>
+				</f:comment>
 
-				<div class="form-group">
-					<label class="control-label" for="minAge">Alter</label>
+				<div class="form-group filter-age">
+					<label class="control-label" for="minAge">{f:translate(key:'filter.age.title')}</label>
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-5">
 							<select id="minAge" name="minAge" class="form-control">
+								<option selected>18</option>
 								<option>25</option>
+								<option>30</option>
+								<option>40</option>
+								<option>50</option>
+								<option>60</option>
+								<option>70</option>
+								<option>80</option>
+								<option>90</option>
 							</select>
 						</div>
-						<div class="col-md-1">
-							<label class="control-label" for="maxAge">bis</label>
-						</div>
-						<div class="col-md-4">
+						<div class="col-md-2"><label class="control-label" for="maxAge">{f:translate(key:'filter.age.toAge')}</label></div>
+						<div class="col-md-5">
 							<select id="maxAge" name="maxAge" class="form-control" style="display: inline">
-								<option>65</option>
+								<option>18</option>
+								<option>25</option>
+								<option>30</option>
+								<option>40</option>
+								<option>50</option>
+								<option>60</option>
+								<option>70</option>
+								<option>80</option>
+								<option selected>90</option>
 							</select>
 						</div>
 					</div>
@@ -48,19 +67,18 @@
 
 				<div class="form-group">
 					<select id="gender" name="gender" class="form-control">
-						<option>Geschlecht</option>
+						<option>{f:translate(key:'filter.gender.title')}</option>
+						<option value="f">{f:translate(key:'filter.gender.female')}</option>
+						<option value="m">{f:translate(key:'filter.gender.male')}</option>
 					</select>
 				</div>
 
 				<div class="form-group">
 					<select id="elected" name="elected" class="form-control">
-						<option>bisherig ja / nein</option>
+						<option>{f:translate(key:'filter.elected.title')}</option>
+						<option>{f:translate(key:'filter.elected.yes')}</option>
+						<option>{f:translate(key:'filter.elected.no')}</option>
 					</select>
-				</div>
-
-				<!-- Button -->
-				<div class="form-group">
-					<button id="submit" name="submit" class="btn btn-primary">Filter</button>
 				</div>
 
 			</fieldset>
