@@ -42,7 +42,7 @@ class DistrictImporter extends AbstractImporter {
 	);
 
 	/**
-	 * @return int
+	 * @return array
 	 */
 	public function import() {
 		return parent::import(Model::DISTRICT);

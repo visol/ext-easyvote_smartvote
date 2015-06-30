@@ -34,10 +34,17 @@ class SmartVoteCommandController extends CommandController {
 	 * Import a bunch of data form SmartVote using its API.
 	 *
 	 * @param bool $verbose
+	 * @param string $identifier
+	 * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
 	 */
-	public function importCommand($verbose = FALSE) {
+	public function importCommand($verbose = FALSE, $identifier = '') {
 
-		$elections = $this->electionRepository->findAll();
+		if ($identifier) {
+			$election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
+			$elections = array($election);
+		} else {
+			$elections = $this->electionRepository->findAll();
+		}
 
 		foreach ($elections as $election) {
 

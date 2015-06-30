@@ -136,10 +136,40 @@ class CandidateImporter extends AbstractImporter {
 	/**
 	 * Import the
 	 *
-	 * @return int
+	 * @return array
+	 * @throws \Exception
 	 */
 	public function import() {
-		return parent::import(Model::CANDIDATE);
+		$collectedData = parent::import(Model::CANDIDATE);
+
+		// Post-process the candidates to compute the answers.
+		$clause = sprintf('election = %s', $this->election->getUid());
+		$clause .= BackendUtility::deleteClause($this->tableName);
+		$candidates = $this->getDatabaseConnection()->exec_SELECTgetRows('uid, serialized_answers', $this->tableName, $clause);
+
+		foreach ($candidates as $candidate) {
+
+			$answers = json_decode($candidate['serialized_answers'], TRUE);
+			if (is_array($answers)) {
+				$convertedAnswers = array();
+				foreach ($answers as $answer) {
+					$clause = 'internal_identifier = ' . $answer['questionId'];
+					$question = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', 'tx_easyvotesmartvote_domain_model_question', $clause);
+					if (empty($question)) {
+						throw new \Exception('I could not find a proper question id. Fix me otherwise the data may be inconsistent', 1435653232);
+					}
+					$convertedAnswer['answer'] = $answer['answer'];
+					$convertedAnswer['questionId'] = (int)$question['uid'];
+					$convertedAnswers[] = $convertedAnswer;
+				}
+
+				$values = ['serialized_answers' => json_encode($convertedAnswers)];
+				$this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, 'uid = ' . $candidate['uid'], $values);
+			}
+
+		}
+
+		return $collectedData;
 	}
 
 }

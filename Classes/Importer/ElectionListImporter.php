@@ -63,7 +63,7 @@ class ElectionListImporter extends AbstractImporter {
 	/**
 	 * Import the
 	 *
-	 * @return int
+	 * @return array
 	 */
 	public function import() {
 		return parent::import(Model::ELECTION_LIST);

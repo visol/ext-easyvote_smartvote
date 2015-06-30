@@ -69,13 +69,13 @@ class QuestionImporter extends AbstractImporter {
 	/**
 	 * Import the
 	 *
-	 * @return int
+	 * @return array
 	 */
 	public function import() {
 
-		$items = parent::import(Model::QUESTION);
+		$collectedData = parent::import(Model::QUESTION);
 
-		// Update the election with the total cleavage.
+		// Post-process the questions to compute the total cleavage.
 		$values = array();
 		for ($index = 1; $index <= 8; $index++) {
 
@@ -91,7 +91,7 @@ class QuestionImporter extends AbstractImporter {
 			$values
 		);
 
-		return $items;
+		return $collectedData;
 	}
 
 }

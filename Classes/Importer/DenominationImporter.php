@@ -48,7 +48,7 @@ class DenominationImporter extends AbstractImporter {
 	/**
 	 * Import the
 	 *
-	 * @return int
+	 * @return array
 	 */
 	public function import() {
 		return parent::import(Model::DENOMINATION);

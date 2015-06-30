@@ -63,9 +63,9 @@ class ImporterService {
 		$this->importFor('District');
 		$this->importFor('ElectionList');
 		$this->importFor('Party');
-		$this->importFor('Candidate');
 		$this->importFor('QuestionCategory');
 		$this->importFor('Question');
+		$this->importFor('Candidate');
 
 		return $this->logs;
 	}

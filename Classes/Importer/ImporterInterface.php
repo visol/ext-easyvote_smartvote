@@ -23,7 +23,7 @@ interface ImporterInterface {
 	/**
 	 * Import a Domain Model
 	 *
-	 * @return int
+	 * @return array
 	 */
 	public function import();
 

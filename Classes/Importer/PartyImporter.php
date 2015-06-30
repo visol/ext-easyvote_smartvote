@@ -58,7 +58,7 @@ class PartyImporter extends AbstractImporter {
 	);
 
 	/**
-	 * @return int
+	 * @return array
 	 */
 	public function import() {
 		return parent::import(Model::PARTY);

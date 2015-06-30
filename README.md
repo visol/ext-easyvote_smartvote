@@ -44,9 +44,13 @@ Source is located at `Resources/Public/JavaScript/App/*.js`. Grunt will watch th
 Command Line Interface
 ----------------------
 
-To import the Post Boxes
+To import all smartvote data
 
 	./typo3/cli_dispatch.phpsh extbase smartvote:import
+
+To import smartvote data by identifier
+
+	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 11_ch_sr
 
 
 Unit Test
