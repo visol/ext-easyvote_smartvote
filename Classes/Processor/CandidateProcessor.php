@@ -66,26 +66,13 @@ class CandidateProcessor extends AbstractProcessor {
 
 			// Adding answers
 			$answers = json_decode($item['serialized_answers'], TRUE);
-			$item['answers'] = $this->optimizeAnswers($answers);
+			$item['answers'] = $answers;
 			unset($item['serialized_answers']);
 
 			$itemsWithNewValues[$index] = $item;
 		}
 
 		return $itemsWithNewValues;
-	}
-
-	/**
-	 * @param array $answers
-	 * @return array
-	 */
-	protected function optimizeAnswers(array $answers) {
-		$optimizedAnswers = array();
-		foreach ($answers as $answer) {
-			unset($answer['comment']);
-			$optimizedAnswers[] = $answer;
-		}
-		return $optimizedAnswers;
 	}
 
 }
