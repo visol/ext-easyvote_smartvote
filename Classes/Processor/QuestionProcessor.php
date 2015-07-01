@@ -40,6 +40,8 @@ class QuestionProcessor extends AbstractProcessor {
 		$convertedItems = array();
 		foreach ($items as $item) {
 			$item['uid'] = (int)$item['uid'];
+			$item['alternativeId'] = (int)$item['alternativeUid'];
+			unset($item['alternativeUid']);
 			$convertedItems[] = $item;
 		}
 		return $convertedItems;

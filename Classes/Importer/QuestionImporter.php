@@ -75,7 +75,58 @@ class QuestionImporter extends AbstractImporter {
 
 		$collectedData = parent::import(Model::QUESTION);
 
-		// Post-process the questions to compute the total cleavage.
+		$this->postProcessAlternativeIdentifier();
+		$this->postProcessTotalCleavage();
+
+		return $collectedData;
+	}
+
+	/**
+	 * Post-process the questions to compute alternative identifier
+	 *
+	 * @return void
+	 */
+	protected function postProcessAlternativeIdentifier() {
+
+		$relatedElection = $this->election->getRelatedElection();
+		if ($relatedElection) {
+
+			$clause = sprintf('election = %s', $this->election->getUid());
+			$clause .= BackendUtility::deleteClause($this->tableName);
+			$questions = $this->getDatabaseConnection()->exec_SELECTgetRows('uid, name', $this->tableName, $clause);
+
+			// Loop around the questions and for each question retrieve the alternate question uid.
+			array_map(
+				function ($question) {
+
+					// Find a possible related question.
+					$relatedElection = $this->election->getRelatedElection();
+					$clause = sprintf('election = %s AND name = "%s"', $relatedElection->getUid(), addslashes($question['name']));
+					$clause .= BackendUtility::deleteClause($this->tableName);
+					$relatedQuestion = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', $this->tableName, $clause);
+
+					if (empty($relatedQuestion)) {
+						throw new \Exception('I could not determine a related question. Fix me otherwise data may be inconsistent', 1435737286);
+					}
+
+					// Update the question with the alternative uid
+					$clause = sprintf('uid = %s', $question['uid']);
+					$clause .= BackendUtility::deleteClause($this->tableName);
+
+					$values = ['alternative_uid' => $relatedQuestion['uid']];
+					$this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values);
+				},
+				$questions
+			);
+		}
+	}
+
+	/**
+	 * Post-process the questions to compute the total cleavage.
+	 *
+	 * @return void
+	 */
+	protected function postProcessTotalCleavage() {
 		$values = array();
 		for ($index = 1; $index <= 8; $index++) {
 
@@ -90,8 +141,6 @@ class QuestionImporter extends AbstractImporter {
 			'uid = ' . $this->election->getUid(),
 			$values
 		);
-
-		return $collectedData;
 	}
 
 }

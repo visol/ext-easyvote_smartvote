@@ -280,6 +280,9 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_question.internal_identifier">
 				<source>Internal Identifier</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_question.alternative_uid">
+				<source>Alternative identifier</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_question.groupping">
 				<source>Groupping</source>
 			</trans-unit>

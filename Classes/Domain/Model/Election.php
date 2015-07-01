@@ -89,7 +89,7 @@ class Election extends AbstractEntity {
 	protected $totalCleavage8 = '';
 
 	/**
-	 * @var Election
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
 	 */
 	protected $relatedElection;
 

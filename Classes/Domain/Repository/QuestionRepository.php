@@ -15,6 +15,7 @@ namespace Visol\EasyvoteSmartvote\Domain\Repository;
  */
 
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 
 /**
@@ -37,7 +38,7 @@ class QuestionRepository extends Repository {
 
 		$fields = 'tx_easyvotesmartvote_domain_model_question.uid, tx_easyvotesmartvote_domain_model_question.name,
 			cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8,
-			cat.name as category_name';
+			cat.name as category_name, alternative_uid';
 
 		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableNameAndJoin, $clause, '', 'uid ASC');
 	}
@@ -55,9 +56,10 @@ class QuestionRepository extends Repository {
 	/**
 	 * Returns an instance of the page repository.
 	 *
-	 * @return \TYPO3\CMS\Frontend\Page\PageRepository
+	 * @return PageRepository
 	 */
 	protected function getPageRepository() {
 		return $GLOBALS['TSFE']->sys_page;
 	}
+
 }
