@@ -11,7 +11,9 @@
 								<div><%- matching %> <%- id %></div>
 								<div class="inner">99%</div>
 							</div>
-							<img src="<%- photo %>" alt=""/>
+							<% if (typeof(photo) == "string") { %>
+								<img src="<%- photo %>" alt="<%- firstName %> <%- lastName %>" />
+							<% } %>
 							<div class="supporters-count">
 								<span class="number">86</span> Unterstützer
 							</div>
@@ -30,7 +32,7 @@
 							<div class="supertitle">
 								<%- partyShort %>, <%- city %>
 							</div>
-							<h2><%- firstName %>  <%- lastName %></h2>
+							<h2><%- firstName %> <%- lastName %></h2>
 							<p>
 								<%- slogan %>
 							</p>

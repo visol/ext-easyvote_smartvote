@@ -13,6 +13,7 @@ namespace Visol\EasyvoteSmartvote\Processor;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Processor Interface
@@ -27,6 +28,7 @@ class CandidateProcessor extends AbstractProcessor {
 		$items = $this->deserializeSomeValues($items);
 		$items = $this->convertKeysToCamelCase($items);
 		$items = $this->convertToInteger($items);
+		$items = $this->enrichWithPhoto($items);
 		$items = $this->convertUidToId($items);
 		return $items;
 	}
@@ -55,12 +57,6 @@ class CandidateProcessor extends AbstractProcessor {
 		foreach ($items as $index => $item) {
 
 			// Adding SpiderChartValues
-			$spiderChartValues = json_decode($item['serialized_photos'], TRUE);
-			$photo = is_array($spiderChartValues) && isset($spiderChartValues[0]) ? $spiderChartValues[0] : '';
-			$item['photo'] = 'https://www.smartvote.ch' . $photo;
-			unset($item['serialized_photos']);
-
-			// Adding SpiderChartValues
 			$spiderChartValues = json_decode($item['serialized_spider_values'], TRUE);
 			$item['spiderChart'] = $spiderChartValues;
 			unset($item['serialized_spider_values']);
@@ -74,6 +70,42 @@ class CandidateProcessor extends AbstractProcessor {
 		}
 
 		return $itemsWithNewValues;
+	}
+
+	/**
+	 * @param array $items
+	 * @return array
+	 */
+	protected function enrichWithPhoto(array $items) {
+		$itemsWithPhoto = array();
+		foreach ($items as $index => $item) {
+			$photos = $this->getFileRepository()->findByRelation('tx_easyvotesmartvote_domain_model_candidate', 'photo', $item['uid']);
+			if (count($photos)) {
+				/** @var \TYPO3\CMS\Core\Resource\FileReference $photo */
+				// We need the first file reference (there is only supposed to be one photo)
+				$photo = $photos[0];
+				$photoPublicUrl = '/' . $photo->getOriginalFile()->getPublicUrl();
+				if (!empty($photoPublicUrl)) {
+					$item['photo'] = $photoPublicUrl;
+				}
+
+			} else {
+				// TODO possibly use a placeholder image
+				$item['photo'] = NULL;
+			}
+			unset($item['photoCachedRemoteFilesize']);
+			unset($item['serializedPhotos']);
+
+			$itemsWithPhoto[$index] = $item;
+		}
+		return $itemsWithPhoto;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Resource\FileRepository
+	 */
+	protected function getFileRepository() {
+		return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
 	}
 
 }
