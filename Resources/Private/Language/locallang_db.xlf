@@ -106,6 +106,12 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.election_list_name">
 				<source>Election List Name</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.photo">
+				<source>Photo</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.photo_cached_remote_filesize">
+				<source>Cached remote file size of photo</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.photos">
 				<source>Photos</source>
 			</trans-unit>

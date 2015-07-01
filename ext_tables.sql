@@ -40,6 +40,8 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_candidate (
 	personal_website varchar(255) DEFAULT '' NOT NULL,
 	election_list_name varchar(255) DEFAULT '' NOT NULL,
 	photos int(11) DEFAULT '0' NOT NULL,
+	photo int(11) DEFAULT '0' NOT NULL,
+	photo_cached_remote_filesize int(11) DEFAULT '0' NOT NULL,
 	links int(11) DEFAULT '0' NOT NULL,
 	answers int(11) DEFAULT '0' NOT NULL,
 	spider_values int(11) DEFAULT '0' NOT NULL,

@@ -22,11 +22,12 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 			'disabled' => 'hidden',
 
 		),
+		'thumbnail' => 'photo',
 		'searchFields' => 'first_name,last_name,internal_identifier,gender,year_of_birth,city,language,district_name,party_short,incumbent,elected,civil_state_name,denomination_name,education_name,employment_name,occupation,number_of_children,hobbies,favorite_books,favorite_music,favorite_movies,link_to_smart_spider,link_to_portrait,link_to_facebook,link_to_twitter,link_to_politnetz,link_to_youtube,link_to_vimeo,email,why_me,slogan,personal_website,election_list_name,photos,links,answers,spider_values,coordinate,serialized_photos,serialized_links,serialized_answers,serialized_spider_values,serialized_coordinate,party,district,election,election_list,civil_state,denomination,education,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_candidate.gif'
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, first_name, last_name, internal_identifier, gender, year_of_birth, city, language, district_name, party_short, incumbent, elected, civil_state_name, denomination_name, education_name, employment_name, occupation, number_of_children, hobbies, favorite_books, favorite_music, favorite_movies, link_to_smart_spider, link_to_portrait, link_to_facebook, link_to_twitter, link_to_politnetz, link_to_youtube, link_to_vimeo, email, why_me, slogan, personal_website, election_list_name, photos, links, answers, spider_values, coordinate, serialized_photos, serialized_links, serialized_answers, serialized_spider_values, serialized_coordinate, party, district, election, election_list, civil_state, denomination, education, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, first_name, last_name, internal_identifier, gender, year_of_birth, city, language, district_name, party_short, incumbent, elected, civil_state_name, denomination_name, education_name, employment_name, occupation, number_of_children, hobbies, favorite_books, favorite_music, favorite_movies, link_to_smart_spider, link_to_portrait, link_to_facebook, link_to_twitter, link_to_politnetz, link_to_youtube, link_to_vimeo, email, why_me, slogan, personal_website, election_list_name, photo, photo_cached_remote_filesize, photos, links, answers, spider_values, coordinate, serialized_photos, serialized_links, serialized_answers, serialized_spider_values, serialized_coordinate, party, district, election, election_list, civil_state, denomination, education, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -381,6 +382,30 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'photo' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.photo',
+			'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('photo', array(
+				'appearance' => array(
+					'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference'
+				),
+				'foreign_match_fields' => array(
+					'fieldname' => 'photo',
+					'tablenames' => 'tx_easyvotesmartvote_domain_model_candidate',
+					'table_local' => 'sys_file',
+				),
+				'minitems' => 0,
+				'maxitems' => 1,
+			), $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']),
+		),
+		'photo_cached_remote_filesize' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.photo_cached_remote_filesize',
+			'config' => array(
+				'type' => 'input',
 				'eval' => 'int'
 			)
 		),
