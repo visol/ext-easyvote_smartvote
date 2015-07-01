@@ -20,7 +20,13 @@ export default class QuestionCollection extends Backbone.Collection {
 
 		// Save all of the question items under the `'questions'` namespace.
 		if (this._isAnonymous()) {
-			this.localStorage = new Backbone.LocalStorage('questions-' + EasyvoteSmartvote.token);
+
+			// Compute the token.
+			let token = EasyvoteSmartvote.token;
+			if (EasyvoteSmartvote.relatedToken) {
+				token = EasyvoteSmartvote.relatedToken;
+			}
+			this.localStorage = new Backbone.LocalStorage('questions-' + token);
 		}
 	}
 

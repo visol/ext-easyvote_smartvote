@@ -41,29 +41,26 @@ export default class CandidateCollection extends Backbone.Collection {
 		// Check whether localStorage contains record about this collection otherwise fetch it by ajax.
 		let records = this.localStorage.findAll();
 		if (_.isEmpty(records)) {
-			super.fetch({ajaxSync: true}).done(models => {
-				this.saveInSession(models);
-			});
+			return this.remoteFetch();
 		} else {
-			// call original fetch method
+			// call original fetch method.
 			return super.fetch();
 		}
 	}
 
 	/**
-	 * Hack to save the data in session for the next load.
 	 *
-	 * @returns {string}
+	 * @returns {*}
 	 */
-	saveInSession(models) {
-		for (let model of models) {
-			this.localStorage.localStorage().setItem(
-				this.localStorage._itemName(model.id),
-				this.localStorage.serializer.serialize(model)
-			);
-			this.localStorage.records.push(model.id.toString());
-		}
-		this.localStorage.save();
+	remoteFetch() {
+		return Backbone.ajaxSync('read', this).done(models => {
+			for (let model of models) {
+				//let candidate = new CandidateModel(model);
+				this.create(model, {sort: false});
+			}
+			// Trigger final sort => will trigger the view to render.
+			this.sort();
+		});
 	}
 
 	/**

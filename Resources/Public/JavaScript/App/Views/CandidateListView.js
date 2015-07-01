@@ -2,6 +2,7 @@
 import CandidateCollection from '../Collections/CandidateCollection'
 import CandidateView from './CandidateView'
 import QuestionCollection from '../Collections/QuestionCollection'
+import Profiler from '../Profiler'
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -23,13 +24,15 @@ export default class CandidateListView extends Backbone.View {
 		/** @var candidateCollection CandidateCollection*/
 		let candidateCollection = CandidateCollection.getInstance();
 
-		//this.listenTo(candidateCollection, 'add', this.addOne);
+		// Important: define listener before fetching data.
+		//this.listenTo(candidateCollection, 'add', this.renderOne);
 		//this.listenTo(candidateCollection, 'all', this.render);
 		this.listenTo(candidateCollection, 'sort reset', this.render);
 
+		// Fetch data
 		candidateCollection.fetch();
 
-		// Call parent constructor
+		// Call parent constructor.
 		super();
 	}
 
@@ -37,9 +40,16 @@ export default class CandidateListView extends Backbone.View {
 	 * Render template.
 	 */
 	render(candidates) {
+
+		// Only render
+		let container = document.createDocumentFragment();
+
 		candidates.each(candidate => {
-			this.addOne(candidate);
+			let content = this.renderOne(candidate);
+			container.appendChild(content);
 		});
+
+		$('#container-candidate-list').append(container);
 	}
 
 	/**
@@ -61,10 +71,9 @@ export default class CandidateListView extends Backbone.View {
 	 * appending its element to the `<div>`.
 	 * @param model
 	 */
-	addOne(model) {
+	renderOne(model) {
 		let view = new CandidateView({model});
-		let content = view.render();
-		$('#container-candidate-list').append(content);
+		return view.render();
 	}
 
 	/**

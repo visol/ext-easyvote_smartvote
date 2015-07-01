@@ -16,6 +16,7 @@ namespace Visol\EasyvoteSmartvote\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Service\TokenService;
 
 /**
@@ -26,12 +27,24 @@ class TokenViewHelper extends AbstractViewHelper {
 	/**
 	 * Return a storage key for the LocalStorage.
 	 *
+	 * @param bool $forRelatedElection
 	 * @return string
+	 * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
 	 */
-	public function render() {
-		return $this->getTokenService()->generate(
-			$this->getCurrentElectionUid()
-		);
+	public function render($forRelatedElection = FALSE) {
+		/** @var Election $election */
+		$election = $this->templateVariableContainer->get('currentElection');
+		if ($forRelatedElection) {
+			$token = ''; // default is empty
+			$relatedElection = $election->getRelatedElection();
+			if ($relatedElection) {
+				$token = $this->getTokenService()->generate($relatedElection->getUid());
+			}
+		} else {
+			$token = $this->getTokenService()->generate($election->getUid());
+		}
+
+		return $token;
 	}
 
 	/**
@@ -39,15 +52,6 @@ class TokenViewHelper extends AbstractViewHelper {
 	 */
 	protected function getTokenService(){
 		return $this->objectManager->get(TokenService::class);
-	}
-
-	/**
-	 * @return int
-	 * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
-	 */
-	protected function getCurrentElectionUid(){
-		$settings = $this->templateVariableContainer->get('settings');
-		return trim($settings['elections']);
 	}
 
 }
