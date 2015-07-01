@@ -44,20 +44,20 @@ Source is located at `Resources/Public/JavaScript/App/*.js`. Grunt will watch th
 Command Line Interface
 ----------------------
 
-To import all smartvote data
+To import all smartvote data:
 
 	./typo3/cli_dispatch.phpsh extbase smartvote:import
 
-To import smartvote data by identifier
-
-	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 11_ch_sr
-
-Other commands available
+Other commands available:
 
   * connectpartiestonationalparty: Tries to match parties to the respective national party.
   * importcandidateimage: Imports and resizes/crops candidate images
 
+Typical import workflow:
 
+	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 11_ch_sr
+	./typo3/cli_dispatch.phpsh extbase smartvote:connectPartiesToNationalParty --identifier 11_ch_sr --verbose
+	./typo3/cli_dispatch.phpsh extbase smartvote:importCandidateImage --identifier 11_ch_sr --verbose
 
 Unit Test
 ---------
