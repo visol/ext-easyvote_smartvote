@@ -41,7 +41,7 @@ export default class CandidateListView extends Backbone.View {
 	 */
 	render(candidates) {
 
-		// Only render
+		// Render intermediate content in a temporary DOM.
 		let container = document.createDocumentFragment();
 
 		candidates.each(candidate => {

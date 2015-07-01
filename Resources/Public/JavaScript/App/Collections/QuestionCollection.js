@@ -31,8 +31,8 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
-	* @returns {*}
-	*/
+	 * @returns {*}
+	 */
 	fetchForAnonymousUser() {
 
 		// Check whether localStorage contains record about this collection
@@ -54,8 +54,23 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
-	* @returns {*}
-	*/
+	 * @return bool
+	 */
+	hasCompletedAnswers() {
+		let hasAnswers = false;
+		this.each(question => {
+			let answer = question.get('answer');
+			if (Number.isInteger(answer)) {
+				hasAnswers = true;
+			}
+		});
+
+		return hasAnswers;
+	}
+
+	/**
+	 * @returns {*}
+	 */
 	fetchForAuthenticatedUser() {
 		return super.fetch();
 	}

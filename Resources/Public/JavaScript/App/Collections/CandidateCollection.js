@@ -23,14 +23,14 @@ export default class CandidateCollection extends Backbone.Collection {
 	}
 
 	/**
-	 * Comparator used to sort candidates by matching criteria
+	 * Comparator used to sort candidates by "matching" criteria.
 	 *
 	 * @param candidate1
 	 * @param candidate2
 	 * @returns {number}
 	 */
 	comparator(candidate1, candidate2) {
-		return candidate1.matching() > candidate2.matching() ? 1 : -1;
+		return candidate1.getMatching() > candidate2.getMatching() ? -1 : 1;
 	}
 
 	/**

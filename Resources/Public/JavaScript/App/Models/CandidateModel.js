@@ -1,7 +1,6 @@
 /*jshint esnext:true */
 import QuestionCollection from '../Collections/QuestionCollection'
 
-var foo = 0;
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -15,21 +14,41 @@ export default class CandidateModel extends Backbone.Model {
 	 */
 	defaults() {
 		return {
-			matching: 0
+			matching: null
 		};
 	}
 
-	matching() {
+	getMatching() {
 
 		let questionCollection = QuestionCollection.getInstance();
 
-		let answers = this.get('answers');
-		if (answers.length === questionCollection.size()) {
+		let matching = null;
+		let candidateAnswers = this.get('answers');
 
+		// true means the candidate has answered the survey which is normally the case but not always...
+		if (questionCollection.hasCompletedAnswers() && candidateAnswers.length === questionCollection.size()) {
 
+			let aggregatedResult = 0;
+			let counter = 0;
+
+			for (let candidateAnswer of candidateAnswers) {
+				let userQuestion = this.retrieveQuestion(candidateAnswer);
+				if (userQuestion) {
+					if (userQuestion.get('answer') !== null && userQuestion.get('answer') !== -1) {
+						aggregatedResult += Math.pow(userQuestion.get('answer') - candidateAnswer.answer, 2);
+						counter++
+					}
+				} else {
+					console.log('Warning #1435731882: I could not retrieve the question filled by the User.' + candidateAnswer.questionId);
+				}
+			}
+			let distance = Math.sqrt(aggregatedResult);
+			let maximalDistance = Math.sqrt(counter * Math.pow(100, 2));
+			let nominalDistance = distance / maximalDistance;
+			matching = Math.round(100 * (1 - nominalDistance));
 		}
 
-		this.set('matching', this.get('gender'));
+		this.set('matching', matching);
 		return this.get('matching');
 	}
 

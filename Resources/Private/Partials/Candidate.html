@@ -7,10 +7,12 @@
 				<div class="box-teaser">
 					<div class="row">
 						<div class="col-xs-3 col-md-3">
+							<% if (typeof(matching) == "number") { %>
 							<div class="matching-badge">
-								<div><%- matching %> <%- id %></div>
-								<div class="inner">99%</div>
+								<div class="inner"><%- matching %>%</div>
 							</div>
+							<% } %>
+
 							<% if (typeof(photo) == "string") { %>
 								<img class="lazy" data-original="<%- photo %>" width="210" height="210" alt="" />
 							<% } %>
