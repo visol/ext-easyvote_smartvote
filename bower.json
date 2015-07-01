@@ -5,6 +5,7 @@
   "dependencies": {
     "backbone": "~1.2.0",
     "backbone.localStorage": "~1.1.16",
-    "d3": "~3.5.5"
+    "d3": "~3.5.5",
+    "jquery.lazyload": "~1.9.5"
   }
 }
