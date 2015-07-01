@@ -43,7 +43,7 @@ class CandidateApiController extends AbstractBaseApiController {
 	public function listAction(Election $election = NULL) {
 		$this->initializeCache();
 
-		$cacheIdentifier = 'candidates';
+		$cacheIdentifier = 'candidates-' . $election->getUid();
 		$candidates = $this->cacheInstance->get($cacheIdentifier);
 
 		if (!$candidates) {
