@@ -89,6 +89,11 @@ class Election extends AbstractEntity {
 	protected $totalCleavage8 = '';
 
 	/**
+	 * @var Election
+	 */
+	protected $relatedElection;
+
+	/**
 	 * @return string $smartVoteIdentifier
 	 */
 	public function getSmartVoteIdentifier() {
@@ -292,6 +297,22 @@ class Election extends AbstractEntity {
 	 */
 	public function setTotalCleavage8($totalCleavage8) {
 		$this->totalCleavage8 = $totalCleavage8;
+		return $this;
+	}
+
+	/**
+	 * @return Election
+	 */
+	public function getRelatedElection() {
+		return $this->relatedElection;
+	}
+
+	/**
+	 * @param Election $relatedElection
+	 * @return $this
+	 */
+	public function setRelatedElection($relatedElection) {
+		$this->relatedElection = $relatedElection;
 		return $this;
 	}
 

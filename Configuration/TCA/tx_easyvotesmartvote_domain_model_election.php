@@ -16,11 +16,11 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
 			'disabled' => 'hidden',
 		],
 		'default_sortby' => 'ORDER BY election_date DESC',
-		'searchFields' => 'smart_vote_identifier,year,',
+		'searchFields' => 'smart_vote_identifier,title,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_election.png'
 	],
 	'types' => [
-		'1' => ['showitem' => 'hidden;;1, title, short_title, smart_vote_identifier, election_date, import_log, total_cleavage1, total_cleavage2, total_cleavage3, total_cleavage4, total_cleavage5, total_cleavage6, total_cleavage7, total_cleavage8'],
+		'1' => ['showitem' => 'hidden;;1, title, short_title, smart_vote_identifier, election_date, related_election, import_log'],
 	],
 	'palettes' => [
 		'1' => ['showitem' => ''],
@@ -150,6 +150,18 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
 				'size' => 30,
 				'eval' => 'int'
 			],
+		],
+		'related_election' => [
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:related_election',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_easyvotesmartvote_domain_model_election',
+				'items' => array(
+					array('', 0),
+				),
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
 		],
 	],
 	'grid' => [

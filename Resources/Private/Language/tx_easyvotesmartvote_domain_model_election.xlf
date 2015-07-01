@@ -67,6 +67,9 @@
 			<trans-unit id="total_cleavage8">
 				<source>Total cleavage 8</source>
 			</trans-unit>
+			<trans-unit id="related_election">
+				<source>Related election</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

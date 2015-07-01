@@ -177,6 +177,8 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_election (
 	total_cleavage7 int(11) DEFAULT '0' NOT NULL,
 	total_cleavage8 int(11) DEFAULT '0' NOT NULL,
 
+	related_election int(11) DEFAULT '0' NOT NULL,
+
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 );
@@ -306,6 +308,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_question (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	name text NOT NULL,
+	alternative_uid int(11) DEFAULT '0' NOT NULL,
 	internal_identifier varchar(255) DEFAULT '' NOT NULL,
 	groupping int(11) DEFAULT '0' NOT NULL,
 	type varchar(255) DEFAULT '' NOT NULL,

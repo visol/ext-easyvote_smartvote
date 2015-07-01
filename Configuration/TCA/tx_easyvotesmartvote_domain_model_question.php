@@ -88,6 +88,15 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question'] = [
 				'eval' => 'trim'
 			],
 		],
+		'alternative_uid' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.alternative_uid',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'int'
+			],
+		],
 		'groupping' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.groupping',
