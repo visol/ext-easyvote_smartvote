@@ -2,7 +2,7 @@
 import CandidateCollection from '../Collections/CandidateCollection'
 import CandidateView from './CandidateView'
 import QuestionCollection from '../Collections/QuestionCollection'
-import Profiler from '../Profiler'
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -25,8 +25,6 @@ export default class CandidateListView extends Backbone.View {
 		let candidateCollection = CandidateCollection.getInstance();
 
 		// Important: define listener before fetching data.
-		//this.listenTo(candidateCollection, 'add', this.renderOne);
-		//this.listenTo(candidateCollection, 'all', this.render);
 		this.listenTo(candidateCollection, 'sort reset', this.render);
 
 		// Fetch data
@@ -50,6 +48,9 @@ export default class CandidateListView extends Backbone.View {
 		});
 
 		$('#container-candidate-list').append(container);
+
+		// Add lazy loading to images.
+		$("img.lazy").lazyload();
 	}
 
 	/**
@@ -83,4 +84,5 @@ export default class CandidateListView extends Backbone.View {
 	_isAnonymous() {
 		return !EasyvoteSmartvote.isUserAuthenticated
 	}
+
 }
