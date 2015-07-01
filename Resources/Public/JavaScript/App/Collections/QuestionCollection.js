@@ -64,7 +64,14 @@ export default class QuestionCollection extends Backbone.Collection {
 		if (EasyvoteSmartvote.isUserAuthenticated) {
 			token += '?token=' + EasyvoteSmartvote.token;
 		}
-		return '/routing/questions/' + EasyvoteSmartvote.currentElection + token;
+
+		// Compute the final election identifier.
+		let electionIdentifier = EasyvoteSmartvote.currentElection;
+		if (EasyvoteSmartvote.relatedElection > 0) {
+			electionIdentifier = EasyvoteSmartvote.relatedElection;
+		}
+
+		return '/routing/questions/' + electionIdentifier + token;
 	}
 
 	/**

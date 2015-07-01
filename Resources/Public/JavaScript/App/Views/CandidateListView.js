@@ -18,7 +18,7 @@ export default class CandidateListView extends Backbone.View {
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection*/
-		//QuestionCollection.getInstance().load();
+		QuestionCollection.getInstance().load();
 
 		/** @var candidateCollection CandidateCollection*/
 		let candidateCollection = CandidateCollection.getInstance();

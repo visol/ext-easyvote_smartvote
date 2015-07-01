@@ -24,7 +24,8 @@
 
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
-		EasyvoteSmartvote.currentElection = '{currentElection.uid}';
+		EasyvoteSmartvote.currentElection = '{currentElection.uid}' - 0;
+		EasyvoteSmartvote.relatedElection = '{currentElection.relatedElection.uid}' - 0;
 		EasyvoteSmartvote.totalCleavage1 = '{currentElection.totalCleavage1}' - 0;
 		EasyvoteSmartvote.totalCleavage2 = '{currentElection.totalCleavage2}' - 0;
 		EasyvoteSmartvote.totalCleavage3 = '{currentElection.totalCleavage3}' - 0;

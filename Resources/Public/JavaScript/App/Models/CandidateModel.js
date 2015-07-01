@@ -21,31 +21,34 @@ export default class CandidateModel extends Backbone.Model {
 
 	matching() {
 
-		//let questionCollection = QuestionCollection.getInstance();
-		//console.log(questionCollection.size());
+		let questionCollection = QuestionCollection.getInstance();
 
-		//let answers = this.get('answers');
-		//if (answers.length === questionCollection.length) {
-		//
-		//	if (foo === 0) {
-		//
-		//		for (let answer of answers) {
-		//			console.log(answer);
-		//		}
-		//		//console.log(questionCollection);
-		//		foo = 1;
-		//	}
-		//
-		//	//answers.each(question => {
-		//	//	console.log(answers);
-		//	//});
-		//	//questionCollection.each(question => {
-		//	//	console.log(question.get('id'));
-		//	//})
-		//}
+		let answers = this.get('answers');
+		if (answers.length === questionCollection.size()) {
+
+
+		}
 
 		this.set('matching', this.get('gender'));
 		return this.get('matching');
+	}
+
+
+	/**
+	 * @param answer
+	 * @returns Question
+	 */
+	retrieveQuestion(answer) {
+		let questionCollection = QuestionCollection.getInstance();
+		let questionId = answer.questionId;
+		let question = questionCollection.get(questionId);
+		if (!question) {
+			let questions = questionCollection.where({alternativeId: questionId});
+			if (questions.length > 0) {
+				question = questions[0];
+			}
+		}
+		return question;
 	}
 
 }
