@@ -14,6 +14,7 @@ namespace Visol\EasyvoteSmartvote\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 
@@ -31,15 +32,22 @@ class CandidateRepository extends Repository {
 		$tableName = 'tx_easyvotesmartvote_domain_model_candidate';
 
 		$clause = 'election = ' . $election->getUid();
-		$clause .= $this->getPageRepository()->deleteClause($tableName);
-		$clause .= $this->getPageRepository()->enableFields($tableName);
+		$clause .= $this->getDeleteClauseAndEnableFieldsConstraint($tableName);
 
-		$fields = ' uid, first_name, last_name, gender, year_of_birth, city,
+		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city,
 		            elected, slogan, party_short, serialized_answers,
-		            serialized_spider_values, serialized_photos';
+		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize';
 		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 	}
 
+	protected function getDeleteClauseAndEnableFieldsConstraint($tableName) {
+		if (TYPO3_MODE === 'FE') {
+			return $this->getPageRepository()->deleteClause($tableName) .
+				$this->getPageRepository()->enableFields($tableName);
+		} else {
+			return BackendUtility::deleteClause($tableName);
+		}
+	}
 
 	/**
 	 * Returns a pointer to the database.
