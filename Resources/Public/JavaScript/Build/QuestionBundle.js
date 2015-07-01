@@ -589,7 +589,13 @@ var QuestionCollection = (function (_Backbone$Collection) {
 
 		// Save all of the question items under the `'questions'` namespace.
 		if (this._isAnonymous()) {
-			this.localStorage = new Backbone.LocalStorage("questions-" + EasyvoteSmartvote.token);
+
+			// Compute the token.
+			var token = EasyvoteSmartvote.token;
+			if (EasyvoteSmartvote.relatedToken) {
+				token = EasyvoteSmartvote.relatedToken;
+			}
+			this.localStorage = new Backbone.LocalStorage("questions-" + token);
 		}
 	}
 
@@ -599,8 +605,8 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		fetchForAnonymousUser: {
 
 			/**
-   * @returns {*}
-   */
+    * @returns {*}
+    */
 
 			value: function fetchForAnonymousUser() {
 
@@ -622,11 +628,29 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				}
 			}
 		},
+		hasCompletedAnswers: {
+
+			/**
+    * @return bool
+    */
+
+			value: function hasCompletedAnswers() {
+				var hasAnswers = false;
+				this.each(function (question) {
+					var answer = question.get("answer");
+					if (_core.Number.isInteger(answer)) {
+						hasAnswers = true;
+					}
+				});
+
+				return hasAnswers;
+			}
+		},
 		fetchForAuthenticatedUser: {
 
 			/**
-   * @returns {*}
-   */
+    * @returns {*}
+    */
 
 			value: function fetchForAuthenticatedUser() {
 				return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
@@ -645,7 +669,14 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				if (EasyvoteSmartvote.isUserAuthenticated) {
 					token += "?token=" + EasyvoteSmartvote.token;
 				}
-				return "/routing/questions/" + EasyvoteSmartvote.currentElection + token;
+
+				// Compute the final election identifier.
+				var electionIdentifier = EasyvoteSmartvote.currentElection;
+				if (EasyvoteSmartvote.relatedElection > 0) {
+					electionIdentifier = EasyvoteSmartvote.relatedElection;
+				}
+
+				return "/routing/questions/" + electionIdentifier + token;
 			}
 		},
 		load: {

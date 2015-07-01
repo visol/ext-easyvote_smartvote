@@ -257,7 +257,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 		comparator: {
 
 			/**
-    * Comparator used to sort candidates by matching criteria
+    * Comparator used to sort candidates by "matching" criteria.
     *
     * @param candidate1
     * @param candidate2
@@ -265,7 +265,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
     */
 
 			value: function comparator(candidate1, candidate2) {
-				return candidate1.matching() > candidate2.matching() ? 1 : -1;
+				return candidate1.getMatching() > candidate2.getMatching() ? -1 : 1;
 			}
 		},
 		fetch: {
@@ -279,11 +279,53 @@ var CandidateCollection = (function (_Backbone$Collection) {
 				// Check whether localStorage contains record about this collection otherwise fetch it by ajax.
 				var records = this.localStorage.findAll();
 				if (_.isEmpty(records)) {
-					_get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this, { ajaxSync: true });
+					return this.remoteFetch();
 				} else {
-					// call original fetch method
+					// call original fetch method.
 					return _get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this);
 				}
+			}
+		},
+		remoteFetch: {
+
+			/**
+    *
+    * @returns {*}
+    */
+
+			value: function remoteFetch() {
+				var _this = this;
+
+				return Backbone.ajaxSync("read", this).done(function (models) {
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+						for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var model = _step.value;
+
+							//let candidate = new CandidateModel(model);
+							_this.create(model, { sort: false });
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator["return"]) {
+								_iterator["return"]();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+
+					// Trigger final sort => will trigger the view to render.
+					_this.sort();
+				});
 			}
 		},
 		url: {
@@ -358,7 +400,13 @@ var QuestionCollection = (function (_Backbone$Collection) {
 
 		// Save all of the question items under the `'questions'` namespace.
 		if (this._isAnonymous()) {
-			this.localStorage = new Backbone.LocalStorage("questions-" + EasyvoteSmartvote.token);
+
+			// Compute the token.
+			var token = EasyvoteSmartvote.token;
+			if (EasyvoteSmartvote.relatedToken) {
+				token = EasyvoteSmartvote.relatedToken;
+			}
+			this.localStorage = new Backbone.LocalStorage("questions-" + token);
 		}
 	}
 
@@ -368,8 +416,8 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		fetchForAnonymousUser: {
 
 			/**
-   * @returns {*}
-   */
+    * @returns {*}
+    */
 
 			value: function fetchForAnonymousUser() {
 
@@ -391,11 +439,29 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				}
 			}
 		},
+		hasCompletedAnswers: {
+
+			/**
+    * @return bool
+    */
+
+			value: function hasCompletedAnswers() {
+				var hasAnswers = false;
+				this.each(function (question) {
+					var answer = question.get("answer");
+					if (_core.Number.isInteger(answer)) {
+						hasAnswers = true;
+					}
+				});
+
+				return hasAnswers;
+			}
+		},
 		fetchForAuthenticatedUser: {
 
 			/**
-   * @returns {*}
-   */
+    * @returns {*}
+    */
 
 			value: function fetchForAuthenticatedUser() {
 				return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
@@ -414,7 +480,14 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				if (EasyvoteSmartvote.isUserAuthenticated) {
 					token += "?token=" + EasyvoteSmartvote.token;
 				}
-				return "/routing/questions/" + EasyvoteSmartvote.currentElection + token;
+
+				// Compute the final election identifier.
+				var electionIdentifier = EasyvoteSmartvote.currentElection;
+				if (EasyvoteSmartvote.relatedElection > 0) {
+					electionIdentifier = EasyvoteSmartvote.relatedElection;
+				}
+
+				return "/routing/questions/" + electionIdentifier + token;
 			}
 		},
 		load: {
@@ -499,11 +572,12 @@ var _inherits = require("babel-runtime/helpers/inherits")["default"];
 
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
 
+var _core = require("babel-runtime/core-js")["default"];
+
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
 var QuestionCollection = _interopRequire(require("../Collections/QuestionCollection"));
 
-var foo = 0;
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -530,38 +604,85 @@ var CandidateModel = (function (_Backbone$Model) {
 
 			value: function defaults() {
 				return {
-					matching: 0
+					matching: null
 				};
 			}
 		},
-		matching: {
-			value: function matching() {
+		getMatching: {
+			value: function getMatching() {
 
-				//let questionCollection = QuestionCollection.getInstance();
-				//console.log(questionCollection.size());
+				var questionCollection = QuestionCollection.getInstance();
 
-				//let answers = this.get('answers');
-				//if (answers.length === questionCollection.length) {
-				//
-				//	if (foo === 0) {
-				//
-				//		for (let answer of answers) {
-				//			console.log(answer);
-				//		}
-				//		//console.log(questionCollection);
-				//		foo = 1;
-				//	}
-				//
-				//	//answers.each(question => {
-				//	//	console.log(answers);
-				//	//});
-				//	//questionCollection.each(question => {
-				//	//	console.log(question.get('id'));
-				//	//})
-				//}
+				var matching = null;
+				var candidateAnswers = this.get("answers");
 
-				this.set("matching", this.get("gender"));
+				// true means the candidate has answered the survey which is normally the case but not always...
+				if (questionCollection.hasCompletedAnswers() && candidateAnswers.length === questionCollection.size()) {
+
+					var aggregatedResult = 0;
+					var counter = 0;
+
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+						for (var _iterator = _core.$for.getIterator(candidateAnswers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var candidateAnswer = _step.value;
+
+							var userQuestion = this.retrieveQuestion(candidateAnswer);
+							if (userQuestion) {
+								if (userQuestion.get("answer") !== null && userQuestion.get("answer") !== -1) {
+									aggregatedResult += Math.pow(userQuestion.get("answer") - candidateAnswer.answer, 2);
+									counter++;
+								}
+							} else {
+								console.log("Warning #1435731882: I could not retrieve the question filled by the User." + candidateAnswer.questionId);
+							}
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator["return"]) {
+								_iterator["return"]();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+
+					var distance = Math.sqrt(aggregatedResult);
+					var maximalDistance = Math.sqrt(counter * Math.pow(100, 2));
+					var nominalDistance = distance / maximalDistance;
+					matching = Math.round(100 * (1 - nominalDistance));
+				}
+
+				this.set("matching", matching);
 				return this.get("matching");
+			}
+		},
+		retrieveQuestion: {
+
+			/**
+    * @param answer
+    * @returns Question
+    */
+
+			value: function retrieveQuestion(answer) {
+				var questionCollection = QuestionCollection.getInstance();
+				var questionId = answer.questionId;
+				var question = questionCollection.get(questionId);
+				if (!question) {
+					var questions = questionCollection.where({ alternativeId: questionId });
+					if (questions.length > 0) {
+						question = questions[0];
+					}
+				}
+				return question;
 			}
 		}
 	});
@@ -570,7 +691,7 @@ var CandidateModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = CandidateModel;
-},{"../Collections/QuestionCollection":4,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],6:[function(require,module,exports){
+},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],6:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -665,8 +786,6 @@ var CandidateCollection = _interopRequire(require("../Collections/CandidateColle
 
 var CandidateView = _interopRequire(require("./CandidateView"));
 
-var SpiderChartPlotter = _interopRequire(require("../Chart/SpiderChartPlotter"));
-
 var QuestionCollection = _interopRequire(require("../Collections/QuestionCollection"));
 
 /*
@@ -685,18 +804,18 @@ var CandidateListView = (function (_Backbone$View) {
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection*/
-		//QuestionCollection.getInstance().load();
+		QuestionCollection.getInstance().load();
 
 		/** @var candidateCollection CandidateCollection*/
 		var candidateCollection = CandidateCollection.getInstance();
 
-		//this.listenTo(candidateCollection, 'add', this.addOne);
-		//this.listenTo(candidateCollection, 'all', this.render);
+		// Important: define listener before fetching data.
 		this.listenTo(candidateCollection, "sort reset", this.render);
 
+		// Fetch data
 		candidateCollection.fetch();
 
-		// Call parent constructor
+		// Call parent constructor.
 		_get(_core.Object.getPrototypeOf(CandidateListView.prototype), "constructor", this).call(this);
 	}
 
@@ -712,9 +831,18 @@ var CandidateListView = (function (_Backbone$View) {
 			value: function render(candidates) {
 				var _this = this;
 
+				// Render intermediate content in a temporary DOM.
+				var container = document.createDocumentFragment();
+
 				candidates.each(function (candidate) {
-					_this.addOne(candidate);
+					var content = _this.renderOne(candidate);
+					container.appendChild(content);
 				});
+
+				$("#container-candidate-list").append(container);
+
+				// Add lazy loading to images.
+				$("img.lazy").lazyload();
 			}
 		},
 		changeAnswer: {
@@ -734,7 +862,7 @@ var CandidateListView = (function (_Backbone$View) {
 				nextCandidate.trigger("visible");
 			}
 		},
-		addOne: {
+		renderOne: {
 
 			/**
     * Add a single candidate item to the list by creating a view for it, then
@@ -742,19 +870,125 @@ var CandidateListView = (function (_Backbone$View) {
     * @param model
     */
 
-			value: function addOne(model) {
+			value: function renderOne(model) {
 				var view = new CandidateView({ model: model });
-				var content = view.render();
-				$("#container-candidate-list").append(content);
+				return view.render();
+			}
+		},
+		_isAnonymous: {
 
-				//let values = model.attributes.spiderChart;
-				//if (values.length > 0) {
-				//	this.drawChart(model.attributes.id, values);
-				//}
+			/**
+    * @return {bool}
+    * @private
+    */
+
+			value: function _isAnonymous() {
+				return !EasyvoteSmartvote.isUserAuthenticated;
+			}
+		}
+	});
+
+	return CandidateListView;
+})(Backbone.View);
+
+module.exports = CandidateListView;
+},{"../Collections/CandidateCollection":3,"../Collections/QuestionCollection":4,"./CandidateView":8,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],8:[function(require,module,exports){
+/*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var SpiderChartPlotter = _interopRequire(require("../Chart/SpiderChartPlotter"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var CandidateView = (function (_Backbone$View) {
+
+	/**
+  * @param options
+  */
+
+	function CandidateView(options) {
+		_classCallCheck(this, CandidateView);
+
+		// *... is a list tag.*
+		this.tagName = "div";
+
+		// *Cache the template function for a single item.*
+		this.template = _.template($("#template-candidate").html());
+
+		// *Define the DOM events specific to an item.*
+		this.events = {
+			"click .toggle": "renderChart"
+		};
+
+		_get(_core.Object.getPrototypeOf(CandidateView.prototype), "constructor", this).call(this, options);
+		//this.listenTo(this.model, 'change', this.render);
+		//this.listenTo(this.model, 'visible', this.changeVisible);
+	}
+
+	_inherits(CandidateView, _Backbone$View);
+
+	_createClass(CandidateView, {
+		renderChart: {
+
+			/**
+    * Render the candidate view.
+    *
+    * @returns string
+    */
+
+			value: function renderChart() {
+
+				// Lazy rendering of the Chart.
+				if (!$("#chart-candidate-" + this.model.id).has("svg").length) {
+					var values = this.model.get("spiderChart");
+					if (values.length > 0) {
+						this.drawChart(this.model.id, values);
+					}
+				}
+			}
+		},
+		render: {
+
+			/**
+    * Render the candidate view.
+    *
+    * @returns string
+    */
+
+			value: function render() {
+				var content = this.template(this.model.toJSON());
+				this.$el.html(content);
+				return this.el;
+			}
+		},
+		changeVisible: {
+
+			/**
+    * Set visible true
+    */
+
+			value: function changeVisible() {
+				this.model.save({ visible: true });
+				this.render();
 			}
 		},
 		drawChart: {
-
 			/**
     * @param {int} candidateId
     * @param {array} values
@@ -783,92 +1017,6 @@ var CandidateListView = (function (_Backbone$View) {
 					maxValue: 1
 				});
 			}
-		},
-		_isAnonymous: {
-
-			/**
-    * @return {bool}
-    * @private
-    */
-
-			value: function _isAnonymous() {
-				return !EasyvoteSmartvote.isUserAuthenticated;
-			}
-		}
-	});
-
-	return CandidateListView;
-})(Backbone.View);
-
-module.exports = CandidateListView;
-},{"../Chart/SpiderChartPlotter":2,"../Collections/CandidateCollection":3,"../Collections/QuestionCollection":4,"./CandidateView":8,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],8:[function(require,module,exports){
-/*jshint esnext:true */
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _inherits = require("babel-runtime/helpers/inherits")["default"];
-
-var _get = require("babel-runtime/helpers/get")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var _core = require("babel-runtime/core-js")["default"];
-
-var CandidateView = (function (_Backbone$View) {
-
-	/**
-  * @param options
-  */
-
-	function CandidateView(options) {
-		_classCallCheck(this, CandidateView);
-
-		// *... is a list tag.*
-		this.tagName = "div";
-
-		// *Cache the template function for a single item.*
-		this.template = _.template($("#template-candidate").html());
-
-		_get(_core.Object.getPrototypeOf(CandidateView.prototype), "constructor", this).call(this, options);
-		//this.listenTo(this.model, 'change', this.render);
-		//this.listenTo(this.model, 'visible', this.changeVisible);
-	}
-
-	_inherits(CandidateView, _Backbone$View);
-
-	_createClass(CandidateView, {
-		render: {
-
-			/**
-    * Render the candidate view.
-    *
-    * @returns string
-    */
-
-			value: function render() {
-				var content = this.template(this.model.toJSON());
-				this.$el.html(content);
-				return this.el;
-			}
-		},
-		changeVisible: {
-
-			/**
-    * Set visible true
-    */
-
-			value: function changeVisible() {
-				this.model.save({ visible: true });
-				this.render();
-			}
 		}
 	});
 
@@ -876,7 +1024,7 @@ var CandidateView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = CandidateView;
-},{"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13}],9:[function(require,module,exports){
+},{"../Chart/SpiderChartPlotter":2,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],9:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
