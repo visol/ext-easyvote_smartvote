@@ -17,6 +17,7 @@ namespace Visol\EasyvoteSmartvote\Command;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
+use Visol\EasyvoteSmartvote\Importer\CandidateImageImporterService;
 use Visol\EasyvoteSmartvote\Importer\ImporterService;
 use Visol\EasyvoteSmartvote\Importer\PartyMatcherService;
 
@@ -94,6 +95,39 @@ class SmartVoteCommandController extends CommandController {
 	}
 
 	/**
+	 * Import and resize the main image for all candidates
+	 *
+	 * @param bool $verbose Display information during import
+	 * @param string $identifier Identifier of election, all elections are selected if not indicated
+	 * @param bool $forceReimport Force reimport of images even if they are unchanged on the server
+	 */
+	public function importCandidateImageCommand($verbose = FALSE, $identifier = '', $forceReimport = FALSE) {
+		if ($identifier) {
+			$election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
+			$elections = array($election);
+		} else {
+			$elections = $this->electionRepository->findAll();
+		}
+
+		foreach ($elections as $election) {
+			/** @var $election Election */
+			$this->outputLine('***********************************************');
+			$this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
+			$this->outputLine('***********************************************');
+			if ($forceReimport) {
+				$this->outputLine('Forced re-import');
+				$this->outputLine('***********************************************');
+			}
+
+			$logs = $this->getCandidateImageImporterService($election)->importImages($forceReimport);
+			if ($verbose) {
+				$logLines = implode('', $logs);
+				$this->outputLine($logLines);
+			}
+		}
+	}
+
+	/**
 	 * @param Election $election
 	 * @return ImporterService
 	 */
@@ -108,6 +142,15 @@ class SmartVoteCommandController extends CommandController {
 		$partyMatcherService = $this->objectManager->get(PartyMatcherService::class);
 		$partyMatcherService->setElection($election);
 		return $partyMatcherService;
+	}
+
+	/**
+	 * @return CandidateImageImporterService
+	 */
+	protected function getCandidateImageImporterService(Election $election){
+		$candidateImageImporterService = $this->objectManager->get(CandidateImageImporterService::class);
+		$candidateImageImporterService->setElection($election);
+		return $candidateImageImporterService;
 	}
 
 }

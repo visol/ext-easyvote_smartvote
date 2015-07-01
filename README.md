@@ -54,7 +54,8 @@ To import smartvote data by identifier
 
 Other commands available
 
-  * connectPartiesToNationalParty: Tries to match parties to the respective national party.
+  * connectpartiestonationalparty: Tries to match parties to the respective national party.
+  * importcandidateimage: Imports and resizes/crops candidate images
 
 
 
