@@ -24,7 +24,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_party.gif'
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, name_short, logo, number_of_candidates, number_of_answers, facebook_profile, website, districts, election_lists, answers, serialized_districts, serialized_election_lists, serialized_answers, election, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, name_short, national_party, logo, number_of_candidates, number_of_answers, facebook_profile, website, districts, election_lists, answers, serialized_districts, serialized_election_lists, serialized_answers, election, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -96,6 +96,20 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_party'] = array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+		'national_party' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_party.national_party',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0),
+				),
+				'foreign_table' => 'tx_easyvote_domain_model_party',
+				'foreign_table_where' => 'AND tx_easyvote_domain_model_party.sys_language_uid IN (-1,0)',
+				'minitems' => 0,
+				'maxitems' => 1
 			),
 		),
 		'logo' => array(

@@ -428,10 +428,44 @@
 				<source>Wen soll ich wählen?</source>
 			</trans-unit>
 			<trans-unit id="voting_recommendation">
-				<source>Deine Wahlenempfehlung</source>
+				<source>Deine Wahlempfehlung</source>
 			</trans-unit>
-			<trans-unit id="filter_candidate">
+
+			<trans-unit id="filter_candidates">
 				<source>Kandidaten filtern</source>
+			</trans-unit>
+			<trans-unit id="filter.party.title">
+				<source>Party</source>
+			</trans-unit>
+			<trans-unit id="filter.canton.title">
+				<source>Kanton</source>
+			</trans-unit>
+			<trans-unit id="filter.easyvote.title">
+				<source>easyvote-Typ</source>
+			</trans-unit>
+			<trans-unit id="filter.age.title">
+				<source>Alter</source>
+			</trans-unit>
+			<trans-unit id="filter.age.toAge">
+				<source>bis</source>
+			</trans-unit>
+			<trans-unit id="filter.gender.title">
+				<source>Geschlecht</source>
+			</trans-unit>
+			<trans-unit id="filter.gender.female">
+				<source>Frau</source>
+			</trans-unit>
+			<trans-unit id="filter.gender.male">
+				<source>Mann</source>
+			</trans-unit>
+			<trans-unit id="filter.elected.title">
+				<source>Bisherig</source>
+			</trans-unit>
+			<trans-unit id="filter.elected.yes">
+				<source>Ja</source>
+			</trans-unit>
+			<trans-unit id="filter.elected.no">
+				<source>Nein</source>
 			</trans-unit>
 			<trans-unit id="yes">
 				<source>Ja</source>

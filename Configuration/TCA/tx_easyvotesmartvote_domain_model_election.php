@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf',
+		'title' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_election',
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',

@@ -52,6 +52,11 @@ To import smartvote data by identifier
 
 	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 11_ch_sr
 
+Other commands available
+
+  * connectPartiesToNationalParty: Tries to match parties to the respective national party.
+
+
 
 Unit Test
 ---------

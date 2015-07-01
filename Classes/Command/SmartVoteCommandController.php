@@ -18,6 +18,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Importer\ImporterService;
+use Visol\EasyvoteSmartvote\Importer\PartyMatcherService;
 
 /**
  * Command Controller which imports the Postal Box as voting location.
@@ -50,7 +51,7 @@ class SmartVoteCommandController extends CommandController {
 
 			/** @var $election Election */
 			$this->outputLine('***********************************************');
-			$this->outputLine('Smart Vote identifier: ' . $election->getSmartVoteIdentifier());
+			$this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
 			$this->outputLine('***********************************************');
 			$this->outputLine();
 
@@ -65,11 +66,48 @@ class SmartVoteCommandController extends CommandController {
 	}
 
 	/**
+	 * Try matching local parties to their national parties
+	 *
+	 * @param bool $verbose
+	 * @param string $identifier
+	 */
+	public function connectPartiesToNationalPartyCommand($verbose = FALSE, $identifier = '') {
+		if ($identifier) {
+			$election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
+			$elections = array($election);
+		} else {
+			$elections = $this->electionRepository->findAll();
+		}
+
+		foreach ($elections as $election) {
+			/** @var $election Election */
+			$this->outputLine('***********************************************');
+			$this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
+			$this->outputLine('***********************************************');
+			$this->outputLine();
+
+			$logs = $this->getPartyMatcherService($election)->matchPartiesToNationalParty($verbose);
+			$logLines = implode('', $logs);
+			$this->outputLine($logLines);
+		}
+
+	}
+
+	/**
 	 * @param Election $election
 	 * @return ImporterService
 	 */
 	protected function getImporterService(Election $election){
 		return GeneralUtility::makeInstance(ImporterService::class, $election);
+	}
+
+	/**
+	 * @return PartyMatcherService
+	 */
+	protected function getPartyMatcherService(Election $election){
+		$partyMatcherService = $this->objectManager->get(PartyMatcherService::class);
+		$partyMatcherService->setElection($election);
+		return $partyMatcherService;
 	}
 
 }
