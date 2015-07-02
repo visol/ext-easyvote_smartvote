@@ -373,18 +373,6 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_electionlist.district">
 				<source>District</source>
 			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_link">
-				<source>Link</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_link.url">
-				<source>Url</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_link.description">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_link.election">
-				<source>Election</source>
-			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_answer">
 				<source>Answer</source>
 			</trans-unit>
