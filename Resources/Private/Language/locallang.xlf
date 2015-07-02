@@ -375,21 +375,6 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_answer.election">
 				<source>Election</source>
 			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue">
-				<source>Spider Value</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue.cleavage">
-				<source>Cleavage</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue.internal_identifier">
-				<source>Internal Identifier</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue.value">
-				<source>Value</source>
-			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_spidervalue.election">
-				<source>Election</source>
-			</trans-unit>
 
 			<trans-unit id="who_to_elect">
 				<source>Wen soll ich wählen?</source>
