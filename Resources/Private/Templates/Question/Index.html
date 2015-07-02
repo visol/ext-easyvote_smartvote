@@ -48,6 +48,8 @@
 		EasyvoteSmartvote.totalCleavage7 = '{currentElection.totalCleavage7}' - 0;
 		EasyvoteSmartvote.totalCleavage8 = '{currentElection.totalCleavage8}' - 0;
 		EasyvoteSmartvote.token = '{smartvote:token()}';
+		EasyvoteSmartvote.pageUid = '{contentObjectData.pid}';
+		EasyvoteSmartvote.sysLanguageUid = '{contentObjectData.sys_language_uid}';
 		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')}
 	</script>
 

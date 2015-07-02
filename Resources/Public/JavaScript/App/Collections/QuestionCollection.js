@@ -83,7 +83,7 @@ export default class QuestionCollection extends Backbone.Collection {
 	url() {
 		let token = '';
 		if (EasyvoteSmartvote.isUserAuthenticated) {
-			token += '?token=' + EasyvoteSmartvote.token;
+			token += '&token=' + EasyvoteSmartvote.token;
 		}
 
 		// Compute the final election identifier.
@@ -92,7 +92,7 @@ export default class QuestionCollection extends Backbone.Collection {
 			electionIdentifier = EasyvoteSmartvote.relatedElection;
 		}
 
-		return '/routing/questions/' + electionIdentifier + token;
+		return '/routing/questions/' + electionIdentifier + '?id=' + EasyvoteSmartvote.pageUid + '&L=' + EasyvoteSmartvote.sysLanguageUid + token;
 	}
 
 	/**
