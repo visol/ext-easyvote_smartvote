@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="218.413px" height="218.412px" viewBox="300.793 27.229 218.413 218.412"
+	 enable-background="new 300.793 27.229 218.413 218.412" xml:space="preserve">
+<rect x="300.793" y="27.229" fill="#E9006F" width="218.413" height="218.412"/>
+<g id="hintergrund" display="none">
+	<path display="inline" fill="#9E005D" stroke="#000000" stroke-miterlimit="10" d="M-42.422,1.097v258.805H7171.27V1.097H-42.422z
+		 M157.544,93.075h112.244H157.544z"/>
+</g>
+<g id="raster" display="none">
+	<path display="inline" fill="none" stroke="#000000" stroke-miterlimit="10" d="M148,0.097v260h260v-260H148z M157.544,93.075
+		h112.244H157.544z"/>
+</g>
+<g>
+	<g>
+		<circle cx="410" cy="104.156" r="51.151"/>
+		<circle fill="#E9006F" cx="410" cy="104.156" r="42.779"/>
+	</g>
+	<path fill="#E9006F" stroke="#000000" stroke-width="9" stroke-miterlimit="10" d="M410,151.449
+		c-30.677,0-55.546,24.869-55.546,55.546h0.386h9.093h92.907h8.706C465.546,176.318,440.676,151.449,410,151.449z"/>
+</g>
+</svg>

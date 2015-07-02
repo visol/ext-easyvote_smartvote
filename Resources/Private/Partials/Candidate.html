@@ -14,8 +14,10 @@
 							<% } %>
 
 							<% if (typeof(photo) == "string") { %>
-								<img class="lazy" data-original="<%- photo %>" width="210" height="210" alt="" />
-							<% } %>
+								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-candidate-<%- gender %>.svg" class="lazy" data-original="<%- photo %>" width="210" height="210" alt="<%- firstName %> <%- lastName %>" />
+							<% } else { %>
+								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-candidate-<%- gender %>.svg" alt="" />
+							<%  } %>
 							<div class="supporters-count">
 								<span class="number">86</span> Unterstützer
 							</div>
