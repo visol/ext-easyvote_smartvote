@@ -45,7 +45,6 @@ if (TYPO3_MODE === 'BE') {
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_link');
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_answer');
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_spidervalue');
-	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_easyvotesmartvote_domain_model_coordinate');
 
 	// @todo bug: Check order of loading. EXT:easyvote_smartvote has a dependency to easyvote but is loaded before nevertheless!?
 	if (!isset($GLOBALS['TBE_MODULES']['easyvote'])) {
