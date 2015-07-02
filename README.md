@@ -51,13 +51,32 @@ like the Ständerat election is connected to the National election in order to s
 	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 15_ch_sr
 	./typo3/cli_dispatch.phpsh extbase smartvote:connectPartiesToNationalParty --identifier 15_ch_sr --verbose
 	./typo3/cli_dispatch.phpsh extbase smartvote:importCandidateImage --identifier 15_ch_sr --verbose
-	
+
+Re-importing data
+-----------------
+
 If you're re-importing data, you must also truncate File References and Files of candidate images:
 
-	delete from sys_file_reference where tablenames='tx_easyvotesmartvote_domain_model_candidate';
-	delete from sys_file where identifier LIKE '/smartvote%';
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_answer;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_candidate;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_civilstate;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_denomination;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_district;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_education;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_electionlist;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_party;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_question;
 
-Then, you can safely remove all files from /fileadmin/smartvote.
+	DELETE FROM sys_file_reference WHERE tablenames='tx_easyvotesmartvote_domain_model_candidate';
+	DELETE FROM sys_file WHERE identifier LIKE '/smartvote%';
+
+Then, you can safely remove all files from /fileadmin/smartvote and the caching files
+
+	rm -f fileadmin/smartvote/*
+	rm -f typo3temp/Cache/Data/easyvote_smartvote/*
+
+Finally, run the importer CLI commands
+
 
 Unit Test
 ---------
