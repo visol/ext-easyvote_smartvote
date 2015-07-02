@@ -667,7 +667,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 			value: function url() {
 				var token = "";
 				if (EasyvoteSmartvote.isUserAuthenticated) {
-					token += "?token=" + EasyvoteSmartvote.token;
+					token += "&token=" + EasyvoteSmartvote.token;
 				}
 
 				// Compute the final election identifier.
@@ -676,7 +676,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 					electionIdentifier = EasyvoteSmartvote.relatedElection;
 				}
 
-				return "/routing/questions/" + electionIdentifier + token;
+				return "/routing/questions/" + electionIdentifier + "?id=" + EasyvoteSmartvote.pageUid + "&L=" + EasyvoteSmartvote.sysLanguageUid + token;
 			}
 		},
 		load: {

@@ -13,6 +13,7 @@ namespace Visol\EasyvoteSmartvote\Processor;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Processor Interface
@@ -27,6 +28,7 @@ class QuestionProcessor extends AbstractProcessor {
 		$items = $this->addSomeDynamicValues($items);
 		$items = $this->revertOrderOfItems($items);
 		$items = $this->convertKeysToCamelCase($items);
+		$items = $this->parseQuestionName($items);
 		$items = $this->convertToInteger($items);
 		$items = $this->convertUidToId($items);
 		return $items;
@@ -67,8 +69,28 @@ class QuestionProcessor extends AbstractProcessor {
 	 * @param array $items
 	 * @return array
 	 */
+	protected function parseQuestionName(array $items) {
+		$parsedQuestions = array();
+		foreach ($items as $index => $item) {
+			$item['name'] = $this->getContentObjectRenderer()->parseFunc($item['name'], $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_tagged.']);
+			$parsedQuestions[$index] = $item;
+		}
+		return $parsedQuestions;
+	}
+
+	/**
+	 * @param array $items
+	 * @return array
+	 */
 	protected function revertOrderOfItems(array $items){
 		return array_reverse($items);
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+	 */
+	protected function getContentObjectRenderer() {
+		return GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
 	}
 
 }
