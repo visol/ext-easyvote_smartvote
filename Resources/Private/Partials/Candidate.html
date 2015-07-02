@@ -18,9 +18,12 @@
 							<% } else { %>
 								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-candidate-<%- gender %>.svg" alt="" />
 							<%  } %>
-							<div class="supporters-count">
-								<span class="number">86</span> Unterstützer
-							</div>
+							<f:comment>
+								@TODO
+								<div class="supporters-count">
+									<span class="number">86</span> {f:translate(key:'candidate.supporters')}
+								</div>
+							</f:comment>
 						</div>
 						<div class="col-xs-9 col-md-9">
 							<div class="actions">
@@ -34,18 +37,26 @@
 								</div>
 							</div>
 							<div class="supertitle">
-								<%- electionListName %>
+								<% if (electionListName !== "") { %>
+									<%- electionListName %>
+								<% } else { %>
+									<%- partyShort %>
+								<%  } %>
 							</div>
 							<h2><%- firstName %> <%- lastName %></h2>
-							<p>
-								<%- slogan %>
-							</p>
-							<a href="#" class="btn btn-primary pull-right">Meiner Liste hinzufügen</a>
+							<div>
+								*<%- yearOfBirth %>, {f:translate(key:'candidate.from')} <%- city %>
+							</div>
+							<f:comment>
+								@TODO
+								<a href="#" class="btn btn-primary pull-right">{f:translate(key:'candidate.addToList')}</a>
+							</f:comment>
 						</div>
 					</div>
 				</div>
 				<div class="box-content">
-					<div id="chart-candidate-<%- id %>"></div>
+					<h3>Kandidat politisch</h3>
+					<div class="smartspider" id="chart-candidate-<%- id %>"></div>
 				</div>
 			</div>
 		</script>
