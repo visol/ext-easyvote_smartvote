@@ -66,6 +66,7 @@ If you're re-importing data, you must also truncate File References and Files of
 	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_electionlist;
 	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_party;
 	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_question;
+	TRUNCATE TABLE tx_easyvotesmartvote_domain_model_questioncategory;
 
 	DELETE FROM sys_file_reference WHERE tablenames='tx_easyvotesmartvote_domain_model_candidate';
 	DELETE FROM sys_file WHERE identifier LIKE '/smartvote%';
