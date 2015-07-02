@@ -51,6 +51,13 @@ like the Ständerat election is connected to the National election in order to s
 	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 15_ch_sr
 	./typo3/cli_dispatch.phpsh extbase smartvote:connectPartiesToNationalParty --identifier 15_ch_sr --verbose
 	./typo3/cli_dispatch.phpsh extbase smartvote:importCandidateImage --identifier 15_ch_sr --verbose
+	
+If you're re-importing data, you must also truncate File References and Files of candidate images:
+
+	delete from sys_file_reference where tablenames='tx_easyvotesmartvote_domain_model_candidate';
+	delete from sys_file where identifier LIKE '/smartvote%';
+
+Then, you can safely remove all files from /fileadmin/smartvote.
 
 Unit Test
 ---------
