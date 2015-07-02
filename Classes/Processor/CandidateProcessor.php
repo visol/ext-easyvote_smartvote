@@ -90,7 +90,6 @@ class CandidateProcessor extends AbstractProcessor {
 				}
 
 			} else {
-				// TODO possibly use a placeholder image
 				$item['photo'] = NULL;
 			}
 			unset($item['photoCachedRemoteFilesize']);
