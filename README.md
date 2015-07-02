@@ -8,6 +8,13 @@ TODO
 
 * localization
 
+Installation
+------------
+
+Because of an issue with SVG image, the following settings must be configured on the page where the plugin is installed within in a TS template.
+
+config.baseURL >
+config.absRefPrefix = /
 
 Build assets
 ------------
@@ -19,7 +26,6 @@ Source is located at `Resources/Public/JavaScript/App/*.js`. Grunt will watch th
 	npm install
 	grunt watch
 ```
-
 
 Command Line Interface
 ----------------------
