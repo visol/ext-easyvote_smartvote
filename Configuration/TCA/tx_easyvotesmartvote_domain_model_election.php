@@ -177,8 +177,9 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
 			'title' => array(
 				'editable' => TRUE,
 			),
-			'short_title' => array(
-				'editable' => TRUE,
+			'election_date' => array(
+				'editable' => FALSE,
+				'format' => 'Fab\Vidi\Formatter\Date',
 			),
 			'smart_vote_identifier' => array(
 				'editable' => TRUE,

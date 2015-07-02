@@ -41,6 +41,7 @@
 							<config>
 								<type>select</type>
 								<foreign_table>tx_easyvotesmartvote_domain_model_election</foreign_table>
+								<foreign_table_where>ORDER BY election_date DESC</foreign_table_where>
 								<size>1</size>
 								<minitems>1</minitems>
 								<maxitems>1</maxitems>
