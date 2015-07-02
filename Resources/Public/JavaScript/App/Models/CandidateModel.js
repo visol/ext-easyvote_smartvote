@@ -39,7 +39,7 @@ export default class CandidateModel extends Backbone.Model {
 						counter++
 					}
 				} else {
-					console.log('Warning #1435731882: I could not retrieve the question filled by the User.' + candidateAnswer.questionId);
+					console.log('Warning #1435731882: I could not retrieve the question filled by the User ' + candidateAnswer.questionId);
 				}
 			}
 			let distance = Math.sqrt(aggregatedResult);
