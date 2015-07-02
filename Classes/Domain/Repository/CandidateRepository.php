@@ -35,7 +35,7 @@ class CandidateRepository extends Repository {
 		$clause .= $this->getDeleteClauseAndEnableFieldsConstraint($tableName);
 
 		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city,
-		            elected, slogan, party_short, serialized_answers, election_list_name,
+		            incumbent, slogan, party_short, serialized_answers, election_list_name,
 		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize';
 		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 	}

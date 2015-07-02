@@ -410,13 +410,13 @@
 			<trans-unit id="filter.gender.male">
 				<source>Mann</source>
 			</trans-unit>
-			<trans-unit id="filter.elected.title">
+			<trans-unit id="filter.incumbent.title">
 				<source>Bisherig</source>
 			</trans-unit>
-			<trans-unit id="filter.elected.yes">
+			<trans-unit id="filter.incumbent.yes">
 				<source>Ja</source>
 			</trans-unit>
-			<trans-unit id="filter.elected.no">
+			<trans-unit id="filter.incumbent.no">
 				<source>Nein</source>
 			</trans-unit>
 			<trans-unit id="yes">
