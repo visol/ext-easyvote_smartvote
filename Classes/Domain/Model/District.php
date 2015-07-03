@@ -43,7 +43,7 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * candidates
 	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<>
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Visol\EasyvoteSmartvote\Domain\Model\Candidate>
 	 * @cascade remove
 	 */
 	protected $candidates = NULL;
@@ -51,8 +51,7 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * election
 	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Visol\EasyvoteSmartvote\Domain\Model\Election>
-	 * @cascade remove
+	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
 	 */
 	protected $election = NULL;
 
@@ -74,7 +73,6 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected function initStorageObjects() {
 		$this->candidates = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$this->election = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
@@ -135,29 +133,29 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Adds a
+	 * Adds a candidate
 	 *
-	 * @param  $candidate
+	 * @param  $candidate \Visol\EasyvoteSmartvote\Domain\Model\Candidate
 	 * @return void
 	 */
-	public function addCandidate($candidate) {
+	public function addCandidate(\Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate) {
 		$this->candidates->attach($candidate);
 	}
 
 	/**
-	 * Removes a
+	 * Removes a candidate
 	 *
-	 * @param $candidateToRemove The  to be removed
+	 * @param $candidateToRemove \Visol\EasyvoteSmartvote\Domain\Model\Candidate The candidate to be removed
 	 * @return void
 	 */
-	public function removeCandidate($candidateToRemove) {
+	public function removeCandidate(\Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidateToRemove) {
 		$this->candidates->detach($candidateToRemove);
 	}
 
 	/**
 	 * Returns the candidates
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<> $candidates
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Visol\EasyvoteSmartvote\Domain\Model\Candidate> $candidates
 	 */
 	public function getCandidates() {
 		return $this->candidates;
@@ -166,7 +164,7 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the candidates
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<> $candidates
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Visol\EasyvoteSmartvote\Domain\Model\Candidate> $candidates
 	 * @return void
 	 */
 	public function setCandidates(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $candidates) {
@@ -174,29 +172,9 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Adds a Election
-	 *
-	 * @param \Visol\EasyvoteSmartvote\Domain\Model\Election $election
-	 * @return void
-	 */
-	public function addElection(\Visol\EasyvoteSmartvote\Domain\Model\Election $election) {
-		$this->election->attach($election);
-	}
-
-	/**
-	 * Removes a Election
-	 *
-	 * @param \Visol\EasyvoteSmartvote\Domain\Model\Election $electionToRemove The Election to be removed
-	 * @return void
-	 */
-	public function removeElection(\Visol\EasyvoteSmartvote\Domain\Model\Election $electionToRemove) {
-		$this->election->detach($electionToRemove);
-	}
-
-	/**
 	 * Returns the election
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Visol\EasyvoteSmartvote\Domain\Model\Election> $election
+	 * @return \Visol\EasyvoteSmartvote\Domain\Model\Election
 	 */
 	public function getElection() {
 		return $this->election;
@@ -205,10 +183,10 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the election
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Visol\EasyvoteSmartvote\Domain\Model\Election> $election
+	 * @param $election \Visol\EasyvoteSmartvote\Domain\Model\Election
 	 * @return void
 	 */
-	public function setElection(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $election) {
+	public function setElection(\Visol\EasyvoteSmartvote\Domain\Model\Election $election) {
 		$this->election = $election;
 	}
 

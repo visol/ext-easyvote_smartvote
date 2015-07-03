@@ -35,17 +35,17 @@ class CandidateController extends ActionController {
 	protected $nationalPartyRepository;
 
 	/**
-	 * @var \Visol\Easyvote\Domain\Repository\KantonRepository
+	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\DistrictRepository
 	 * @inject
 	 */
-	protected $cantonRepository;
+	protected $districtRepository;
 
 	public function initializeObject() {
 		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
 		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
 		$querySettings->setRespectStoragePage(FALSE);
 		$this->nationalPartyRepository->setDefaultQuerySettings($querySettings);
-		$this->cantonRepository->setDefaultQuerySettings($querySettings);
+		$this->districtRepository->setDefaultQuerySettings($querySettings);
 	}
 
 	/**
@@ -64,9 +64,12 @@ class CandidateController extends ActionController {
 	 */
 	public function filterAction() {
 		$nationalParties = $this->nationalPartyRepository->findAll();
-		$cantons = $this->cantonRepository->findAll();
 		$this->view->assign('nationalParties', $nationalParties);
-		$this->view->assign('cantons', $cantons);
+
+		$electionIdentifier = (int)$this->settings['elections'];
+		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
+		$districts = $this->districtRepository->findByElection($currentElection);
+		$this->view->assign('districts', $districts);
 	}
 
 }

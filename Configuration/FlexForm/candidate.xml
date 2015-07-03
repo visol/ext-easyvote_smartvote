@@ -37,7 +37,6 @@
 					<settings.elections>
 						<TCEforms>
 							<label>Related elections</label>
-							<displayCond>FIELD:switchableControllerActions:=:Candidate->index;</displayCond>
 							<config>
 								<type>select</type>
 								<foreign_table>tx_easyvotesmartvote_domain_model_election</foreign_table>

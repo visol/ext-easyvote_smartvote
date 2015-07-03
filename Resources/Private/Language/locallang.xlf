@@ -389,7 +389,7 @@
 			<trans-unit id="filter.party.title">
 				<source>Partei</source>
 			</trans-unit>
-			<trans-unit id="filter.canton.title">
+			<trans-unit id="filter.district.title.canton">
 				<source>Kanton</source>
 			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
