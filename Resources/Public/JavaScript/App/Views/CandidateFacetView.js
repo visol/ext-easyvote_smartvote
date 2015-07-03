@@ -1,6 +1,7 @@
 /*jshint esnext:true */
 import CandidateCollection from '../Collections/CandidateCollection'
 import Registry from '../Registry';
+import FacetModel from '../Models/FacetModel';
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -27,6 +28,18 @@ export default class CandidateFacetView extends Backbone.View {
 			'change .form-control': 'filterCandidates'
 		};
 
+		this.model = new FacetModel();
+		this.model.fetch(); // Restore values from the session
+
+		this.bindings = {
+			'#nationalParty': 'nationalParty',
+			'#district': 'district',
+			'#minAge': 'minAge',
+			'#maxAge': 'maxAge',
+			'#incumbent': 'incumbent',
+			'#gender': 'gender'
+		};
+
 		super(options);
 	}
 
@@ -34,6 +47,12 @@ export default class CandidateFacetView extends Backbone.View {
 	 * @returns void
 	 */
 	filterCandidates() {
+
+		var data = {};
+		for (let facet of this.getFacets()) {
+			data[facet.name] = facet.value;
+		}
+		this.model.save(data);
 
 		/** @var CandidateListView listView */
 		Registry.get('listView').render();
@@ -63,6 +82,7 @@ export default class CandidateFacetView extends Backbone.View {
 	render() {
 		let content = this.template();
 		this.$el.html(content);
+		this.stickit();
 	}
 
 }

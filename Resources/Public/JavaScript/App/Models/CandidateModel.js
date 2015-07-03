@@ -18,6 +18,9 @@ export default class CandidateModel extends Backbone.Model {
 		};
 	}
 
+	/**
+	 * @returns {int}
+	 */
 	getMatching() {
 
 		let questionCollection = QuestionCollection.getInstance();

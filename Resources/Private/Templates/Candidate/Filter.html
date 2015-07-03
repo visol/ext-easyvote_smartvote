@@ -16,14 +16,14 @@
 				<fieldset>
 
 					<div class="form-group">
-						<f:form.select name="nationalParty" options="{nationalParties}"
+						<f:form.select id="nationalParty" name="nationalParty" options="{nationalParties}"
 						               optionValueField="uid" optionLabelField="title"
 						               sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.party.title')}"
 						               prependOptionValue="" class="form-control"/>
 					</div>
 
 					<div class="form-group">
-						<f:form.select name="district" options="{districts}"
+						<f:form.select id="district" name="district" options="{districts}"
 						               optionValueField="uid" optionLabelField="name"
 						               sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.district.title.canton')}"
 						               prependOptionValue="" class="form-control"/>
