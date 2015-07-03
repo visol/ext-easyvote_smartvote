@@ -59,7 +59,7 @@ export default class CandidateCollection extends Backbone.Collection {
 		return this.filter(candidate => {
 
 			var filterEngine = new FilterEngine();
-			window.facets = Registry.get('facetView').getFacets();
+			var facets = Registry.get('facetView').getFacets();
 			var isOk = true;
 
 			// Fetch first facet

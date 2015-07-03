@@ -15,26 +15,34 @@ export default class FilterEngine {
 	 */
 	isOk(candidate, facet) {
 
-		var subjectYearOfBirth, age;
+		var value, filterValue;
 		var isOk = true;
 
-		switch (facet.name) {
-
-			case 'minAge':
-				subjectYearOfBirth = candidate.get('yearOfBirth');
-				age = facet.value;
-				isOk = this.isYoungerOrEqual(subjectYearOfBirth, age);
-				break;
-
-			case 'maxAge':
-				subjectYearOfBirth = candidate.get('yearOfBirth');
-				age = facet.value;
-				isOk = this.isOlderOrEqual(subjectYearOfBirth, age);
-				break;
+		if (!facet.value) {
+			isOk = true;
+		} else if (facet.name === 'minAge') {
+			value = candidate.get('yearOfBirth');
+			filterValue = facet.value;
+			isOk = this.isYoungerOrEqual(value, filterValue);
+		} else if (facet.name === 'maxAge') {
+			value = candidate.get('yearOfBirth');
+			filterValue = facet.value;
+			isOk = this.isOlderOrEqual(value, filterValue);
+		} else {
+			value = candidate.get(facet.name);
+			isOk = this.isEqual(value, facet.value);
 		}
 
 		return isOk;
+	}
 
+	/**
+	 * @param {int} objectValue
+	 * @param {int} facetValue
+	 * @returns {boolean}
+	 */
+	isEqual(objectValue, facetValue) {
+		return objectValue == facetValue;
 	}
 
 	/**
