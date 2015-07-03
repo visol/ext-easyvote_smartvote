@@ -40,7 +40,8 @@
 		EasyvoteSmartvote.pageUid = '{contentObjectData.pid}';
 		EasyvoteSmartvote.sysLanguageUid = '{contentObjectData.sys_language_uid}';
 		EasyvoteSmartvote.relatedToken = '{smartvote:token(forRelatedElection: 1)}';
-		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')}
+		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')};
+		EasyvoteSmartvote.userDistrict = '{userDistrict}';
 	</script>
 </f:section>
 

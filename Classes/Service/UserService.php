@@ -66,4 +66,5 @@ class UserService implements SingletonInterface {
 	public function get($key) {
 		return $this->getFrontendUser()->getKey('user', $key);
 	}
+
 }

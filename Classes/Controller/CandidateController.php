@@ -14,8 +14,9 @@ namespace Visol\EasyvoteSmartvote\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use Visol\EasyvoteSmartvote\Domain\Model\Candidate;
+use Visol\EasyvoteSmartvote\Service\DistrictService;
 
 /**
  * CandidateController
@@ -54,9 +55,14 @@ class CandidateController extends ActionController {
 	public function indexAction() {
 		$electionIdentifier = (int)$this->settings['election'];
 		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
+
+		$userDistrict = $this->getDistrictService()->getUserDistrictForCurrentElection($currentElection);
+
 		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
 		$this->view->assign('currentElection', $currentElection);
 		$this->view->assign('settings', $this->settings);
+		$this->view->assign('userDistrict', $userDistrict);
+
 	}
 
 	/**
@@ -70,6 +76,13 @@ class CandidateController extends ActionController {
 		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
 		$districts = $this->districtRepository->findByElection($currentElection);
 		$this->view->assign('districts', $districts);
+	}
+
+	/**
+	 * @return DistrictService
+	 */
+	protected function getDistrictService() {
+		return GeneralUtility::makeInstance(DistrictService::class);
 	}
 
 }
