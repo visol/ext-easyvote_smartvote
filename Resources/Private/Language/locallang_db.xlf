@@ -145,6 +145,9 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.party">
 				<source>Party</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.national_party">
+				<source>National party</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.district">
 				<source>District</source>
 			</trans-unit>

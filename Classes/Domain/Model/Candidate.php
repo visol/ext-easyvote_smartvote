@@ -328,6 +328,13 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $party = NULL;
 
 	/**
+	 * national party
+	 *
+	 * @var \Visol\Easyvote\Domain\Model\Party
+	 */
+	protected $nationalParty = NULL;
+
+	/**
 	 * district
 	 *
 	 * @var \Visol\EasyvoteSmartvote\Domain\Model\District
@@ -1221,6 +1228,20 @@ class Candidate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setParty(\Visol\EasyvoteSmartvote\Domain\Model\Party $party) {
 		$this->party = $party;
+	}
+
+	/**
+	 * @return \Visol\Easyvote\Domain\Model\Party
+	 */
+	public function getNationalParty() {
+		return $this->nationalParty;
+	}
+
+	/**
+	 * @param \Visol\Easyvote\Domain\Model\Party $nationalParty
+	 */
+	public function setNationalParty($nationalParty) {
+		$this->nationalParty = $nationalParty;
 	}
 
 	/**

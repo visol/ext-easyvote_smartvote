@@ -52,6 +52,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_candidate (
 	serialized_spider_values text NOT NULL,
 	serialized_coordinate text NOT NULL,
 	party int(11) unsigned DEFAULT '0',
+	national_party int(11) unsigned DEFAULT '0',
 	district int(11) unsigned DEFAULT '0',
 	election int(11) unsigned DEFAULT '0',
 	election_list int(11) unsigned DEFAULT '0',
