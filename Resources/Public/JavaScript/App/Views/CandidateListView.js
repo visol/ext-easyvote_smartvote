@@ -37,17 +37,19 @@ export default class CandidateListView extends Backbone.View {
 	/**
 	 * Render template.
 	 */
-	render(candidates) {
+	render() {
+
+		let filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
 
 		// Render intermediate content in a temporary DOM.
 		let container = document.createDocumentFragment();
-
-		candidates.each(candidate => {
+		for (let candidate of filteredCandidates) {
 			let content = this.renderOne(candidate);
 			container.appendChild(content);
-		});
+		}
 
-		$('#container-candidate-list').append(container);
+		// Finally update the DOM.
+		$('#container-candidate-list').empty().append(container);
 
 		// Add lazy loading to images.
 		$("img.lazy").lazyload();

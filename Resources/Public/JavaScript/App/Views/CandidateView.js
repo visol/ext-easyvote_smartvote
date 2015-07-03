@@ -26,8 +26,6 @@ export default class CandidateView extends Backbone.View {
 		};
 
 		super(options);
-		//this.listenTo(this.model, 'change', this.render);
-		//this.listenTo(this.model, 'visible', this.changeVisible);
 	}
 
 	/**

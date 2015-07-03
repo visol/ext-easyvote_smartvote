@@ -1,5 +1,8 @@
 /*jshint esnext:true */
 import CandidateModel from '../Models/CandidateModel'
+import CandidateFacetView from '../Views/CandidateFacetView'
+import FilterEngine from '../Filter/FilterEngine'
+import Registry from '../Registry';
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -46,6 +49,28 @@ export default class CandidateCollection extends Backbone.Collection {
 			// call original fetch method.
 			return super.fetch();
 		}
+	}
+
+	/**
+	 * @returns {*}
+	 */
+	getFilteredCandidates() {
+
+		return this.filter(candidate => {
+
+			var filterEngine = new FilterEngine();
+			window.facets = Registry.get('facetView').getFacets();
+			var isOk = true;
+
+			// Fetch first facet
+			var facet = facets.next().value;
+			while (facet && isOk) {
+				isOk = filterEngine.isOk(candidate, facet);
+				facet = facets.next().value;
+			}
+
+			return isOk;
+		});
 	}
 
 	/**
