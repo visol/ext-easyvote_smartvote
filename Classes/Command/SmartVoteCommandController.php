@@ -89,6 +89,8 @@ class SmartVoteCommandController extends CommandController {
 
 			$logs = $this->getPartyMatcherService($election)->matchPartiesToNationalParty($verbose);
 			$logLines = implode('', $logs);
+			$logs = $this->getPartyMatcherService($election)->setNationalPartyForCandidates($verbose);
+			$logLines = $logLines . implode('', $logs);
 			$this->outputLine($logLines);
 		}
 

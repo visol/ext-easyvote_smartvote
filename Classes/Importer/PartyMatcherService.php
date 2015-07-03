@@ -38,6 +38,12 @@ class PartyMatcherService {
 	protected $nationalPartyRepository;
 
 	/**
+	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\CandidateRepository
+	 * @inject
+	 */
+	protected $candidateRepository;
+
+	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 * @inject
 	 */
@@ -97,6 +103,44 @@ class PartyMatcherService {
 			}
 
 		}
+		return $this->logs;
+	}
+
+	/**
+	 * Sets the national party for all candidates based on their party
+	 * Having the national party stored directly in the candidate table increases performance
+	 *
+	 * @param bool $verbose
+	 * @return array
+	 */
+	public function setNationalPartyForCandidates($verbose = FALSE) {
+		$candidates = $this->candidateRepository->findByElectionReturnObjectStorage($this->election);
+		$i = 0;
+		foreach ($candidates as $candidate) {
+			/** @var $candidate \Visol\EasyvoteSmartvote\Domain\Model\Candidate */
+			if ($candidate->getParty() instanceof \Visol\EasyvoteSmartvote\Domain\Model\Party) {
+				if ($candidate->getParty()->getNationalParty() instanceof \Visol\Easyvote\Domain\Model\Party) {
+					if ($verbose) {
+						$this->log('[OK]   Set national party ' . $candidate->getParty()->getNationalParty()->getTitle() . ' | ' . $candidate->getFirstName() . ' ' . $candidate->getLastName());
+						$candidate->setNationalParty($candidate->getParty()->getNationalParty());
+						$this->candidateRepository->update($candidate);
+					}
+				} else {
+					if ($verbose) {
+						$this->log('[FAIL] Candidate\'s party has no national party: ' . $candidate->getParty()->getName() . ' | ' . $candidate->getFirstName() . ' ' . $candidate->getLastName());
+					}
+				}
+			} else {
+				if ($verbose) {
+					$this->log('[FAIL] Candidate has no party. | ' . $candidate->getFirstName() . ' ' . $candidate->getLastName());
+				}
+			}
+			if ($i % 50 === 0) {
+				$this->persistenceManager->persistAll();
+			}
+			$i++;
+		}
+		$this->persistenceManager->persistAll();
 		return $this->logs;
 	}
 

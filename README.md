@@ -51,6 +51,9 @@ like the Ständerat election is connected to the National election in order to s
 	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 15_ch_sr
 	./typo3/cli_dispatch.phpsh extbase smartvote:connectPartiesToNationalParty --identifier 15_ch_sr --verbose
 	./typo3/cli_dispatch.phpsh extbase smartvote:importCandidateImage --identifier 15_ch_sr --verbose
+	
+The matching of parties to national parties might not be complete because there is no national party for some local/
+cantonal parties. These relations must be adjusted manually. 
 
 Re-importing data
 -----------------

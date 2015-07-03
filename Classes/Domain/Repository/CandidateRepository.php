@@ -34,12 +34,19 @@ class CandidateRepository extends Repository {
 		$clause = 'election = ' . $election->getUid();
 		$clause .= $this->getDeleteClauseAndEnableFieldsConstraint($tableName);
 
-		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city,
-		            incumbent, slogan, party_short, serialized_answers, election_list_name,
+		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city, national_party,
+		            incumbent, slogan, party_short, district, serialized_answers, election_list_name,
 		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize';
 		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 	}
 
+	/**
+	 * Build the enableFields constraint based on the current TYPO3 mode
+	 * PageRepository is not available in CLI/Backend context
+	 *
+	 * @param $tableName
+	 * @return string
+	 */
 	protected function getDeleteClauseAndEnableFieldsConstraint($tableName) {
 		if (TYPO3_MODE === 'FE') {
 			return $this->getPageRepository()->deleteClause($tableName) .
@@ -47,6 +54,21 @@ class CandidateRepository extends Repository {
 		} else {
 			return BackendUtility::deleteClause($tableName);
 		}
+	}
+
+	/**
+	 * Finds all candidate and returns an Extbase ObjectStorage
+	 *
+	 * @param Election $election
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+	 */
+	public function findByElectionReturnObjectStorage(Election $election) {
+		$query = $this->createQuery();
+		$query->getQuerySettings()->setRespectStoragePage(FALSE);
+		$query->matching(
+			$query->equals('election', $election)
+		);
+		return $query->execute();
 	}
 
 	/**
