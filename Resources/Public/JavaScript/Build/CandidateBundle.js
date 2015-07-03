@@ -5,10 +5,23 @@ var _interopRequire = require("babel-runtime/helpers/interop-require")["default"
 
 var CandidateListView = _interopRequire(require("./Views/CandidateListView"));
 
+var CandidateFacetView = _interopRequire(require("./Views/CandidateFacetView"));
+
+var Registry = _interopRequire(require("./Registry"));
+
 $(function () {
-	new CandidateListView();
+	var facetView = new CandidateFacetView();
+	facetView.render();
+
+	// Register the facet view for later use.
+	Registry.set("facetView", facetView);
+
+	var listView = new CandidateListView();
+
+	// Register the list view for later use.
+	Registry.set("listView", listView);
 });
-},{"./Views/CandidateListView":7,"babel-runtime/helpers/interop-require":14}],2:[function(require,module,exports){
+},{"./Registry":8,"./Views/CandidateFacetView":9,"./Views/CandidateListView":10,"babel-runtime/helpers/interop-require":17}],2:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -209,7 +222,7 @@ var SpiderChartPlotter = (function () {
 })();
 
 module.exports = SpiderChartPlotter;
-},{"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11}],3:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14}],3:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -226,6 +239,12 @@ var _core = require("babel-runtime/core-js")["default"];
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
 var CandidateModel = _interopRequire(require("../Models/CandidateModel"));
+
+var CandidateFacetView = _interopRequire(require("../Views/CandidateFacetView"));
+
+var FilterEngine = _interopRequire(require("../Filter/FilterEngine"));
+
+var Registry = _interopRequire(require("../Registry"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -284,6 +303,31 @@ var CandidateCollection = (function (_Backbone$Collection) {
 					// call original fetch method.
 					return _get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this);
 				}
+			}
+		},
+		getFilteredCandidates: {
+
+			/**
+    * @returns {*}
+    */
+
+			value: function getFilteredCandidates() {
+
+				return this.filter(function (candidate) {
+
+					var filterEngine = new FilterEngine();
+					var facets = Registry.get("facetView").getFacets();
+					var isOk = true;
+
+					// Fetch first facet
+					var facet = facets.next().value;
+					while (facet && isOk) {
+						isOk = filterEngine.isOk(candidate, facet);
+						facet = facets.next().value;
+					}
+
+					return isOk;
+				});
 			}
 		},
 		remoteFetch: {
@@ -360,7 +404,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-},{"../Models/CandidateModel":5,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],4:[function(require,module,exports){
+},{"../Filter/FilterEngine":5,"../Models/CandidateModel":6,"../Registry":8,"../Views/CandidateFacetView":9,"babel-runtime/core-js":12,"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14,"babel-runtime/helpers/get":15,"babel-runtime/helpers/inherits":16,"babel-runtime/helpers/interop-require":17}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -562,7 +606,113 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":6,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],5:[function(require,module,exports){
+},{"../Models/QuestionModel":7,"babel-runtime/core-js":12,"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14,"babel-runtime/helpers/get":15,"babel-runtime/helpers/inherits":16,"babel-runtime/helpers/interop-require":17}],5:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var FilterEngine = (function () {
+	function FilterEngine() {
+		_classCallCheck(this, FilterEngine);
+	}
+
+	_createClass(FilterEngine, {
+		isOk: {
+
+			/**
+    * @param candidate
+    * @param facet
+    * @returns {boolean}
+    */
+
+			value: (function (_isOk) {
+				var _isOkWrapper = function isOk(_x, _x2) {
+					return _isOk.apply(this, arguments);
+				};
+
+				_isOkWrapper.toString = function () {
+					return _isOk.toString();
+				};
+
+				return _isOkWrapper;
+			})(function (candidate, facet) {
+
+				var value, filterValue;
+				var isOk = true;
+
+				if (!facet.value) {
+					isOk = true;
+				} else if (facet.name === "minAge") {
+					value = candidate.get("yearOfBirth");
+					filterValue = facet.value;
+					isOk = this.isYoungerOrEqual(value, filterValue);
+				} else if (facet.name === "maxAge") {
+					value = candidate.get("yearOfBirth");
+					filterValue = facet.value;
+					isOk = this.isOlderOrEqual(value, filterValue);
+				} else {
+					value = candidate.get(facet.name);
+					isOk = this.isEqual(value, facet.value);
+				}
+
+				return isOk;
+			})
+		},
+		isEqual: {
+
+			/**
+    * @param {int} objectValue
+    * @param {int} facetValue
+    * @returns {boolean}
+    */
+
+			value: function isEqual(objectValue, facetValue) {
+				return objectValue == facetValue;
+			}
+		},
+		isYoungerOrEqual: {
+
+			/**
+    * @param {int} subjectYearOfBirth
+    * @param {int} age
+    * @returns {boolean}
+    */
+
+			value: function isYoungerOrEqual(subjectYearOfBirth, age) {
+				var currentYear = new Date().getFullYear();
+				return subjectYearOfBirth <= currentYear - age;
+			}
+		},
+		isOlderOrEqual: {
+
+			/**
+    * @param {int} subjectYearOfBirth
+    * @param {int} age
+    * @returns {boolean}
+    */
+
+			value: function isOlderOrEqual(subjectYearOfBirth, age) {
+				var currentYear = new Date().getFullYear();
+				return subjectYearOfBirth >= currentYear - age;
+			}
+		}
+	});
+
+	return FilterEngine;
+})();
+
+module.exports = FilterEngine;
+},{"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14}],6:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -637,7 +787,7 @@ var CandidateModel = (function (_Backbone$Model) {
 									counter++;
 								}
 							} else {
-								console.log("Warning #1435731882: I could not retrieve the question filled by the User." + candidateAnswer.questionId);
+								console.log("Warning #1435731882: I could not retrieve the question filled by the User " + candidateAnswer.questionId);
 							}
 						}
 					} catch (err) {
@@ -691,7 +841,7 @@ var CandidateModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = CandidateModel;
-},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],6:[function(require,module,exports){
+},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":12,"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14,"babel-runtime/helpers/inherits":16,"babel-runtime/helpers/interop-require":17}],7:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -766,7 +916,161 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/inherits":13}],7:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14,"babel-runtime/helpers/inherits":16}],8:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var Registry = (function () {
+	function Registry() {
+		_classCallCheck(this, Registry);
+	}
+
+	_createClass(Registry, null, {
+		get: {
+
+			/**
+    * @return {Object}
+    */
+
+			value: function get(name) {
+
+				return Registry.instances[name];
+			}
+		},
+		set: {
+
+			/**
+    * @return void
+    */
+
+			value: function set(name, object) {
+				if (!Registry.instances) {
+					Registry.instances = {};
+				}
+				Registry.instances[name] = object;
+			}
+		}
+	});
+
+	return Registry;
+})();
+
+module.exports = Registry;
+},{"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14}],9:[function(require,module,exports){
+/*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var CandidateCollection = _interopRequire(require("../Collections/CandidateCollection"));
+
+var Registry = _interopRequire(require("../Registry"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var CandidateFacetView = (function (_Backbone$View) {
+
+	/**
+  * @param options
+  */
+
+	function CandidateFacetView(options) {
+		_classCallCheck(this, CandidateFacetView);
+
+		// Instead of generating a new element, bind to the existing skeleton of
+		// the App already present in the HTML.
+		this.setElement($("#container-candidate-filter"), true);
+
+		// *Cache the template function for a single item.*
+		this.template = _.template($("#template-candidate-filter").html());
+
+		// *Define the DOM events specific to an item.*
+		this.events = {
+			"change .form-control": "filterCandidates"
+		};
+
+		_get(_core.Object.getPrototypeOf(CandidateFacetView.prototype), "constructor", this).call(this, options);
+	}
+
+	_inherits(CandidateFacetView, _Backbone$View);
+
+	_createClass(CandidateFacetView, {
+		filterCandidates: {
+
+			/**
+    * @returns void
+    */
+
+			value: function filterCandidates() {
+
+				/** @var CandidateListView listView */
+				Registry.get("listView").render();
+			}
+		},
+		getFacets: {
+
+			/**
+    * @returns {Object}
+    */
+
+			value: function getFacets() {
+				var facets = [];
+				var $elements = $("#container-candidate-filter").find(".form-control");
+				$elements.each(function (index, element) {
+					var facet = {};
+					facet.name = $(element).attr("name");
+					facet.value = $(element).val();
+					facets.push(facet);
+				});
+
+				return _core.$for.getIterator(facets);
+			}
+		},
+		render: {
+
+			/**
+    * Render the candidate view.
+    *
+    * @returns void
+    */
+
+			value: function render() {
+				var content = this.template();
+				this.$el.html(content);
+			}
+		}
+	});
+
+	return CandidateFacetView;
+})(Backbone.View);
+
+module.exports = CandidateFacetView;
+},{"../Collections/CandidateCollection":3,"../Registry":8,"babel-runtime/core-js":12,"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14,"babel-runtime/helpers/get":15,"babel-runtime/helpers/inherits":16,"babel-runtime/helpers/interop-require":17}],10:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -828,18 +1132,40 @@ var CandidateListView = (function (_Backbone$View) {
     * Render template.
     */
 
-			value: function render(candidates) {
-				var _this = this;
+			value: function render() {
+
+				var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
 
 				// Render intermediate content in a temporary DOM.
 				var container = document.createDocumentFragment();
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
 
-				candidates.each(function (candidate) {
-					var content = _this.renderOne(candidate);
-					container.appendChild(content);
-				});
+				try {
+					for (var _iterator = _core.$for.getIterator(filteredCandidates), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var candidate = _step.value;
 
-				$("#container-candidate-list").append(container);
+						var content = this.renderOne(candidate);
+						container.appendChild(content);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				// Finally update the DOM.
+				$("#container-candidate-list").empty().append(container);
 
 				// Add lazy loading to images.
 				$("img.lazy").lazyload();
@@ -892,7 +1218,7 @@ var CandidateListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = CandidateListView;
-},{"../Collections/CandidateCollection":3,"../Collections/QuestionCollection":4,"./CandidateView":8,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],8:[function(require,module,exports){
+},{"../Collections/CandidateCollection":3,"../Collections/QuestionCollection":4,"./CandidateView":11,"babel-runtime/core-js":12,"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14,"babel-runtime/helpers/get":15,"babel-runtime/helpers/inherits":16,"babel-runtime/helpers/interop-require":17}],11:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -937,8 +1263,6 @@ var CandidateView = (function (_Backbone$View) {
 		};
 
 		_get(_core.Object.getPrototypeOf(CandidateView.prototype), "constructor", this).call(this, options);
-		//this.listenTo(this.model, 'change', this.render);
-		//this.listenTo(this.model, 'visible', this.changeVisible);
 	}
 
 	_inherits(CandidateView, _Backbone$View);
@@ -1024,7 +1348,7 @@ var CandidateView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = CandidateView;
-},{"../Chart/SpiderChartPlotter":2,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],9:[function(require,module,exports){
+},{"../Chart/SpiderChartPlotter":2,"babel-runtime/core-js":12,"babel-runtime/helpers/class-call-check":13,"babel-runtime/helpers/create-class":14,"babel-runtime/helpers/get":15,"babel-runtime/helpers/inherits":16,"babel-runtime/helpers/interop-require":17}],12:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -3366,7 +3690,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],10:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -3376,7 +3700,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -3398,7 +3722,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],12:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -3442,7 +3766,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":9}],13:[function(require,module,exports){
+},{"babel-runtime/core-js":12}],16:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -3462,7 +3786,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],14:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
