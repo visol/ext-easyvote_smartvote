@@ -52,7 +52,7 @@ class CandidateController extends ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
-		$electionIdentifier = (int)$this->settings['elections'];
+		$electionIdentifier = (int)$this->settings['election'];
 		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
 		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
 		$this->view->assign('currentElection', $currentElection);
@@ -66,7 +66,7 @@ class CandidateController extends ActionController {
 		$nationalParties = $this->nationalPartyRepository->findAll();
 		$this->view->assign('nationalParties', $nationalParties);
 
-		$electionIdentifier = (int)$this->settings['elections'];
+		$electionIdentifier = (int)$this->settings['election'];
 		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
 		$districts = $this->districtRepository->findByElection($currentElection);
 		$this->view->assign('districts', $districts);

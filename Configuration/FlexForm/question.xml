@@ -34,9 +34,9 @@
 							</config>
 						</TCEforms>
 					</switchableControllerActions>
-					<settings.elections>
+					<settings.election>
 						<TCEforms>
-							<label>Related elections</label>
+							<label>Related election</label>
 							<displayCond>FIELD:switchableControllerActions:=:Question->index;</displayCond>
 							<config>
 								<type>select</type>
@@ -47,7 +47,7 @@
 								<maxitems>1</maxitems>
 							</config>
 						</TCEforms>
-					</settings.elections>
+					</settings.election>
 				</el>
 			</ROOT>
 		</sDEF>
