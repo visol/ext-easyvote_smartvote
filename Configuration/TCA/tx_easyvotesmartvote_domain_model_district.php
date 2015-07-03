@@ -7,6 +7,8 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_district'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_district',
 		'label' => 'name',
+		'label_alt' => 'election',
+		'label_alt_force' => TRUE,
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -24,7 +26,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_district'] = array(
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_district.gif'
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, seats, internal_identifier, candidates, election, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, canton, seats, internal_identifier, candidates, election'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -103,11 +105,11 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_district'] = array(
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_district.candidates',
 			'config' => array(
 				'type' => 'inline',
-				'foreign_table' => '',
+				'foreign_table' => 'tx_easyvotesmartvote_domain_model_candidate',
 				'foreign_field' => 'district',
 				'maxitems'      => 9999,
 				'appearance' => array(
-					'collapseAll' => 0,
+					'collapseAll' => TRUE,
 					'levelLinksPosition' => 'top',
 					'showSynchronizationLink' => 1,
 					'showPossibleLocalizationRecords' => 1,
@@ -120,19 +122,25 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_district'] = array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_district.election',
 			'config' => array(
-				'type' => 'inline',
+				'type' => 'select',
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_election',
-				'foreign_field' => 'district',
-				'maxitems'      => 9999,
-				'appearance' => array(
-					'collapseAll' => 0,
-					'levelLinksPosition' => 'top',
-					'showSynchronizationLink' => 1,
-					'showPossibleLocalizationRecords' => 1,
-					'showAllLocalizationLink' => 1
-				),
+				'minitems'      => 1,
+				'maxitems'      => 1,
 			),
-
+		),
+		'canton' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_district.canton',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_easyvote_domain_model_kanton',
+				'foreign_table_where' => 'AND tx_easyvote_domain_model_kanton.sys_language_uid IN (-1,0) ORDER BY tx_easyvote_domain_model_kanton.name',
+				'items' => array(
+					'' => ''
+				),
+				'minitems'      => 1,
+				'maxitems'      => 1,
+			),
 		),
 
 	),

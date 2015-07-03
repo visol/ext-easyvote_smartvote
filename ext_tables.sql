@@ -132,6 +132,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_district (
 	internal_identifier varchar(255) DEFAULT '' NOT NULL,
 	candidates int(11) unsigned DEFAULT '0' NOT NULL,
 	election int(11) unsigned DEFAULT '0' NOT NULL,
+	canton int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

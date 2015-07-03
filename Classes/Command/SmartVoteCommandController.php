@@ -18,6 +18,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Importer\CandidateImageImporterService;
+use Visol\EasyvoteSmartvote\Importer\DistrictToKantonMatcherService;
 use Visol\EasyvoteSmartvote\Importer\ImporterService;
 use Visol\EasyvoteSmartvote\Importer\PartyMatcherService;
 
@@ -97,6 +98,34 @@ class SmartVoteCommandController extends CommandController {
 	}
 
 	/**
+	 * Try matching districts to their Canton. Only works for national elections.
+	 *
+	 * @param bool $verbose
+	 * @param string $identifier
+	 */
+	public function connectDistrictsToCantonCommand($verbose = FALSE, $identifier = '') {
+		if ($identifier) {
+			$election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
+			$elections = array($election);
+		} else {
+			$elections = $this->electionRepository->findAll();
+		}
+
+		foreach ($elections as $election) {
+			/** @var $election Election */
+			$this->outputLine('***********************************************');
+			$this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
+			$this->outputLine('***********************************************');
+			$this->outputLine();
+
+			$logs = $this->getDistrictToKantonMatcherService($election)->matchDistrictsToKanton($verbose);
+			$logLines = implode('', $logs);
+			$this->outputLine($logLines);
+		}
+
+	}
+
+	/**
 	 * Import and resize the main image for all candidates
 	 *
 	 * @param bool $verbose Display information during import
@@ -144,6 +173,15 @@ class SmartVoteCommandController extends CommandController {
 		$partyMatcherService = $this->objectManager->get(PartyMatcherService::class);
 		$partyMatcherService->setElection($election);
 		return $partyMatcherService;
+	}
+
+	/**
+	 * @return DistrictToKantonMatcherService
+	 */
+	protected function getDistrictToKantonMatcherService(Election $election){
+		$districtToKantonMatcherService = $this->objectManager->get(DistrictToKantonMatcherService::class);
+		$districtToKantonMatcherService->setElection($election);
+		return $districtToKantonMatcherService;
 	}
 
 	/**

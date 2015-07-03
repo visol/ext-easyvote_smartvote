@@ -56,6 +56,14 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $election = NULL;
 
 	/**
+	 * canton
+	 *
+	 * @var \Visol\Easyvote\Domain\Model\Kanton
+	 * @lazy
+	 */
+	protected $canton = NULL;
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -188,6 +196,20 @@ class District extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setElection(\Visol\EasyvoteSmartvote\Domain\Model\Election $election) {
 		$this->election = $election;
+	}
+
+	/**
+	 * @return \Visol\Easyvote\Domain\Model\Kanton
+	 */
+	public function getCanton() {
+		return $this->canton;
+	}
+
+	/**
+	 * @param \Visol\Easyvote\Domain\Model\Kanton $canton
+	 */
+	public function setCanton($canton) {
+		$this->canton = $canton;
 	}
 
 }
