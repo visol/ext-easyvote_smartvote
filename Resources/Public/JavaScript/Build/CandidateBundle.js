@@ -899,6 +899,8 @@ var _inherits = require("babel-runtime/helpers/inherits")["default"];
 
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
 
+var _core = require("babel-runtime/core-js")["default"];
+
 var FacetModel = (function (_Backbone$Model) {
 	function FacetModel() {
 		_classCallCheck(this, FacetModel);
@@ -911,16 +913,6 @@ var FacetModel = (function (_Backbone$Model) {
 	_inherits(FacetModel, _Backbone$Model);
 
 	_createClass(FacetModel, {
-		initialize: {
-
-			/**
-    * Initialize object.
-    */
-
-			value: function initialize() {
-				this.localStorage = new Backbone.LocalStorage("candidates-facet-" + EasyvoteSmartvote.token);
-			}
-		},
 		defaults: {
 
 			/**
@@ -938,6 +930,84 @@ var FacetModel = (function (_Backbone$Model) {
 					gender: ""
 				};
 			}
+		},
+		initialize: {
+
+			/**
+    * Initialize object.
+    */
+
+			value: function initialize() {
+				this.localStorage = new Backbone.LocalStorage("candidates-facet-" + EasyvoteSmartvote.token);
+			}
+		},
+		hasState: {
+
+			/**
+    * Return whether the object has a state
+    */
+
+			value: function hasState() {
+				return _core.Object.keys(this.getState()).length;
+			}
+		},
+		getState: {
+
+			/**
+    * Get state of the object coming form the URL hash.
+    */
+
+			value: function getState() {
+
+				if (!this.state) {
+					this.state = {};
+
+					var allowedArguments = ["nationalParty", "district", "minAge", "maxAge", "incumbent", "gender"];
+					var query = window.location.hash.split("&");
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+						for (var _iterator = _core.$for.getIterator(query), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var argument = _step.value;
+
+							// sanitize
+							argument = argument.replace("#", "");
+							var argumentParts = argument.split("=");
+							if (argumentParts.length === 2 && allowedArguments.indexOf(argumentParts[0]) >= 0) {
+								var _name = argumentParts[0];
+								var value = argumentParts[1];
+								this.state[_name] = value;
+							}
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator["return"]) {
+								_iterator["return"]();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+				}
+				return this.state;
+			}
+		},
+		setState: {
+
+			/**
+    * Set default values form the URL hash.
+    */
+
+			value: function setState() {
+				this.save(this.getState());
+			}
 		}
 	});
 
@@ -945,7 +1015,7 @@ var FacetModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = FacetModel;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],9:[function(require,module,exports){
+},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],9:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1072,7 +1142,11 @@ var CandidateFacetView = (function (_Backbone$View) {
 		};
 
 		this.model = new FacetModel();
-		this.model.fetch(); // Restore values from the session
+		if (this.model.hasState()) {
+			this.model.setState();
+		} else {
+			this.model.fetch();
+		}
 
 		this.bindings = {
 			"#nationalParty": "nationalParty",
@@ -1101,6 +1175,7 @@ var CandidateFacetView = (function (_Backbone$View) {
 
 			value: function save() {
 
+				var query = [];
 				var data = {};
 				var _iteratorNormalCompletion = true;
 				var _didIteratorError = false;
@@ -1111,6 +1186,7 @@ var CandidateFacetView = (function (_Backbone$View) {
 						var facet = _step.value;
 
 						data[facet.name] = facet.value;
+						query.push(facet.name + "=" + facet.value);
 					}
 				} catch (err) {
 					_didIteratorError = true;
@@ -1127,8 +1203,10 @@ var CandidateFacetView = (function (_Backbone$View) {
 					}
 				}
 
-				this.model.save(data);
+				// Set state of the filter in the URL.
+				window.location.hash = query.join("&");
 
+				this.model.save(data);
 				Backbone.trigger("facet:changed");
 			}
 		},

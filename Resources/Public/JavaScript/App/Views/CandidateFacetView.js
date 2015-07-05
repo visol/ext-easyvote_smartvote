@@ -31,7 +31,11 @@ export default class CandidateFacetView extends Backbone.View {
 		};
 
 		this.model = new FacetModel();
-		this.model.fetch(); // Restore values from the session
+		if (this.model.hasState()) {
+			this.model.setState();
+		} else {
+			this.model.fetch()
+		}
 
 		this.bindings = {
 			'#nationalParty': 'nationalParty',
@@ -54,12 +58,17 @@ export default class CandidateFacetView extends Backbone.View {
 	 */
 	save() {
 
+		var query = [];
 		var data = {};
 		for (let facet of FacetIterator.getIterator()) {
 			data[facet.name] = facet.value;
+			query.push(facet.name + '=' + facet.value)
 		}
-		this.model.save(data);
 
+		// Set state of the filter in the URL.
+		window.location.hash = query.join('&');
+
+		this.model.save(data);
 		Backbone.trigger('facet:changed');
 	}
 
