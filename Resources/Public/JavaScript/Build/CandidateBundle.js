@@ -7,21 +7,13 @@ var CandidateListView = _interopRequire(require("./Views/CandidateListView"));
 
 var CandidateFacetView = _interopRequire(require("./Views/CandidateFacetView"));
 
-var Registry = _interopRequire(require("./Registry"));
+var eventBus = _.extend({}, Backbone.Events);
 
 $(function () {
-	var facetView = new CandidateFacetView();
-	facetView.render();
-
-	// Register the facet view for later use.
-	Registry.set("facetView", facetView);
-
-	var listView = new CandidateListView();
-
-	// Register the list view for later use.
-	Registry.set("listView", listView);
+	new CandidateFacetView().render();
+	new CandidateListView();
 });
-},{"./Registry":9,"./Views/CandidateFacetView":10,"./Views/CandidateListView":11,"babel-runtime/helpers/interop-require":18}],2:[function(require,module,exports){
+},{"./Views/CandidateFacetView":10,"./Views/CandidateListView":11,"babel-runtime/helpers/interop-require":18}],2:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -244,7 +236,7 @@ var CandidateFacetView = _interopRequire(require("../Views/CandidateFacetView"))
 
 var FilterEngine = _interopRequire(require("../Filter/FilterEngine"));
 
-var Registry = _interopRequire(require("../Registry"));
+var FacetIterator = _interopRequire(require("../Iterator/FacetIterator"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -316,14 +308,14 @@ var CandidateCollection = (function (_Backbone$Collection) {
 				return this.filter(function (candidate) {
 
 					var filterEngine = new FilterEngine();
-					var facets = Registry.get("facetView").getFacets();
+					var facetIterator = FacetIterator.getIterator();
 					var isOk = true;
 
 					// Fetch first facet
-					var facet = facets.next().value;
+					var facet = facetIterator.next().value;
 					while (facet && isOk) {
 						isOk = filterEngine.isOk(candidate, facet);
-						facet = facets.next().value;
+						facet = facetIterator.next().value;
 					}
 
 					return isOk;
@@ -404,7 +396,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-},{"../Filter/FilterEngine":5,"../Models/CandidateModel":6,"../Registry":9,"../Views/CandidateFacetView":10,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],4:[function(require,module,exports){
+},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/CandidateFacetView":10,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -606,7 +598,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":8,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],5:[function(require,module,exports){
+},{"../Models/QuestionModel":9,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],5:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -713,6 +705,50 @@ var FilterEngine = (function () {
 
 module.exports = FilterEngine;
 },{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],6:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var FacetIterator = (function () {
+	function FacetIterator() {
+		_classCallCheck(this, FacetIterator);
+	}
+
+	_createClass(FacetIterator, null, {
+		getIterator: {
+			value: function getIterator() {
+
+				var facets = [];
+				var $elements = $("#container-candidate-filter").find(".form-control");
+				$elements.each(function (index, element) {
+					var facet = {};
+					facet.name = $(element).attr("name");
+					facet.value = $(element).val();
+					facets.push(facet);
+				});
+
+				return _core.$for.getIterator(facets);
+			}
+		}
+	});
+
+	return FacetIterator;
+})();
+
+module.exports = FacetIterator;
+},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],7:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -846,7 +882,7 @@ var CandidateModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = CandidateModel;
-},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],7:[function(require,module,exports){
+},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],8:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -909,7 +945,7 @@ var FacetModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = FacetModel;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],8:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],9:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -984,58 +1020,7 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],9:[function(require,module,exports){
-/*jshint esnext:true */
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var Registry = (function () {
-	function Registry() {
-		_classCallCheck(this, Registry);
-	}
-
-	_createClass(Registry, null, {
-		get: {
-
-			/**
-    * @return {Object}
-    */
-
-			value: function get(name) {
-
-				return Registry.instances[name];
-			}
-		},
-		set: {
-
-			/**
-    * @return void
-    */
-
-			value: function set(name, object) {
-				if (!Registry.instances) {
-					Registry.instances = {};
-				}
-				Registry.instances[name] = object;
-			}
-		}
-	});
-
-	return Registry;
-})();
-
-module.exports = Registry;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],10:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],10:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1053,9 +1038,9 @@ var _interopRequire = require("babel-runtime/helpers/interop-require")["default"
 
 var CandidateCollection = _interopRequire(require("../Collections/CandidateCollection"));
 
-var Registry = _interopRequire(require("../Registry"));
-
 var FacetModel = _interopRequire(require("../Models/FacetModel"));
+
+var FacetIterator = _interopRequire(require("../Iterator/FacetIterator"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -1066,6 +1051,8 @@ var FacetModel = _interopRequire(require("../Models/FacetModel"));
 var CandidateFacetView = (function (_Backbone$View) {
 
 	/**
+  * Constructor
+  *
   * @param options
   */
 
@@ -1081,7 +1068,7 @@ var CandidateFacetView = (function (_Backbone$View) {
 
 		// *Define the DOM events specific to an item.*
 		this.events = {
-			"change .form-control": "filterCandidates"
+			"change .form-control": "save"
 		};
 
 		this.model = new FacetModel();
@@ -1096,19 +1083,23 @@ var CandidateFacetView = (function (_Backbone$View) {
 			"#gender": "gender"
 		};
 
+		// special binding since the reset button is outside the scope of this view.
+		_.bindAll(this, "reset");
+		$(document).on("click", "#btn-reset-facets", this.reset);
+
 		_get(_core.Object.getPrototypeOf(CandidateFacetView.prototype), "constructor", this).call(this, options);
 	}
 
 	_inherits(CandidateFacetView, _Backbone$View);
 
 	_createClass(CandidateFacetView, {
-		filterCandidates: {
+		save: {
 
 			/**
     * @returns void
     */
 
-			value: function filterCandidates() {
+			value: function save() {
 
 				var data = {};
 				var _iteratorNormalCompletion = true;
@@ -1116,7 +1107,7 @@ var CandidateFacetView = (function (_Backbone$View) {
 				var _iteratorError = undefined;
 
 				try {
-					for (var _iterator = _core.$for.getIterator(this.getFacets()), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					for (var _iterator = _core.$for.getIterator(FacetIterator.getIterator()), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 						var facet = _step.value;
 
 						data[facet.name] = facet.value;
@@ -1138,27 +1129,20 @@ var CandidateFacetView = (function (_Backbone$View) {
 
 				this.model.save(data);
 
-				/** @var CandidateListView listView */
-				Registry.get("listView").render();
+				Backbone.trigger("facet:changed");
 			}
 		},
-		getFacets: {
+		reset: {
 
 			/**
-    * @returns {Object}
+    * @returns {boolean}
     */
 
-			value: function getFacets() {
-				var facets = [];
-				var $elements = $("#container-candidate-filter").find(".form-control");
-				$elements.each(function (index, element) {
-					var facet = {};
-					facet.name = $(element).attr("name");
-					facet.value = $(element).val();
-					facets.push(facet);
-				});
-
-				return _core.$for.getIterator(facets);
+			value: function reset() {
+				this.model = new FacetModel();
+				this.render();
+				this.save();
+				return false;
 			}
 		},
 		render: {
@@ -1181,7 +1165,7 @@ var CandidateFacetView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = CandidateFacetView;
-},{"../Collections/CandidateCollection":3,"../Models/FacetModel":7,"../Registry":9,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],11:[function(require,module,exports){
+},{"../Collections/CandidateCollection":3,"../Iterator/FacetIterator":6,"../Models/FacetModel":8,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],11:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1210,12 +1194,22 @@ var QuestionCollection = _interopRequire(require("../Collections/QuestionCollect
  */
 
 var CandidateListView = (function (_Backbone$View) {
-	function CandidateListView() {
+
+	/**
+  * Constructor
+  *
+  * @param options
+  */
+
+	function CandidateListView(options) {
 		_classCallCheck(this, CandidateListView);
 
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
 		this.setElement($("#container-candidates"), true);
+
+		// Contains the "number of candidates" and button to reset the filter.
+		this.listTopTemplate = _.template($("#template-candidates-top").html());
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection*/
@@ -1226,6 +1220,7 @@ var CandidateListView = (function (_Backbone$View) {
 
 		// Important: define listener before fetching data.
 		this.listenTo(candidateCollection, "sort reset", this.render);
+		this.listenTo(Backbone, "facet:changed", this.render, this);
 
 		// Fetch data
 		candidateCollection.fetch();
@@ -1240,7 +1235,7 @@ var CandidateListView = (function (_Backbone$View) {
 		render: {
 
 			/**
-    * Render template.
+    * Render the view.
     */
 
 			value: function render() {
@@ -1257,8 +1252,8 @@ var CandidateListView = (function (_Backbone$View) {
 					for (var _iterator = _core.$for.getIterator(filteredCandidates), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 						var candidate = _step.value;
 
-						var content = this.renderOne(candidate);
-						container.appendChild(content);
+						var _content = this.renderOne(candidate);
+						container.appendChild(_content);
 					}
 				} catch (err) {
 					_didIteratorError = true;
@@ -1279,7 +1274,13 @@ var CandidateListView = (function (_Backbone$View) {
 				$("#container-candidate-list").empty().append(container);
 
 				// Add lazy loading to images.
-				$("img.lazy").lazyload();
+				$("img.lazy", $("#container-candidate-list")).lazyload();
+
+				// Update top list content
+				var content = this.listTopTemplate({
+					numberOfItems: filteredCandidates.length
+				});
+				$("#container-candidates-top").html(content);
 			}
 		},
 		changeAnswer: {
