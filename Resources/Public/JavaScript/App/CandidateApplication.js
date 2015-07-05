@@ -4,7 +4,12 @@ import CandidateListView from './Views/CandidateListView';
 import CandidateFacetView from './Views/CandidateFacetView';
 import Registry from './Registry';
 
+
+var eventBus = _.extend({}, Backbone.Events);
+
+
 $(() => {
+
 	let facetView = new CandidateFacetView();
 	facetView.render();
 

@@ -14,13 +14,26 @@
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/BackboneStickit/backbone.stickit.js')}" />
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/CandidateBundle.js')}" canBeMinified="true"/>
 
-	<h2 class="content-box">
-		<f:translate key="voting_recommendation"/>
-	</h2>
-
+	<div id="container-candidates-top" class="content-box"></div>
 	<div id="container-candidates">
 		<div id="container-candidate-list"></div>
 	</div>
+
+	<script type="text/template" id="template-candidates-top">
+		<h2>
+			<f:translate key="voting_recommendation"/>
+		</h2>
+		<div>
+			<% if (numberOfItems > 1) { %>
+			<%- numberOfItems %> {f:translate(key:'candidates_found')}
+			<% } else { %>
+			<%- numberOfItems %> {f:translate(key:'candidate_found')}
+			<% } %>
+		</div>
+		<div>
+			<a href="#" id="btn-reset-facets" class="btn btn-primary">{f:translate(key:'filter_reset')}</a>
+		</div>
+	</script>
 
 	<f:render partial="Candidate" section="Candidate"/>
 

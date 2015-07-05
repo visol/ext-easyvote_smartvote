@@ -444,6 +444,15 @@
 			<trans-unit id="candidate.addToList">
 				<source>Zu meiner Liste hinzufügen</source>
 			</trans-unit>
+			<trans-unit id="filter_reset">
+				<source>Filter zurücksetzen</source>
+			</trans-unit>
+			<trans-unit id="candidates_found">
+				<source>Kandidierenden gefunden</source>
+			</trans-unit>
+			<trans-unit id="candidate_found">
+				<source>Kandidierende gefunden</source>
+			</trans-unit>
 
 
 		</body>

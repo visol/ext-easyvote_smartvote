@@ -17,8 +17,8 @@ export default class QuestionListView extends Backbone.View {
 		// the App already present in the HTML.
 		this.setElement($('#container-questions'), true);
 
+		// Progress bar template.
 		this.progressTemplate = _.template($('#template-progress').html());
-
 		this.$progress = this.$('#container-progress');
 
 		/** @var questionCollection QuestionCollection*/

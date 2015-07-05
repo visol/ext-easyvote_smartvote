@@ -1,6 +1,5 @@
 /*jshint esnext:true */
 import CandidateCollection from '../Collections/CandidateCollection'
-import Registry from '../Registry';
 import FacetModel from '../Models/FacetModel';
 
 /*
@@ -12,6 +11,8 @@ import FacetModel from '../Models/FacetModel';
 export default class CandidateFacetView extends Backbone.View {
 
 	/**
+	 * Constructor
+	 *
 	 * @param options
 	 */
 	constructor(options) {
@@ -25,7 +26,7 @@ export default class CandidateFacetView extends Backbone.View {
 
 		// *Define the DOM events specific to an item.*
 		this.events = {
-			'change .form-control': 'filterCandidates'
+			'change .form-control': 'filter'
 		};
 
 		this.model = new FacetModel();
@@ -40,13 +41,17 @@ export default class CandidateFacetView extends Backbone.View {
 			'#gender': 'gender'
 		};
 
+		// special binding since the reset button is outside the scope of this view.
+		_.bindAll(this, 'reset');
+		$(document).on('click', '#btn-reset-facets', this.reset);
+
 		super(options);
 	}
 
 	/**
 	 * @returns void
 	 */
-	filterCandidates() {
+	filter() {
 
 		var data = {};
 		for (let facet of this.getFacets()) {
@@ -54,8 +59,17 @@ export default class CandidateFacetView extends Backbone.View {
 		}
 		this.model.save(data);
 
-		/** @var CandidateListView listView */
-		Registry.get('listView').render();
+		Backbone.trigger('facet:changed');
+	}
+
+	/**
+	 * @returns {boolean}
+	 */
+	reset() {
+		this.model = new FacetModel();
+		this.render();
+		this.filter();
+		return false;
 	}
 
 	/**

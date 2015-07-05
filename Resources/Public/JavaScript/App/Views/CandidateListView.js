@@ -11,11 +11,19 @@ import QuestionCollection from '../Collections/QuestionCollection'
 
 export default class CandidateListView extends Backbone.View {
 
-	constructor() {
+	/**
+	 * Constructor
+	 *
+	 * @param options
+	 */
+	constructor(options) {
 
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
 		this.setElement($('#container-candidates'), true);
+
+		// Contains the "number of candidates" and button to reset the filter.
+		this.listTopTemplate = _.template($('#template-candidates-top').html());
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection*/
@@ -26,6 +34,7 @@ export default class CandidateListView extends Backbone.View {
 
 		// Important: define listener before fetching data.
 		this.listenTo(candidateCollection, 'sort reset', this.render);
+		this.listenTo(Backbone, 'facet:changed', this.render, this);
 
 		// Fetch data
 		candidateCollection.fetch();
@@ -35,7 +44,7 @@ export default class CandidateListView extends Backbone.View {
 	}
 
 	/**
-	 * Render template.
+	 * Render the view.
 	 */
 	render() {
 
@@ -52,7 +61,13 @@ export default class CandidateListView extends Backbone.View {
 		$('#container-candidate-list').empty().append(container);
 
 		// Add lazy loading to images.
-		$("img.lazy").lazyload();
+		$("img.lazy", $('#container-candidate-list')).lazyload();
+
+		// Update top list content
+		let content = this.listTopTemplate({
+			numberOfItems: filteredCandidates.length
+		});
+		$('#container-candidates-top').html(content);
 	}
 
 	/**
