@@ -2,7 +2,7 @@
 import CandidateModel from '../Models/CandidateModel'
 import CandidateFacetView from '../Views/CandidateFacetView'
 import FilterEngine from '../Filter/FilterEngine'
-import Registry from '../Registry';
+import FacetIterator from '../Iterator/FacetIterator';
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -59,14 +59,14 @@ export default class CandidateCollection extends Backbone.Collection {
 		return this.filter(candidate => {
 
 			var filterEngine = new FilterEngine();
-			var facets = Registry.get('facetView').getFacets();
+			var facetIterator = FacetIterator.getIterator();
 			var isOk = true;
 
 			// Fetch first facet
-			var facet = facets.next().value;
+			var facet = facetIterator.next().value;
 			while (facet && isOk) {
 				isOk = filterEngine.isOk(candidate, facet);
-				facet = facets.next().value;
+				facet = facetIterator.next().value;
 			}
 
 			return isOk;

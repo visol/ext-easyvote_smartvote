@@ -1,6 +1,7 @@
 /*jshint esnext:true */
 import CandidateCollection from '../Collections/CandidateCollection'
 import FacetModel from '../Models/FacetModel';
+import FacetIterator from '../Iterator/FacetIterator';
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -26,7 +27,7 @@ export default class CandidateFacetView extends Backbone.View {
 
 		// *Define the DOM events specific to an item.*
 		this.events = {
-			'change .form-control': 'filter'
+			'change .form-control': 'save'
 		};
 
 		this.model = new FacetModel();
@@ -51,10 +52,10 @@ export default class CandidateFacetView extends Backbone.View {
 	/**
 	 * @returns void
 	 */
-	filter() {
+	save() {
 
 		var data = {};
-		for (let facet of this.getFacets()) {
+		for (let facet of FacetIterator.getIterator()) {
 			data[facet.name] = facet.value;
 		}
 		this.model.save(data);
@@ -68,24 +69,8 @@ export default class CandidateFacetView extends Backbone.View {
 	reset() {
 		this.model = new FacetModel();
 		this.render();
-		this.filter();
+		this.save();
 		return false;
-	}
-
-	/**
-	 * @returns {Object}
-	 */
-	getFacets() {
-		var facets = [];
-		let $elements = $('#container-candidate-filter').find('.form-control');
-		$elements.each((index, element)  => {
-			let facet = {};
-			facet.name = $(element).attr('name');
-			facet.value = $(element).val();
-			facets.push(facet);
-		});
-
-		return facets[Symbol.iterator]();
 	}
 
 	/**
