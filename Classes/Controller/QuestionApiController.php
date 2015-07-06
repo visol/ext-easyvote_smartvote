@@ -38,7 +38,7 @@ class QuestionApiController extends AbstractBaseApiController {
 	public function listAction(Election $election = NULL) {
 
 		$token = GeneralUtility::_GP('token');
-		if ($this->isAuthenticatedUser($token)) {
+		if ($this->getUserService()->isAuthenticated() && $this->isTokenAllowed($token)) {
 			$questions = $this->getListForAuthenticatedUser($election, $token);
 		} else {
 			$questions = $this->getListForAnonymousUser($election);
@@ -55,14 +55,10 @@ class QuestionApiController extends AbstractBaseApiController {
 	 */
 	public function getListForAuthenticatedUser(Election $election, $token) {
 		$questions = $this->retrieveQuestionsFromUserPreferences($token);
-
 		if (empty($questions)) {
 			$questions = $this->questionRepository->findByElection($election);
 			$questions = $this->getQuestionProcessor()->process($questions);
-
-			if ($this->getUserService()->isAuthenticated()) {
-				$this->getUserService()->set($token, $questions);
-			}
+			$this->getUserService()->set($token, $questions);
 		}
 
 		return json_encode($questions);
@@ -103,17 +99,10 @@ class QuestionApiController extends AbstractBaseApiController {
 	 * @param string $token
 	 * @return bool
 	 */
-	protected function isAuthenticatedUser($token) {
-		$hasQuestions = FALSE;
-		if (!empty($token) && $this->getUserService()->isAuthenticated()) {
-			$isAllowed = $this->getTokenService()->isAllowed($token);
-
-			if ($isAllowed) {
-				$hasQuestions = TRUE;
-			}
-		}
-		return $hasQuestions;
+	protected function isTokenAllowed($token) {
+		return !empty($token) && $this->getTokenService()->isAllowed($token);
 	}
+
 
 	/**
 	 * @param string $token

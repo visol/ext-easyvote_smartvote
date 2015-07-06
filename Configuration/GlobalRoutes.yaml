@@ -35,4 +35,4 @@
     '@plugin':     'State'
     '@controller': 'StateApi'
     '@action':     'save'
-  httpMethods: ['POST']
+  httpMethods: ['POST','PUT']

@@ -25,19 +25,24 @@ export default class CandidateListView extends Backbone.View {
 		// Contains the "number of candidates" and button to reset the filter.
 		this.listTopTemplate = _.template($('#template-candidates-top').html());
 
+		/** @var candidateCollection CandidateCollection*/
+		var candidateCollection = CandidateCollection.getInstance();
+
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection*/
-		QuestionCollection.getInstance().load();
+		QuestionCollection.getInstance().load().done(() => {
 
-		/** @var candidateCollection CandidateCollection*/
-		let candidateCollection = CandidateCollection.getInstance();
+			// Fetch data
+			candidateCollection.fetch().done(() => {
+				console.log('candidateCollection');
+			});
+			
+		});
 
 		// Important: define listener before fetching data.
 		this.listenTo(candidateCollection, 'sort reset', this.render);
 		this.listenTo(Backbone, 'facet:changed', this.render, this);
 
-		// Fetch data
-		candidateCollection.fetch();
 
 		// Call parent constructor.
 		super();

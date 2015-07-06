@@ -60,7 +60,9 @@ class StateApiController extends AbstractBaseApiController {
 	protected function updateCollection(array $updatedItem, array $items) {
 		$updatedItems = array();
 		foreach ($items as $index => $question) {
-			if ($question['uid'] == $updatedItem['uid']) {
+
+			// Check whether that the question coming from the request.
+			if ((int)$question['id'] === (int)$updatedItem['id']) {
 				$question = $updatedItem;
 			}
 			$updatedItems[$index] = $question;

@@ -57,7 +57,7 @@ class TokenService implements SingletonInterface {
 	 * @return true
 	 */
 	public function isAllowed($token) {
-		return (bool)$this->getUserService()->get($token);
+		return is_array($this->getUserService()->get($token));
 	}
 
 	/**
@@ -66,9 +66,9 @@ class TokenService implements SingletonInterface {
 	 * @param string $token
 	 * @return true
 	 */
-	public function containsData($token) {
+	protected function containsData($token) {
 		$data = $this->getUserService()->get($token);
-		return is_array($data);
+		return is_array($data) && !empty($data);
 	}
 
 	/**
