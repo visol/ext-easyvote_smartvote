@@ -1,5 +1,5 @@
 <?php
-namespace Visol\EasyvoteSmartvote\Importer;
+namespace Visol\EasyvoteSmartvote\Enumeration;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,24 +14,14 @@ namespace Visol\EasyvoteSmartvote\Importer;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Type\Enumeration;
 
 /**
- * Interface for importing data from SmartVote
+ * Enumeration for languages.
  */
-interface ImporterInterface {
+class LocalizedLanguage extends Enumeration {
 
-	/**
-	 * Import a Domain Model
-	 *
-	 * @return array
-	 */
-	public function import();
-
-	/**
-	 * Localize a Domain Model
-	 *
-	 * @return array
-	 */
-	public function localize();
+	const FRENCH = 'fr_CH';
+	const ITALIAN = 'it_CH';
 
 }

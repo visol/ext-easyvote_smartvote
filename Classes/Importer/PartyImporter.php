@@ -64,4 +64,11 @@ class PartyImporter extends AbstractImporter {
 		return parent::import(Model::PARTY);
 	}
 
+	/**
+	 * @return array
+	 */
+	public function localize() {
+		return parent::localize(Model::PARTY);
+	}
+
 }

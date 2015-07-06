@@ -52,4 +52,11 @@ class CivilStateImporter extends AbstractImporter {
 		return parent::import(Model::CIVIL_STATE);
 	}
 
+	/**
+	 * @return array
+	 */
+	public function localize() {
+		return parent::localize(Model::CIVIL_STATE);
+	}
+
 }

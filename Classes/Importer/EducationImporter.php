@@ -52,4 +52,11 @@ class EducationImporter extends AbstractImporter {
 		return parent::import(Model::EDUCATION);
 	}
 
+	/**
+	 * @return array
+	 */
+	public function localize() {
+		return parent::localize(Model::EDUCATION);
+	}
+
 }

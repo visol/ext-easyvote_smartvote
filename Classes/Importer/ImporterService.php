@@ -71,6 +71,25 @@ class ImporterService {
 	}
 
 	/**
+	 * @param bool $verbose
+	 * @return array
+	 */
+	public function localize($verbose = FALSE) {
+
+		$this->verbose = $verbose;
+
+		$this->localizeFor('Denomination');
+		$this->localizeFor('CivilState');
+		$this->localizeFor('Education');
+		$this->localizeFor('District');
+		$this->localizeFor('Party');
+		$this->localizeFor('QuestionCategory');
+		$this->localizeFor('Question');
+
+		return $this->logs;
+	}
+
+	/**
 	 * @param string $dataType
 	 */
 	protected function importFor($dataType){
@@ -82,6 +101,25 @@ class ImporterService {
 		$importer = GeneralUtility::makeInstance($className, $this->election);
 
 		$collectedData = $importer->import();
+		$this->log(sprintf($log . '%s', $collectedData['numberOfItems']));
+
+		if ($this->verbose) {
+			$this->log(sprintf('  -> %s', $collectedData['url']));
+		}
+	}
+
+	/**
+	 * @param string $dataType
+	 */
+	protected function localizeFor($dataType){
+
+		$log = sprintf('Localizing %s... ', $dataType);
+
+		/** @var ImporterInterface $importer */
+		$className = sprintf('Visol\EasyvoteSmartvote\Importer\%sImporter', $dataType);
+		$importer = GeneralUtility::makeInstance($className, $this->election);
+
+		$collectedData = $importer->localize();
 		$this->log(sprintf($log . '%s', $collectedData['numberOfItems']));
 
 		if ($this->verbose) {

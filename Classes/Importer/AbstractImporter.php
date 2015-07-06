@@ -18,6 +18,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Enumeration\Language;
+use Visol\EasyvoteSmartvote\Enumeration\LocalizedLanguage;
 use Visol\EasyvoteSmartvote\Enumeration\Model;
 
 /**
@@ -48,6 +49,14 @@ abstract class AbstractImporter implements ImporterInterface {
 		Model::CIVIL_STATE => 'civilStates.json',
 		Model::EDUCATION => 'educations.json',
 		Model::ELECTION_LIST => 'lists.json',
+	);
+
+	/**
+	 * @var array
+	 */
+	protected $typo3Languages = array(
+		'fr_CH' => 1,
+		'it_CH' => 2
 	);
 
 	/**
@@ -93,7 +102,7 @@ abstract class AbstractImporter implements ImporterInterface {
 	}
 
 	/**
-	 * Import the
+	 * Import data from source
 	 *
 	 * @param string $dataType
 	 * @return array
@@ -117,11 +126,42 @@ abstract class AbstractImporter implements ImporterInterface {
 	}
 
 	/**
-	 * @param string $modelType
+	 * Localize all items of a dataType
+	 *
+	 * @param string $dataType
 	 * @return array
 	 */
-	protected function getItemsFromDatasource($modelType) {
-		$url = $this->getUrl($this->election->getSmartVoteIdentifier(), $modelType, Language::GERMAN);
+	public function localize($dataType = '') {
+
+		$counter = 0;
+		foreach (LocalizedLanguage::getConstants() as $language) {
+			$items = $this->getItemsFromDatasource($dataType, $language);
+			foreach ($items as $item) {
+				if ($this->itemExists($item)) {
+					if (!($this->itemExists($item, $this->typo3Languages[$language]))) {
+						$l10nDefaultRecord = $this->getItem($item);
+						$this->createItem($item, $this->typo3Languages[$language], $l10nDefaultRecord['uid']);
+					}
+					$this->updateItem($item, $this->typo3Languages[$language]);
+				} else {
+					// TODO item doesn't exist in default language
+				}
+				$counter++;
+			}
+		}
+
+		$this->collectData('numberOfItems', $counter);
+		return $this->collectedData;
+
+	}
+
+	/**
+	 * @param string $modelType
+	 * @param string $language
+	 * @return array
+	 */
+	protected function getItemsFromDatasource($modelType, $language = Language::GERMAN) {
+		$url = $this->getUrl($this->election->getSmartVoteIdentifier(), $modelType, $language);
 		$this->collectData('url', $url);
 
 		$items = array();
@@ -145,15 +185,19 @@ abstract class AbstractImporter implements ImporterInterface {
 	}
 
 	/**
+	 * Check if an item exists in the default language and return it if it exists
+	 *
 	 * @param array $item
+	 * @param int $languageUid
 	 * @return bool
 	 */
-	protected function itemExists(array $item) {
+	protected function itemExists(array $item, $languageUid = 0) {
 
 		$clause = sprintf(
-			'internal_identifier = "%s" AND election = %s',
+			'internal_identifier = "%s" AND election = %s AND sys_language_uid = %s',
 			$item[$this->internalIdentifier],
-			$this->election->getUid()
+			$this->election->getUid(),
+			$languageUid
 		);
 		$clause .= BackendUtility::deleteClause($this->tableName);
 
@@ -162,14 +206,46 @@ abstract class AbstractImporter implements ImporterInterface {
 	}
 
 	/**
+	 * Fetch an existing item
+	 *
 	 * @param array $item
+	 * @param int $languageUid
+	 * @return array|FALSE|NULL|string
+	 */
+	protected function getItem(array $item, $languageUid = 0) {
+		$clause = sprintf(
+			'internal_identifier = "%s" AND election = %s AND sys_language_uid = %s',
+			$item[$this->internalIdentifier],
+			$this->election->getUid(),
+			$languageUid
+		);
+		$clause .= BackendUtility::deleteClause($this->tableName);
+
+		$result = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', $this->tableName, $clause);
+		if (!$result) {
+			$query = $result = $this->getDatabaseConnection()->SELECTquery('uid', $this->tableName, $clause);
+			$message = 'SQL query failed when importing data from SmartVote - ERROR 1435963400';
+			print $message . chr(10) . chr(10);
+			$this->getLogger()->error($message, array($query));
+			die($query);
+		}
+		return $result;
+	}
+
+	/**
+	 * @param array $item
+	 * @param integer|null $languageUid
+	 * @param integer|null $l10nParentUid
 	 * @return bool
 	 */
-	protected function createItem(array $item) {
+	protected function createItem(array $item, $languageUid = NULL, $l10nParentUid = NULL) {
 		$values['internal_identifier'] = $item[$this->internalIdentifier];
 		$values['crdate'] = time();
 		$values['election'] = $this->election->getUid();
-
+		if ($languageUid && $l10nParentUid) {
+			$values['sys_language_uid'] = $languageUid;
+			$values['l10n_parent'] = $l10nParentUid;
+		}
 		$result = $this->getDatabaseConnection()->exec_INSERTquery($this->tableName, $values);
 		if (!$result) {
 			$query = $result = $this->getDatabaseConnection()->INSERTquery($this->tableName, $values);
@@ -183,9 +259,10 @@ abstract class AbstractImporter implements ImporterInterface {
 
 	/**
 	 * @param array $item
+	 * @param int $languageUid
 	 * @return void
 	 */
-	protected function updateItem(array $item) {
+	protected function updateItem(array $item, $languageUid = 0) {
 
 		$values = array();
 		foreach ($this->mappingFields as $key => $field) {
@@ -206,15 +283,16 @@ abstract class AbstractImporter implements ImporterInterface {
 		$values = $this->serializeSomeFields($values, $item);
 
 		$clause = sprintf(
-			'internal_identifier = "%s" AND election = %s',
+			'internal_identifier = "%s" AND election = %s AND sys_language_uid = %s',
 			$item[$this->internalIdentifier],
-			$this->election->getUid()
+			$this->election->getUid(),
+			(int)$languageUid
 		);
 
 		$clause .= BackendUtility::deleteClause($this->tableName);
-		$result = $this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values);
+		$result = $this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values, array('sys_language_uid'));
 		if (!$result) {
-			$query = $this->getDatabaseConnection()->UPDATEquery($this->tableName, $clause, $values);
+			$query = $this->getDatabaseConnection()->UPDATEquery($this->tableName, $clause, $values, array('sys_language_uid'));
 
 			$message = 'SQL query failed when importing data from SmartVote - ERROR 1429115032';
 			print $message . chr(10) . chr(10);

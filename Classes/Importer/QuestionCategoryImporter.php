@@ -52,4 +52,11 @@ class QuestionCategoryImporter extends AbstractImporter {
 		return parent::import(Model::QUESTION_CATEGORY);
 	}
 
+	/**
+	 * @return array
+	 */
+	public function localize() {
+		return parent::localize(Model::QUESTION_CATEGORY);
+	}
+
 }

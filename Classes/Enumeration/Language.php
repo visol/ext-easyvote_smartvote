@@ -25,5 +25,4 @@ class Language extends Enumeration {
 	const FRENCH = 'fr_CH';
 	const ITALIAN = 'it_CH';
 
-
 }

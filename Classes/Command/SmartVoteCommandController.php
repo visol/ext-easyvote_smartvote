@@ -59,6 +59,8 @@ class SmartVoteCommandController extends CommandController {
 
 			$logs = $this->getImporterService($election)->import($verbose);
 			$logLines = implode('', $logs);
+			$logs = $this->getImporterService($election)->localize($verbose);
+			$logLines = $logLines . implode('', $logs);
 
 			$election->setImportLog($logLines);
 			$this->electionRepository->update($election);

@@ -54,4 +54,11 @@ class DenominationImporter extends AbstractImporter {
 		return parent::import(Model::DENOMINATION);
 	}
 
+	/**
+	 * @return array
+	 */
+	public function localize() {
+		return parent::localize(Model::DENOMINATION);
+	}
+
 }

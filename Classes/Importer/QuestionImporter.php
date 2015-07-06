@@ -67,12 +67,11 @@ class QuestionImporter extends AbstractImporter {
 	);
 
 	/**
-	 * Import the
+	 * Import the Questions
 	 *
 	 * @return array
 	 */
 	public function import() {
-
 		$collectedData = parent::import(Model::QUESTION);
 
 		$this->postProcessAlternativeIdentifier();
@@ -82,38 +81,57 @@ class QuestionImporter extends AbstractImporter {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function localize() {
+		$collectedData =  parent::localize(Model::QUESTION);
+
+		foreach ($this->typo3Languages as $languageUid) {
+			$this->postProcessAlternativeIdentifier($languageUid);
+			$this->postProcessTotalCleavage($languageUid);
+		}
+
+		return $collectedData;
+	}
+
+	/**
 	 * Post-process the questions to compute alternative identifier
 	 *
+	 * @param int $languageUid
 	 * @return void
 	 */
-	protected function postProcessAlternativeIdentifier() {
+	protected function postProcessAlternativeIdentifier($languageUid = 0) {
 
 		$relatedElection = $this->election->getRelatedElection();
 		if ($relatedElection) {
 
-			$clause = sprintf('election = %s', $this->election->getUid());
+			$clause = sprintf('election = %s AND sys_language_uid = %s', $this->election->getUid(), $languageUid);
 			$clause .= BackendUtility::deleteClause($this->tableName);
 			$questions = $this->getDatabaseConnection()->exec_SELECTgetRows('uid, name', $this->tableName, $clause);
 
 			// Loop around the questions and for each question retrieve the alternate question uid.
 			array_map(
-				function ($question) {
+				function ($question) use ($languageUid) {
 
 					// Find a possible related question.
 					$relatedElection = $this->election->getRelatedElection();
-					$clause = sprintf('election = %s AND name = "%s"', $relatedElection->getUid(), addslashes($question['name']));
+					$clause = sprintf('election = %s AND name = "%s" AND sys_language_uid = %s', $relatedElection->getUid(), addslashes($question['name']), $languageUid);
 					$clause .= BackendUtility::deleteClause($this->tableName);
-					$relatedQuestion = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', $this->tableName, $clause);
+					$relatedQuestion = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid, l10n_parent', $this->tableName, $clause);
 
 					if (empty($relatedQuestion)) {
 						throw new \Exception('I could not determine a related question. Fix me otherwise data may be inconsistent', 1435737286);
 					}
 
 					// Update the question with the alternative uid
-					$clause = sprintf('uid = %s', $question['uid']);
+					$clause = sprintf('uid = %s AND sys_language_uid = %s', $question['uid'], $languageUid);
 					$clause .= BackendUtility::deleteClause($this->tableName);
-
-					$values = ['alternative_uid' => $relatedQuestion['uid']];
+					if ($languageUid > 0) {
+						// Relations must always be to the default version of a record, so we use the l10n_parent here
+						$values = ['alternative_uid' => $relatedQuestion['l10n_parent']];
+					} else {
+						$values = ['alternative_uid' => $relatedQuestion['uid']];
+					}
 					$this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $clause, $values);
 				},
 				$questions
@@ -124,13 +142,14 @@ class QuestionImporter extends AbstractImporter {
 	/**
 	 * Post-process the questions to compute the total cleavage.
 	 *
+	 * @param int $languageUid
 	 * @return void
 	 */
-	protected function postProcessTotalCleavage() {
+	protected function postProcessTotalCleavage($languageUid = 0) {
 		$values = array();
 		for ($index = 1; $index <= 8; $index++) {
 
-			$clause = sprintf('cleavage%s != 0 AND election = %s', $index, $this->election->getUid());
+			$clause = sprintf('cleavage%s != 0 AND election = %s AND sys_language_uid = %s', $index, $this->election->getUid(), $languageUid);
 			$clause .= BackendUtility::deleteClause($this->tableName);
 			$totalCleavage = $this->getDatabaseConnection()->exec_SELECTcountRows('cleavage' . $index, $this->tableName, $clause);
 			$values['total_cleavage' . $index] = $totalCleavage;
@@ -138,7 +157,7 @@ class QuestionImporter extends AbstractImporter {
 
 		$this->getDatabaseConnection()->exec_UPDATEquery(
 			'tx_easyvotesmartvote_domain_model_election',
-			'uid = ' . $this->election->getUid(),
+			'uid = ' . $this->election->getUid() . ' AND sys_language_uid = ' . $languageUid,
 			$values
 		);
 	}
