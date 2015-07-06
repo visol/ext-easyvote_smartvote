@@ -22,7 +22,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question'] = [
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_question.gif'
 	],
 	'types' => [
-		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, groupping, type, rapide, education, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8, info, pro, contra, election, category, '],
+		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, internal_identifier, alternative_uid, groupping, type, rapide, education, cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8, info, pro, contra, election, category, '],
 	],
 	'palettes' => [
 		'1' => ['showitem' => ''],
@@ -92,9 +92,14 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_question'] = [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_question.alternative_uid',
 			'config' => [
-				'type' => 'input',
-				'size' => 30,
-				'eval' => 'int'
+				'type' => 'select',
+				'foreign_table' => 'tx_easyvotesmartvote_domain_model_question',
+				'foreign_table_where' => 'AND tx_easyvotesmartvote_domain_model_question.sys_language_uid IN (-1,0) ORDER BY tx_easyvotesmartvote_domain_model_question.name',
+				'items' => [
+					'' => ''
+				],
+				'minitems' => 0,
+				'maxitems' => 1,
 			],
 		],
 		'groupping' => [
