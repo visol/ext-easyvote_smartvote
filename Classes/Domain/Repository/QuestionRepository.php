@@ -38,7 +38,7 @@ class QuestionRepository extends Repository {
 
 		$fields = 'tx_easyvotesmartvote_domain_model_question.uid, tx_easyvotesmartvote_domain_model_question.name,
 			cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8,
-			cat.name as category_name, alternative_uid';
+			cat.name as category_name, alternative_uid, type';
 
 		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableNameAndJoin, $clause, '', 'uid ASC');
 	}

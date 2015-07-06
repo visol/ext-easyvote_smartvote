@@ -434,6 +434,21 @@
 			<trans-unit id="no_answer">
 				<source>Keine Antwort</source>
 			</trans-unit>
+			<trans-unit id="spend_more_significantly">
+				<source>Deutlich mehr ausgeben</source>
+			</trans-unit>
+			<trans-unit id="spend_more">
+				<source>Mehr ausgeben</source>
+			</trans-unit>
+			<trans-unit id="spend_same">
+				<source>Gleich viel ausgeben</source>
+			</trans-unit>
+			<trans-unit id="spend_less">
+				<source>Weniger ausgeben</source>
+			</trans-unit>
+			<trans-unit id="spend_less_significantly">
+				<source>Deutlich weniger ausgeben</source>
+			</trans-unit>
 
 			<trans-unit id="candidate.supporters">
 				<source>Unterstützer</source>

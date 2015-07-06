@@ -29,7 +29,7 @@ class QuestionProcessor extends AbstractProcessor {
 		$items = $this->revertOrderOfItems($items);
 		$items = $this->convertKeysToCamelCase($items);
 		$items = $this->parseQuestionName($items);
-		$items = $this->convertToInteger($items);
+		$items = $this->processSpecialKeys($items);
 		$items = $this->convertUidToId($items);
 		return $items;
 	}
@@ -38,12 +38,18 @@ class QuestionProcessor extends AbstractProcessor {
 	 * @param array $items
 	 * @return array
 	 */
-	protected function convertToInteger(array $items) {
+	protected function processSpecialKeys(array $items) {
 		$convertedItems = array();
 		foreach ($items as $item) {
+
+			// Integer conversion
 			$item['uid'] = (int)$item['uid'];
 			$item['alternativeId'] = (int)$item['alternativeUid'];
 			unset($item['alternativeUid']);
+
+			// field "type" processing
+			$typeParts = explode('-', $item['type']);
+			$item['type'] = strtolower($typeParts[0]);
 			$convertedItems[] = $item;
 		}
 		return $convertedItems;
