@@ -29,9 +29,12 @@ class TokenService implements SingletonInterface {
 	 * @return int
 	 */
 	public function generate($currentElectionUid) {
+
+
 		$token = sprintf(
-			'ext-easyvote-smart-%s%s',
+			'ext-easyvote-smart-%s-%s%s',
 			$currentElectionUid,
+			$this->getElectionCacheTimeStamp($currentElectionUid),
 			$this->getUserService()->isAuthenticated() ?
 				'-' . $this->getUserService()->getUserData()['uid'] :
 				''
@@ -69,9 +72,29 @@ class TokenService implements SingletonInterface {
 	}
 
 	/**
+	 * @param int $currentElectionUid
+	 * @return int
+	 */
+	protected function getElectionCacheTimeStamp($currentElectionUid){
+		$cachePath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote';
+
+		// Make direction if it does not exist.
+		if (!is_dir($cachePath)) {
+			mkdir($cachePath, 0777, TRUE);
+		}
+		$cacheFileAndPath = $cachePath . '/election-' . $currentElectionUid;
+		if (!is_file($cacheFileAndPath)) {
+			touch($cacheFileAndPath);
+		}
+
+		return filemtime($cacheFileAndPath);
+	}
+
+	/**
 	 * @return UserService
 	 */
 	protected function getUserService(){
 		return GeneralUtility::makeInstance(UserService::class);
 	}
+
 }
