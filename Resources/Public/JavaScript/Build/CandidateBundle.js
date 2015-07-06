@@ -923,7 +923,7 @@ var FacetModel = (function (_Backbone$Model) {
 				return {
 					id: 1, // fictive id but is mandatory in order to retrieve the model in the session.
 					nationalParty: "",
-					district: "",
+					district: EasyvoteSmartvote.userDistrict,
 					minAge: "18",
 					maxAge: "90",
 					incumbent: "",
