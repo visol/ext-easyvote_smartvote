@@ -436,13 +436,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 
 		// Save all of the question items under the `'questions'` namespace.
 		if (this._isAnonymous()) {
-
-			// Compute the token.
-			var token = EasyvoteSmartvote.token;
-			if (EasyvoteSmartvote.relatedToken) {
-				token = EasyvoteSmartvote.relatedToken;
-			}
-			this.localStorage = new Backbone.LocalStorage("questions-" + token);
+			this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
 		}
 	}
 
@@ -503,6 +497,22 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 			}
 		},
+		getToken: {
+
+			/**
+    * Compute the token.
+    *
+    * @returns {string}
+    */
+
+			value: function getToken() {
+				var token = EasyvoteSmartvote.token;
+				if (EasyvoteSmartvote.relatedToken) {
+					token = EasyvoteSmartvote.relatedToken;
+				}
+				return token;
+			}
+		},
 		url: {
 
 			/**
@@ -514,7 +524,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 			value: function url() {
 				var token = "";
 				if (EasyvoteSmartvote.isUserAuthenticated) {
-					token += "&token=" + EasyvoteSmartvote.token;
+					token += "&token=" + this.getToken();
 				}
 
 				// Compute the final election identifier.
@@ -529,16 +539,15 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		load: {
 
 			/**
-    * @return QuestionCollection
+    * @returns {*}
     */
 
 			value: function load() {
 				if (this._isAnonymous()) {
-					this.fetchForAnonymousUser();
+					return this.fetchForAnonymousUser();
 				} else {
-					this.fetchForAuthenticatedUser();
+					return this.fetchForAuthenticatedUser();
 				}
-				return this;
 			}
 		},
 		count: {
@@ -1289,19 +1298,22 @@ var CandidateListView = (function (_Backbone$View) {
 		// Contains the "number of candidates" and button to reset the filter.
 		this.listTopTemplate = _.template($("#template-candidates-top").html());
 
-		// Load first the Question collection.
-		/** @var questionCollection QuestionCollection*/
-		QuestionCollection.getInstance().load();
-
 		/** @var candidateCollection CandidateCollection*/
 		var candidateCollection = CandidateCollection.getInstance();
+
+		// Load first the Question collection.
+		/** @var questionCollection QuestionCollection*/
+		QuestionCollection.getInstance().load().done(function () {
+
+			// Fetch data
+			candidateCollection.fetch().done(function () {
+				console.log("candidateCollection");
+			});
+		});
 
 		// Important: define listener before fetching data.
 		this.listenTo(candidateCollection, "sort reset", this.render);
 		this.listenTo(Backbone, "facet:changed", this.render, this);
-
-		// Fetch data
-		candidateCollection.fetch();
 
 		// Call parent constructor.
 		_get(_core.Object.getPrototypeOf(CandidateListView.prototype), "constructor", this).call(this);

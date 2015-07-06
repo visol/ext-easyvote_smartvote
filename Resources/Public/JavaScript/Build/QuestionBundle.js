@@ -589,13 +589,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 
 		// Save all of the question items under the `'questions'` namespace.
 		if (this._isAnonymous()) {
-
-			// Compute the token.
-			var token = EasyvoteSmartvote.token;
-			if (EasyvoteSmartvote.relatedToken) {
-				token = EasyvoteSmartvote.relatedToken;
-			}
-			this.localStorage = new Backbone.LocalStorage("questions-" + token);
+			this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
 		}
 	}
 
@@ -656,6 +650,22 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 			}
 		},
+		getToken: {
+
+			/**
+    * Compute the token.
+    *
+    * @returns {string}
+    */
+
+			value: function getToken() {
+				var token = EasyvoteSmartvote.token;
+				if (EasyvoteSmartvote.relatedToken) {
+					token = EasyvoteSmartvote.relatedToken;
+				}
+				return token;
+			}
+		},
 		url: {
 
 			/**
@@ -667,7 +677,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 			value: function url() {
 				var token = "";
 				if (EasyvoteSmartvote.isUserAuthenticated) {
-					token += "&token=" + EasyvoteSmartvote.token;
+					token += "&token=" + this.getToken();
 				}
 
 				// Compute the final election identifier.
@@ -682,16 +692,15 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		load: {
 
 			/**
-    * @return QuestionCollection
+    * @returns {*}
     */
 
 			value: function load() {
 				if (this._isAnonymous()) {
-					this.fetchForAnonymousUser();
+					return this.fetchForAnonymousUser();
 				} else {
-					this.fetchForAuthenticatedUser();
+					return this.fetchForAuthenticatedUser();
 				}
-				return this;
 			}
 		},
 		count: {
