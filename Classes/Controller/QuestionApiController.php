@@ -38,10 +38,25 @@ class QuestionApiController extends AbstractBaseApiController {
 	public function listAction(Election $election = NULL) {
 
 		$token = GeneralUtility::_GP('token');
+		if ($this->isAuthenticatedUser($token)) {
+			$questions = $this->getListForAuthenticatedUser($election, $token);
+		} else {
+			$questions = $this->getListForAnonymousUser($election);
+		}
+
+		$this->response->setHeader('Content-Type', 'application/json');
+		return $questions;
+	}
+
+	/**
+	 * @param Election $election
+	 * @param string $token
+	 * @return string
+	 */
+	public function getListForAuthenticatedUser(Election $election, $token) {
 		$questions = $this->retrieveQuestionsFromUserPreferences($token);
 
 		if (empty($questions)) {
-
 			$questions = $this->questionRepository->findByElection($election);
 			$questions = $this->getQuestionProcessor()->process($questions);
 
@@ -50,8 +65,31 @@ class QuestionApiController extends AbstractBaseApiController {
 			}
 		}
 
-		$this->response->setHeader('Content-Type', 'application/json');
 		return json_encode($questions);
+	}
+
+	/**
+	 * @param Election $election
+	 * @return string
+	 */
+	public function getListForAnonymousUser(Election $election) {
+
+		$this->initializeCache();
+
+		$cacheIdentifier = 'questions-' . $election->getUid();
+		$questions = $this->cacheInstance->get($cacheIdentifier);
+
+		if (empty($questions)) {
+			$questions = $this->questionRepository->findByElection($election);
+			$questions = $this->getQuestionProcessor()->process($questions);
+			$questions = json_encode($questions);
+
+			$tags = array();
+			$lifetime = $this->getLifeTime();
+			$this->cacheInstance->set($cacheIdentifier, $questions, $tags, $lifetime);
+		}
+
+		return $questions;
 	}
 
 	/**
@@ -63,18 +101,26 @@ class QuestionApiController extends AbstractBaseApiController {
 
 	/**
 	 * @param string $token
-	 * @return array
+	 * @return bool
 	 */
-	protected function retrieveQuestionsFromUserPreferences($token) {
-		$questions = array();
+	protected function isAuthenticatedUser($token) {
+		$hasQuestions = FALSE;
 		if (!empty($token) && $this->getUserService()->isAuthenticated()) {
 			$isAllowed = $this->getTokenService()->isAllowed($token);
 
 			if ($isAllowed) {
-				$questions = $this->getUserService()->get($token);
+				$hasQuestions = TRUE;
 			}
 		}
-		return $questions;
+		return $hasQuestions;
+	}
+
+	/**
+	 * @param string $token
+	 * @return array
+	 */
+	protected function retrieveQuestionsFromUserPreferences($token) {
+		return $this->getUserService()->get($token);
 	}
 
 	/**

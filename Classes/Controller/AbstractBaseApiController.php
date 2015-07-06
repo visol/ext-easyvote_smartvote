@@ -15,7 +15,6 @@ namespace Visol\EasyvoteSmartvote\Controller;
  */
 
 use TYPO3\CMS\Core\Cache\Cache;
-use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -47,6 +46,53 @@ abstract class AbstractBaseApiController extends ActionController {
 			parent::processRequest($request, $response);
 		} catch (\Exception $exception) {
 		}
+	}
+
+	/**
+	 * Reset cache every 0, 30 minutes.
+	 *
+	 * @return int
+	 */
+	protected function getLifeTime() {
+		// 30 days 86400 * 30
+		return 8640030;
+	}
+
+	/**
+	 * Initialize cache instance to be ready to use
+	 *
+	 * @return void
+	 */
+	protected function initializeCache() {
+		Cache::initializeCachingFramework();
+		try {
+			$this->cacheInstance = $this->getCacheManager()->getCache('easyvote_smartvote');
+		} catch (NoSuchCacheException $e) {
+			$this->cacheInstance = $this->getCacheFactory()->create(
+				'easyvote_smartvote',
+				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['frontend'],
+				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['backend'],
+				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['options']
+			);
+		}
+	}
+
+	/**
+	 * Return the Cache Manager
+	 *
+	 * @return \TYPO3\CMS\Core\Cache\CacheManager
+	 */
+	protected function getCacheManager() {
+		return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
+	}
+
+	/**
+	 * Return the Cache Factory
+	 *
+	 * @return \TYPO3\CMS\Core\Cache\CacheFactory
+	 */
+	protected function getCacheFactory() {
+		return $GLOBALS['typo3CacheFactory'];
 	}
 
 }
