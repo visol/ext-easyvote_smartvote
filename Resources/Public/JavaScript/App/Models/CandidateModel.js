@@ -23,19 +23,19 @@ export default class CandidateModel extends Backbone.Model {
 	 */
 	getMatching() {
 
-		let questionCollection = QuestionCollection.getInstance();
+		var questionCollection = QuestionCollection.getInstance();
 
-		let matching = null;
-		let candidateAnswers = this.get('answers');
+		var matching = null;
+		var candidateAnswers = this.get('answers');
 
 		// true means the candidate has answered the survey which is normally the case but not always...
 		if (questionCollection.hasCompletedAnswers() && candidateAnswers.length > 0) {
 
-			let aggregatedResult = 0;
-			let counter = 0;
+			var aggregatedResult = 0;
+			var counter = 0;
 
 			for (let candidateAnswer of candidateAnswers) {
-				let userQuestion = this.retrieveQuestion(candidateAnswer);
+				var userQuestion = this.retrieveQuestion(candidateAnswer);
 				if (userQuestion) {
 					if (userQuestion.get('answer') !== null && userQuestion.get('answer') !== -1) {
 						aggregatedResult += Math.pow(userQuestion.get('answer') - candidateAnswer.answer, 2);
@@ -61,9 +61,9 @@ export default class CandidateModel extends Backbone.Model {
 	 * @returns Question
 	 */
 	retrieveQuestion(answer) {
-		let questionCollection = QuestionCollection.getInstance();
-		let questionId = answer.questionId;
-		let question = questionCollection.get(questionId);
+		var questionCollection = QuestionCollection.getInstance();
+		var questionId = answer.questionId;
+		var question = questionCollection.get(questionId);
 		if (!question) {
 			let questions = questionCollection.where({alternativeId: questionId});
 			if (questions.length > 0) {

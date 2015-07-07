@@ -37,7 +37,7 @@ export default class CandidateView extends Backbone.View {
 
 		// Lazy rendering of the Chart.
 		if (!$('#chart-candidate-' + this.model.id).has('svg').length) {
-			let values = this.model.get('spiderChart');
+			var values = this.model.get('spiderChart');
 			if (values.length > 0) {
 				this.drawChart(this.model.id, values);
 			}

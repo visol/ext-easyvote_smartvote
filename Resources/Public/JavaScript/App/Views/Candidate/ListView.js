@@ -33,12 +33,12 @@ export default class ListView extends Backbone.View {
 		this.listenTo(Backbone, 'facet:changed', this.render, this);
 
 		// Load first the Question collection.
-		/** @var questionCollection QuestionCollection*/
+		/** @var questionCollection QuestionCollection */
 		QuestionCollection.getInstance().load().done(() => {
 
-			// Fetch candidates
-			candidateCollection.fetch().done((something) => {
-				candidateCollection.sort(); // trigger rendering
+			// Fetch candidates.
+			candidateCollection.fetch().done(() => {
+				candidateCollection.sort(); // will trigger the rendering.
 			});
 		});
 
@@ -51,22 +51,22 @@ export default class ListView extends Backbone.View {
 	 */
 	render() {
 
-		let filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
+		var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
 
 		// Render intermediate content in a temporary DOM.
-		let container = document.createDocumentFragment();
+		var container = document.createDocumentFragment();
 		for (let candidate of filteredCandidates) {
 			let content = this.renderOne(candidate);
 			container.appendChild(content);
 		}
 
 		// Finally update the DOM.
-		$('#container-candidate-list').empty().append(container);
+		$('#container-candidate-list').html(container);
 
 		// Add lazy loading to images.
 		$("img.lazy", $('#container-candidate-list')).lazyload();
 
-		// Update top list content
+		// Update top list content.
 		let content = this.listTopTemplate({
 			numberOfItems: filteredCandidates.length
 		});

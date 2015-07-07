@@ -153,7 +153,7 @@ export default class SpiderChart {
 	 * @return int
 	 */
 	computeValueForCleavage1() {
-		let value = 0;
+		var value = 0;
 		this.cleavage1.map(v => value = value + v);
 		return value;
 	}
@@ -162,7 +162,7 @@ export default class SpiderChart {
 	 * @return int
 	 */
 	computeValueForCleavage2() {
-		let value = 0;
+		var value = 0;
 		this.cleavage2.map(v => value = value + v);
 		return value;
 	}
@@ -171,7 +171,7 @@ export default class SpiderChart {
 	 * @return int
 	 */
 	computeValueForCleavage3() {
-		let value = 0;
+		var value = 0;
 		this.cleavage3.map(v => value = value + v);
 		return value;
 	}
@@ -180,7 +180,7 @@ export default class SpiderChart {
 	 * @return int
 	 */
 	computeValueForCleavage4() {
-		let value = 0;
+		var value = 0;
 		this.cleavage4.map(v => value = value + v);
 		return value;
 	}
@@ -189,7 +189,7 @@ export default class SpiderChart {
 	 * @return int
 	 */
 	computeValueForCleavage5() {
-		let value = 0;
+		var value = 0;
 		this.cleavage5.map(v => value = value + v);
 		return value;
 	}
@@ -198,7 +198,7 @@ export default class SpiderChart {
 	 * @return int
 	 */
 	computeValueForCleavage6() {
-		let value = 0;
+		var value = 0;
 		this.cleavage6.map(v => value = value + v);
 		return value;
 	}
@@ -207,7 +207,7 @@ export default class SpiderChart {
 	 * @return int
 	 */
 	computeValueForCleavage7() {
-		let value = 0;
+		var value = 0;
 		this.cleavage7.map(v => value = value + v);
 		return value;
 	}
@@ -216,7 +216,7 @@ export default class SpiderChart {
 	 * @return int
 	 */
 	computeValueForCleavage8() {
-		let value = 0;
+		var value = 0;
 		this.cleavage8.map(v => value = value + v);
 		return value;
 	}

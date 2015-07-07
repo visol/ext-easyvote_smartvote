@@ -27,7 +27,7 @@ class QuestionRepository extends Repository {
 	 * @param Election $election
 	 * @return array|NULL
 	 */
-	public function findByElection(Election $election){
+	public function findByElection(Election $election) {
 		$tableName = 'tx_easyvotesmartvote_domain_model_question';
 		$tableNameAndJoin = 'tx_easyvotesmartvote_domain_model_question
 			JOIN tx_easyvotesmartvote_domain_model_questioncategory AS cat
@@ -38,11 +38,10 @@ class QuestionRepository extends Repository {
 
 		$fields = 'tx_easyvotesmartvote_domain_model_question.uid, tx_easyvotesmartvote_domain_model_question.name,
 			cleavage1, cleavage2, cleavage3, cleavage4, cleavage5, cleavage6, cleavage7, cleavage8,
-			cat.name as category_name, alternative_uid, type';
+			cat.name as category_name, alternative_uid, type, rapide';
 
-		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableNameAndJoin, $clause, '', 'uid ASC');
+		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableNameAndJoin, $clause, '', 'rapide DESC, uid ASC');
 	}
-
 
 	/**
 	 * Returns a pointer to the database.

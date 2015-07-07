@@ -13,6 +13,8 @@ export default class QuestionView extends Backbone.View {
 	 */
 	constructor(options) {
 
+		this.counter = options.counter;
+
 		// *... is a list tag.*
 		this.tagName = 'div';
 
@@ -36,7 +38,11 @@ export default class QuestionView extends Backbone.View {
 	 * @returns string
 	 */
 	render() {
-		this.$el.html(this.template(this.model.toJSON()));
+		// Serialise model and add counter info on the top of it.
+		let data = this.model.toJSON();
+		data['counter'] = this.counter;
+
+		this.$el.html(this.template(data));
 		this.defineVisibility();
 		return this.el;
 	}
@@ -62,7 +68,10 @@ export default class QuestionView extends Backbone.View {
 	edit(e) {
 		// retrieve the selected value and update the underlying model.
 		let value = parseInt(e.target.value);
-		this.model.save({answer: value});
+		this.model.save({answer: value}).done((question) => {
+			//Backbone.trigger('question:changed', question);
+		});
+
 	}
 
 }

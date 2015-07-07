@@ -7,26 +7,19 @@
 
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Underscore/underscore-min.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/Backbone/backbone-min.js')}"/>
-
-	<f:comment><!-- Conditional loading of JS --></f:comment>
-	<f:if condition="{smartvote:isUserAuthenticated()}">
-		<f:then>
-			<f:comment><!--The User is authenticated => persist data in its preferences --></f:comment>
-			<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/JQueryAjaxManager/jquery.ajaxmanager.js')}"/>
-			<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/BackboneSyncAjaxQueue/backbone.sync.ajaxman.js')}"/>
-		</f:then>
-		<f:else>
-			<f:comment><!--The User is *not* authenticated => user the localStorage--></f:comment>
-			<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/BackboneLocalStorage/backbone.localStorage-min.js')}"/>
-		</f:else>
-	</f:if>
-
+	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/BackboneLocalStorage/backbone.localStorage-min.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Libraries/D3/d3.min.js')}"/>
 	<smartvote:script file="{f:uri.resource(path:'JavaScript/Build/QuestionBundle.js')}" canBeMinified="true"/>
 
-	<h2 class="content-box">
-		<f:translate key="who_to_elect"/>
-	</h2>
+	<div class="content-box">
+		<h2>
+			<f:translate key="who_to_elect"/>
+		</h2>
+		<div>
+			<a href="#" id="btn-long-version" class="btn btn-primary">{f:translate(key:'long_version')}</a>
+			<a href="#" id="btn-short-version" class="btn btn-primary">{f:translate(key:'short_version')}</a>
+		</div>
+	</div>
 
 	<section id="container-questions">
 		<div id="container-progress"></div>

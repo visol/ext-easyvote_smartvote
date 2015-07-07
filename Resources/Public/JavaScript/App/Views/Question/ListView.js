@@ -1,5 +1,6 @@
 /*jshint esnext:true */
 import QuestionCollection from '../../Collections/QuestionCollection'
+import CandidateCollection from '../../Collections/CandidateCollection'
 import QuestionView from './QuestionView'
 import SpiderChart from '../../Chart/SpiderChart'
 
@@ -21,14 +22,16 @@ export default class ListView extends Backbone.View {
 		this.progressTemplate = _.template($('#template-progress').html());
 		this.$progress = this.$('#container-progress');
 
-		/** @var questionCollection QuestionCollection*/
-		let questionCollection = QuestionCollection.getInstance();
+		this.questionCollection = QuestionCollection.getInstance();
 
-		this.listenTo(questionCollection, 'add', this.addOne);
-		this.listenTo(questionCollection, 'change:answer', this.changeAnswer);
-		this.listenTo(questionCollection, 'all', this.render);
 
-		questionCollection.load();
+		//this.listenTo(Backbone, 'question:changed', this.showNextAnswer);
+		this.listenTo(this.questionCollection, 'change:answer', this.showNextAnswer);
+		this.listenTo(this.questionCollection, 'all', this.renderProgressBar);
+
+		this.questionCollection.load().done(()=> {
+			this.render();
+		});
 
 		super();
 	}
@@ -37,10 +40,29 @@ export default class ListView extends Backbone.View {
 	 * Render the main template.
 	 */
 	render() {
+		var questions = this.questionCollection.getRapideQuestions();
+
+		var counter = questions.length;
+
+		// Render intermediate content in a temporary DOM.
+		var container = document.createDocumentFragment();
+		for (let question of questions) {
+			let content = this.renderOne(question, counter);
+			container.appendChild(content);
+			counter--;
+		}
+
+		$('#container-question-list').html(container);
+	}
+
+	/**
+	 * Render the main template.
+	 */
+	renderProgressBar() {
 		let content = this.progressTemplate({
 			progress: this.getProgress(),
-			numberOfQuestionAnswered: QuestionCollection.getInstance().countVisible(),
-			totalNumberOfQuestions: QuestionCollection.getInstance().count()
+			numberOfQuestionAnswered: this.questionCollection.countVisible(),
+			totalNumberOfQuestions: this.questionCollection.count()
 		});
 
 		this.$progress.html(content);
@@ -51,26 +73,22 @@ export default class ListView extends Backbone.View {
 	 */
 	getProgress() {
 
-		let questionCollection = QuestionCollection.getInstance();
-
 		let progress = 0; // default
-		if (questionCollection.count() > 1) {
-			progress = questionCollection.countVisible() / questionCollection.count() * 100;
+		if (this.questionCollection.count() > 1) {
+			progress = this.questionCollection.countVisible() / this.questionCollection.count() * 100;
 		}
 		return progress;
 	}
 
 	/**
-	 * @param argument
+	 * @param question
 	 */
-	changeAnswer(argument) {
-		let question = argument.attributes;
+	showNextAnswer(question) {
 
 		this.updateChart(question);
 
-		let questionCollection = QuestionCollection.getInstance();
-		let nextIndex = (questionCollection.length - 1) - question.index;
-		let nextQuestion = questionCollection.at(nextIndex);
+		let nextIndex = (this.questionCollection.length - 1) - question.get('index');
+		let nextQuestion = this.questionCollection.at(nextIndex);
 		nextQuestion.trigger('visible');
 	}
 
@@ -79,38 +97,31 @@ export default class ListView extends Backbone.View {
 	 */
 	updateChart(question) {
 
-		if (typeof question.answer === 'number') {
+		if (typeof question.get('answer') === 'number') {
 			SpiderChart.getInstance()
-				.addToCleavage1(question.id, question.answer, question.cleavage1)
-				.addToCleavage2(question.id, question.answer, question.cleavage2)
-				.addToCleavage3(question.id, question.answer, question.cleavage3)
-				.addToCleavage4(question.id, question.answer, question.cleavage4)
-				.addToCleavage5(question.id, question.answer, question.cleavage5)
-				.addToCleavage6(question.id, question.answer, question.cleavage6)
-				.addToCleavage7(question.id, question.answer, question.cleavage7)
-				.addToCleavage8(question.id, question.answer, question.cleavage8)
+				.addToCleavage1(question.id, question.get('answer'), question.get('cleavage1'))
+				.addToCleavage2(question.id, question.get('answer'), question.get('cleavage2'))
+				.addToCleavage3(question.id, question.get('answer'), question.get('cleavage3'))
+				.addToCleavage4(question.id, question.get('answer'), question.get('cleavage4'))
+				.addToCleavage5(question.id, question.get('answer'), question.get('cleavage5'))
+				.addToCleavage6(question.id, question.get('answer'), question.get('cleavage6'))
+				.addToCleavage7(question.id, question.get('answer'), question.get('cleavage7'))
+				.addToCleavage8(question.id, question.get('answer'), question.get('cleavage8'))
 				.draw();
 		}
 	}
 
 	/**
-	 * Add a single question item to the list by creating a view for it, then
-	 * appending its element to the `<div>`.
+	 * Render HTML of a single question.
+	 *
 	 * @param model
+	 * @param counter
 	 */
-	addOne(model) {
-		let question = model.attributes;
-		this.updateChart(question);
-		let view = new QuestionView({model});
-		$('#container-question-list').append(view.render());
-	}
+	renderOne(model, counter) {
+		this.updateChart(model);
 
-	/**
-	 * @return {bool}
-	 * @private
-	 */
-	_isAnonymous() {
-		return !EasyvoteSmartvote.isUserAuthenticated
+		let view = new QuestionView({model:model, counter:counter});
+		return view.render();
 	}
 
 }

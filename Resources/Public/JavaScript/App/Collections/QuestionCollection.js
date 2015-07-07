@@ -47,7 +47,7 @@ export default class QuestionCollection extends Backbone.Collection {
 	 * @return bool
 	 */
 	hasCompletedAnswers() {
-		let hasAnswers = false;
+		var hasAnswers = false;
 		this.each(question => {
 			let answer = question.get('answer');
 			if (Number.isInteger(answer)) {
@@ -56,15 +56,6 @@ export default class QuestionCollection extends Backbone.Collection {
 		});
 
 		return hasAnswers;
-	}
-
-	/**
-	 * Anonymous User uses the localStorage as a first storage.
-	 *
-	 * @returns {*}
-	 */
-	fetchForAuthenticatedUser() {
-		return super.fetch();
 	}
 
 	/**
@@ -101,6 +92,13 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
+	 * @return array
+	 */
+	getRapideQuestions() {
+		return this.filter(question => question.get('rapide'));
+	}
+
+	/**
 	 * @return QuestionCollection
 	 */
 	static getInstance() {
@@ -117,18 +115,17 @@ export default class QuestionCollection extends Backbone.Collection {
 		if (this._isAnonymous()) {
 			return this.fetchForAnonymousUser();
 		} else {
-			return this.fetchForAuthenticatedUser();
+			return super.fetch();
 		}
 	}
 
-
 	/**
-	 * Return the total number of questions in this collection.
+	 * Return the total number of questions for this collection.
 	 *
 	 * @returns int
 	 */
 	count() {
-		return this.length;
+		return this.getRapideQuestions().length;
 	}
 
 	/**
@@ -137,7 +134,7 @@ export default class QuestionCollection extends Backbone.Collection {
 	 * @returns int
 	 */
 	countVisible() {
-		return this.filter(question => question.get('visible')).length;
+		return this.filter(question => question.get('visible') && question.get('rapide')).length;
 	}
 
 	/**

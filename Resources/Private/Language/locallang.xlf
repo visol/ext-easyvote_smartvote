@@ -468,6 +468,12 @@
 			<trans-unit id="candidate_found">
 				<source>Kandidierende gefunden</source>
 			</trans-unit>
+			<trans-unit id="long_version">
+				<source>Deluxe Version</source>
+			</trans-unit>
+			<trans-unit id="short_version">
+				<source>Rapide Version</source>
+			</trans-unit>
 
 
 		</body>

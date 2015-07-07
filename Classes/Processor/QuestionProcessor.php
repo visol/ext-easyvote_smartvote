@@ -44,6 +44,15 @@ class QuestionProcessor extends AbstractProcessor {
 
 			// Integer conversion
 			$item['uid'] = (int)$item['uid'];
+			$item['rapide'] = (int)$item['rapide'];
+			$item['cleavage1'] = (int)$item['cleavage1'];
+			$item['cleavage2'] = (int)$item['cleavage2'];
+			$item['cleavage3'] = (int)$item['cleavage3'];
+			$item['cleavage4'] = (int)$item['cleavage4'];
+			$item['cleavage5'] = (int)$item['cleavage5'];
+			$item['cleavage6'] = (int)$item['cleavage6'];
+			$item['cleavage7'] = (int)$item['cleavage7'];
+			$item['cleavage8'] = (int)$item['cleavage8'];
 			$item['alternativeId'] = (int)$item['alternativeUid'];
 			unset($item['alternativeUid']);
 
