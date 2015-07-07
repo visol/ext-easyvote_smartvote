@@ -1,13 +1,13 @@
 "use strict";
 
-import CandidateListView from './Views/CandidateListView';
-import CandidateFacetView from './Views/CandidateFacetView';
+import ListView from './Views/Candidate/ListView';
+import FacetView from './Views/Candidate/FacetView';
 
 
 var eventBus = _.extend({}, Backbone.Events);
 
 
 $(() => {
-	new CandidateFacetView().render();
-	new CandidateListView();
+	new FacetView().render();
+	new ListView();
 });

@@ -1,5 +1,5 @@
 /*jshint esnext:true */
-import SpiderChartPlotter from '../Chart/SpiderChartPlotter'
+import SpiderChartPlotter from '../../Chart/SpiderChartPlotter'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -71,7 +71,7 @@ export default class CandidateView extends Backbone.View {
 	drawChart(candidateId, values) {
 
 		let data = [
-			//                                                                                     cleavage* - position in circle
+			//                                                         cleavage# - position in chart
 			{value: values[0].value * 0.01}, // Offene Aussenpolitik           1 - 1
 			{value: values[7].value * 0.01}, // Liberale Gesellschaft          8 - 2
 			{value: values[6].value * 0.01}, // Ausgebauter Sozialstaat        7 - 3

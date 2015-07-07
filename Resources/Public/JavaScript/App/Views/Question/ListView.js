@@ -1,7 +1,7 @@
 /*jshint esnext:true */
-import QuestionCollection from '../Collections/QuestionCollection'
+import QuestionCollection from '../../Collections/QuestionCollection'
 import QuestionView from './QuestionView'
-import SpiderChart from '../Chart/SpiderChart'
+import SpiderChart from '../../Chart/SpiderChart'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -9,7 +9,7 @@ import SpiderChart from '../Chart/SpiderChart'
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default class QuestionListView extends Backbone.View {
+export default class ListView extends Backbone.View {
 
 	constructor() {
 

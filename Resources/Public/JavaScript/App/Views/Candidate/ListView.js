@@ -1,7 +1,7 @@
 /*jshint esnext:true */
-import CandidateCollection from '../Collections/CandidateCollection'
+import CandidateCollection from '../../Collections/CandidateCollection'
 import CandidateView from './CandidateView'
-import QuestionCollection from '../Collections/QuestionCollection'
+import QuestionCollection from '../../Collections/QuestionCollection'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -9,7 +9,7 @@ import QuestionCollection from '../Collections/QuestionCollection'
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default class CandidateListView extends Backbone.View {
+export default class ListView extends Backbone.View {
 
 	/**
 	 * Constructor
@@ -28,21 +28,19 @@ export default class CandidateListView extends Backbone.View {
 		/** @var candidateCollection CandidateCollection*/
 		var candidateCollection = CandidateCollection.getInstance();
 
-		// Load first the Question collection.
-		/** @var questionCollection QuestionCollection*/
-		QuestionCollection.getInstance().load().done(() => {
-
-			// Fetch data
-			candidateCollection.fetch().done(() => {
-				console.log('candidateCollection');
-			});
-			
-		});
-
 		// Important: define listener before fetching data.
 		this.listenTo(candidateCollection, 'sort reset', this.render);
 		this.listenTo(Backbone, 'facet:changed', this.render, this);
 
+		// Load first the Question collection.
+		/** @var questionCollection QuestionCollection*/
+		QuestionCollection.getInstance().load().done(() => {
+
+			// Fetch candidates
+			candidateCollection.fetch().done((something) => {
+				candidateCollection.sort(); // trigger rendering
+			});
+		});
 
 		// Call parent constructor.
 		super();

@@ -1,9 +1,9 @@
 "use strict";
 
-import QuestionListView from './Views/QuestionListView';
+import ListView from './Views/Question/ListView';
 import SpiderChart from './Chart/SpiderChart';
 
 $(() => {
-	new QuestionListView();
+	new ListView();
 	SpiderChart.getInstance().draw();
 });

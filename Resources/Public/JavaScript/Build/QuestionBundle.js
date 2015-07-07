@@ -586,11 +586,6 @@ var QuestionCollection = (function (_Backbone$Collection) {
 
 		// Hold a reference to this collection's model.
 		this.model = QuestionModel;
-
-		// Save all of the question items under the `'questions'` namespace.
-		if (this._isAnonymous()) {
-			this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
-		}
 	}
 
 	_inherits(QuestionCollection, _Backbone$Collection);
@@ -599,22 +594,45 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		fetchForAnonymousUser: {
 
 			/**
+    * Anonymous User uses the localStorage as a first storage.
+    *
     * @returns {*}
     */
 
 			value: function fetchForAnonymousUser() {
+				var _this = this;
+
+				// Save all of the question items under the `'questions'` namespace for anonymous user.
+				this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
 
 				// Check whether localStorage contains record about this collection
 				var records = this.localStorage.findAll();
 				if (_.isEmpty(records)) {
-					var self = this;
-					// fetch from server once
-					$.ajax({
-						url: this.url()
-					}).done(function (response) {
-						$.each(response, function (i, item) {
-							self.create(item); // saves model to local storage
-						});
+					return Backbone.ajaxSync("read", this).done(function (models) {
+						var _iteratorNormalCompletion = true;
+						var _didIteratorError = false;
+						var _iteratorError = undefined;
+
+						try {
+							for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+								var model = _step.value;
+
+								_this.create(model, { sort: false });
+							}
+						} catch (err) {
+							_didIteratorError = true;
+							_iteratorError = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion && _iterator["return"]) {
+									_iterator["return"]();
+								}
+							} finally {
+								if (_didIteratorError) {
+									throw _iteratorError;
+								}
+							}
+						}
 					});
 				} else {
 					// call original fetch method
@@ -643,6 +661,8 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		fetchForAuthenticatedUser: {
 
 			/**
+    * Anonymous User uses the localStorage as a first storage.
+    *
     * @returns {*}
     */
 
@@ -840,15 +860,15 @@ module.exports = QuestionModel;
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var QuestionListView = _interopRequire(require("./Views/QuestionListView"));
+var ListView = _interopRequire(require("./Views/Question/ListView"));
 
 var SpiderChart = _interopRequire(require("./Chart/SpiderChart"));
 
 $(function () {
-	new QuestionListView();
+	new ListView();
 	SpiderChart.getInstance().draw();
 });
-},{"./Chart/SpiderChart":1,"./Views/QuestionListView":6,"babel-runtime/helpers/interop-require":13}],6:[function(require,module,exports){
+},{"./Chart/SpiderChart":1,"./Views/Question/ListView":6,"babel-runtime/helpers/interop-require":13}],6:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -864,11 +884,11 @@ var _core = require("babel-runtime/core-js")["default"];
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var QuestionCollection = _interopRequire(require("../Collections/QuestionCollection"));
+var QuestionCollection = _interopRequire(require("../../Collections/QuestionCollection"));
 
 var QuestionView = _interopRequire(require("./QuestionView"));
 
-var SpiderChart = _interopRequire(require("../Chart/SpiderChart"));
+var SpiderChart = _interopRequire(require("../../Chart/SpiderChart"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -876,9 +896,9 @@ var SpiderChart = _interopRequire(require("../Chart/SpiderChart"));
  * See LICENSE.txt that was shipped with this package.
  */
 
-var QuestionListView = (function (_Backbone$View) {
-	function QuestionListView() {
-		_classCallCheck(this, QuestionListView);
+var ListView = (function (_Backbone$View) {
+	function ListView() {
+		_classCallCheck(this, ListView);
 
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
@@ -897,12 +917,12 @@ var QuestionListView = (function (_Backbone$View) {
 
 		questionCollection.load();
 
-		_get(_core.Object.getPrototypeOf(QuestionListView.prototype), "constructor", this).call(this);
+		_get(_core.Object.getPrototypeOf(ListView.prototype), "constructor", this).call(this);
 	}
 
-	_inherits(QuestionListView, _Backbone$View);
+	_inherits(ListView, _Backbone$View);
 
-	_createClass(QuestionListView, {
+	_createClass(ListView, {
 		render: {
 
 			/**
@@ -994,11 +1014,11 @@ var QuestionListView = (function (_Backbone$View) {
 		}
 	});
 
-	return QuestionListView;
+	return ListView;
 })(Backbone.View);
 
-module.exports = QuestionListView;
-},{"../Chart/SpiderChart":1,"../Collections/QuestionCollection":3,"./QuestionView":7,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],7:[function(require,module,exports){
+module.exports = ListView;
+},{"../../Chart/SpiderChart":1,"../../Collections/QuestionCollection":3,"./QuestionView":7,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],7:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*

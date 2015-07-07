@@ -1,6 +1,6 @@
 /*jshint esnext:true */
 import CandidateModel from '../Models/CandidateModel'
-import CandidateFacetView from '../Views/CandidateFacetView'
+import FacetView from '../Views/Candidate/FacetView'
 import FilterEngine from '../Filter/FilterEngine'
 import FacetIterator from '../Iterator/FacetIterator';
 
@@ -80,11 +80,10 @@ export default class CandidateCollection extends Backbone.Collection {
 	remoteFetch() {
 		return Backbone.ajaxSync('read', this).done(models => {
 			for (let model of models) {
-				//let candidate = new CandidateModel(model);
 				this.create(model, {sort: false});
 			}
 			// Trigger final sort => will trigger the view to render.
-			this.sort();
+			//this.sort(); // not needed here since manually triggered in the view.
 		});
 	}
 

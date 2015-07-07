@@ -3,17 +3,17 @@
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var CandidateListView = _interopRequire(require("./Views/CandidateListView"));
+var ListView = _interopRequire(require("./Views/Candidate/ListView"));
 
-var CandidateFacetView = _interopRequire(require("./Views/CandidateFacetView"));
+var FacetView = _interopRequire(require("./Views/Candidate/FacetView"));
 
 var eventBus = _.extend({}, Backbone.Events);
 
 $(function () {
-	new CandidateFacetView().render();
-	new CandidateListView();
+	new FacetView().render();
+	new ListView();
 });
-},{"./Views/CandidateFacetView":10,"./Views/CandidateListView":11,"babel-runtime/helpers/interop-require":18}],2:[function(require,module,exports){
+},{"./Views/Candidate/FacetView":11,"./Views/Candidate/ListView":12,"babel-runtime/helpers/interop-require":18}],2:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -232,7 +232,7 @@ var _interopRequire = require("babel-runtime/helpers/interop-require")["default"
 
 var CandidateModel = _interopRequire(require("../Models/CandidateModel"));
 
-var CandidateFacetView = _interopRequire(require("../Views/CandidateFacetView"));
+var FacetView = _interopRequire(require("../Views/Candidate/FacetView"));
 
 var FilterEngine = _interopRequire(require("../Filter/FilterEngine"));
 
@@ -341,7 +341,6 @@ var CandidateCollection = (function (_Backbone$Collection) {
 						for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 							var model = _step.value;
 
-							//let candidate = new CandidateModel(model);
 							_this.create(model, { sort: false });
 						}
 					} catch (err) {
@@ -358,9 +357,6 @@ var CandidateCollection = (function (_Backbone$Collection) {
 							}
 						}
 					}
-
-					// Trigger final sort => will trigger the view to render.
-					_this.sort();
 				});
 			}
 		},
@@ -396,7 +392,9 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/CandidateFacetView":10,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],4:[function(require,module,exports){
+// Trigger final sort => will trigger the view to render.
+//this.sort(); // not needed here since manually triggered in the view.
+},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":11,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -433,11 +431,6 @@ var QuestionCollection = (function (_Backbone$Collection) {
 
 		// Hold a reference to this collection's model.
 		this.model = QuestionModel;
-
-		// Save all of the question items under the `'questions'` namespace.
-		if (this._isAnonymous()) {
-			this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
-		}
 	}
 
 	_inherits(QuestionCollection, _Backbone$Collection);
@@ -446,22 +439,45 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		fetchForAnonymousUser: {
 
 			/**
+    * Anonymous User uses the localStorage as a first storage.
+    *
     * @returns {*}
     */
 
 			value: function fetchForAnonymousUser() {
+				var _this = this;
+
+				// Save all of the question items under the `'questions'` namespace for anonymous user.
+				this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
 
 				// Check whether localStorage contains record about this collection
 				var records = this.localStorage.findAll();
 				if (_.isEmpty(records)) {
-					var self = this;
-					// fetch from server once
-					$.ajax({
-						url: this.url()
-					}).done(function (response) {
-						$.each(response, function (i, item) {
-							self.create(item); // saves model to local storage
-						});
+					return Backbone.ajaxSync("read", this).done(function (models) {
+						var _iteratorNormalCompletion = true;
+						var _didIteratorError = false;
+						var _iteratorError = undefined;
+
+						try {
+							for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+								var model = _step.value;
+
+								_this.create(model, { sort: false });
+							}
+						} catch (err) {
+							_didIteratorError = true;
+							_iteratorError = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion && _iterator["return"]) {
+									_iterator["return"]();
+								}
+							} finally {
+								if (_didIteratorError) {
+									throw _iteratorError;
+								}
+							}
+						}
 					});
 				} else {
 					// call original fetch method
@@ -490,6 +506,8 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		fetchForAuthenticatedUser: {
 
 			/**
+    * Anonymous User uses the localStorage as a first storage.
+    *
     * @returns {*}
     */
 
@@ -1115,11 +1133,7 @@ var _core = require("babel-runtime/core-js")["default"];
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var CandidateCollection = _interopRequire(require("../Collections/CandidateCollection"));
-
-var FacetModel = _interopRequire(require("../Models/FacetModel"));
-
-var FacetIterator = _interopRequire(require("../Iterator/FacetIterator"));
+var SpiderChartPlotter = _interopRequire(require("../../Chart/SpiderChartPlotter"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -1127,7 +1141,141 @@ var FacetIterator = _interopRequire(require("../Iterator/FacetIterator"));
  * See LICENSE.txt that was shipped with this package.
  */
 
-var CandidateFacetView = (function (_Backbone$View) {
+var CandidateView = (function (_Backbone$View) {
+
+	/**
+  * @param options
+  */
+
+	function CandidateView(options) {
+		_classCallCheck(this, CandidateView);
+
+		// *... is a list tag.*
+		this.tagName = "div";
+
+		// *Cache the template function for a single item.*
+		this.template = _.template($("#template-candidate").html());
+
+		// *Define the DOM events specific to an item.*
+		this.events = {
+			"click .toggle": "renderChart"
+		};
+
+		_get(_core.Object.getPrototypeOf(CandidateView.prototype), "constructor", this).call(this, options);
+	}
+
+	_inherits(CandidateView, _Backbone$View);
+
+	_createClass(CandidateView, {
+		renderChart: {
+
+			/**
+    * Render the candidate view.
+    *
+    * @returns string
+    */
+
+			value: function renderChart() {
+
+				// Lazy rendering of the Chart.
+				if (!$("#chart-candidate-" + this.model.id).has("svg").length) {
+					var values = this.model.get("spiderChart");
+					if (values.length > 0) {
+						this.drawChart(this.model.id, values);
+					}
+				}
+			}
+		},
+		render: {
+
+			/**
+    * Render the candidate view.
+    *
+    * @returns string
+    */
+
+			value: function render() {
+				var content = this.template(this.model.toJSON());
+				this.$el.html(content);
+				return this.el;
+			}
+		},
+		changeVisible: {
+
+			/**
+    * Set visible true
+    */
+
+			value: function changeVisible() {
+				this.model.save({ visible: true });
+				this.render();
+			}
+		},
+		drawChart: {
+			/**
+    * @param {int} candidateId
+    * @param {array} values
+    * @return {bool}
+    * @private
+    */
+
+			value: function drawChart(candidateId, values) {
+
+				var data = [
+				//                                                         cleavage# - position in chart
+				{ value: values[0].value * 0.01 }, // Offene Aussenpolitik           1 - 1
+				{ value: values[7].value * 0.01 }, // Liberale Gesellschaft          8 - 2
+				{ value: values[6].value * 0.01 }, // Ausgebauter Sozialstaat        7 - 3
+				{ value: values[5].value * 0.01 }, // Ausgebauter Umweltschutz       6 - 4
+				{ value: values[4].value * 0.01 }, // Restrictive Migrationspolitik  5 - 5
+				{ value: values[3].value * 0.01 }, // Law & Order                    4 - 6
+				{ value: values[2].value * 0.01 }, // Restrictive Finanzpolitik      3 - 7
+				{ value: values[1].value * 0.01 } // Liberale Wirtschaftspolitik    2 - 8
+				];
+
+				SpiderChartPlotter.plot("#chart-candidate-" + candidateId, [data], {
+					w: 240,
+					h: 240,
+					levels: 5,
+					maxValue: 1
+				});
+			}
+		}
+	});
+
+	return CandidateView;
+})(Backbone.View);
+
+module.exports = CandidateView;
+},{"../../Chart/SpiderChartPlotter":2,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],11:[function(require,module,exports){
+/*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var CandidateCollection = _interopRequire(require("../../Collections/CandidateCollection"));
+
+var FacetModel = _interopRequire(require("../../Models/FacetModel"));
+
+var FacetIterator = _interopRequire(require("../../Iterator/FacetIterator"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var FacetView = (function (_Backbone$View) {
 
 	/**
   * Constructor
@@ -1135,8 +1283,8 @@ var CandidateFacetView = (function (_Backbone$View) {
   * @param options
   */
 
-	function CandidateFacetView(options) {
-		_classCallCheck(this, CandidateFacetView);
+	function FacetView(options) {
+		_classCallCheck(this, FacetView);
 
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
@@ -1170,12 +1318,12 @@ var CandidateFacetView = (function (_Backbone$View) {
 		_.bindAll(this, "reset");
 		$(document).on("click", "#btn-reset-facets", this.reset);
 
-		_get(_core.Object.getPrototypeOf(CandidateFacetView.prototype), "constructor", this).call(this, options);
+		_get(_core.Object.getPrototypeOf(FacetView.prototype), "constructor", this).call(this, options);
 	}
 
-	_inherits(CandidateFacetView, _Backbone$View);
+	_inherits(FacetView, _Backbone$View);
 
-	_createClass(CandidateFacetView, {
+	_createClass(FacetView, {
 		save: {
 
 			/**
@@ -1248,11 +1396,11 @@ var CandidateFacetView = (function (_Backbone$View) {
 		}
 	});
 
-	return CandidateFacetView;
+	return FacetView;
 })(Backbone.View);
 
-module.exports = CandidateFacetView;
-},{"../Collections/CandidateCollection":3,"../Iterator/FacetIterator":6,"../Models/FacetModel":8,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],11:[function(require,module,exports){
+module.exports = FacetView;
+},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":6,"../../Models/FacetModel":8,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],12:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1268,11 +1416,11 @@ var _core = require("babel-runtime/core-js")["default"];
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
-var CandidateCollection = _interopRequire(require("../Collections/CandidateCollection"));
+var CandidateCollection = _interopRequire(require("../../Collections/CandidateCollection"));
 
 var CandidateView = _interopRequire(require("./CandidateView"));
 
-var QuestionCollection = _interopRequire(require("../Collections/QuestionCollection"));
+var QuestionCollection = _interopRequire(require("../../Collections/QuestionCollection"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -1280,7 +1428,7 @@ var QuestionCollection = _interopRequire(require("../Collections/QuestionCollect
  * See LICENSE.txt that was shipped with this package.
  */
 
-var CandidateListView = (function (_Backbone$View) {
+var ListView = (function (_Backbone$View) {
 
 	/**
   * Constructor
@@ -1288,8 +1436,8 @@ var CandidateListView = (function (_Backbone$View) {
   * @param options
   */
 
-	function CandidateListView(options) {
-		_classCallCheck(this, CandidateListView);
+	function ListView(options) {
+		_classCallCheck(this, ListView);
 
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
@@ -1301,27 +1449,27 @@ var CandidateListView = (function (_Backbone$View) {
 		/** @var candidateCollection CandidateCollection*/
 		var candidateCollection = CandidateCollection.getInstance();
 
-		// Load first the Question collection.
-		/** @var questionCollection QuestionCollection*/
-		QuestionCollection.getInstance().load().done(function () {
-
-			// Fetch data
-			candidateCollection.fetch().done(function () {
-				console.log("candidateCollection");
-			});
-		});
-
 		// Important: define listener before fetching data.
 		this.listenTo(candidateCollection, "sort reset", this.render);
 		this.listenTo(Backbone, "facet:changed", this.render, this);
 
+		// Load first the Question collection.
+		/** @var questionCollection QuestionCollection*/
+		QuestionCollection.getInstance().load().done(function () {
+
+			// Fetch candidates
+			candidateCollection.fetch().done(function (something) {
+				candidateCollection.sort(); // trigger rendering
+			});
+		});
+
 		// Call parent constructor.
-		_get(_core.Object.getPrototypeOf(CandidateListView.prototype), "constructor", this).call(this);
+		_get(_core.Object.getPrototypeOf(ListView.prototype), "constructor", this).call(this);
 	}
 
-	_inherits(CandidateListView, _Backbone$View);
+	_inherits(ListView, _Backbone$View);
 
-	_createClass(CandidateListView, {
+	_createClass(ListView, {
 		render: {
 
 			/**
@@ -1416,141 +1564,11 @@ var CandidateListView = (function (_Backbone$View) {
 		}
 	});
 
-	return CandidateListView;
+	return ListView;
 })(Backbone.View);
 
-module.exports = CandidateListView;
-},{"../Collections/CandidateCollection":3,"../Collections/QuestionCollection":4,"./CandidateView":12,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],12:[function(require,module,exports){
-/*jshint esnext:true */
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _inherits = require("babel-runtime/helpers/inherits")["default"];
-
-var _get = require("babel-runtime/helpers/get")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var _core = require("babel-runtime/core-js")["default"];
-
-var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
-
-var SpiderChartPlotter = _interopRequire(require("../Chart/SpiderChartPlotter"));
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-var CandidateView = (function (_Backbone$View) {
-
-	/**
-  * @param options
-  */
-
-	function CandidateView(options) {
-		_classCallCheck(this, CandidateView);
-
-		// *... is a list tag.*
-		this.tagName = "div";
-
-		// *Cache the template function for a single item.*
-		this.template = _.template($("#template-candidate").html());
-
-		// *Define the DOM events specific to an item.*
-		this.events = {
-			"click .toggle": "renderChart"
-		};
-
-		_get(_core.Object.getPrototypeOf(CandidateView.prototype), "constructor", this).call(this, options);
-	}
-
-	_inherits(CandidateView, _Backbone$View);
-
-	_createClass(CandidateView, {
-		renderChart: {
-
-			/**
-    * Render the candidate view.
-    *
-    * @returns string
-    */
-
-			value: function renderChart() {
-
-				// Lazy rendering of the Chart.
-				if (!$("#chart-candidate-" + this.model.id).has("svg").length) {
-					var values = this.model.get("spiderChart");
-					if (values.length > 0) {
-						this.drawChart(this.model.id, values);
-					}
-				}
-			}
-		},
-		render: {
-
-			/**
-    * Render the candidate view.
-    *
-    * @returns string
-    */
-
-			value: function render() {
-				var content = this.template(this.model.toJSON());
-				this.$el.html(content);
-				return this.el;
-			}
-		},
-		changeVisible: {
-
-			/**
-    * Set visible true
-    */
-
-			value: function changeVisible() {
-				this.model.save({ visible: true });
-				this.render();
-			}
-		},
-		drawChart: {
-			/**
-    * @param {int} candidateId
-    * @param {array} values
-    * @return {bool}
-    * @private
-    */
-
-			value: function drawChart(candidateId, values) {
-
-				var data = [
-				//                                                                                     cleavage* - position in circle
-				{ value: values[0].value * 0.01 }, // Offene Aussenpolitik           1 - 1
-				{ value: values[7].value * 0.01 }, // Liberale Gesellschaft          8 - 2
-				{ value: values[6].value * 0.01 }, // Ausgebauter Sozialstaat        7 - 3
-				{ value: values[5].value * 0.01 }, // Ausgebauter Umweltschutz       6 - 4
-				{ value: values[4].value * 0.01 }, // Restrictive Migrationspolitik  5 - 5
-				{ value: values[3].value * 0.01 }, // Law & Order                    4 - 6
-				{ value: values[2].value * 0.01 }, // Restrictive Finanzpolitik      3 - 7
-				{ value: values[1].value * 0.01 } // Liberale Wirtschaftspolitik    2 - 8
-				];
-
-				SpiderChartPlotter.plot("#chart-candidate-" + candidateId, [data], {
-					w: 240,
-					h: 240,
-					levels: 5,
-					maxValue: 1
-				});
-			}
-		}
-	});
-
-	return CandidateView;
-})(Backbone.View);
-
-module.exports = CandidateView;
-},{"../Chart/SpiderChartPlotter":2,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],13:[function(require,module,exports){
+module.exports = ListView;
+},{"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./CandidateView":10,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],13:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js

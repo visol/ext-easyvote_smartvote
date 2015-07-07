@@ -1,7 +1,7 @@
 /*jshint esnext:true */
-import CandidateCollection from '../Collections/CandidateCollection'
-import FacetModel from '../Models/FacetModel';
-import FacetIterator from '../Iterator/FacetIterator';
+import CandidateCollection from '../../Collections/CandidateCollection'
+import FacetModel from '../../Models/FacetModel';
+import FacetIterator from '../../Iterator/FacetIterator';
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -9,7 +9,7 @@ import FacetIterator from '../Iterator/FacetIterator';
  * See LICENSE.txt that was shipped with this package.
  */
 
-export default class CandidateFacetView extends Backbone.View {
+export default class FacetView extends Backbone.View {
 
 	/**
 	 * Constructor
