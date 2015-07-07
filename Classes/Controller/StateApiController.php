@@ -36,7 +36,7 @@ class StateApiController extends AbstractBaseApiController {
 			if ($isAllowed) {
 
 				// Fetch collection of question from User preferences.
-				$questions = $this->getUserService()->get($token);
+				$questions = $this->getUserService()->getCache($token);
 
 				// Retrieve the question to update.
 				$requestBody = file_get_contents('php://input');
@@ -44,10 +44,9 @@ class StateApiController extends AbstractBaseApiController {
 
 				// Update the collection
 				$updatedQuestions = $this->updateCollection($question, $questions);
-				$this->getUserService()->set($token, $updatedQuestions);
+				$this->getUserService()->setCache($token, $updatedQuestions);
 			}
 		}
-
 		$this->response->setHeader('Content-Type', 'application/json');
 		return json_encode($question);
 	}

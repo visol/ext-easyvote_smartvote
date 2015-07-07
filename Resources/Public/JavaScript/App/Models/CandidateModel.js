@@ -29,7 +29,7 @@ export default class CandidateModel extends Backbone.Model {
 		let candidateAnswers = this.get('answers');
 
 		// true means the candidate has answered the survey which is normally the case but not always...
-		if (questionCollection.hasCompletedAnswers() && candidateAnswers.length === questionCollection.size()) {
+		if (questionCollection.hasCompletedAnswers() && candidateAnswers.length > 0) {
 
 			let aggregatedResult = 0;
 			let counter = 0;

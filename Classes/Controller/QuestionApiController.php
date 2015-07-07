@@ -54,11 +54,11 @@ class QuestionApiController extends AbstractBaseApiController {
 	 * @return string
 	 */
 	public function getListForAuthenticatedUser(Election $election, $token) {
-		$questions = $this->retrieveQuestionsFromUserPreferences($token);
+		$questions = $this->getUserService()->getCache($token);
 		if (empty($questions)) {
 			$questions = $this->questionRepository->findByElection($election);
 			$questions = $this->getQuestionProcessor()->process($questions);
-			$this->getUserService()->set($token, $questions);
+			$this->getUserService()->setCache($token, $questions);
 		}
 
 		return json_encode($questions);
@@ -101,15 +101,6 @@ class QuestionApiController extends AbstractBaseApiController {
 	 */
 	protected function isTokenAllowed($token) {
 		return !empty($token) && $this->getTokenService()->isAllowed($token);
-	}
-
-
-	/**
-	 * @param string $token
-	 * @return array
-	 */
-	protected function retrieveQuestionsFromUserPreferences($token) {
-		return $this->getUserService()->get($token);
 	}
 
 	/**

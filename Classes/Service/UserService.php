@@ -48,23 +48,63 @@ class UserService implements SingletonInterface {
 	/**
 	 * Persist data at for the authenticated user.
 	 *
-	 * @param string $key
-	 * @param mixed $data
+	 * @param string $token
+	 * @param array $data
 	 * @return void
 	 */
-	public function set($key, $data) {
-		$this->getFrontendUser()->setKey('user', $key, $data);
-		$this->getFrontendUser()->storeSessionData();
+	public function setCache($token, $data) {
+		$cacheFileAndPath = $this->getUserCacheFileAndPath($token);
+		file_put_contents($cacheFileAndPath, json_encode($data));
 	}
 
 	/**
-	 * Persist data at for the authenticated user.
+	 * Tell whether the cache exists for a User.
 	 *
-	 * @param string $key
+	 * @param string $token
 	 * @return mixed
 	 */
-	public function get($key) {
-		return $this->getFrontendUser()->getKey('user', $key);
+	public function hasCache($token) {
+		return is_file($this->getUserCacheFileAndPath($token));
+	}
+
+	/**
+	 * Get cache data for the authenticated User.
+	 *
+	 * @param string $token
+	 * @return mixed
+	 */
+	public function getCache($token) {
+		$rawContent = file_get_contents($this->getUserCacheFileAndPath($token));
+		return json_decode($rawContent, TRUE);
+	}
+
+	/**
+	 * Initialize the cache.
+	 *
+	 * @param string $token
+	 * @return void
+	 */
+	public function initializeCache($token) {
+		$cacheFileAndPath = $this->getUserCacheFileAndPath($token);
+		if (!is_file($cacheFileAndPath)) {
+			file_put_contents($cacheFileAndPath, json_encode(array()));
+		}
+	}
+
+	/**
+	 * @param string $token
+	 * @return string
+	 */
+	protected function getUserCacheFileAndPath($token) {
+		$cachePath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote';
+
+		// Make sure directory exists otherwise create it.
+		if (!is_dir($cachePath)) {
+			mkdir($cachePath, 0777, TRUE);
+		}
+
+		$cacheFileAndPath = $cachePath . '/user-' . $this->getUserData()['uid'] . '-' . $token;
+		return $cacheFileAndPath;
 	}
 
 }

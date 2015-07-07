@@ -44,8 +44,8 @@ class TokenService implements SingletonInterface {
 		$token = md5($token);
 
 		// Bind the token to the user and persist that in the User preferences.
-		if ($this->getUserService()->isAuthenticated() && !$this->containsData($token)) {
-			$this->getUserService()->set($token, array());
+		if ($this->getUserService()->isAuthenticated()) {
+			$this->getUserService()->initializeCache($token);
 		}
 		return $token;
 	}
@@ -57,18 +57,7 @@ class TokenService implements SingletonInterface {
 	 * @return true
 	 */
 	public function isAllowed($token) {
-		return is_array($this->getUserService()->get($token));
-	}
-
-	/**
-	 * Tell whether the token contains data in the User preference.
-	 *
-	 * @param string $token
-	 * @return true
-	 */
-	protected function containsData($token) {
-		$data = $this->getUserService()->get($token);
-		return is_array($data) && !empty($data);
+		return $this->getUserService()->hasCache($token);
 	}
 
 	/**
@@ -78,10 +67,11 @@ class TokenService implements SingletonInterface {
 	protected function getElectionCacheTimeStamp($currentElectionUid){
 		$cachePath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote';
 
-		// Make direction if it does not exist.
+		// Make sure directory exists otherwise create it.
 		if (!is_dir($cachePath)) {
 			mkdir($cachePath, 0777, TRUE);
 		}
+
 		$cacheFileAndPath = $cachePath . '/election-' . $currentElectionUid;
 		if (!is_file($cacheFileAndPath)) {
 			touch($cacheFileAndPath);
