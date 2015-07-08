@@ -56,13 +56,6 @@ export default class CandidateView extends Backbone.View {
 	}
 
 	/**
-	 * Set visible true
-	 */
-	changeVisible() {
-		this.model.save({visible: true});
-		this.render();
-	}
-	/**
 	 * @param {int} candidateId
 	 * @param {array} values
 	 * @return {bool}

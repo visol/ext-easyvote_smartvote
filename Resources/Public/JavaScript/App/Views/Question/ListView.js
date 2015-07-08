@@ -24,11 +24,16 @@ export default class ListView extends Backbone.View {
 
 		this.questionCollection = QuestionCollection.getInstance();
 
+		// Store the flag whether it is a short or long version of the questionnaire.
+		this.isShortVersion = true;
 
-		//this.listenTo(Backbone, 'question:changed', this.showNextAnswer);
-		this.listenTo(this.questionCollection, 'change:answer', this.showNextAnswer);
-		this.listenTo(this.questionCollection, 'all', this.renderProgressBar);
+		// Special binding since the reset button is outside the scope of this view.
+		_.bindAll(this, 'switchVersion');
+		$(document).on('click', '#btn-switch-version', this.switchVersion);
 
+		this.listenTo(this.questionCollection, 'change:answer', this.afterAnswerChanged);
+
+		// Render after loading the data-set.
 		this.questionCollection.load().done(()=> {
 			this.render();
 		});
@@ -39,9 +44,36 @@ export default class ListView extends Backbone.View {
 	/**
 	 * Render the main template.
 	 */
-	render() {
-		var questions = this.questionCollection.getRapideQuestions();
+	switchVersion(e) {
+		// Toggle property.
+		this.isShortVersion = !this.isShortVersion;
 
+		// Update the label of button.
+		var label;
+		if (this.isShortVersion) {
+			label = EasyvoteSmartvote.labeLongVersion;
+		} else {
+			label = EasyvoteSmartvote.labelShortVersion;
+		}
+		$(e.target).html(label);
+
+		// Update the view.
+		this.render();
+
+		// Prevent default behaviour.
+		return false;
+	}
+
+	/**
+	 * Render the main template.
+	 */
+	render() {
+
+		// Update the progressbar view first which is the quickest in term of DOM.
+		this.renderProgressBar();
+
+		// Filter the questions.
+		var questions = this.questionCollection.getFilteredQuestions(this.isShortVersion);
 		var counter = questions.length;
 
 		// Render intermediate content in a temporary DOM.
@@ -61,8 +93,8 @@ export default class ListView extends Backbone.View {
 	renderProgressBar() {
 		let content = this.progressTemplate({
 			progress: this.getProgress(),
-			numberOfQuestionAnswered: this.questionCollection.countVisible(),
-			totalNumberOfQuestions: this.questionCollection.count()
+			numberOfQuestionAnswered: this.questionCollection.countVisible(this.isShortVersion),
+			totalNumberOfQuestions: this.questionCollection.count(this.isShortVersion)
 		});
 
 		this.$progress.html(content);
@@ -75,7 +107,7 @@ export default class ListView extends Backbone.View {
 
 		let progress = 0; // default
 		if (this.questionCollection.count() > 1) {
-			progress = this.questionCollection.countVisible() / this.questionCollection.count() * 100;
+			progress = this.questionCollection.countVisible(this.isShortVersion) / this.questionCollection.count(this.isShortVersion) * 100;
 		}
 		return progress;
 	}
@@ -83,13 +115,21 @@ export default class ListView extends Backbone.View {
 	/**
 	 * @param question
 	 */
-	showNextAnswer(question) {
+	afterAnswerChanged(question) {
 
-		this.updateChart(question);
-
+		// Find next question and update its visible flag.
 		let nextIndex = (this.questionCollection.length - 1) - question.get('index');
 		let nextQuestion = this.questionCollection.at(nextIndex);
-		nextQuestion.trigger('visible');
+		nextQuestion.set('visible', true);
+
+		// Update GUI.
+		this.updateChart(question);
+		this.renderProgressBar();
+
+		// Persist new status to the storage.
+		question.save().done((question) => {
+			nextQuestion.save();
+		});
 	}
 
 	/**

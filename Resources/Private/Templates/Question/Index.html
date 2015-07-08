@@ -16,8 +16,7 @@
 			<f:translate key="who_to_elect"/>
 		</h2>
 		<div>
-			<a href="#" id="btn-long-version" class="btn btn-primary">{f:translate(key:'long_version')}</a>
-			<a href="#" id="btn-short-version" class="btn btn-primary">{f:translate(key:'short_version')}</a>
+			<a href="#" id="btn-switch-version" class="btn btn-primary">{f:translate(key:'long_version')}</a>
 		</div>
 	</div>
 
@@ -31,6 +30,8 @@
 
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
+		EasyvoteSmartvote.labelShortVersion = '{f:translate(key:"short_version")}';
+		EasyvoteSmartvote.labeLongVersion = '{f:translate(key:"long_version")}';
 		EasyvoteSmartvote.currentElection = '{currentElection.uid}';
 		EasyvoteSmartvote.totalCleavage1 = '{currentElection.totalCleavage1}' - 0;
 		EasyvoteSmartvote.totalCleavage2 = '{currentElection.totalCleavage2}' - 0;

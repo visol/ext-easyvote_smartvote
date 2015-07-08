@@ -29,7 +29,6 @@ export default class QuestionView extends Backbone.View {
 		super(options);
 
 		this.listenTo(this.model, 'change', this.render);
-		this.listenTo(this.model, 'visible', this.changeVisible);
 	}
 
 	/**
@@ -43,23 +42,15 @@ export default class QuestionView extends Backbone.View {
 		data['counter'] = this.counter;
 
 		this.$el.html(this.template(data));
-		this.defineVisibility();
-		return this.el;
-	}
 
-	/**
-	 * Set visible true
-	 */
-	changeVisible() {
-		this.model.save({visible: true});
-		this.render();
-	}
-
-	/**
-	 * Define visibility of the question.
-	 */
-	defineVisibility() {
+		// Adjust layout
 		this.$el.toggleClass('hidden', !this.model.get('visible'));
+		if (this.model.get('answer') !== null) {
+			$('.content-box', this.$el).css({backgroundColor: '#DADADA', opacity: 0.7});
+			$('h2, span, div', this.$el).css({color: '#333'});
+		}
+
+		return this.el;
 	}
 
 	/**
@@ -68,10 +59,7 @@ export default class QuestionView extends Backbone.View {
 	edit(e) {
 		// retrieve the selected value and update the underlying model.
 		let value = parseInt(e.target.value);
-		this.model.save({answer: value}).done((question) => {
-			//Backbone.trigger('question:changed', question);
-		});
-
+		this.model.set('answer', value);
 	}
 
 }

@@ -92,10 +92,17 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
+	 * @param {bool} isShortVersion
 	 * @return array
 	 */
-	getRapideQuestions() {
-		return this.filter(question => question.get('rapide'));
+	getFilteredQuestions(isShortVersion) {
+		var questions;
+		if (isShortVersion) {
+			questions = this.filter(question => question.get('rapide'));
+		} else {
+			questions = this.filter();
+		}
+		return questions;
 	}
 
 	/**
@@ -122,19 +129,27 @@ export default class QuestionCollection extends Backbone.Collection {
 	/**
 	 * Return the total number of questions for this collection.
 	 *
+	 * @param {bool} isShortVersion
 	 * @returns int
 	 */
-	count() {
-		return this.getRapideQuestions().length;
+	count(isShortVersion) {
+		return this.getFilteredQuestions(isShortVersion).length;
 	}
 
 	/**
 	 * Return the number of visible questions.
 	 *
+	 * @param {bool} isShortVersion
 	 * @returns int
 	 */
-	countVisible() {
-		return this.filter(question => question.get('visible') && question.get('rapide')).length;
+	countVisible(isShortVersion) {
+		var numberVisible;
+		if (isShortVersion) {
+			numberVisible = this.filter(question => question.get('visible') && question.get('rapide')).length;
+		} else {
+			numberVisible = this.filter(question => question.get('visible')).length;
+		}
+		return numberVisible;
 	}
 
 	/**
