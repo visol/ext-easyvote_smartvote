@@ -348,7 +348,7 @@ var SpiderChart = (function () {
 })();
 
 module.exports = SpiderChart;
-},{"./SpiderChartPlotter":2,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/interop-require":13}],2:[function(require,module,exports){
+},{"./SpiderChartPlotter":2,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/interop-require":19}],2:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -549,7 +549,187 @@ var SpiderChartPlotter = (function () {
 })();
 
 module.exports = SpiderChartPlotter;
-},{"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10}],3:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],3:[function(require,module,exports){
+/*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var CandidateModel = _interopRequire(require("../Models/CandidateModel"));
+
+var FacetView = _interopRequire(require("../Views/Candidate/FacetView"));
+
+var FilterEngine = _interopRequire(require("../Filter/FilterEngine"));
+
+var FacetIterator = _interopRequire(require("../Iterator/FacetIterator"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var CandidateCollection = (function (_Backbone$Collection) {
+
+	/**
+  * @param options
+  */
+
+	function CandidateCollection(options) {
+		_classCallCheck(this, CandidateCollection);
+
+		_get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "constructor", this).call(this, options);
+
+		// Hold a reference to this collection's model.
+		this.model = CandidateModel;
+
+		// Save all of the candidate items under the `'candidates'` namespace.
+		this.localStorage = new Backbone.LocalStorage("candidates-" + EasyvoteSmartvote.token);
+	}
+
+	_inherits(CandidateCollection, _Backbone$Collection);
+
+	_createClass(CandidateCollection, {
+		comparator: {
+
+			/**
+    * Comparator used to sort candidates by "matching" criteria.
+    *
+    * @param candidate1
+    * @param candidate2
+    * @returns {number}
+    */
+
+			value: function comparator(candidate1, candidate2) {
+				return candidate1.getMatching() > candidate2.getMatching() ? -1 : 1;
+			}
+		},
+		fetch: {
+
+			/**
+    * @returns {*}
+    */
+
+			value: function fetch() {
+
+				// Check whether localStorage contains record about this collection otherwise fetch it by ajax.
+				var records = this.localStorage.findAll();
+				if (_.isEmpty(records)) {
+					return this.remoteFetch();
+				} else {
+					// call original fetch method.
+					return _get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this);
+				}
+			}
+		},
+		getFilteredCandidates: {
+
+			/**
+    * @returns {*}
+    */
+
+			value: function getFilteredCandidates() {
+
+				return this.filter(function (candidate) {
+
+					var filterEngine = new FilterEngine();
+					var facetIterator = FacetIterator.getIterator();
+					var isOk = true;
+
+					// Fetch first facet
+					var facet = facetIterator.next().value;
+					while (facet && isOk) {
+						isOk = filterEngine.isOk(candidate, facet);
+						facet = facetIterator.next().value;
+					}
+
+					return isOk;
+				});
+			}
+		},
+		remoteFetch: {
+
+			/**
+    *
+    * @returns {*}
+    */
+
+			value: function remoteFetch() {
+				var _this = this;
+
+				return Backbone.ajaxSync("read", this).done(function (models) {
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+						for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var model = _step.value;
+
+							_this.create(model, { sort: false });
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator["return"]) {
+								_iterator["return"]();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+				});
+			}
+		},
+		url: {
+
+			/**
+    * Return the URL to be used.
+    *
+    * @returns {string}
+    */
+
+			value: function url() {
+				return "/routing/candidates/" + EasyvoteSmartvote.currentElection;
+			}
+		}
+	}, {
+		getInstance: {
+
+			/**
+    * @return CandidateCollection
+    */
+
+			value: function getInstance() {
+				if (!this.instance) {
+					this.instance = new CandidateCollection();
+				}
+				return this.instance;
+			}
+		}
+	});
+
+	return CandidateCollection;
+})(Backbone.Collection);
+
+module.exports = CandidateCollection;
+// Trigger final sort => will trigger the view to render.
+//this.sort(); // not needed here since manually triggered in the view.
+},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":11,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -658,18 +838,6 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return hasAnswers;
 			}
 		},
-		fetchForAuthenticatedUser: {
-
-			/**
-    * Anonymous User uses the localStorage as a first storage.
-    *
-    * @returns {*}
-    */
-
-			value: function fetchForAuthenticatedUser() {
-				return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
-			}
-		},
 		getToken: {
 
 			/**
@@ -709,6 +877,25 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return "/routing/questions/" + electionIdentifier + "?id=" + EasyvoteSmartvote.pageUid + "&L=" + EasyvoteSmartvote.sysLanguageUid + token;
 			}
 		},
+		getFilteredQuestions: {
+
+			/**
+    * @param {bool} isShortVersion
+    * @return array
+    */
+
+			value: function getFilteredQuestions(isShortVersion) {
+				var questions;
+				if (isShortVersion) {
+					questions = this.filter(function (question) {
+						return question.get("rapide");
+					});
+				} else {
+					questions = this.filter();
+				}
+				return questions;
+			}
+		},
 		load: {
 
 			/**
@@ -719,20 +906,21 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				if (this._isAnonymous()) {
 					return this.fetchForAnonymousUser();
 				} else {
-					return this.fetchForAuthenticatedUser();
+					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 				}
 			}
 		},
 		count: {
 
 			/**
-    * Return the total number of questions in this collection.
+    * Return the total number of questions for this collection.
     *
+    * @param {bool} isShortVersion
     * @returns int
     */
 
-			value: function count() {
-				return this.length;
+			value: function count(isShortVersion) {
+				return this.getFilteredQuestions(isShortVersion).length;
 			}
 		},
 		countVisible: {
@@ -740,13 +928,22 @@ var QuestionCollection = (function (_Backbone$Collection) {
 			/**
     * Return the number of visible questions.
     *
+    * @param {bool} isShortVersion
     * @returns int
     */
 
-			value: function countVisible() {
-				return this.filter(function (question) {
-					return question.get("visible");
-				}).length;
+			value: function countVisible(isShortVersion) {
+				var numberVisible;
+				if (isShortVersion) {
+					numberVisible = this.filter(function (question) {
+						return question.get("visible") && question.get("rapide");
+					}).length;
+				} else {
+					numberVisible = this.filter(function (question) {
+						return question.get("visible");
+					}).length;
+				}
+				return numberVisible;
 			}
 		},
 		_isAnonymous: {
@@ -780,7 +977,424 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":4,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],4:[function(require,module,exports){
+},{"../Models/QuestionModel":9,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],5:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var FilterEngine = (function () {
+	function FilterEngine() {
+		_classCallCheck(this, FilterEngine);
+	}
+
+	_createClass(FilterEngine, {
+		isOk: {
+
+			/**
+    * @param candidate
+    * @param facet
+    * @returns {boolean}
+    */
+
+			value: (function (_isOk) {
+				var _isOkWrapper = function isOk(_x, _x2) {
+					return _isOk.apply(this, arguments);
+				};
+
+				_isOkWrapper.toString = function () {
+					return _isOk.toString();
+				};
+
+				return _isOkWrapper;
+			})(function (candidate, facet) {
+
+				var value, filterValue;
+				var isOk = true;
+
+				if (!facet.value) {
+					isOk = true;
+				} else if (facet.name === "minAge") {
+					value = candidate.get("yearOfBirth");
+					filterValue = facet.value;
+					isOk = this.isYoungerOrEqual(value, filterValue);
+				} else if (facet.name === "maxAge") {
+					value = candidate.get("yearOfBirth");
+					filterValue = facet.value;
+					isOk = this.isOlderOrEqual(value, filterValue);
+				} else {
+					value = candidate.get(facet.name);
+					isOk = this.isEqual(value, facet.value);
+				}
+
+				return isOk;
+			})
+		},
+		isEqual: {
+
+			/**
+    * @param {int} objectValue
+    * @param {int} facetValue
+    * @returns {boolean}
+    */
+
+			value: function isEqual(objectValue, facetValue) {
+				return objectValue == facetValue;
+			}
+		},
+		isYoungerOrEqual: {
+
+			/**
+    * @param {int} subjectYearOfBirth
+    * @param {int} age
+    * @returns {boolean}
+    */
+
+			value: function isYoungerOrEqual(subjectYearOfBirth, age) {
+				var currentYear = new Date().getFullYear();
+				return subjectYearOfBirth <= currentYear - age;
+			}
+		},
+		isOlderOrEqual: {
+
+			/**
+    * @param {int} subjectYearOfBirth
+    * @param {int} age
+    * @returns {boolean}
+    */
+
+			value: function isOlderOrEqual(subjectYearOfBirth, age) {
+				var currentYear = new Date().getFullYear();
+				return subjectYearOfBirth >= currentYear - age;
+			}
+		}
+	});
+
+	return FilterEngine;
+})();
+
+module.exports = FilterEngine;
+},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],6:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var FacetIterator = (function () {
+	function FacetIterator() {
+		_classCallCheck(this, FacetIterator);
+	}
+
+	_createClass(FacetIterator, null, {
+		getIterator: {
+			value: function getIterator() {
+
+				var facets = [];
+				var $elements = $("#container-candidate-filter").find(".form-control");
+				$elements.each(function (index, element) {
+					var facet = {};
+					facet.name = $(element).attr("name");
+					facet.value = $(element).val();
+					facets.push(facet);
+				});
+
+				return _core.$for.getIterator(facets);
+			}
+		}
+	});
+
+	return FacetIterator;
+})();
+
+module.exports = FacetIterator;
+},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],7:[function(require,module,exports){
+/*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var QuestionCollection = _interopRequire(require("../Collections/QuestionCollection"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var CandidateModel = (function (_Backbone$Model) {
+	function CandidateModel() {
+		_classCallCheck(this, CandidateModel);
+
+		if (_Backbone$Model != null) {
+			_Backbone$Model.apply(this, arguments);
+		}
+	}
+
+	_inherits(CandidateModel, _Backbone$Model);
+
+	_createClass(CandidateModel, {
+		defaults: {
+
+			/**
+    * @returns {{matching: number}}
+    */
+
+			value: function defaults() {
+				return {
+					matching: null
+				};
+			}
+		},
+		getMatching: {
+
+			/**
+    * @returns {int}
+    */
+
+			value: function getMatching() {
+
+				var questionCollection = QuestionCollection.getInstance();
+
+				var matching = null;
+				var candidateAnswers = this.get("answers");
+
+				// true means the candidate has answered the survey which is normally the case but not always...
+				if (questionCollection.hasCompletedAnswers() && candidateAnswers.length > 0) {
+
+					var aggregatedResult = 0;
+					var counter = 0;
+
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+						for (var _iterator = _core.$for.getIterator(candidateAnswers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var candidateAnswer = _step.value;
+
+							var userQuestion = this.retrieveQuestion(candidateAnswer);
+							if (userQuestion) {
+								if (userQuestion.get("answer") !== null && userQuestion.get("answer") !== -1) {
+									aggregatedResult += Math.pow(userQuestion.get("answer") - candidateAnswer.answer, 2);
+									counter++;
+								}
+							} else {
+								console.log("Warning #1435731882: I could not retrieve the question filled by the User " + candidateAnswer.questionId);
+							}
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator["return"]) {
+								_iterator["return"]();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+
+					var distance = Math.sqrt(aggregatedResult);
+					var maximalDistance = Math.sqrt(counter * Math.pow(100, 2));
+					var nominalDistance = distance / maximalDistance;
+					matching = Math.round(100 * (1 - nominalDistance));
+				}
+
+				this.set("matching", matching);
+				return this.get("matching");
+			}
+		},
+		retrieveQuestion: {
+
+			/**
+    * @param answer
+    * @returns Question
+    */
+
+			value: function retrieveQuestion(answer) {
+				var questionCollection = QuestionCollection.getInstance();
+				var questionId = answer.questionId;
+				var question = questionCollection.get(questionId);
+				if (!question) {
+					var questions = questionCollection.where({ alternativeId: questionId });
+					if (questions.length > 0) {
+						question = questions[0];
+					}
+				}
+				return question;
+			}
+		}
+	});
+
+	return CandidateModel;
+})(Backbone.Model);
+
+module.exports = CandidateModel;
+},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],8:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var FacetModel = (function (_Backbone$Model) {
+	function FacetModel() {
+		_classCallCheck(this, FacetModel);
+
+		if (_Backbone$Model != null) {
+			_Backbone$Model.apply(this, arguments);
+		}
+	}
+
+	_inherits(FacetModel, _Backbone$Model);
+
+	_createClass(FacetModel, {
+		defaults: {
+
+			/**
+    * @returns {{id: number, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string}}
+    */
+
+			value: function defaults() {
+				return {
+					id: 1, // fictive id but is mandatory in order to retrieve the model in the session.
+					nationalParty: "",
+					district: EasyvoteSmartvote.userDistrict,
+					minAge: "18",
+					maxAge: "90",
+					incumbent: "",
+					gender: ""
+				};
+			}
+		},
+		initialize: {
+
+			/**
+    * Initialize object.
+    */
+
+			value: function initialize() {
+				this.localStorage = new Backbone.LocalStorage("candidates-facet-" + EasyvoteSmartvote.token);
+			}
+		},
+		hasState: {
+
+			/**
+    * Return whether the object has a state
+    */
+
+			value: function hasState() {
+				return _core.Object.keys(this.getState()).length;
+			}
+		},
+		getState: {
+
+			/**
+    * Get state of the object coming form the URL hash.
+    */
+
+			value: function getState() {
+
+				if (!this.state) {
+					this.state = {};
+
+					var allowedArguments = ["nationalParty", "district", "minAge", "maxAge", "incumbent", "gender"];
+					var query = window.location.hash.split("&");
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+						for (var _iterator = _core.$for.getIterator(query), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var argument = _step.value;
+
+							// sanitize
+							argument = argument.replace("#", "");
+							var argumentParts = argument.split("=");
+							if (argumentParts.length === 2 && allowedArguments.indexOf(argumentParts[0]) >= 0) {
+								var _name = argumentParts[0];
+								var value = argumentParts[1];
+								this.state[_name] = value;
+							}
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator["return"]) {
+								_iterator["return"]();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+				}
+				return this.state;
+			}
+		},
+		setState: {
+
+			/**
+    * Set default values form the URL hash.
+    */
+
+			value: function setState() {
+				this.save(this.getState());
+			}
+		}
+	});
+
+	return FacetModel;
+})(Backbone.Model);
+
+module.exports = FacetModel;
+},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18}],9:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -855,7 +1469,7 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/inherits":12}],5:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18}],10:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
@@ -868,7 +1482,160 @@ $(function () {
 	new ListView();
 	SpiderChart.getInstance().draw();
 });
-},{"./Chart/SpiderChart":1,"./Views/Question/ListView":6,"babel-runtime/helpers/interop-require":13}],6:[function(require,module,exports){
+},{"./Chart/SpiderChart":1,"./Views/Question/ListView":12,"babel-runtime/helpers/interop-require":19}],11:[function(require,module,exports){
+/*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _inherits = require("babel-runtime/helpers/inherits")["default"];
+
+var _get = require("babel-runtime/helpers/get")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _core = require("babel-runtime/core-js")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var CandidateCollection = _interopRequire(require("../../Collections/CandidateCollection"));
+
+var FacetModel = _interopRequire(require("../../Models/FacetModel"));
+
+var FacetIterator = _interopRequire(require("../../Iterator/FacetIterator"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var FacetView = (function (_Backbone$View) {
+
+	/**
+  * Constructor
+  *
+  * @param options
+  */
+
+	function FacetView(options) {
+		_classCallCheck(this, FacetView);
+
+		// Instead of generating a new element, bind to the existing skeleton of
+		// the App already present in the HTML.
+		this.setElement($("#container-candidate-filter"), true);
+
+		// *Cache the template function for a single item.*
+		this.template = _.template($("#template-candidate-filter").html());
+
+		// *Define the DOM events specific to an item.*
+		this.events = {
+			"change .form-control": "save"
+		};
+
+		this.model = new FacetModel();
+		if (this.model.hasState()) {
+			this.model.setState();
+		} else {
+			this.model.fetch();
+		}
+
+		this.bindings = {
+			"#nationalParty": "nationalParty",
+			"#district": "district",
+			"#minAge": "minAge",
+			"#maxAge": "maxAge",
+			"#incumbent": "incumbent",
+			"#gender": "gender"
+		};
+
+		// special binding since the reset button is outside the scope of this view.
+		_.bindAll(this, "reset");
+		$(document).on("click", "#btn-reset-facets", this.reset);
+
+		_get(_core.Object.getPrototypeOf(FacetView.prototype), "constructor", this).call(this, options);
+	}
+
+	_inherits(FacetView, _Backbone$View);
+
+	_createClass(FacetView, {
+		save: {
+
+			/**
+    * @returns void
+    */
+
+			value: function save() {
+
+				var query = [];
+				var data = {};
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(FacetIterator.getIterator()), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var facet = _step.value;
+
+						data[facet.name] = facet.value;
+						query.push(facet.name + "=" + facet.value);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				// Set state of the filter in the URL.
+				window.location.hash = query.join("&");
+
+				this.model.save(data);
+				Backbone.trigger("facet:changed");
+			}
+		},
+		reset: {
+
+			/**
+    * @returns {boolean}
+    */
+
+			value: function reset() {
+				this.model = new FacetModel();
+				this.render();
+				this.save();
+				return false;
+			}
+		},
+		render: {
+
+			/**
+    * Render the candidate view.
+    *
+    * @returns void
+    */
+
+			value: function render() {
+				var content = this.template();
+				this.$el.html(content);
+				this.stickit();
+			}
+		}
+	});
+
+	return FacetView;
+})(Backbone.View);
+
+module.exports = FacetView;
+},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":6,"../../Models/FacetModel":8,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],12:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -886,6 +1653,8 @@ var _interopRequire = require("babel-runtime/helpers/interop-require")["default"
 
 var QuestionCollection = _interopRequire(require("../../Collections/QuestionCollection"));
 
+var CandidateCollection = _interopRequire(require("../../Collections/CandidateCollection"));
+
 var QuestionView = _interopRequire(require("./QuestionView"));
 
 var SpiderChart = _interopRequire(require("../../Chart/SpiderChart"));
@@ -898,6 +1667,8 @@ var SpiderChart = _interopRequire(require("../../Chart/SpiderChart"));
 
 var ListView = (function (_Backbone$View) {
 	function ListView() {
+		var _this = this;
+
 		_classCallCheck(this, ListView);
 
 		// Instead of generating a new element, bind to the existing skeleton of
@@ -908,14 +1679,21 @@ var ListView = (function (_Backbone$View) {
 		this.progressTemplate = _.template($("#template-progress").html());
 		this.$progress = this.$("#container-progress");
 
-		/** @var questionCollection QuestionCollection*/
-		var questionCollection = QuestionCollection.getInstance();
+		this.questionCollection = QuestionCollection.getInstance();
 
-		this.listenTo(questionCollection, "add", this.addOne);
-		this.listenTo(questionCollection, "change:answer", this.changeAnswer);
-		this.listenTo(questionCollection, "all", this.render);
+		// Store the flag whether it is a short or long version of the questionnaire.
+		this.isShortVersion = true;
 
-		questionCollection.load();
+		// Special binding since the reset button is outside the scope of this view.
+		_.bindAll(this, "switchVersion");
+		$(document).on("click", "#btn-switch-version", this.switchVersion);
+
+		this.listenTo(this.questionCollection, "change:answer", this.afterAnswerChanged);
+
+		// Render after loading the data-set.
+		this.questionCollection.load().done(function () {
+			_this.render();
+		});
 
 		_get(_core.Object.getPrototypeOf(ListView.prototype), "constructor", this).call(this);
 	}
@@ -923,6 +1701,32 @@ var ListView = (function (_Backbone$View) {
 	_inherits(ListView, _Backbone$View);
 
 	_createClass(ListView, {
+		switchVersion: {
+
+			/**
+    * Render the main template.
+    */
+
+			value: function switchVersion(e) {
+				// Toggle property.
+				this.isShortVersion = !this.isShortVersion;
+
+				// Update the label of button.
+				var label;
+				if (this.isShortVersion) {
+					label = EasyvoteSmartvote.labeLongVersion;
+				} else {
+					label = EasyvoteSmartvote.labelShortVersion;
+				}
+				$(e.target).html(label);
+
+				// Update the view.
+				this.render();
+
+				// Prevent default behaviour.
+				return false;
+			}
+		},
 		render: {
 
 			/**
@@ -930,10 +1734,57 @@ var ListView = (function (_Backbone$View) {
     */
 
 			value: function render() {
+
+				// Update the progressbar view first which is the quickest in term of DOM.
+				this.renderProgressBar();
+
+				// Filter the questions.
+				var questions = this.questionCollection.getFilteredQuestions(this.isShortVersion);
+				var counter = questions.length;
+
+				// Render intermediate content in a temporary DOM.
+				var container = document.createDocumentFragment();
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(questions), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var question = _step.value;
+
+						var content = this.renderOne(question, counter);
+						container.appendChild(content);
+						counter--;
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				$("#container-question-list").html(container);
+			}
+		},
+		renderProgressBar: {
+
+			/**
+    * Render the main template.
+    */
+
+			value: function renderProgressBar() {
 				var content = this.progressTemplate({
 					progress: this.getProgress(),
-					numberOfQuestionAnswered: QuestionCollection.getInstance().countVisible(),
-					totalNumberOfQuestions: QuestionCollection.getInstance().count()
+					numberOfQuestionAnswered: this.questionCollection.countVisible(this.isShortVersion),
+					totalNumberOfQuestions: this.questionCollection.count(this.isShortVersion)
 				});
 
 				this.$progress.html(content);
@@ -947,30 +1798,34 @@ var ListView = (function (_Backbone$View) {
 
 			value: function getProgress() {
 
-				var questionCollection = QuestionCollection.getInstance();
-
 				var progress = 0; // default
-				if (questionCollection.count() > 1) {
-					progress = questionCollection.countVisible() / questionCollection.count() * 100;
+				if (this.questionCollection.count() > 1) {
+					progress = this.questionCollection.countVisible(this.isShortVersion) / this.questionCollection.count(this.isShortVersion) * 100;
 				}
 				return progress;
 			}
 		},
-		changeAnswer: {
+		afterAnswerChanged: {
 
 			/**
-    * @param argument
+    * @param question
     */
 
-			value: function changeAnswer(argument) {
-				var question = argument.attributes;
+			value: function afterAnswerChanged(question) {
 
+				// Find next question and update its visible flag.
+				var nextIndex = this.questionCollection.length - 1 - question.get("index");
+				var nextQuestion = this.questionCollection.at(nextIndex);
+				nextQuestion.set("visible", true);
+
+				// Update GUI.
 				this.updateChart(question);
+				this.renderProgressBar();
 
-				var questionCollection = QuestionCollection.getInstance();
-				var nextIndex = questionCollection.length - 1 - question.index;
-				var nextQuestion = questionCollection.at(nextIndex);
-				nextQuestion.trigger("visible");
+				// Persist new status to the storage.
+				question.save().done(function (question) {
+					nextQuestion.save();
+				});
 			}
 		},
 		updateChart: {
@@ -981,35 +1836,25 @@ var ListView = (function (_Backbone$View) {
 
 			value: function updateChart(question) {
 
-				if (typeof question.answer === "number") {
-					SpiderChart.getInstance().addToCleavage1(question.id, question.answer, question.cleavage1).addToCleavage2(question.id, question.answer, question.cleavage2).addToCleavage3(question.id, question.answer, question.cleavage3).addToCleavage4(question.id, question.answer, question.cleavage4).addToCleavage5(question.id, question.answer, question.cleavage5).addToCleavage6(question.id, question.answer, question.cleavage6).addToCleavage7(question.id, question.answer, question.cleavage7).addToCleavage8(question.id, question.answer, question.cleavage8).draw();
+				if (typeof question.get("answer") === "number") {
+					SpiderChart.getInstance().addToCleavage1(question.id, question.get("answer"), question.get("cleavage1")).addToCleavage2(question.id, question.get("answer"), question.get("cleavage2")).addToCleavage3(question.id, question.get("answer"), question.get("cleavage3")).addToCleavage4(question.id, question.get("answer"), question.get("cleavage4")).addToCleavage5(question.id, question.get("answer"), question.get("cleavage5")).addToCleavage6(question.id, question.get("answer"), question.get("cleavage6")).addToCleavage7(question.id, question.get("answer"), question.get("cleavage7")).addToCleavage8(question.id, question.get("answer"), question.get("cleavage8")).draw();
 				}
 			}
 		},
-		addOne: {
+		renderOne: {
 
 			/**
-    * Add a single question item to the list by creating a view for it, then
-    * appending its element to the `<div>`.
+    * Render HTML of a single question.
+    *
     * @param model
+    * @param counter
     */
 
-			value: function addOne(model) {
-				var question = model.attributes;
-				this.updateChart(question);
-				var view = new QuestionView({ model: model });
-				$("#container-question-list").append(view.render());
-			}
-		},
-		_isAnonymous: {
+			value: function renderOne(model, counter) {
+				this.updateChart(model);
 
-			/**
-    * @return {bool}
-    * @private
-    */
-
-			value: function _isAnonymous() {
-				return !EasyvoteSmartvote.isUserAuthenticated;
+				var view = new QuestionView({ model: model, counter: counter });
+				return view.render();
 			}
 		}
 	});
@@ -1018,7 +1863,7 @@ var ListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = ListView;
-},{"../../Chart/SpiderChart":1,"../../Collections/QuestionCollection":3,"./QuestionView":7,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],7:[function(require,module,exports){
+},{"../../Chart/SpiderChart":1,"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./QuestionView":13,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],13:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1048,6 +1893,8 @@ var QuestionView = (function (_Backbone$View) {
 	function QuestionView(options) {
 		_classCallCheck(this, QuestionView);
 
+		this.counter = options.counter;
+
 		// *... is a list tag.*
 		this.tagName = "div";
 
@@ -1062,7 +1909,6 @@ var QuestionView = (function (_Backbone$View) {
 		_get(_core.Object.getPrototypeOf(QuestionView.prototype), "constructor", this).call(this, options);
 
 		this.listenTo(this.model, "change", this.render);
-		this.listenTo(this.model, "visible", this.changeVisible);
 	}
 
 	_inherits(QuestionView, _Backbone$View);
@@ -1077,30 +1923,20 @@ var QuestionView = (function (_Backbone$View) {
     */
 
 			value: function render() {
-				this.$el.html(this.template(this.model.toJSON()));
-				this.defineVisibility();
-				return this.el;
-			}
-		},
-		changeVisible: {
+				// Serialise model and add counter info on the top of it.
+				var data = this.model.toJSON();
+				data.counter = this.counter;
 
-			/**
-    * Set visible true
-    */
+				this.$el.html(this.template(data));
 
-			value: function changeVisible() {
-				this.model.save({ visible: true });
-				this.render();
-			}
-		},
-		defineVisibility: {
-
-			/**
-    * Define visibility of the question.
-    */
-
-			value: function defineVisibility() {
+				// Adjust layout
 				this.$el.toggleClass("hidden", !this.model.get("visible"));
+				if (this.model.get("answer") !== null) {
+					$(".content-box", this.$el).css({ backgroundColor: "#DADADA", opacity: 0.7 });
+					$("h2, span, div", this.$el).css({ color: "#333" });
+				}
+
+				return this.el;
 			}
 		},
 		edit: {
@@ -1112,7 +1948,7 @@ var QuestionView = (function (_Backbone$View) {
 			value: function edit(e) {
 				// retrieve the selected value and update the underlying model.
 				var value = parseInt(e.target.value);
-				this.model.save({ answer: value });
+				this.model.set("answer", value);
 			}
 		}
 	});
@@ -1121,7 +1957,7 @@ var QuestionView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = QuestionView;
-},{"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12}],8:[function(require,module,exports){
+},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18}],14:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -3463,7 +4299,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],9:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -3473,7 +4309,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],10:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -3495,7 +4331,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],11:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -3539,7 +4375,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":8}],12:[function(require,module,exports){
+},{"babel-runtime/core-js":14}],18:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -3559,7 +4395,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],13:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
@@ -3567,4 +4403,4 @@ exports["default"] = function (obj) {
 };
 
 exports.__esModule = true;
-},{}]},{},[5]);
+},{}]},{},[10]);

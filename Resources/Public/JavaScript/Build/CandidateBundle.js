@@ -7,8 +7,6 @@ var ListView = _interopRequire(require("./Views/Candidate/ListView"));
 
 var FacetView = _interopRequire(require("./Views/Candidate/FacetView"));
 
-var eventBus = _.extend({}, Backbone.Events);
-
 $(function () {
 	new FacetView().render();
 	new ListView();
@@ -503,18 +501,6 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return hasAnswers;
 			}
 		},
-		fetchForAuthenticatedUser: {
-
-			/**
-    * Anonymous User uses the localStorage as a first storage.
-    *
-    * @returns {*}
-    */
-
-			value: function fetchForAuthenticatedUser() {
-				return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
-			}
-		},
 		getToken: {
 
 			/**
@@ -554,6 +540,25 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return "/routing/questions/" + electionIdentifier + "?id=" + EasyvoteSmartvote.pageUid + "&L=" + EasyvoteSmartvote.sysLanguageUid + token;
 			}
 		},
+		getFilteredQuestions: {
+
+			/**
+    * @param {bool} isShortVersion
+    * @return array
+    */
+
+			value: function getFilteredQuestions(isShortVersion) {
+				var questions;
+				if (isShortVersion) {
+					questions = this.filter(function (question) {
+						return question.get("rapide");
+					});
+				} else {
+					questions = this.filter();
+				}
+				return questions;
+			}
+		},
 		load: {
 
 			/**
@@ -564,20 +569,21 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				if (this._isAnonymous()) {
 					return this.fetchForAnonymousUser();
 				} else {
-					return this.fetchForAuthenticatedUser();
+					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 				}
 			}
 		},
 		count: {
 
 			/**
-    * Return the total number of questions in this collection.
+    * Return the total number of questions for this collection.
     *
+    * @param {bool} isShortVersion
     * @returns int
     */
 
-			value: function count() {
-				return this.length;
+			value: function count(isShortVersion) {
+				return this.getFilteredQuestions(isShortVersion).length;
 			}
 		},
 		countVisible: {
@@ -585,13 +591,22 @@ var QuestionCollection = (function (_Backbone$Collection) {
 			/**
     * Return the number of visible questions.
     *
+    * @param {bool} isShortVersion
     * @returns int
     */
 
-			value: function countVisible() {
-				return this.filter(function (question) {
-					return question.get("visible");
-				}).length;
+			value: function countVisible(isShortVersion) {
+				var numberVisible;
+				if (isShortVersion) {
+					numberVisible = this.filter(function (question) {
+						return question.get("visible") && question.get("rapide");
+					}).length;
+				} else {
+					numberVisible = this.filter(function (question) {
+						return question.get("visible");
+					}).length;
+				}
+				return numberVisible;
 			}
 		},
 		_isAnonymous: {
@@ -1200,18 +1215,8 @@ var CandidateView = (function (_Backbone$View) {
 				return this.el;
 			}
 		},
-		changeVisible: {
-
-			/**
-    * Set visible true
-    */
-
-			value: function changeVisible() {
-				this.model.save({ visible: true });
-				this.render();
-			}
-		},
 		drawChart: {
+
 			/**
     * @param {int} candidateId
     * @param {array} values
@@ -1454,12 +1459,12 @@ var ListView = (function (_Backbone$View) {
 		this.listenTo(Backbone, "facet:changed", this.render, this);
 
 		// Load first the Question collection.
-		/** @var questionCollection QuestionCollection*/
+		/** @var questionCollection QuestionCollection */
 		QuestionCollection.getInstance().load().done(function () {
 
-			// Fetch candidates
-			candidateCollection.fetch().done(function (something) {
-				candidateCollection.sort(); // trigger rendering
+			// Fetch candidates.
+			candidateCollection.fetch().done(function () {
+				candidateCollection.sort(); // will trigger the rendering.
 			});
 		});
 
@@ -1509,12 +1514,12 @@ var ListView = (function (_Backbone$View) {
 				}
 
 				// Finally update the DOM.
-				$("#container-candidate-list").empty().append(container);
+				$("#container-candidate-list").html(container);
 
 				// Add lazy loading to images.
 				$("img.lazy", $("#container-candidate-list")).lazyload();
 
-				// Update top list content
+				// Update top list content.
 				var content = this.listTopTemplate({
 					numberOfItems: filteredCandidates.length
 				});
