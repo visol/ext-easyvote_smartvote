@@ -26,6 +26,7 @@ class QuestionProcessor extends AbstractProcessor {
 	 */
 	public function process(array $items) {
 		$items = $this->addSomeDynamicValues($items);
+		$items = $this->removeUnneededLocalizationValues($items);
 		$items = $this->revertOrderOfItems($items);
 		$items = $this->convertKeysToCamelCase($items);
 		$items = $this->parseQuestionName($items);

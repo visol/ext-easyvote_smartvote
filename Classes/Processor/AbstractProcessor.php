@@ -66,4 +66,22 @@ abstract class AbstractProcessor {
 		return $convertedItems;
 	}
 
+	/**
+	 * Some values are only fetched because they are needed for getting a localization overlay.
+	 * They can be removed for frontend usage.
+	 *
+	 * @param array $items
+	 * @return array
+	 */
+	protected function removeUnneededLocalizationValues(array $items) {
+		$convertedItems = array();
+		foreach ($items as $item) {
+			unset($item['sys_language_uid']);
+			unset($item['pid']);
+			unset($item['_LOCALIZED_UID']);
+			$convertedItems[] = $item;
+		}
+		return $convertedItems;
+	}
+
 }
