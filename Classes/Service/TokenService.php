@@ -30,10 +30,10 @@ class TokenService implements SingletonInterface {
 	 */
 	public function generate($currentElectionUid) {
 
-
 		$token = sprintf(
-			'ext-easyvote-smart-%s-%s%s',
+			'ext-easyvote-smart-%s-%s-%s%s',
 			$currentElectionUid,
+			$this->getLanguageOfWebsite(),
 			$this->getElectionCacheTimeStamp($currentElectionUid),
 			$this->getUserService()->isAuthenticated() ?
 				'-' . $this->getUserService()->getUserData()['uid'] :
@@ -61,10 +61,17 @@ class TokenService implements SingletonInterface {
 	}
 
 	/**
+	 * @return int
+	 */
+	protected function getLanguageOfWebsite() {
+		return (int)GeneralUtility::_GP('L');
+	}
+
+	/**
 	 * @param int $currentElectionUid
 	 * @return int
 	 */
-	protected function getElectionCacheTimeStamp($currentElectionUid){
+	protected function getElectionCacheTimeStamp($currentElectionUid) {
 		$cachePath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote';
 
 		// Make sure directory exists otherwise create it.
@@ -83,7 +90,7 @@ class TokenService implements SingletonInterface {
 	/**
 	 * @return UserService
 	 */
-	protected function getUserService(){
+	protected function getUserService() {
 		return GeneralUtility::makeInstance(UserService::class);
 	}
 
