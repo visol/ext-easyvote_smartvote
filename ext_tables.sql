@@ -414,3 +414,38 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_answer (
  KEY language (l10n_parent,sys_language_uid)
 
 );
+
+#
+# Table structure for table 'tx_easyvotesmartvote_domain_model_personalelectionlist'
+#
+CREATE TABLE tx_easyvotesmartvote_domain_model_personalelectionlist (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	community_user int(11) DEFAULT '0' NOT NULL,
+	election int(11) DEFAULT '0' NOT NULL,
+	election_list int(11) DEFAULT '0' NOT NULL,
+	candidates int(11) DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid)
+);
+
+#
+# Table structure for table 'tx_easyvotesmartvote_personalelectionlist_candidate_mm'
+#
+CREATE TABLE tx_easyvotesmartvote_personalelectionlist_candidate_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);

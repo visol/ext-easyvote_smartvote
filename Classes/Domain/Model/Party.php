@@ -14,10 +14,12 @@ namespace Visol\EasyvoteSmartvote\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * Party
  */
-class Party extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Party extends AbstractEntity {
 
 	/**
 	 * name

@@ -50,10 +50,10 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_district'] = array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
-			'config' => array(
-				'type' => 'select',
 				'items' => array(
-					array('', 0),
+					'config' => array(
+						'type' => 'select',
+						array('', 0),
 				),
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_district',
 				'foreign_table_where' => 'AND tx_easyvotesmartvote_domain_model_district.pid=###CURRENT_PID### AND tx_easyvotesmartvote_domain_model_district.sys_language_uid IN (-1,0)',
