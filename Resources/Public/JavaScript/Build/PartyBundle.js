@@ -550,6 +550,29 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return questions;
 			}
 		},
+		countAnsweredQuestions: {
+
+			/**
+    * @returns {array}
+    */
+
+			value: function countAnsweredQuestions() {
+				return this.filter(function (question) {
+					return question.get("answer") !== null;
+				});
+			}
+		},
+		hasAnsweredQuestions: {
+
+			/**
+    * @returns {bool}
+    */
+
+			value: function hasAnsweredQuestions() {
+				var numberOfAnsweredQuestions = this.countAnsweredQuestions();
+				return numberOfAnsweredQuestions.length > 0;
+			}
+		},
 		load: {
 
 			/**
@@ -871,7 +894,7 @@ var FacetModel = (function (_Backbone$Model) {
 						for (var _iterator = _core.$for.getIterator(query), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 							var argument = _step.value;
 
-							// sanitize
+							// sanitize arguments
 							argument = argument.replace("#", "");
 							var argumentParts = argument.split("=");
 							if (argumentParts.length === 2 && allowedArguments.indexOf(argumentParts[0]) >= 0) {
@@ -1393,8 +1416,6 @@ var ListView = (function (_Backbone$View) {
 						}
 					}
 				}
-
-				console.log(container);
 
 				// Finally update the DOM.
 				$("#container-party-list").html(container);

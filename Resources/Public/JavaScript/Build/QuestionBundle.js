@@ -692,6 +692,9 @@ var CandidateCollection = (function (_Backbone$Collection) {
 							}
 						}
 					}
+
+					// Trigger final sort => will trigger the view to render.
+					_this.sort(); // not needed here since manually triggered in the view.
 				});
 			}
 		},
@@ -727,8 +730,6 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-// Trigger final sort => will trigger the view to render.
-//this.sort(); // not needed here since manually triggered in the view.
 },{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":11,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
@@ -894,6 +895,29 @@ var QuestionCollection = (function (_Backbone$Collection) {
 					questions = this.filter();
 				}
 				return questions;
+			}
+		},
+		countAnsweredQuestions: {
+
+			/**
+    * @returns {array}
+    */
+
+			value: function countAnsweredQuestions() {
+				return this.filter(function (question) {
+					return question.get("answer") !== null;
+				});
+			}
+		},
+		hasAnsweredQuestions: {
+
+			/**
+    * @returns {bool}
+    */
+
+			value: function hasAnsweredQuestions() {
+				var numberOfAnsweredQuestions = this.countAnsweredQuestions();
+				return numberOfAnsweredQuestions.length > 0;
 			}
 		},
 		load: {
@@ -1351,7 +1375,7 @@ var FacetModel = (function (_Backbone$Model) {
 						for (var _iterator = _core.$for.getIterator(query), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 							var argument = _step.value;
 
-							// sanitize
+							// sanitize arguments
 							argument = argument.replace("#", "");
 							var argumentParts = argument.split("=");
 							if (argumentParts.length === 2 && allowedArguments.indexOf(argumentParts[0]) >= 0) {
@@ -1534,6 +1558,9 @@ var FacetView = (function (_Backbone$View) {
 		};
 
 		this.model = new FacetModel();
+
+		this.listenTo(this.model, "change", this.save);
+
 		if (this.model.hasState()) {
 			this.model.setState();
 		} else {
@@ -1559,6 +1586,18 @@ var FacetView = (function (_Backbone$View) {
 	_inherits(FacetView, _Backbone$View);
 
 	_createClass(FacetView, {
+		hasMinimumFilter: {
+
+			/**
+    * @returns {boolean}
+    */
+
+			value: function hasMinimumFilter() {
+				var district = this.model.get("district") - 0;
+				var nationalParty = this.model.get("nationalParty") - 0;
+				return district > 0 || nationalParty > 0;
+			}
+		},
 		save: {
 
 			/**
@@ -1627,6 +1666,9 @@ var FacetView = (function (_Backbone$View) {
 				var content = this.template();
 				this.$el.html(content);
 				this.stickit();
+
+				// Hide by default until we can tell whether the box should be shown or not.
+				$("#container-candidate-filter").closest(".csc-default").removeClass("hidden");
 			}
 		}
 	});
@@ -1682,11 +1724,14 @@ var ListView = (function (_Backbone$View) {
 		this.questionCollection = QuestionCollection.getInstance();
 
 		// Store the flag whether it is a short or long version of the questionnaire.
-		this.isShortVersion = true;
+		this.isShortVersion = this.isShortQuestionnaire();
+		this.updateWidget();
 
 		// Special binding since the reset button is outside the scope of this view.
-		_.bindAll(this, "switchVersion");
-		$(document).on("click", "#btn-switch-version", this.switchVersion);
+		_.bindAll(this, "showShortVersion");
+		_.bindAll(this, "showLongVersion");
+		$(document).on("click", "#btn-short-version", this.showShortVersion);
+		$(document).on("click", "#btn-long-version", this.showLongVersion);
 
 		this.listenTo(this.questionCollection, "change:answer", this.afterAnswerChanged);
 
@@ -1701,30 +1746,54 @@ var ListView = (function (_Backbone$View) {
 	_inherits(ListView, _Backbone$View);
 
 	_createClass(ListView, {
-		switchVersion: {
+		updateWidget: {
+
+			/**
+    * Adjust widget
+    */
+
+			value: function updateWidget() {
+				if (this.isShortVersion) {
+					$("#btn-short-version").addClass("disabled");
+					$("#btn-long-version").removeClass("disabled");
+				} else {
+					$("#btn-short-version").removeClass("disabled");
+					$("#btn-long-version").addClass("disabled");
+				}
+			}
+		},
+		showShortVersion: {
 
 			/**
     * Render the main template.
     */
 
-			value: function switchVersion(e) {
-				// Toggle property.
-				this.isShortVersion = !this.isShortVersion;
+			value: function showShortVersion(e) {
 
-				// Update the label of button.
-				var label;
-				if (this.isShortVersion) {
-					label = EasyvoteSmartvote.labeLongVersion;
-				} else {
-					label = EasyvoteSmartvote.labelShortVersion;
-				}
-				$(e.target).html(label);
+				// Toggle property.
+				this.isShortVersion = true;
+
+				// Toggle property.
+				this.updateWidget();
 
 				// Update the view.
 				this.render();
+			}
+		},
+		showLongVersion: {
 
-				// Prevent default behaviour.
-				return false;
+			/**
+    * Render the main template.
+    */
+
+			value: function showLongVersion(e) {
+
+				// Toggle property.
+				this.isShortVersion = false;
+				this.updateWidget();
+
+				// Update the view.
+				this.render();
 			}
 		},
 		render: {
@@ -1803,6 +1872,51 @@ var ListView = (function (_Backbone$View) {
 					progress = this.questionCollection.countVisible(this.isShortVersion) / this.questionCollection.count(this.isShortVersion) * 100;
 				}
 				return progress;
+			}
+		},
+		isShortQuestionnaire: {
+
+			/**
+    * @returns {bool}
+    */
+
+			value: function isShortQuestionnaire() {
+
+				var value = "short";
+				// sanitize arguments
+				var allowedArguments = ["version"];
+				var query = window.location.hash.split("&");
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(query), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var argument = _step.value;
+
+						// sanitize arguments
+						argument = argument.replace("#", "");
+						var argumentParts = argument.split("=");
+						if (argumentParts.length === 2 && argumentParts[0] == "version") {
+							value = argumentParts[1];
+						}
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				return value === "short";
 			}
 		},
 		afterAnswerChanged: {

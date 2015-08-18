@@ -8,8 +8,10 @@ var ListView = _interopRequire(require("./Views/Candidate/ListView"));
 var FacetView = _interopRequire(require("./Views/Candidate/FacetView"));
 
 $(function () {
-	new FacetView().render();
-	new ListView();
+	var facet = new FacetView();
+	facet.render();
+
+	new ListView({ facet: facet });
 });
 },{"./Views/Candidate/FacetView":11,"./Views/Candidate/ListView":12,"babel-runtime/helpers/interop-require":18}],2:[function(require,module,exports){
 /*jshint esnext:true */
@@ -355,6 +357,9 @@ var CandidateCollection = (function (_Backbone$Collection) {
 							}
 						}
 					}
+
+					// Trigger final sort => will trigger the view to render.
+					_this.sort(); // not needed here since manually triggered in the view.
 				});
 			}
 		},
@@ -390,8 +395,6 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-// Trigger final sort => will trigger the view to render.
-//this.sort(); // not needed here since manually triggered in the view.
 },{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":11,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
@@ -557,6 +560,29 @@ var QuestionCollection = (function (_Backbone$Collection) {
 					questions = this.filter();
 				}
 				return questions;
+			}
+		},
+		countAnsweredQuestions: {
+
+			/**
+    * @returns {array}
+    */
+
+			value: function countAnsweredQuestions() {
+				return this.filter(function (question) {
+					return question.get("answer") !== null;
+				});
+			}
+		},
+		hasAnsweredQuestions: {
+
+			/**
+    * @returns {bool}
+    */
+
+			value: function hasAnsweredQuestions() {
+				var numberOfAnsweredQuestions = this.countAnsweredQuestions();
+				return numberOfAnsweredQuestions.length > 0;
 			}
 		},
 		load: {
@@ -1014,7 +1040,7 @@ var FacetModel = (function (_Backbone$Model) {
 						for (var _iterator = _core.$for.getIterator(query), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 							var argument = _step.value;
 
-							// sanitize
+							// sanitize arguments
 							argument = argument.replace("#", "");
 							var argumentParts = argument.split("=");
 							if (argumentParts.length === 2 && allowedArguments.indexOf(argumentParts[0]) >= 0) {
@@ -1304,6 +1330,9 @@ var FacetView = (function (_Backbone$View) {
 		};
 
 		this.model = new FacetModel();
+
+		this.listenTo(this.model, "change", this.save);
+
 		if (this.model.hasState()) {
 			this.model.setState();
 		} else {
@@ -1329,6 +1358,18 @@ var FacetView = (function (_Backbone$View) {
 	_inherits(FacetView, _Backbone$View);
 
 	_createClass(FacetView, {
+		hasMinimumFilter: {
+
+			/**
+    * @returns {boolean}
+    */
+
+			value: function hasMinimumFilter() {
+				var district = this.model.get("district") - 0;
+				var nationalParty = this.model.get("nationalParty") - 0;
+				return district > 0 || nationalParty > 0;
+			}
+		},
 		save: {
 
 			/**
@@ -1397,6 +1438,9 @@ var FacetView = (function (_Backbone$View) {
 				var content = this.template();
 				this.$el.html(content);
 				this.stickit();
+
+				// Hide by default until we can tell whether the box should be shown or not.
+				$("#container-candidate-filter").closest(".csc-default").removeClass("hidden");
 			}
 		}
 	});
@@ -1444,28 +1488,40 @@ var ListView = (function (_Backbone$View) {
 	function ListView(options) {
 		_classCallCheck(this, ListView);
 
+		this.facetView = options.facet;
+
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
 		this.setElement($("#container-candidates"), true);
+
+		// Contains the "number of candidates" and button to reset the filter.
+		this.districtChoiceTemplate = _.template($("#template-before-starting").html());
 
 		// Contains the "number of candidates" and button to reset the filter.
 		this.listTopTemplate = _.template($("#template-candidates-top").html());
 
 		/** @var candidateCollection CandidateCollection*/
 		var candidateCollection = CandidateCollection.getInstance();
+		this.questionCollection = QuestionCollection.getInstance();
 
 		// Important: define listener before fetching data.
-		this.listenTo(candidateCollection, "sort reset", this.render);
+		this.listenTo(candidateCollection, "sort", this.render);
 		this.listenTo(Backbone, "facet:changed", this.render, this);
+
+		_.bindAll(this, "updateFacetView");
+		$(document).on("click", "#btn-show-login", this.showLoginBox);
+		$(document).on("change", "#container-before-starting .form-control", this.updateFacetView);
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
-		QuestionCollection.getInstance().load().done(function () {
+		this.questionCollection.load().done(function () {
+
+			candidateCollection.fetch(); // will trigger the rendering.
 
 			// Fetch candidates.
-			candidateCollection.fetch().done(function () {
-				candidateCollection.sort(); // will trigger the rendering.
-			});
+			//candidateCollection.fetch().done(() => {
+			//candidateCollection.sort(); // will trigger the rendering.
+			//});
 		});
 
 		// Call parent constructor.
@@ -1483,47 +1539,89 @@ var ListView = (function (_Backbone$View) {
 
 			value: function render() {
 
-				var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
+				if (this.questionCollection.hasAnsweredQuestions() && this.facetView.hasMinimumFilter()) {
 
-				// Render intermediate content in a temporary DOM.
-				var container = document.createDocumentFragment();
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
+					var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
 
-				try {
-					for (var _iterator = _core.$for.getIterator(filteredCandidates), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var candidate = _step.value;
+					// Render intermediate content in a temporary DOM.
+					var container = document.createDocumentFragment();
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
 
-						var _content = this.renderOne(candidate);
-						container.appendChild(_content);
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
 					try {
-						if (!_iteratorNormalCompletion && _iterator["return"]) {
-							_iterator["return"]();
+						for (var _iterator = _core.$for.getIterator(filteredCandidates), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var candidate = _step.value;
+
+							var _content = this.renderOne(candidate);
+							container.appendChild(_content);
 						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
 					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
+						try {
+							if (!_iteratorNormalCompletion && _iterator["return"]) {
+								_iterator["return"]();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
 						}
 					}
+
+					// Finally update the DOM.
+					$("#container-candidate-list").html(container);
+
+					// Add lazy loading to images.
+					$("img.lazy", $("#container-candidate-list")).lazyload();
+
+					// Update top list content.
+					var content = this.listTopTemplate({
+						numberOfItems: filteredCandidates.length
+					});
+					$("#container-candidates-top").html(content);
+					$("#wrapper-candidates").removeClass("hidden");
+					$("#wrapper-filter").removeClass("hidden");
+					$("#container-before-starting").addClass("hidden");
+				} else {
+
+					// User must pick some option
+					var content = this.districtChoiceTemplate({
+						isLinkToQuestionnaire: !this.questionCollection.hasAnsweredQuestions(),
+						isFormDefaultFilter: !this.facetView.hasMinimumFilter(),
+						isLinkToAuthentication: !this.isAuthenticated()
+					});
+
+					$("#wrapper-candidates").addClass("hidden");
+					$("#wrapper-filter").addClass("hidden");
+					$("#container-before-starting").html(content).removeClass("hidden");
 				}
+			}
+		},
+		updateFacetView: {
 
-				// Finally update the DOM.
-				$("#container-candidate-list").html(container);
+			/**
+    * update facet view.
+    */
 
-				// Add lazy loading to images.
-				$("img.lazy", $("#container-candidate-list")).lazyload();
+			value: function updateFacetView(e) {
+				var name = $(e.target).attr("name");
+				var value = $(e.target).val();
+				this.facetView.model.set(name, value);
+				this.facetView.save();
+			}
+		},
+		showLoginBox: {
 
-				// Update top list content.
-				var content = this.listTopTemplate({
-					numberOfItems: filteredCandidates.length
-				});
-				$("#container-candidates-top").html(content);
+			/**
+    * Display the login box
+    */
+
+			value: function showLoginBox() {
+				$(".login-link").trigger("click");
+				return false; // prevent default behaviour.
 			}
 		},
 		changeAnswer: {
@@ -1556,15 +1654,15 @@ var ListView = (function (_Backbone$View) {
 				return view.render();
 			}
 		},
-		_isAnonymous: {
+		isAuthenticated: {
 
 			/**
     * @return {bool}
     * @private
     */
 
-			value: function _isAnonymous() {
-				return !EasyvoteSmartvote.isUserAuthenticated;
+			value: function isAuthenticated() {
+				return EasyvoteSmartvote.isUserAuthenticated;
 			}
 		}
 	});
