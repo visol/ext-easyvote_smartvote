@@ -469,10 +469,32 @@
 				<source>Kandidierende gefunden</source>
 			</trans-unit>
 			<trans-unit id="long_version">
-				<source>Deluxe Version</source>
+				<source>Long Version</source>
 			</trans-unit>
 			<trans-unit id="short_version">
 				<source>Rapide Version</source>
+			</trans-unit>
+
+			<trans-unit id="to_questionnaire">
+				<source>Zum Fragebogen</source>
+			</trans-unit>
+			<trans-unit id="to_long_questionnaire">
+				<source>Zum langen Fragebogen</source>
+			</trans-unit>
+			<trans-unit id="is_only_a_few_clicks">
+				<source>ist nur wenige Klicks entfernt!</source>
+			</trans-unit>
+			<trans-unit id="anser_questionnaire_to_get_recommendation">
+				<source>Beantworte die smartvote-Fragen, um eine persönliche Wahlempfehlung zu erhalten.</source>
+			</trans-unit>
+			<trans-unit id="or">
+				<source>oder</source>
+			</trans-unit>
+			<trans-unit id="set_filter">
+				<source>Durchsuche die Datenbank aller Kandidierenden. Um loszugehen, musst du mindestends einee Filter setzen:</source>
+			</trans-unit>
+			<trans-unit id="create_account">
+				<source>Melde dich bei easyvote an oder erstelle ein Konto, um automatisch die Kandidaten in deiner Nähe anzuzeigen</source>
 			</trans-unit>
 
 

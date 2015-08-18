@@ -96,7 +96,6 @@ class SmartVoteCommandController extends CommandController {
 			$logLines = $logLines . implode('', $logs);
 			$this->outputLine($logLines);
 		}
-
 	}
 
 	/**

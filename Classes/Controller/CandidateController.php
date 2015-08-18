@@ -54,6 +54,8 @@ class CandidateController extends ActionController {
 	 */
 	public function indexAction() {
 		$electionIdentifier = (int)$this->settings['election'];
+
+		/** @var \Visol\EasyvoteSmartvote\Domain\Model\Election $currentElection */
 		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
 
 		$userDistrict = $this->getDistrictService()->getUserDistrictForCurrentElection($currentElection);
@@ -63,6 +65,7 @@ class CandidateController extends ActionController {
 		$this->view->assign('settings', $this->settings);
 		$this->view->assign('userDistrict', $userDistrict);
 
+		$this->filterAction(); // to get the "nationalParties" and "districts" Fluid variable assigned.
 	}
 
 	/**
@@ -82,6 +85,7 @@ class CandidateController extends ActionController {
 	 * @return DistrictService
 	 */
 	protected function getDistrictService() {
+
 		return GeneralUtility::makeInstance(DistrictService::class);
 	}
 

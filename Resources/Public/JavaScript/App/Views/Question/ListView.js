@@ -25,11 +25,14 @@ export default class ListView extends Backbone.View {
 		this.questionCollection = QuestionCollection.getInstance();
 
 		// Store the flag whether it is a short or long version of the questionnaire.
-		this.isShortVersion = true;
+		this.isShortVersion = this.isShortQuestionnaire();
+		this.updateWidget();
 
 		// Special binding since the reset button is outside the scope of this view.
-		_.bindAll(this, 'switchVersion');
-		$(document).on('click', '#btn-switch-version', this.switchVersion);
+		_.bindAll(this, 'showShortVersion');
+		_.bindAll(this, 'showLongVersion');
+		$(document).on('click', '#btn-short-version', this.showShortVersion);
+		$(document).on('click', '#btn-long-version', this.showLongVersion);
 
 		this.listenTo(this.questionCollection, 'change:answer', this.afterAnswerChanged);
 
@@ -42,26 +45,44 @@ export default class ListView extends Backbone.View {
 	}
 
 	/**
+	 * Adjust widget
+	 */
+	updateWidget() {
+		if (this.isShortVersion) {
+			$('#btn-short-version').addClass('disabled');
+			$('#btn-long-version').removeClass('disabled');
+		} else {
+			$('#btn-short-version').removeClass('disabled');
+			$('#btn-long-version').addClass('disabled');
+		}
+	}
+
+	/**
 	 * Render the main template.
 	 */
-	switchVersion(e) {
-		// Toggle property.
-		this.isShortVersion = !this.isShortVersion;
+	showShortVersion(e) {
 
-		// Update the label of button.
-		var label;
-		if (this.isShortVersion) {
-			label = EasyvoteSmartvote.labeLongVersion;
-		} else {
-			label = EasyvoteSmartvote.labelShortVersion;
-		}
-		$(e.target).html(label);
+		// Toggle property.
+		this.isShortVersion = true;
+
+		// Toggle property.
+		this.updateWidget();
 
 		// Update the view.
 		this.render();
+	}
 
-		// Prevent default behaviour.
-		return false;
+	/**
+	 * Render the main template.
+	 */
+	showLongVersion(e) {
+
+		// Toggle property.
+		this.isShortVersion = false;
+		this.updateWidget();
+
+		// Update the view.
+		this.render();
 	}
 
 	/**
@@ -110,6 +131,27 @@ export default class ListView extends Backbone.View {
 			progress = this.questionCollection.countVisible(this.isShortVersion) / this.questionCollection.count(this.isShortVersion) * 100;
 		}
 		return progress;
+	}
+
+	/**
+	 * @returns {bool}
+	 */
+	isShortQuestionnaire() {
+
+		var value = 'short';
+		// sanitize arguments
+		var allowedArguments = ['version'];
+		var query = window.location.hash.split('&');
+		for (let argument of query) {
+
+			// sanitize arguments
+			argument = argument.replace('#', '');
+			var argumentParts = argument.split('=');
+			if (argumentParts.length === 2 && argumentParts[0] == 'version') {
+				value = argumentParts[1];
+			}
+		}
+		return value === 'short';
 	}
 
 	/**

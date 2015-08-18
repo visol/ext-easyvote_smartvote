@@ -16,6 +16,7 @@ namespace Visol\EasyvoteSmartvote\Service;
 
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Domain\Repository\DistrictRepository;
 use Visol\EasyvoteSmartvote\Service\UserService;
@@ -24,12 +25,6 @@ use Visol\EasyvoteSmartvote\Service\UserService;
  * Service related to Districts.
  */
 class DistrictService implements SingletonInterface {
-
-	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\DistrictRepository
-	 * @inject
-	 */
-	protected $districtRepository = NULL;
 
 	/**
 	 * @param Election $election
@@ -58,9 +53,14 @@ class DistrictService implements SingletonInterface {
 	 * @return DistrictRepository
 	 */
 	protected function getDistrictRepository() {
-		return GeneralUtility::makeInstance(DistrictRepository::class);
+		return $this->getObjectManager()->get(DistrictRepository::class);
 	}
 
-
+	/**
+	 * @return \TYPO3\CMS\Extbase\Object\ObjectManager
+	 */
+	protected function getObjectManager() {
+		return GeneralUtility::makeInstance(ObjectManager::class);
+	}
 
 }

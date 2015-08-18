@@ -18,28 +18,40 @@ export default class ListView extends Backbone.View {
 	 */
 	constructor(options) {
 
+		this.facetView = options.facet;
+
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
 		this.setElement($('#container-candidates'), true);
+
+		// Contains the "number of candidates" and button to reset the filter.
+		this.districtChoiceTemplate = _.template($('#template-before-starting').html());
 
 		// Contains the "number of candidates" and button to reset the filter.
 		this.listTopTemplate = _.template($('#template-candidates-top').html());
 
 		/** @var candidateCollection CandidateCollection*/
 		var candidateCollection = CandidateCollection.getInstance();
+		this.questionCollection = QuestionCollection.getInstance();
 
 		// Important: define listener before fetching data.
-		this.listenTo(candidateCollection, 'sort reset', this.render);
+		this.listenTo(candidateCollection, 'sort', this.render);
 		this.listenTo(Backbone, 'facet:changed', this.render, this);
+
+		_.bindAll(this, 'updateFacetView');
+		$(document).on('click', '#btn-show-login', this.showLoginBox);
+		$(document).on('change', '#container-before-starting .form-control', this.updateFacetView);
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
-		QuestionCollection.getInstance().load().done(() => {
+		this.questionCollection.load().done(() => {
+
+			candidateCollection.fetch(); // will trigger the rendering.
 
 			// Fetch candidates.
-			candidateCollection.fetch().done(() => {
-				candidateCollection.sort(); // will trigger the rendering.
-			});
+			//candidateCollection.fetch().done(() => {
+				//candidateCollection.sort(); // will trigger the rendering.
+			//});
 		});
 
 		// Call parent constructor.
@@ -51,26 +63,64 @@ export default class ListView extends Backbone.View {
 	 */
 	render() {
 
-		var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
+		if (this.questionCollection.hasAnsweredQuestions() && this.facetView.hasMinimumFilter()) {
 
-		// Render intermediate content in a temporary DOM.
-		var container = document.createDocumentFragment();
-		for (let candidate of filteredCandidates) {
-			let content = this.renderOne(candidate);
-			container.appendChild(content);
+			var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
+
+			// Render intermediate content in a temporary DOM.
+			var container = document.createDocumentFragment();
+			for (let candidate of filteredCandidates) {
+				let content = this.renderOne(candidate);
+				container.appendChild(content);
+			}
+
+			// Finally update the DOM.
+			$('#container-candidate-list').html(container);
+
+			// Add lazy loading to images.
+			$("img.lazy", $('#container-candidate-list')).lazyload();
+
+			// Update top list content.
+			let content = this.listTopTemplate({
+				numberOfItems: filteredCandidates.length
+			});
+			$('#container-candidates-top').html(content);
+			$('#wrapper-candidates').removeClass('hidden');
+			$('#wrapper-filter').removeClass('hidden');
+			$('#container-before-starting').addClass('hidden');
+		} else {
+
+			// User must pick some option
+			let content = this.districtChoiceTemplate({
+				isLinkToQuestionnaire: !this.questionCollection.hasAnsweredQuestions(),
+				isFormDefaultFilter: !this.facetView.hasMinimumFilter(),
+				isLinkToAuthentication: !this.isAuthenticated()
+			});
+
+			$('#wrapper-candidates').addClass('hidden');
+			$('#wrapper-filter').addClass('hidden');
+			$('#container-before-starting').html(content).removeClass('hidden');
 		}
+	}
 
-		// Finally update the DOM.
-		$('#container-candidate-list').html(container);
 
-		// Add lazy loading to images.
-		$("img.lazy", $('#container-candidate-list')).lazyload();
+	/**
+	 * update facet view.
+	 */
+	updateFacetView(e) {
+		let name = $(e.target).attr('name');
+		let value = $(e.target).val();
+		this.facetView.model.set(name, value);
+		this.facetView.save();
+	}
 
-		// Update top list content.
-		let content = this.listTopTemplate({
-			numberOfItems: filteredCandidates.length
-		});
-		$('#container-candidates-top').html(content);
+
+	/**
+	 * Display the login box
+	 */
+	showLoginBox() {
+		$('.login-link').trigger('click');
+		return false; // prevent default behaviour.
 	}
 
 	/**
@@ -101,8 +151,8 @@ export default class ListView extends Backbone.View {
 	 * @return {bool}
 	 * @private
 	 */
-	_isAnonymous() {
-		return !EasyvoteSmartvote.isUserAuthenticated
+	isAuthenticated() {
+		return EasyvoteSmartvote.isUserAuthenticated
 	}
 
 }

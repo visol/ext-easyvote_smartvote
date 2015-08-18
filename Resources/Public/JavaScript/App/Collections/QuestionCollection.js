@@ -116,6 +116,21 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
+	 * @returns {array}
+	 */
+	countAnsweredQuestions() {
+		return this.filter(question => question.get('answer') !== null);
+	}
+
+	/**
+	 * @returns {bool}
+	 */
+	hasAnsweredQuestions() {
+		let numberOfAnsweredQuestions = this.countAnsweredQuestions();
+		return numberOfAnsweredQuestions.length > 0;
+	}
+
+	/**
 	 * @returns {*}
 	 */
 	load() {

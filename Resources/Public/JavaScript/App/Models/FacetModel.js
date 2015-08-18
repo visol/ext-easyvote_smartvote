@@ -48,9 +48,10 @@ export default class FacetModel extends Backbone.Model {
 			var allowedArguments = ['nationalParty', 'district', 'minAge', 'maxAge', 'incumbent', 'gender'];
 			var query = window.location.hash.split('&');
 			for (let argument of query) {
-				// sanitize
+
+				// sanitize arguments
 				argument = argument.replace('#', '');
-				let argumentParts = argument.split('=');
+				var argumentParts = argument.split('=');
 				if (argumentParts.length === 2 && allowedArguments.indexOf(argumentParts[0]) >= 0) {
 					let name = argumentParts[0];
 					let value = argumentParts[1];

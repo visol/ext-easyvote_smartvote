@@ -83,7 +83,7 @@ export default class CandidateCollection extends Backbone.Collection {
 				this.create(model, {sort: false});
 			}
 			// Trigger final sort => will trigger the view to render.
-			//this.sort(); // not needed here since manually triggered in the view.
+			this.sort(); // not needed here since manually triggered in the view.
 		});
 	}
 

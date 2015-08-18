@@ -4,6 +4,8 @@ import ListView from './Views/Candidate/ListView';
 import FacetView from './Views/Candidate/FacetView';
 
 $(() => {
-	new FacetView().render();
-	new ListView();
+	let facet = new FacetView();
+	facet.render();
+
+	new ListView({facet: facet});
 });

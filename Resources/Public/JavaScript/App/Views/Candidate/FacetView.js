@@ -31,6 +31,9 @@ export default class FacetView extends Backbone.View {
 		};
 
 		this.model = new FacetModel();
+
+		this.listenTo(this.model, 'change', this.save);
+
 		if (this.model.hasState()) {
 			this.model.setState();
 		} else {
@@ -51,6 +54,15 @@ export default class FacetView extends Backbone.View {
 		$(document).on('click', '#btn-reset-facets', this.reset);
 
 		super(options);
+	}
+
+	/**
+	 * @returns {boolean}
+	 */
+	hasMinimumFilter() {
+		let district = this.model.get('district') - 0;
+		let nationalParty = this.model.get('nationalParty') - 0;
+		return district > 0 || nationalParty > 0;
 	}
 
 	/**
@@ -91,6 +103,9 @@ export default class FacetView extends Backbone.View {
 		let content = this.template();
 		this.$el.html(content);
 		this.stickit();
+
+		// Hide by default until we can tell whether the box should be shown or not.
+		$('#container-candidate-filter').closest('.csc-default').removeClass('hidden');
 	}
 
 }
