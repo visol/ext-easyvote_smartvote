@@ -593,6 +593,10 @@ var CandidateCollection = (function (_Backbone$Collection) {
 		// Hold a reference to this collection's model.
 		this.model = CandidateModel;
 
+		// Set default orderings.
+		this.sorting = "matching";
+		this.direction = "descending";
+
 		// Save all of the candidate items under the `'candidates'` namespace.
 		this.localStorage = new Backbone.LocalStorage("candidates-" + EasyvoteSmartvote.token);
 	}
@@ -611,7 +615,20 @@ var CandidateCollection = (function (_Backbone$Collection) {
     */
 
 			value: function comparator(candidate1, candidate2) {
-				return candidate1.getMatching() > candidate2.getMatching() ? -1 : 1;
+
+				var comparison;
+
+				if (this.sorting === "name" && this.direction === "ascending") {
+					comparison = candidate1.get("lastName") > candidate2.get("lastName");
+				} else if (this.sorting === "name" && this.direction === "descending") {
+					comparison = candidate1.get("lastName") < candidate2.get("lastName");
+				} else if (this.sorting === "matching" && this.direction === "ascending") {
+					comparison = candidate1.getMatching() > candidate2.getMatching();
+				} else {
+					comparison = candidate1.getMatching() < candidate2.getMatching(); // default choice
+				}
+
+				return comparison;
 			}
 		},
 		fetch: {
@@ -708,6 +725,48 @@ var CandidateCollection = (function (_Backbone$Collection) {
 
 			value: function url() {
 				return "/routing/candidates/" + EasyvoteSmartvote.currentElection;
+			}
+		},
+		getSorting: {
+
+			/**
+    * @returns {string}
+    */
+
+			value: function getSorting() {
+				return this.sorting;
+			}
+		},
+		setSorting: {
+
+			/**
+    * @param {String} sort
+    * @return void
+    */
+
+			value: function setSorting(sort) {
+				this.sorting = sort;
+			}
+		},
+		getDirection: {
+
+			/**
+    * @returns {string}
+    */
+
+			value: function getDirection() {
+				return this.direction;
+			}
+		},
+		setDirection: {
+
+			/**
+    * @param {String} direction
+    * @return void
+    */
+
+			value: function setDirection(direction) {
+				this.direction = direction;
 			}
 		}
 	}, {

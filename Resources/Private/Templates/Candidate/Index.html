@@ -23,92 +23,45 @@
 		</div>
 	</div>
 
-	<script type="text/template" id="template-before-starting">
-
-		<h2><f:translate key="voting_recommendation"/>...</h2>
-
-		<p>
-		... <f:translate key="is_only_a_few_clicks"/>
-		</p>
-
-		<% if (isLinkToQuestionnaire) { %>
-		<p>
-			<f:translate key="anser_questionnaire_to_get_recommendation"/>
-		</p>
-
-		<f:link.page pageUid="{settings.questionnairePid}" section="version=short" class="btn btn-primary">{f:translate(key:'to_questionnaire')}</f:link.page>
-		<f:link.page pageUid="{settings.questionnairePid}" section="version=long"  class="btn btn-primary">{f:translate(key:'to_long_questionnaire')}</f:link.page>
-		<% } %>
-
-		<% if (isLinkToQuestionnaire && isFormDefaultFilter) { %>
-		<h2 class="header-line">
-			<span><f:translate key="or"/></span>
-		</h2>
-		<% } %>
-
-
-		<% if (isFormDefaultFilter) { %>
-		<p>
-			<f:translate key="set_filter"/>
-		</p>
-		<form class="form filter-candidates">
-			<fieldset>
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-6">
-							<f:form.select name="nationalParty" options="{nationalParties}"
-							               optionValueField="uid" optionLabelField="title"
-							               sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.party.title')}"
-							               prependOptionValue="" class="form-control"/>
-						</div>
-						<div class="col-md-6">
-							<f:form.select name="district" options="{districts}"
-							               optionValueField="uid" optionLabelField="name"
-							               sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.district.title.canton')}"
-							               prependOptionValue="" class="form-control"/>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-		</form>
-		<% } %>
-
-
-
-		<% if ((isFormDefaultFilter && isLinkToAuthentication) || (isLinkToQuestionnaire && isLinkToAuthentication)) { %>
-		<h2 class="header-line">
-			<span><f:translate key="or"/></span>
-		</h2>
-		<% } %>
-
-		<% if (isLinkToAuthentication) { %>
-		<p>
-			<span><f:translate key="create_account"/></span>
-		</p>
-		<a id="btn-show-login" class="btn btn-primary" href="#">
-			<f:translate key="loginPanel.login" extensionName="easyvote"/>
-		</a>
-		<% } %>
-
-	</script>
-
-
 	<script type="text/template" id="template-candidates-top">
 		<h2>
 			<f:translate key="voting_recommendation"/>
 		</h2>
 		<div>
 			<% if (numberOfItems > 1) { %>
-			<%- numberOfItems %> {f:translate(key:'candidates_found')}
+			<%- numberOfItems %> {f:translate(key:'candidates_found')},
 			<% } else { %>
-			<%- numberOfItems %> {f:translate(key:'candidate_found')}
+			<%- numberOfItems %> {f:translate(key:'candidate_found')},
 			<% } %>
+
+			<f:translate key="sorted_by"/>
+			<select id="btn-sorting" name="sort">
+				<option value="matching&descending"
+					<% if (sorting == 'matching' && direction == 'descending') { %>selected="selected"<% } %>>
+					<f:translate key="matching"/> 100% - 0%
+				</option>
+
+				<option value="matching&ascending"
+					<% if (sorting == 'matching' && direction == 'ascending') { %>selected="selected"<% } %>>
+					<f:translate key="matching"/> 0% - 100%
+				</option>
+
+				<option value="name&ascending"
+					<% if (sorting == 'name' && direction == 'ascending') { %>selected="selected"<% } %>>
+					<f:translate key="name"/> A - Z
+				</option>
+
+				<option value="name&descending"
+					<% if (sorting == 'name' && direction == 'descending') { %>selected="selected"<% } %>>
+					<f:translate key="name"/> Z - A
+				</option>
+			</select>
 		</div>
-		<div>
-			<a href="#" id="btn-reset-facets" class="btn btn-primary">{f:translate(key:'filter_reset')}</a>
-		</div>
+
+
 	</script>
 
+	<f:render partial="BeforeStarting" section="BeforeStarting" arguments="{_all}"/>
 	<f:render partial="Candidate" section="Candidate"/>
 
 	<script>

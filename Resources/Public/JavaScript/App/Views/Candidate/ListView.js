@@ -25,7 +25,7 @@ export default class ListView extends Backbone.View {
 		this.setElement($('#container-candidates'), true);
 
 		// Contains the "number of candidates" and button to reset the filter.
-		this.districtChoiceTemplate = _.template($('#template-before-starting').html());
+		this.beforeStartingTemplate = _.template($('#template-before-starting').html());
 
 		// Contains the "number of candidates" and button to reset the filter.
 		this.listTopTemplate = _.template($('#template-candidates-top').html());
@@ -38,9 +38,11 @@ export default class ListView extends Backbone.View {
 		this.listenTo(candidateCollection, 'sort', this.render);
 		this.listenTo(Backbone, 'facet:changed', this.render, this);
 
-		_.bindAll(this, 'updateFacetView');
+		_.bindAll(this, 'changeFacetView');
+		_.bindAll(this, 'sortAndRender');
 		$(document).on('click', '#btn-show-login', this.showLoginBox);
-		$(document).on('change', '#container-before-starting .form-control', this.updateFacetView);
+		$(document).on('change', '#container-before-starting .form-control', this.changeFacetView);
+		$(document).on('change', '#btn-sorting', this.sortAndRender);
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
@@ -82,7 +84,9 @@ export default class ListView extends Backbone.View {
 
 			// Update top list content.
 			let content = this.listTopTemplate({
-				numberOfItems: filteredCandidates.length
+				numberOfItems: filteredCandidates.length,
+				sorting: CandidateCollection.getInstance().getSorting(),
+				direction: CandidateCollection.getInstance().getDirection()
 			});
 			$('#container-candidates-top').html(content);
 			$('#wrapper-candidates').removeClass('hidden');
@@ -91,7 +95,7 @@ export default class ListView extends Backbone.View {
 		} else {
 
 			// User must pick some option
-			let content = this.districtChoiceTemplate({
+			let content = this.beforeStartingTemplate({
 				isLinkToQuestionnaire: !this.questionCollection.hasAnsweredQuestions(),
 				isFormDefaultFilter: !this.facetView.hasMinimumFilter(),
 				isLinkToAuthentication: !this.isAuthenticated()
@@ -103,17 +107,33 @@ export default class ListView extends Backbone.View {
 		}
 	}
 
+	/**
+	 * update facet view.
+	 */
+	sortAndRender(e) {
+		var candidateCollection = CandidateCollection.getInstance();
+
+		var parameters = $(e.target).val().split('&');
+		if (parameters.length == 2) {
+
+			let sorting = parameters[0];
+			let direction = parameters[1];
+			candidateCollection.setSorting(sorting);
+			candidateCollection.setDirection(direction);
+			candidateCollection.sort(); // trigger rendering
+		}
+	}
+
 
 	/**
 	 * update facet view.
 	 */
-	updateFacetView(e) {
+	changeFacetView(e) {
 		let name = $(e.target).attr('name');
 		let value = $(e.target).val();
 		this.facetView.model.set(name, value);
 		this.facetView.save();
 	}
-
 
 	/**
 	 * Display the login box

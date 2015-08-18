@@ -463,10 +463,10 @@
 				<source>Filter zurücksetzen</source>
 			</trans-unit>
 			<trans-unit id="candidates_found">
-				<source>Kandidierenden gefunden</source>
+				<source>Kandidierende gefunden</source>
 			</trans-unit>
 			<trans-unit id="candidate_found">
-				<source>Kandidierende gefunden</source>
+				<source>Kandidierende/r gefunden</source>
 			</trans-unit>
 			<trans-unit id="long_version">
 				<source>Long Version</source>
@@ -495,6 +495,15 @@
 			</trans-unit>
 			<trans-unit id="create_account">
 				<source>Melde dich bei easyvote an oder erstelle ein Konto, um automatisch die Kandidaten in deiner Nähe anzuzeigen</source>
+			</trans-unit>
+			<trans-unit id="sorted_by">
+				<source>sortiert nach</source>
+			</trans-unit>
+			<trans-unit id="matching">
+				<source>Übereinstimmung</source>
+			</trans-unit>
+			<trans-unit id="name">
+				<source>Name</source>
 			</trans-unit>
 
 

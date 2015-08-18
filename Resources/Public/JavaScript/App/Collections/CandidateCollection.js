@@ -21,6 +21,10 @@ export default class CandidateCollection extends Backbone.Collection {
 		// Hold a reference to this collection's model.
 		this.model = CandidateModel;
 
+		// Set default orderings.
+		this.sorting = 'matching';
+		this.direction = 'descending';
+
 		// Save all of the candidate items under the `'candidates'` namespace.
 		this.localStorage = new Backbone.LocalStorage('candidates-' + EasyvoteSmartvote.token);
 	}
@@ -33,7 +37,21 @@ export default class CandidateCollection extends Backbone.Collection {
 	 * @returns {number}
 	 */
 	comparator(candidate1, candidate2) {
-		return candidate1.getMatching() > candidate2.getMatching() ? -1 : 1;
+
+		var comparison;
+
+		if (this.sorting === 'name' && this.direction === 'ascending') {
+			comparison = candidate1.get('lastName') > candidate2.get('lastName');
+		} else if (this.sorting === 'name' && this.direction === 'descending') {
+			comparison = candidate1.get('lastName') < candidate2.get('lastName');
+		} else if (this.sorting === 'matching' && this.direction === 'ascending') {
+			comparison = candidate1.getMatching() > candidate2.getMatching();
+		} else {
+			comparison = candidate1.getMatching() < candidate2.getMatching(); // default choice
+		}
+
+		return comparison;
+
 	}
 
 	/**
@@ -104,6 +122,36 @@ export default class CandidateCollection extends Backbone.Collection {
 			this.instance = new CandidateCollection();
 		}
 		return this.instance;
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getSorting() {
+		return this.sorting;
+	}
+
+	/**
+	 * @param {String} sort
+	 * @return void
+	 */
+	setSorting(sort) {
+		this.sorting = sort;
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getDirection() {
+		return this.direction;
+	}
+
+	/**
+	 * @param {String} direction
+	 * @return void
+	 */
+	setDirection(direction) {
+		this.direction = direction;
 	}
 
 }

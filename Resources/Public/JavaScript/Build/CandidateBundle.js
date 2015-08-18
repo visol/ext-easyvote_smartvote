@@ -258,6 +258,10 @@ var CandidateCollection = (function (_Backbone$Collection) {
 		// Hold a reference to this collection's model.
 		this.model = CandidateModel;
 
+		// Set default orderings.
+		this.sorting = "matching";
+		this.direction = "descending";
+
 		// Save all of the candidate items under the `'candidates'` namespace.
 		this.localStorage = new Backbone.LocalStorage("candidates-" + EasyvoteSmartvote.token);
 	}
@@ -276,7 +280,20 @@ var CandidateCollection = (function (_Backbone$Collection) {
     */
 
 			value: function comparator(candidate1, candidate2) {
-				return candidate1.getMatching() > candidate2.getMatching() ? -1 : 1;
+
+				var comparison;
+
+				if (this.sorting === "name" && this.direction === "ascending") {
+					comparison = candidate1.get("lastName") > candidate2.get("lastName");
+				} else if (this.sorting === "name" && this.direction === "descending") {
+					comparison = candidate1.get("lastName") < candidate2.get("lastName");
+				} else if (this.sorting === "matching" && this.direction === "ascending") {
+					comparison = candidate1.getMatching() > candidate2.getMatching();
+				} else {
+					comparison = candidate1.getMatching() < candidate2.getMatching(); // default choice
+				}
+
+				return comparison;
 			}
 		},
 		fetch: {
@@ -373,6 +390,48 @@ var CandidateCollection = (function (_Backbone$Collection) {
 
 			value: function url() {
 				return "/routing/candidates/" + EasyvoteSmartvote.currentElection;
+			}
+		},
+		getSorting: {
+
+			/**
+    * @returns {string}
+    */
+
+			value: function getSorting() {
+				return this.sorting;
+			}
+		},
+		setSorting: {
+
+			/**
+    * @param {String} sort
+    * @return void
+    */
+
+			value: function setSorting(sort) {
+				this.sorting = sort;
+			}
+		},
+		getDirection: {
+
+			/**
+    * @returns {string}
+    */
+
+			value: function getDirection() {
+				return this.direction;
+			}
+		},
+		setDirection: {
+
+			/**
+    * @param {String} direction
+    * @return void
+    */
+
+			value: function setDirection(direction) {
+				this.direction = direction;
 			}
 		}
 	}, {
@@ -1495,7 +1554,7 @@ var ListView = (function (_Backbone$View) {
 		this.setElement($("#container-candidates"), true);
 
 		// Contains the "number of candidates" and button to reset the filter.
-		this.districtChoiceTemplate = _.template($("#template-before-starting").html());
+		this.beforeStartingTemplate = _.template($("#template-before-starting").html());
 
 		// Contains the "number of candidates" and button to reset the filter.
 		this.listTopTemplate = _.template($("#template-candidates-top").html());
@@ -1508,9 +1567,11 @@ var ListView = (function (_Backbone$View) {
 		this.listenTo(candidateCollection, "sort", this.render);
 		this.listenTo(Backbone, "facet:changed", this.render, this);
 
-		_.bindAll(this, "updateFacetView");
+		_.bindAll(this, "changeFacetView");
+		_.bindAll(this, "sortAndRender");
 		$(document).on("click", "#btn-show-login", this.showLoginBox);
-		$(document).on("change", "#container-before-starting .form-control", this.updateFacetView);
+		$(document).on("change", "#container-before-starting .form-control", this.changeFacetView);
+		$(document).on("change", "#btn-sorting", this.sortAndRender);
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
@@ -1579,7 +1640,9 @@ var ListView = (function (_Backbone$View) {
 
 					// Update top list content.
 					var content = this.listTopTemplate({
-						numberOfItems: filteredCandidates.length
+						numberOfItems: filteredCandidates.length,
+						sorting: CandidateCollection.getInstance().getSorting(),
+						direction: CandidateCollection.getInstance().getDirection()
 					});
 					$("#container-candidates-top").html(content);
 					$("#wrapper-candidates").removeClass("hidden");
@@ -1588,7 +1651,7 @@ var ListView = (function (_Backbone$View) {
 				} else {
 
 					// User must pick some option
-					var content = this.districtChoiceTemplate({
+					var content = this.beforeStartingTemplate({
 						isLinkToQuestionnaire: !this.questionCollection.hasAnsweredQuestions(),
 						isFormDefaultFilter: !this.facetView.hasMinimumFilter(),
 						isLinkToAuthentication: !this.isAuthenticated()
@@ -1600,13 +1663,33 @@ var ListView = (function (_Backbone$View) {
 				}
 			}
 		},
-		updateFacetView: {
+		sortAndRender: {
 
 			/**
     * update facet view.
     */
 
-			value: function updateFacetView(e) {
+			value: function sortAndRender(e) {
+				var candidateCollection = CandidateCollection.getInstance();
+
+				var parameters = $(e.target).val().split("&");
+				if (parameters.length == 2) {
+
+					var sorting = parameters[0];
+					var direction = parameters[1];
+					candidateCollection.setSorting(sorting);
+					candidateCollection.setDirection(direction);
+					candidateCollection.sort(); // trigger rendering
+				}
+			}
+		},
+		changeFacetView: {
+
+			/**
+    * update facet view.
+    */
+
+			value: function changeFacetView(e) {
 				var name = $(e.target).attr("name");
 				var value = $(e.target).val();
 				this.facetView.model.set(name, value);

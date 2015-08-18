@@ -1,0 +1,74 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+	<f:section name="BeforeStarting">
+		<script type="text/template" id="template-before-starting">
+
+			<h2><f:translate key="voting_recommendation"/>...</h2>
+
+			<p>
+				... <f:translate key="is_only_a_few_clicks"/>
+			</p>
+
+			<% if (isLinkToQuestionnaire) { %>
+			<p>
+				<f:translate key="anser_questionnaire_to_get_recommendation"/>
+			</p>
+
+			<f:link.page pageUid="{settings.questionnairePid}" section="version=short" class="btn btn-primary">{f:translate(key:'to_questionnaire')}</f:link.page>
+			<f:link.page pageUid="{settings.questionnairePid}" section="version=long"  class="btn btn-primary">{f:translate(key:'to_long_questionnaire')}</f:link.page>
+			<% } %>
+
+			<% if (isLinkToQuestionnaire && isFormDefaultFilter) { %>
+			<h2 class="header-line">
+				<span><f:translate key="or"/></span>
+			</h2>
+			<% } %>
+
+
+			<% if (isFormDefaultFilter) { %>
+			<p>
+				<f:translate key="set_filter"/>
+			</p>
+			<form class="form filter-candidates">
+				<fieldset>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<f:form.select name="nationalParty" options="{nationalParties}"
+								               optionValueField="uid" optionLabelField="title"
+								               sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.party.title')}"
+								               prependOptionValue="" class="form-control"/>
+							</div>
+							<div class="col-md-6">
+								<f:form.select name="district" options="{districts}"
+								               optionValueField="uid" optionLabelField="name"
+								               sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.district.title.canton')}"
+								               prependOptionValue="" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+			<% } %>
+
+
+
+			<% if ((isFormDefaultFilter && isLinkToAuthentication) || (isLinkToQuestionnaire && isLinkToAuthentication)) { %>
+			<h2 class="header-line">
+				<span><f:translate key="or"/></span>
+			</h2>
+			<% } %>
+
+			<% if (isLinkToAuthentication) { %>
+			<p>
+				<span><f:translate key="create_account"/></span>
+			</p>
+			<a id="btn-show-login" class="btn btn-primary" href="#">
+				<f:translate key="loginPanel.login" extensionName="easyvote"/>
+			</a>
+			<% } %>
+
+		</script>
+	</f:section>
+</div>
