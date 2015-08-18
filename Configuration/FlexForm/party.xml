@@ -1,0 +1,30 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>Party directory</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.election>
+						<TCEforms>
+							<label>Related election</label>
+							<config>
+								<type>select</type>
+								<foreign_table>tx_easyvotesmartvote_domain_model_election</foreign_table>
+								<foreign_table_where>ORDER BY election_date DESC</foreign_table_where>
+								<size>1</size>
+								<minitems>1</minitems>
+								<maxitems>1</maxitems>
+							</config>
+						</TCEforms>
+					</settings.election>
+				</el>
+			</ROOT>
+		</sDEF>
+	</sheets>
+</T3DataStructure>

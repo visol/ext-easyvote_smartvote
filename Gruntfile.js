@@ -29,7 +29,8 @@ module.exports = function(grunt) {
 			dist: {
 				files: {
 					'Resources/Public/JavaScript/Build/QuestionBundle.js': 'Resources/Public/JavaScript/Build/QuestionApplication.js',
-					'Resources/Public/JavaScript/Build/CandidateBundle.js': 'Resources/Public/JavaScript/Build/CandidateApplication.js'
+					'Resources/Public/JavaScript/Build/CandidateBundle.js': 'Resources/Public/JavaScript/Build/CandidateApplication.js',
+					'Resources/Public/JavaScript/Build/PartyBundle.js': 'Resources/Public/JavaScript/Build/PartyApplication.js'
 				}
 			}
 		},
@@ -48,7 +49,8 @@ module.exports = function(grunt) {
 			dist: {
 				files: {
 					'Resources/Public/JavaScript/Build/QuestionBundle.min.js': 'Resources/Public/JavaScript/Build/QuestionBundle.js',
-					'Resources/Public/JavaScript/Build/CandidateBundle.min.js': 'Resources/Public/JavaScript/Build/CandidateBundle.js'
+					'Resources/Public/JavaScript/Build/CandidateBundle.min.js': 'Resources/Public/JavaScript/Build/CandidateBundle.js',
+					'Resources/Public/JavaScript/Build/PartyBundle.min.js': 'Resources/Public/JavaScript/Build/PartyBundle.js'
 				}
 			}
 		}

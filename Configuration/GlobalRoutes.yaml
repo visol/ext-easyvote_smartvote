@@ -25,6 +25,19 @@
   httpMethods: ['GET']
 
 ####################
+# Party
+####################
+-
+  name: 'List all parties'
+  uriPattern: 'parties/{election}'
+  defaults:
+    '@package':    'Visol.Easyvote_smartvote'
+    '@plugin':     'Party'
+    '@controller': 'PartyApi'
+    '@action':     'list'
+  httpMethods: ['GET']
+
+####################
 # Save
 ####################
 -

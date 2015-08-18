@@ -31,6 +31,18 @@ if (!defined('TYPO3_MODE')) {
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Visol.easyvote_smartvote',
+	'Pi3',
+	array(
+		'Party' => 'index,',
+	),
+	// non-cacheable actions
+	array(
+		'Party' => 'index',
+	)
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Visol.easyvote_smartvote',
 	'Question',
 	array(
 		'QuestionApi' => 'list',
@@ -50,6 +62,18 @@ if (!defined('TYPO3_MODE')) {
 	// non-cacheable actions
 	array(
 		'CandidateApi' => 'list', // @todo check if it can be cached.
+	)
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Visol.easyvote_smartvote',
+	'Party',
+	array(
+		'PartyApi' => 'list',
+	),
+	// non-cacheable actions
+	array(
+		'PartyApi' => 'list', // @todo check if it can be cached.
 	)
 );
 

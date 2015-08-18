@@ -1,0 +1,59 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+	<f:section name="Party">
+		<script type="text/template" id="template-party">
+			<div class="content-box content-box-expandable">
+				<div class="box-teaser">
+					<div class="row">
+						<div class="col-xs-3 col-md-3">
+							<f:comment>
+								@TODO
+								<% if (typeof(matching) == "number") { %>
+								<div class="matching-badge">
+									<div class="inner"><%- matching %>%</div>
+								</div>
+								<% } %>
+							</f:comment>
+							<% if (typeof(image) == "string") { %>
+							<img src="<%- image %>" alt="<%- title %>" />
+							<%  } %>
+							<f:comment>
+								@TODO
+								<div class="supporters-count">
+									<span class="number">86</span> {f:translate(key:'candidate.supporters')}
+								</div>
+							</f:comment>
+						</div>
+						<div class="col-xs-9 col-md-9">
+							<div class="actions">
+								<f:comment>
+									@TODO
+									<div class="action share">
+									</div>
+								</f:comment>
+								<div class="action toggle handle">
+									<i class="evicon-down-open"></i>
+								</div>
+							</div>
+							<div class="supertitle">
+								ev. kleiner Titel
+							</div>
+							<h2><%- title %></h2>
+							<div>
+								Platz für Einleitungstext
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-content">
+					Detailansicht
+					<f:comment>
+					<h3>Kandidat politisch</h3>
+					<div class="smartspider" id="chart-candidate-<%- id %>"></div>
+					</f:comment>
+				</div>
+			</div>
+		</script>
+	</f:section>
+</div>
