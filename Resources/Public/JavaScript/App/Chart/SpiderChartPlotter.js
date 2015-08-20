@@ -54,14 +54,6 @@ export default class SpiderChartPlotter {
 			.append('g')
 			.attr('transform', "translate(" + config.TranslateX + "," + config.TranslateY + ")");
 
-		// append rectangle with background image
-		d3.select(id).selectAll('svg')
-			.insert('rect', ":first-child")
-			.attr('height', '240')
-			.attr('width', '240')
-			.attr('fill', 'url(#image)')
-			.attr('transform', "translate(" + config.TranslateX + "," + config.TranslateY + ")");
-
 		/**
 		 * Function that returns a SVG path
 		 * Example: m14,120 a114,114 0 0 1 228,0

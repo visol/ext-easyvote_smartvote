@@ -62,19 +62,12 @@
 
 	<f:render partial="BeforeStarting" section="BeforeStarting" arguments="{_all}"/>
 	<f:render partial="Candidate" section="Candidate"/>
+	<f:render partial="SpiderChartConfiguration" section="SpiderChartConfiguration" arguments="{_all}"/>
 
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
 		EasyvoteSmartvote.currentElection = '{currentElection.uid}' - 0;
 		EasyvoteSmartvote.relatedElection = '{currentElection.relatedElection.uid}' - 0;
-		EasyvoteSmartvote.totalCleavage1 = '{currentElection.totalCleavage1}' - 0;
-		EasyvoteSmartvote.totalCleavage2 = '{currentElection.totalCleavage2}' - 0;
-		EasyvoteSmartvote.totalCleavage3 = '{currentElection.totalCleavage3}' - 0;
-		EasyvoteSmartvote.totalCleavage4 = '{currentElection.totalCleavage4}' - 0;
-		EasyvoteSmartvote.totalCleavage5 = '{currentElection.totalCleavage5}' - 0;
-		EasyvoteSmartvote.totalCleavage6 = '{currentElection.totalCleavage6}' - 0;
-		EasyvoteSmartvote.totalCleavage7 = '{currentElection.totalCleavage7}' - 0;
-		EasyvoteSmartvote.totalCleavage8 = '{currentElection.totalCleavage8}' - 0;
 		EasyvoteSmartvote.token = '{smartvote:token()}';
 		EasyvoteSmartvote.pageUid = '{contentObjectData.pid}';
 		EasyvoteSmartvote.sysLanguageUid = '{contentObjectData.sys_language_uid}';

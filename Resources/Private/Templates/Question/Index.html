@@ -28,43 +28,16 @@
 
 	<f:render partial="ProgressBar" section="ProgressBar"/>
 	<f:render partial="Question" section="Question"/>
+	<f:render partial="SpiderChartConfiguration" section="SpiderChartConfiguration" arguments="{_all}"/>
 
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
 		EasyvoteSmartvote.labelShortVersion = '{f:translate(key:"short_version")}';
 		EasyvoteSmartvote.labeLongVersion = '{f:translate(key:"long_version")}';
-		EasyvoteSmartvote.currentElection = '{currentElection.uid}';
-		EasyvoteSmartvote.totalCleavage1 = '{currentElection.totalCleavage1}' - 0;
-		EasyvoteSmartvote.totalCleavage2 = '{currentElection.totalCleavage2}' - 0;
-		EasyvoteSmartvote.totalCleavage3 = '{currentElection.totalCleavage3}' - 0;
-		EasyvoteSmartvote.totalCleavage4 = '{currentElection.totalCleavage4}' - 0;
-		EasyvoteSmartvote.totalCleavage5 = '{currentElection.totalCleavage5}' - 0;
-		EasyvoteSmartvote.totalCleavage6 = '{currentElection.totalCleavage6}' - 0;
-		EasyvoteSmartvote.totalCleavage7 = '{currentElection.totalCleavage7}' - 0;
-		EasyvoteSmartvote.totalCleavage8 = '{currentElection.totalCleavage8}' - 0;
 		EasyvoteSmartvote.token = '{smartvote:token()}';
 		EasyvoteSmartvote.pageUid = '{contentObjectData.pid}';
 		EasyvoteSmartvote.sysLanguageUid = '{contentObjectData.sys_language_uid}';
 		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')}
-
-		EasyvoteSmartvote.cleavage1Text1 = "{f:translate(key:'cleavage1_text1')}";
-		EasyvoteSmartvote.cleavage2Text1 = "{f:translate(key:'cleavage2_text1')}";
-		EasyvoteSmartvote.cleavage3Text1 = "{f:translate(key:'cleavage3_text1')}";
-		EasyvoteSmartvote.cleavage4Text1 = "{f:translate(key:'cleavage4_text1')}";
-		EasyvoteSmartvote.cleavage5Text1 = "{f:translate(key:'cleavage5_text1')}";
-		EasyvoteSmartvote.cleavage6Text1 = "{f:translate(key:'cleavage6_text1')}";
-		EasyvoteSmartvote.cleavage7Text1 = "{f:translate(key:'cleavage7_text1')}";
-		EasyvoteSmartvote.cleavage8Text1 = "{f:translate(key:'cleavage8_text1')}";
-
-		EasyvoteSmartvote.cleavage1Text2 = "{f:translate(key:'cleavage1_text2')}";
-		EasyvoteSmartvote.cleavage2Text2 = "{f:translate(key:'cleavage2_text2')}";
-		EasyvoteSmartvote.cleavage3Text2 = "{f:translate(key:'cleavage3_text2')}";
-		EasyvoteSmartvote.cleavage4Text2 = "{f:translate(key:'cleavage4_text2')}";
-		EasyvoteSmartvote.cleavage5Text2 = "{f:translate(key:'cleavage5_text2')}";
-		EasyvoteSmartvote.cleavage6Text2 = "{f:translate(key:'cleavage6_text2')}";
-		EasyvoteSmartvote.cleavage7Text2 = "{f:translate(key:'cleavage7_text2')}";
-		EasyvoteSmartvote.cleavage8Text2 = "{f:translate(key:'cleavage8_text2')}";
-
 	</script>
 
 </f:section>
