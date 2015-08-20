@@ -6,7 +6,6 @@
     "backbone": "~1.2.0",
     "backbone.localStorage": "~1.1.16",
     "d3": "~3.5.5",
-    "jquery.lazyload": "~1.9.5",
     "backbone.stickit": "~0.9.2"
   }
 }
