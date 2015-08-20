@@ -28,6 +28,8 @@ var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default
 
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
 
+var _core = require("babel-runtime/core-js")["default"];
+
 var SpiderChartPlotter = (function () {
 	function SpiderChartPlotter() {
 		_classCallCheck(this, SpiderChartPlotter);
@@ -35,7 +37,9 @@ var SpiderChartPlotter = (function () {
 
 	_createClass(SpiderChartPlotter, null, {
 		plot: {
-			value: function plot(id, d, options) {
+			value: function plot(id, serie1, options) {
+				var serie2 = arguments[3] === undefined ? [] : arguments[3];
+
 				var config = {
 					radius: 5,
 					w: 600,
@@ -51,7 +55,7 @@ var SpiderChartPlotter = (function () {
 					TranslateY: 8,
 					ExtraWidthX: 16,
 					ExtraWidthY: 16,
-					color: d3.scale.category10()
+					color: "#1f77b4"
 				};
 
 				if ("undefined" !== typeof options) {
@@ -61,12 +65,12 @@ var SpiderChartPlotter = (function () {
 						}
 					}
 				}
-				config.maxValue = Math.max(config.maxValue, d3.max(d, function (i) {
+				config.maxValue = Math.max(config.maxValue, d3.max(serie1, function (i) {
 					return d3.max(i.map(function (o) {
 						return o.value;
 					}));
 				}));
-				var allAxis = d[0].map(function (i, j) {
+				var allAxis = serie1[0].map(function (i, j) {
 					return i.axis;
 				});
 				var total = allAxis.length;
@@ -75,9 +79,6 @@ var SpiderChartPlotter = (function () {
 				d3.select(id).select("svg").remove();
 
 				var g = d3.select(id).append("svg").attr("width", config.w + config.ExtraWidthX).attr("height", config.h + config.ExtraWidthY).append("g").attr("transform", "translate(" + config.TranslateX + "," + config.TranslateY + ")");
-
-				// append rectangle with background image
-				d3.select(id).selectAll("svg").insert("rect", ":first-child").attr("height", "240").attr("width", "240").attr("fill", "url(#image)").attr("transform", "translate(" + config.TranslateX + "," + config.TranslateY + ")");
 
 				/**
      * Function that returns a SVG path
@@ -287,8 +288,6 @@ var SpiderChartPlotter = (function () {
 				//   .text(Format((j+1)*config.maxValue/config.levels));
 				//}
 
-				var series = 0;
-
 				var axis = g.selectAll(".axis").data(allAxis).enter().append("g").attr("class", "axis");
 
 				//axis.append('line')
@@ -314,70 +313,95 @@ var SpiderChartPlotter = (function () {
 					return config.h / 2 * (1 - Math.cos(i * config.radians / total)) - 20 * Math.cos(i * config.radians / total);
 				});
 
-				var dataValues = [];
-				d.forEach(function (y, x) {
-					g.selectAll(".nodes").data(y, function (j, i) {
-						dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
-					});
-					dataValues.push(dataValues[0]);
-					g.selectAll(".area").data([dataValues]).enter().append("polygon").attr("class", "radar-chart-serie" + series).style("stroke-width", "2px").style("stroke", config.color(series)).attr("points", function (d) {
-						var str = "";
-						for (var pti = 0; pti < d.length; pti++) {
-							str = str + d[pti][0] + "," + d[pti][1] + " ";
+				var counter = 0;
+				var series = [{ points: serie2, color: "#E5005E" }, { points: serie1, color: config.color }];
+
+				window.d = d3;
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(series), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var serie = _step.value;
+
+						var dataValues = [];
+						serie.points.forEach(function (y, x) {
+							g.selectAll(".nodes").data(y, function (j, i) {
+								dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
+							});
+							dataValues.push(dataValues[0]);
+							g.selectAll(".area").data([dataValues]).enter().append("polygon").attr("class", "radar-chart-serie" + counter).style("stroke-width", "2px").style("stroke", serie.color).attr("points", function (d) {
+								var str = "";
+								for (var pti = 0; pti < d.length; pti++) {
+									str = str + d[pti][0] + "," + d[pti][1] + " ";
+								}
+								return str;
+							}).style("fill", serie.color).style("fill-opacity", config.opacityArea).on("mouseover", function (d) {
+								z = "polygon." + d3.select(this).attr("class");
+								g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
+								g.selectAll(z).transition(200).style("fill-opacity", 0.7);
+							}).on("mouseout", function () {
+								g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
+							});
+							counter++;
+						});
+						counter = 0;
+
+						serie.points.forEach(function (y, x) {
+							g.selectAll(".nodes").data(y).enter().append("svg:circle").attr("class", "radar-chart-serie" + counter).attr("r", config.radius).attr("alt", function (j) {
+								return Math.max(j.value, 0);
+							}).attr("cx", function (j, i) {
+								dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
+								return config.w / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.sin(i * config.radians / total));
+							}).attr("cy", function (j, i) {
+								return config.h / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.cos(i * config.radians / total));
+							}).attr("data-id", function (j) {
+								return j.axis;
+							}).style("fill", serie.color).style("fill-opacity", 0.9).on("mouseover", function (d) {
+								newX = parseFloat(d3.select(this).attr("cx")) - 10;
+								newY = parseFloat(d3.select(this).attr("cy")) - 5;
+
+								//tooltip
+								//	.attr('x', newX)
+								//	.attr('y', newY)
+								//	.text(Format(d.value))
+								//	.transition(200)
+								//	.style('opacity', 1);
+
+								z = "polygon." + d3.select(this).attr("class");
+								g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
+								g.selectAll(z).transition(200).style("fill-opacity", 0.7);
+							}).on("mouseout", function () {
+								//tooltip
+								//	.transition(200)
+								//	.style('opacity', 0);
+								g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
+							}).append("svg:title");
+							//.text(function(j){return Math.max(j.value, 0)});
+
+							counter++;
+						});
+						//Tooltip
+						//tooltip = g.append('text')
+						//		   .style('opacity', 0)
+						//		   .style('font-family', 'sans-serif')
+						//		   .style('font-size', '13px');
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
 						}
-						return str;
-					}).style("fill", function (j, i) {
-						return config.color(series);
-					}).style("fill-opacity", config.opacityArea).on("mouseover", function (d) {
-						z = "polygon." + d3.select(this).attr("class");
-						g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-						g.selectAll(z).transition(200).style("fill-opacity", 0.7);
-					}).on("mouseout", function () {
-						g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
-					});
-					series++;
-				});
-				series = 0;
-
-				d.forEach(function (y, x) {
-					g.selectAll(".nodes").data(y).enter().append("svg:circle").attr("class", "radar-chart-serie" + series).attr("r", config.radius).attr("alt", function (j) {
-						return Math.max(j.value, 0);
-					}).attr("cx", function (j, i) {
-						dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
-						return config.w / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.sin(i * config.radians / total));
-					}).attr("cy", function (j, i) {
-						return config.h / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.cos(i * config.radians / total));
-					}).attr("data-id", function (j) {
-						return j.axis;
-					}).style("fill", config.color(series)).style("fill-opacity", 0.9).on("mouseover", function (d) {
-						newX = parseFloat(d3.select(this).attr("cx")) - 10;
-						newY = parseFloat(d3.select(this).attr("cy")) - 5;
-
-						//tooltip
-						//	.attr('x', newX)
-						//	.attr('y', newY)
-						//	.text(Format(d.value))
-						//	.transition(200)
-						//	.style('opacity', 1);
-
-						z = "polygon." + d3.select(this).attr("class");
-						g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-						g.selectAll(z).transition(200).style("fill-opacity", 0.7);
-					}).on("mouseout", function () {
-						//tooltip
-						//	.transition(200)
-						//	.style('opacity', 0);
-						g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
-					}).append("svg:title");
-					//.text(function(j){return Math.max(j.value, 0)});
-
-					series++;
-				});
-				//Tooltip
-				//tooltip = g.append('text')
-				//		   .style('opacity', 0)
-				//		   .style('font-family', 'sans-serif')
-				//		   .style('font-size', '13px');
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
 			}
 		}
 	});
@@ -386,7 +410,7 @@ var SpiderChartPlotter = (function () {
 })();
 
 module.exports = SpiderChartPlotter;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],3:[function(require,module,exports){
+},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],3:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1495,12 +1519,35 @@ var CandidateView = (function (_Backbone$View) {
 				{ value: values[1].value * 0.01 } // Liberale Wirtschaftspolitik    2 - 8
 				];
 
+				// Start the local storage
+				var localStorage = new Backbone.LocalStorage("spider-chart-" + this.getToken());
+				var data2 = JSON.parse(localStorage.localStorage().getItem("data"));
+				if (!data2) {
+					data2 = [];
+				}
+
 				SpiderChartPlotter.plot("#chart-candidate-" + candidateId, [data], {
 					w: 240,
 					h: 240,
 					levels: 5,
 					maxValue: 1
-				});
+				}, [data2]);
+			}
+		},
+		getToken: {
+
+			/**
+    * Compute the token.
+    *
+    * @returns {string}
+    */
+
+			value: function getToken() {
+				var token = EasyvoteSmartvote.token;
+				if (EasyvoteSmartvote.relatedToken) {
+					token = EasyvoteSmartvote.relatedToken;
+				}
+				return token;
 			}
 		}
 	});
