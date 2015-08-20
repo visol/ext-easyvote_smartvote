@@ -506,6 +506,55 @@
 				<source>Name</source>
 			</trans-unit>
 
+			<trans-unit id="cleavage1_text1">
+				<source>Offene</source>
+			</trans-unit>
+			<trans-unit id="cleavage1_text2">
+				<source>Aussenpolitik</source>
+			</trans-unit>
+			<trans-unit id="cleavage2_text1">
+				<source>Liberale</source>
+			</trans-unit>
+			<trans-unit id="cleavage2_text2">
+				<source>Wirtschaftspolitik</source>
+			</trans-unit>
+			<trans-unit id="cleavage3_text1">
+				<source>Restrictive</source>
+			</trans-unit>
+			<trans-unit id="cleavage3_text2">
+				<source>Finanzpolitik</source>
+			</trans-unit>
+			<trans-unit id="cleavage4_text1">
+				<source>Liberale</source>
+			</trans-unit>
+			<trans-unit id="cleavage4_text2">
+				<source>Gesellschaft</source>
+			</trans-unit>
+			<trans-unit id="cleavage5_text1">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="cleavage5_text2">
+				<source>Law &amp; Order</source>
+			</trans-unit>
+			<trans-unit id="cleavage6_text1">
+				<source>Restriktive</source>
+			</trans-unit>
+			<trans-unit id="cleavage6_text2">
+				<source>Migrationspolitik</source>
+			</trans-unit>
+			<trans-unit id="cleavage7_text1">
+				<source>Ausgebauter</source>
+			</trans-unit>
+			<trans-unit id="cleavage7_text2">
+				<source>Umweltschutz</source>
+			</trans-unit>
+			<trans-unit id="cleavage8_text1">
+				<source>Ausgebauter</source>
+			</trans-unit>
+			<trans-unit id="cleavage8_text2">
+				<source>Sozialstaat</source>
+			</trans-unit>
+
 
 		</body>
 	</file>
