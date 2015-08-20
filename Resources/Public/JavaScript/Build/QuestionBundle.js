@@ -375,7 +375,7 @@ var SpiderChartPlotter = (function () {
 					radius: 5,
 					w: 600,
 					h: 600,
-					factor: 1,
+					factor: 0.8, // was changed from original, default was 1
 					factorLegend: 0.85,
 					levels: 3,
 					maxValue: 0,
@@ -414,24 +414,196 @@ var SpiderChartPlotter = (function () {
 				// append rectangle with background image
 				d3.select(id).selectAll("svg").insert("rect", ":first-child").attr("height", "240").attr("width", "240").attr("fill", "url(#image)").attr("transform", "translate(" + config.TranslateX + "," + config.TranslateY + ")");
 
-				// append defs > pattern to load the background image
-				d3.select(id).selectAll("svg").insert("defs", ":first-child").append("pattern").attr("id", "image").attr("width", "1").attr("height", "1").append("image").attr("xlink:href", "/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/spider-labels.png").attr("width", "240").attr("height", "240");
+				/**
+     * Function that returns a SVG path
+     * Example: m14,120 a114,114 0 0 1 228,0
+     *
+     * @param {int} sweepFlag
+     * @returns {string}
+     */
+				function getPathData(sweepFlag) {
+					// adjust the radius a little so our text's baseline isn't sitting directly on the circle
+					var radiusWithoutScalingFactor = Math.min(config.w / 2, config.h / 2);
+					var r = radiusWithoutScalingFactor * 0.95;
+					var startX = config.w / 2 - r + config.TranslateX;
+					return "m" + startX + "," + config.h / 2 + " " + "a" + r + "," + r + " 0 0 " + sweepFlag + " " + 2 * r + ",0";
+				}
+
+				// Draw first invisible path for the text, upper demi-circle
+				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
+					d: function d() {
+						var sweepFlag = 1;
+						return getPathData(sweepFlag);
+					},
+					id: "curvedTextPathUp"
+				});
+
+				// Draw second invisible path for the text, upper demi-circle
+				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
+					d: function d() {
+						var sweepFlag = 0;
+						return getPathData(sweepFlag);
+					},
+					id: "curvedTextPathDown"
+				});
+
+				// Debug: to see the path where the text is written
+				//d3.select(id).selectAll('svg')
+				//	.append('path')
+				//	.attr({
+				//		d: function() {
+				//			let sweepFlag = 0;
+				//			return getPathData(sweepFlag)
+				//		},
+				//		fill: 'red',
+				//		opacity: '0.4',
+				//		id: 'visiblePath'
+				//	});
+
+				var dataset = [{
+					position: 1,
+					text1: EasyvoteSmartvote.cleavage1Text1,
+					text2: EasyvoteSmartvote.cleavage1Text2,
+					rotation: 0,
+					path: "curvedTextPathUp"
+				}, {
+					position: 2,
+					text1: EasyvoteSmartvote.cleavage2Text1,
+					text2: EasyvoteSmartvote.cleavage2Text2,
+					rotation: 45,
+					path: "curvedTextPathUp"
+				}, {
+					position: 3,
+					text1: EasyvoteSmartvote.cleavage3Text1,
+					text2: EasyvoteSmartvote.cleavage3Text2,
+					rotation: 90,
+					path: "curvedTextPathUp"
+				}, {
+					position: 4,
+					text1: EasyvoteSmartvote.cleavage4Text1,
+					text2: EasyvoteSmartvote.cleavage4Text2,
+					rotation: -45,
+					path: "curvedTextPathUp"
+				}, {
+					position: 5,
+					text1: EasyvoteSmartvote.cleavage5Text1,
+					text2: EasyvoteSmartvote.cleavage5Text2,
+					rotation: -45,
+					path: "curvedTextPathDown"
+				}, {
+					position: 6,
+					text1: EasyvoteSmartvote.cleavage6Text1,
+					text2: EasyvoteSmartvote.cleavage6Text2,
+					rotation: 0,
+					path: "curvedTextPathDown"
+				}, {
+					position: 7,
+					text1: EasyvoteSmartvote.cleavage7Text1,
+					text2: EasyvoteSmartvote.cleavage7Text2,
+					rotation: 45,
+					path: "curvedTextPathDown"
+				}, {
+					position: 8,
+					text1: EasyvoteSmartvote.cleavage8Text1,
+					text2: EasyvoteSmartvote.cleavage8Text2,
+					rotation: -90,
+					path: "curvedTextPathUp"
+				}];
+
+				d3.select(id).select("svg").selectAll("text").data(dataset).enter().append("text").attr("transform", function (object) {
+					var realWidth = config.w + 2 * config.TranslateX;
+					return "rotate(" + object.rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
+				}).style({
+					"font-family": "Arial,Helvetica,sans-serif",
+					"font-size": "10px"
+				}).append("textPath").attr({
+					startOffset: "50%",
+					"xlink:href": function xlinkHref(object) {
+						return "#" + object.path;
+					}
+				}).append("tspan").attr("x", 0).attr("text-anchor", "middle").attr("dy", 5).text(function (object) {
+					return object.text1;
+				}).append("tspan").attr("x", 0).attr("dy", 10).attr("text-anchor", "middle").text(function (object) {
+					return object.text2;
+				});
 
 				var tooltip;
 
-				//Circular segments
-				for (var j = 0; j < config.levels - 1; j++) {
-					var levelFactor = config.factor * radius * ((j + 1) / config.levels);
-					g.selectAll(".levels").data(allAxis).enter().append("svg:line").attr("x1", function (d, i) {
-						return levelFactor * (1 - config.factor * Math.sin(i * config.radians / total));
-					}).attr("y1", function (d, i) {
-						return levelFactor * (1 - config.factor * Math.cos(i * config.radians / total));
-					}).attr("x2", function (d, i) {
-						return levelFactor * (1 - config.factor * Math.sin((i + 1) * config.radians / total));
-					}).attr("y2", function (d, i) {
-						return levelFactor * (1 - config.factor * Math.cos((i + 1) * config.radians / total));
-					}).attr("class", "line").style("stroke", "grey").style("stroke-opacity", "0.75").style("stroke-width", "0.3px").attr("transform", "translate(" + (config.w / 2 - levelFactor) + ", " + (config.h / 2 - levelFactor) + ")");
+				// Circular segments
+				var j = 0;
+				for (j = 0; j < config.levels - 1; j++) {
+
+					var _radius = Math.min(config.w / 2, config.h / 2);
+					var circleRadius = _radius / config.levels * (j + 1);
+					var translateAxisX = config.w / 2 + config.TranslateX;
+					var translateAxisY = config.h / 2 + config.TranslateY;
+
+					d3.select(id).selectAll("svg").insert("circle").attr({
+						cx: "0",
+						cy: "0",
+						r: circleRadius,
+						fill: "none",
+						stroke: "grey",
+						"stroke-width": "0.3px",
+						"stroke-opacity": "0.75",
+						transform: "translate(" + translateAxisX + ", " + translateAxisY + ")"
+					});
 				}
+
+				for (j = 0; j < dataset.length; j++) {
+
+					d3.select(id).selectAll("svg").append("path").attr({
+						d: function () {
+
+							var point1X = config.w / 2 + config.TranslateX;
+							var point1Y = config.h / 2 + config.TranslateY;
+
+							var point2X = config.w - config.TranslateX * 2;
+							var point2Y = config.h / 2 + config.TranslateY;
+
+							return "M " + point1X + ", " + point1Y + " L " + point2X + ", " + point2Y;
+						},
+						stroke: "grey",
+						"stroke-width": "0.3px",
+						"stroke-opacity": "0.75",
+						transform: function (object) {
+
+							var unitAngle = 360 / dataset.length;
+							var angle = unitAngle * dataset[j].position;
+
+							var rotationOriginPointX = config.w / 2 + config.TranslateX;
+							var rotationOriginPointY = config.h / 2 + config.TranslateY;
+
+							return "rotate(" + angle + " , " + rotationOriginPointX + ", " + rotationOriginPointY + ")";
+						}
+					});
+				}
+
+				// Previous spider lines, which was replaced by circles
+				//for (var j = 0; j < config.levels; j++) {
+				//	var levelFactor = config.factor * radius * ((j + 1) / config.levels);
+				//	g.selectAll(".levels")
+				//		.data(allAxis)
+				//		.enter()
+				//		.append("svg:line")
+				//		.attr("x1", function(d, i) {
+				//			return levelFactor * (1 - config.factor * Math.sin(i * config.radians / total));
+				//		})
+				//		.attr("y1", function(d, i) {
+				//			return levelFactor * (1 - config.factor * Math.cos(i * config.radians / total));
+				//		})
+				//		.attr("x2", function(d, i) {
+				//			return levelFactor * (1 - config.factor * Math.sin((i + 1) * config.radians / total));
+				//		})
+				//		.attr("y2", function(d, i) {
+				//			return levelFactor * (1 - config.factor * Math.cos((i + 1) * config.radians / total));
+				//		})
+				//		.attr('class', "line")
+				//		.style("stroke", "grey")
+				//		.style("stroke-opacity", "0.75")
+				//		.style("stroke-width", "0.3px")
+				//		.attr('transform', "translate(" + (config.w / 2 - levelFactor) + ", " + (config.h / 2 - levelFactor) + ")");
+				//}
 
 				//Text indicating at what % each level is
 				//for(var j=0; j<config.levels; j++){
