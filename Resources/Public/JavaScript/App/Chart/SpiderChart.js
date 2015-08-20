@@ -30,6 +30,9 @@ export default class SpiderChart {
 		this.totalCleavage6 = EasyvoteSmartvote.totalCleavage6;
 		this.totalCleavage7 = EasyvoteSmartvote.totalCleavage7;
 		this.totalCleavage8 = EasyvoteSmartvote.totalCleavage8;
+
+		// Start the local storage
+		this.localStorage = new Backbone.LocalStorage('spider-chart-' + EasyvoteSmartvote.token);
 	}
 
 	/**
@@ -237,6 +240,9 @@ export default class SpiderChart {
 			{value: this.computeValueForCleavage2() / (EasyvoteSmartvote.totalCleavage2 * 100)}  // Liberale Wirtschaftspolitik    2 - 8
 		];
 
+		// Save the data to be used in the view candidate.
+		this.localStorage.localStorage().setItem('data', JSON.stringify(data));
+
 		SpiderChartPlotter.plot(
 			"#chart",
 			[data],
@@ -244,7 +250,8 @@ export default class SpiderChart {
 				w: 240,
 				h: 240,
 				levels: 5,
-				maxValue: 1
+				maxValue: 1,
+				color: '#E5005E'
 			}
 		);
 	}

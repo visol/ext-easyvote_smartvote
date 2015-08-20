@@ -75,6 +75,13 @@ export default class CandidateView extends Backbone.View {
 			{value: values[1].value * 0.01}  // Liberale Wirtschaftspolitik    2 - 8
 		];
 
+		// Start the local storage
+		let localStorage = new Backbone.LocalStorage('spider-chart-' + this.getToken());
+		var data2 = JSON.parse(localStorage.localStorage().getItem('data'));
+		if (!data2) {
+			data2 = [];
+		}
+
 		SpiderChartPlotter.plot(
 			'#chart-candidate-' + candidateId,
 			[data],
@@ -83,7 +90,22 @@ export default class CandidateView extends Backbone.View {
 				h: 240,
 				levels: 5,
 				maxValue: 1
-			}
+			},
+			[data2]
 		);
 	}
+
+	/**
+	 * Compute the token.
+	 *
+	 * @returns {string}
+	 */
+	getToken() {
+		var token = EasyvoteSmartvote.token;
+		if (EasyvoteSmartvote.relatedToken) {
+			token = EasyvoteSmartvote.relatedToken;
+		}
+		return token;
+	}
+
 }
