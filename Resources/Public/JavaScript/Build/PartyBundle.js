@@ -70,32 +70,57 @@ var SpiderChartPlotter = (function () {
      * Example: m14,120 a114,114 0 0 1 228,0
      *
      * @param {int} sweepFlag
+     * @param {float} adjustment
      * @returns {string}
      */
 				function getPathData(sweepFlag) {
+					var adjustment = arguments[1] === undefined ? 0.95 : arguments[1];
+
 					// adjust the radius a little so our text's baseline isn't sitting directly on the circle
 					var radiusWithoutScalingFactor = Math.min(config.w / 2, config.h / 2);
-					var r = radiusWithoutScalingFactor * 0.95;
+					var r = radiusWithoutScalingFactor * adjustment;
 					var startX = config.w / 2 - r + config.TranslateX;
 					return "m" + startX + "," + config.h / 2 + " " + "a" + r + "," + r + " 0 0 " + sweepFlag + " " + 2 * r + ",0";
 				}
 
 				// Draw first invisible path for the text, upper demi-circle
 				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function d() {
+					d: function () {
 						var sweepFlag = 1;
-						return getPathData(sweepFlag);
+						var adjustment = 0.9;
+						return getPathData(sweepFlag, adjustment);
 					},
 					id: "curvedTextPathUp"
 				});
 
+				// Draw first invisible path for the text, upper demi-circle
+				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
+					d: function () {
+						var sweepFlag = 1;
+						var adjustment = 0.82;
+						return getPathData(sweepFlag, adjustment);
+					},
+					id: "curvedTextPathUpInnerCircle"
+				});
+
 				// Draw second invisible path for the text, upper demi-circle
 				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function d() {
+					d: function () {
 						var sweepFlag = 0;
-						return getPathData(sweepFlag);
+						var adjustment = 1.08;
+						return getPathData(sweepFlag, adjustment);
 					},
 					id: "curvedTextPathDown"
+				});
+
+				// Draw second invisible path for the text, upper demi-circle
+				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
+					d: function () {
+						var sweepFlag = 0;
+						var adjustment = 1;
+						return getPathData(sweepFlag, adjustment);
+					},
+					id: "curvedTextPathDownInnerCircle"
 				});
 
 				// Debug: to see the path where the text is written
@@ -161,48 +186,36 @@ var SpiderChartPlotter = (function () {
 					path: "curvedTextPathUp"
 				}];
 
-				d3.select(id).select("svg").selectAll("text").data(dataset).enter().append("text").attr("transform", function (object) {
-					var realWidth = config.w + 2 * config.TranslateX;
-					return "rotate(" + object.rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
-				}).style({
-					"font-family": "Arial,Helvetica,sans-serif",
-					"font-size": "10px"
-				}).append("textPath").attr({
-					startOffset: "50%",
-					"xlink:href": function xlinkHref(object) {
-						return "#" + object.path;
-					}
-				}).append("tspan").attr("x", 0).attr("text-anchor", "middle").attr("dy", 5).text(function (object) {
-					return object.text1;
-				}).append("tspan").attr("x", 0).attr("dy", 10).attr("text-anchor", "middle").text(function (object) {
-					return object.text2;
-				});
-
-				var tooltip;
-
-				// Circular segments
-				var j = 0;
-				for (j = 0; j < config.levels - 1; j++) {
-
-					var _radius = Math.min(config.w / 2, config.h / 2);
-					var circleRadius = _radius / config.levels * (j + 1);
-					var translateAxisX = config.w / 2 + config.TranslateX;
-					var translateAxisY = config.h / 2 + config.TranslateY;
-
-					d3.select(id).selectAll("svg").insert("circle").attr({
-						cx: "0",
-						cy: "0",
-						r: circleRadius,
-						fill: "none",
-						stroke: "grey",
-						"stroke-width": "0.3px",
-						"stroke-opacity": "0.75",
-						transform: "translate(" + translateAxisX + ", " + translateAxisY + ")"
-					});
-				}
-
+				// Loop around the dataset and write text + draw lines around the axis.
 				for (j = 0; j < dataset.length; j++) {
 
+					// Label 1
+					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
+						var realWidth = config.w + 2 * config.TranslateX;
+						console.log("rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")");
+						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
+					}).style({
+						"font-family": "Arial,Helvetica,sans-serif",
+						"font-size": "10px"
+					}).append("textPath").attr({
+						startOffset: "50%",
+						"xlink:href": "#" + dataset[j].path
+					}).text(dataset[j].text1);
+
+					// Label 2
+					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
+						var realWidth = config.w + 2 * config.TranslateX;
+						console.log("rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")");
+						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
+					}).style({
+						"font-family": "Arial,Helvetica,sans-serif",
+						"font-size": "10px"
+					}).append("textPath").attr({
+						startOffset: "50%",
+						"xlink:href": "#" + dataset[j].path + "InnerCircle"
+					}).text(dataset[j].text2);
+
+					// Draw the axe
 					d3.select(id).selectAll("svg").append("path").attr({
 						d: function () {
 
@@ -227,6 +240,27 @@ var SpiderChartPlotter = (function () {
 
 							return "rotate(" + angle + " , " + rotationOriginPointX + ", " + rotationOriginPointY + ")";
 						}
+					});
+				}
+
+				// Circular segments
+				var j = 0;
+				for (j = 0; j < config.levels - 1; j++) {
+
+					var _radius = Math.min(config.w / 2, config.h / 2);
+					var circleRadius = _radius / config.levels * (j + 1);
+					var translateAxisX = config.w / 2 + config.TranslateX;
+					var translateAxisY = config.h / 2 + config.TranslateY;
+
+					d3.select(id).selectAll("svg").insert("circle").attr({
+						cx: "0",
+						cy: "0",
+						r: circleRadius,
+						fill: "none",
+						stroke: "grey",
+						"stroke-width": "0.3px",
+						"stroke-opacity": "0.75",
+						transform: "translate(" + translateAxisX + ", " + translateAxisY + ")"
 					});
 				}
 
@@ -298,10 +332,10 @@ var SpiderChartPlotter = (function () {
 					return config.h / 2 * (1 - Math.cos(i * config.radians / total)) - 20 * Math.cos(i * config.radians / total);
 				});
 
+				var tooltip;
 				var counter = 0;
 				var series = [{ points: serie2, color: "#E5005E" }, { points: serie1, color: config.color }];
 
-				window.d = d3;
 				var _iteratorNormalCompletion = true;
 				var _didIteratorError = false;
 				var _iteratorError = undefined;
