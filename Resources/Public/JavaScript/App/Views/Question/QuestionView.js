@@ -46,8 +46,7 @@ export default class QuestionView extends Backbone.View {
 		// Adjust layout
 		this.$el.toggleClass('hidden', !this.model.get('visible'));
 		if (this.model.get('answer') !== null) {
-			$('.content-box', this.$el).css({backgroundColor: '#DADADA', opacity: 0.7});
-			$('h2, span, div', this.$el).css({color: '#333'});
+			$('.content-box', this.$el).addClass('content-box-answered');
 		}
 
 		return this.el;
