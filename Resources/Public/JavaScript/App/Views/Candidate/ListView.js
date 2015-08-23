@@ -65,7 +65,7 @@ export default class ListView extends Backbone.View {
 	 */
 	render() {
 
-		if (this.questionCollection.hasAnsweredQuestions() && this.facetView.hasMinimumFilter()) {
+		if (this.facetView.hasMinimumFilter()) {
 
 			var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
 
