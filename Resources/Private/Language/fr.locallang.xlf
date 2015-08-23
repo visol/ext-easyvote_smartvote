@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-17T15:15:14Z" product-name="easyvote_smartvote">
+		<header/>
+		<body>
+			<trans-unit id="who_to_elect">
+				<source>Wen soll ich wählen?</source>
+			</trans-unit>
+			<trans-unit id="voting_recommendation">
+				<source>Recommendation de vote</source>
+			</trans-unit>
+
+			<trans-unit id="filter_candidates">
+				<source>Filtrer les candidats</source>
+			</trans-unit>
+			<trans-unit id="filter.party.title">
+				<source>Parti</source>
+			</trans-unit>
+			<trans-unit id="filter.district.title.canton">
+				<source>Canton</source>
+			</trans-unit>
+			<trans-unit id="filter.easyvote.title">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="filter.age.title">
+				<source>Âge</source>
+			</trans-unit>
+			<trans-unit id="filter.age.toAge">
+				<source>jusque</source>
+			</trans-unit>
+			<trans-unit id="filter.gender.title">
+				<source>Sexe</source>
+			</trans-unit>
+			<trans-unit id="filter.gender.female">
+				<source>Féminin</source>
+			</trans-unit>
+			<trans-unit id="filter.gender.male">
+				<source>Masculin</source>
+			</trans-unit>
+			<trans-unit id="filter.incumbent.title">
+				<source>Bisherig</source>
+			</trans-unit>
+			<trans-unit id="filter.incumbent.yes">
+				<source>Oui</source>
+			</trans-unit>
+			<trans-unit id="filter.incumbent.no">
+				<source>Non</source>
+			</trans-unit>
+			<trans-unit id="yes">
+				<source>Oui</source>
+			</trans-unit>
+			<trans-unit id="rather_yes">
+				<source>Plutôt oui</source>
+			</trans-unit>
+			<trans-unit id="rather_no">
+				<source>Plutôt non</source>
+			</trans-unit>
+			<trans-unit id="no">
+				<source>Non</source>
+			</trans-unit>
+			<trans-unit id="no_answer">
+				<source>Pas de réponse</source>
+			</trans-unit>
+			<trans-unit id="spend_more_significantly">
+				<source>Deutlich mehr ausgeben</source>
+			</trans-unit>
+			<trans-unit id="spend_more">
+				<source>Mehr ausgeben</source>
+			</trans-unit>
+			<trans-unit id="spend_same">
+				<source>Gleich viel ausgeben</source>
+			</trans-unit>
+			<trans-unit id="spend_less">
+				<source>Weniger ausgeben</source>
+			</trans-unit>
+			<trans-unit id="spend_less_significantly">
+				<source>Deutlich weniger ausgeben</source>
+			</trans-unit>
+
+			<trans-unit id="candidate.supporters">
+				<source>Unterstützer</source>
+			</trans-unit>
+			<trans-unit id="candidate.from">
+				<source>aus</source>
+			</trans-unit>
+			<trans-unit id="candidate.addToList">
+				<source>Zu meiner Liste hinzufügen</source>
+			</trans-unit>
+			<trans-unit id="filter_reset">
+				<source>Filter zurücksetzen</source>
+			</trans-unit>
+			<trans-unit id="candidates_found">
+				<source>Kandidierende gefunden</source>
+			</trans-unit>
+			<trans-unit id="candidate_found">
+				<source>Kandidierende/r gefunden</source>
+			</trans-unit>
+			<trans-unit id="long_version">
+				<source>Long Version</source>
+			</trans-unit>
+			<trans-unit id="short_version">
+				<source>Rapide Version</source>
+			</trans-unit>
+
+			<trans-unit id="to_questionnaire">
+				<source>Zum Fragebogen</source>
+			</trans-unit>
+			<trans-unit id="to_long_questionnaire">
+				<source>Zum langen Fragebogen</source>
+			</trans-unit>
+			<trans-unit id="is_only_a_few_clicks">
+				<source>ist nur wenige Klicks entfernt!</source>
+			</trans-unit>
+			<trans-unit id="anser_questionnaire_to_get_recommendation">
+				<source>Beantworte die smartvote-Fragen, um eine persönliche Wahlempfehlung zu erhalten.</source>
+			</trans-unit>
+			<trans-unit id="or">
+				<source>oder</source>
+			</trans-unit>
+			<trans-unit id="set_filter">
+				<source>Durchsuche die Datenbank aller Kandidierenden. Um loszugehen, musst du mindestends einee Filter setzen:</source>
+			</trans-unit>
+			<trans-unit id="create_account">
+				<source>Melde dich bei easyvote an oder erstelle ein Konto, um automatisch die Kandidaten in deiner Nähe anzuzeigen</source>
+			</trans-unit>
+			<trans-unit id="sorted_by">
+				<source>sortiert nach</source>
+			</trans-unit>
+			<trans-unit id="matching">
+				<source>Übereinstimmung</source>
+			</trans-unit>
+			<trans-unit id="name">
+				<source>Name</source>
+			</trans-unit>
+
+			<trans-unit id="cleavage1_text1">
+				<source>Ouverture</source>
+			</trans-unit>
+			<trans-unit id="cleavage1_text2">
+				<source>vers l'étranger</source>
+			</trans-unit>
+			<trans-unit id="cleavage2_text1">
+				<source>Politique</source>
+			</trans-unit>
+			<trans-unit id="cleavage2_text2">
+				<source>économique liberale</source>
+			</trans-unit>
+			<trans-unit id="cleavage3_text1">
+				<source>Politique</source>
+			</trans-unit>
+			<trans-unit id="cleavage3_text2">
+				<source>financière restrictive</source>
+			</trans-unit>
+			<trans-unit id="cleavage4_text1">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="cleavage4_text2">
+				<source>Société libérale</source>
+			</trans-unit>
+			<trans-unit id="cleavage5_text1">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="cleavage5_text2">
+				<source>Ordre et sécurité</source>
+			</trans-unit>
+			<trans-unit id="cleavage6_text1">
+				<source>Politique</source>
+			</trans-unit>
+			<trans-unit id="cleavage6_text2">
+				<source>migratoire restrictives</source>
+			</trans-unit>
+			<trans-unit id="cleavage7_text1">
+				<source>Forte protection</source>
+			</trans-unit>
+			<trans-unit id="cleavage7_text2">
+				<source>de l'environnement</source>
+			</trans-unit>
+			<trans-unit id="cleavage8_text1">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="cleavage8_text2">
+				<source>Etat social fort</source>
+			</trans-unit>
+
+
+		</body>
+	</file>
+</xliff>
