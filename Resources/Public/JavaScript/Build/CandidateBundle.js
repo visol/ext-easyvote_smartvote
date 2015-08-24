@@ -7,13 +7,20 @@ var ListView = _interopRequire(require("./Views/Candidate/ListView"));
 
 var FacetView = _interopRequire(require("./Views/Candidate/FacetView"));
 
+var Responsive = _interopRequire(require("./Responsive.js"));
+
 $(function () {
 	var facet = new FacetView();
 	facet.render();
 
 	new ListView({ facet: facet });
+
+	// Add some responsiveness feature such as the search form
+	// which should be displayed elsewhere in the mobile layout.
+	var responsive = new Responsive();
+	responsive.bindAction();
 });
-},{"./Views/Candidate/FacetView":11,"./Views/Candidate/ListView":12,"babel-runtime/helpers/interop-require":18}],2:[function(require,module,exports){
+},{"./Responsive.js":10,"./Views/Candidate/FacetView":12,"./Views/Candidate/ListView":13,"babel-runtime/helpers/interop-require":19}],2:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -444,7 +451,7 @@ var SpiderChartPlotter = (function () {
 })();
 
 module.exports = SpiderChartPlotter;
-},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],3:[function(require,module,exports){
+},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],3:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -684,7 +691,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":11,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],4:[function(require,module,exports){
+},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":12,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -955,7 +962,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":9,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],5:[function(require,module,exports){
+},{"../Models/QuestionModel":9,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],5:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1061,7 +1068,7 @@ var FilterEngine = (function () {
 })();
 
 module.exports = FilterEngine;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],6:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],6:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1105,7 +1112,7 @@ var FacetIterator = (function () {
 })();
 
 module.exports = FacetIterator;
-},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],7:[function(require,module,exports){
+},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],7:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1239,7 +1246,7 @@ var CandidateModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = CandidateModel;
-},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],8:[function(require,module,exports){
+},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],8:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1372,7 +1379,7 @@ var FacetModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = FacetModel;
-},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],9:[function(require,module,exports){
+},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18}],9:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1447,7 +1454,62 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],10:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18}],10:[function(require,module,exports){
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var Responsive = (function () {
+
+	/**
+  * Constructor
+  */
+
+	function Responsive() {
+		_classCallCheck(this, Responsive);
+
+		this.reference = jRespond([{
+			label: "mobile",
+			enter: 0,
+			exit: 991
+		}, {
+			label: "desktop",
+			enter: 992,
+			exit: 10000
+		}]);
+	}
+
+	_createClass(Responsive, {
+		bindAction: {
+
+			/**
+    * @return void
+    */
+
+			value: function bindAction() {
+
+				this.reference.addFunc({
+					breakpoint: "mobile",
+					enter: function enter() {
+						var $box = $("#wrapper-filter").parent().detach();
+						$("#container-filter-responsive").append($box);
+					},
+					exit: function exit() {
+						var $box = $("#wrapper-filter").parent().detach();
+						$("#c3293").append($box);
+					}
+				});
+			}
+		}
+	});
+
+	return Responsive;
+})();
+
+module.exports = Responsive;
+},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],11:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1590,7 +1652,7 @@ var CandidateView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = CandidateView;
-},{"../../Chart/SpiderChartPlotter":2,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],11:[function(require,module,exports){
+},{"../../Chart/SpiderChartPlotter":2,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],12:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1761,7 +1823,7 @@ var FacetView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = FacetView;
-},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":6,"../../Models/FacetModel":8,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],12:[function(require,module,exports){
+},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":6,"../../Models/FacetModel":8,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],13:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1853,7 +1915,7 @@ var ListView = (function (_Backbone$View) {
 
 			value: function render() {
 
-				if (this.questionCollection.hasAnsweredQuestions() && this.facetView.hasMinimumFilter()) {
+				if (this.facetView.hasMinimumFilter()) {
 
 					var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
 
@@ -2007,7 +2069,7 @@ var ListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = ListView;
-},{"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./CandidateView":10,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],13:[function(require,module,exports){
+},{"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./CandidateView":11,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],14:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -4349,7 +4411,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -4359,7 +4421,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -4381,7 +4443,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -4425,7 +4487,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":13}],17:[function(require,module,exports){
+},{"babel-runtime/core-js":14}],18:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -4445,7 +4507,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
