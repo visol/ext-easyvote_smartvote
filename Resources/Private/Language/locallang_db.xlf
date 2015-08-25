@@ -142,6 +142,9 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_coordinate">
 				<source>Serialized Coordinate</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_list_places">
+				<source>Serialized List Places</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.party">
 				<source>Party</source>
 			</trans-unit>

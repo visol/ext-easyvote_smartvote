@@ -27,7 +27,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_candidate.gif'
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, first_name, last_name, internal_identifier, gender, year_of_birth, city, language, district_name, party_short, incumbent, elected, civil_state_name, denomination_name, education_name, employment_name, occupation, number_of_children, hobbies, favorite_books, favorite_music, favorite_movies, link_to_smart_spider, link_to_portrait, link_to_facebook, link_to_twitter, link_to_politnetz, link_to_youtube, link_to_vimeo, email, why_me, slogan, personal_website, election_list_name, photo, photo_cached_remote_filesize, photos, links, answers, spider_values, coordinate, serialized_photos, serialized_links, serialized_answers, serialized_spider_values, serialized_coordinate, party, national_party, district, election, election_list, civil_state, denomination, education, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, first_name, last_name, internal_identifier, gender, year_of_birth, city, language, district_name, party_short, incumbent, elected, civil_state_name, denomination_name, education_name, employment_name, occupation, number_of_children, hobbies, favorite_books, favorite_music, favorite_movies, link_to_smart_spider, link_to_portrait, link_to_facebook, link_to_twitter, link_to_politnetz, link_to_youtube, link_to_vimeo, email, why_me, slogan, personal_website, election_list_name, photo, photo_cached_remote_filesize, photos, links, answers, spider_values, coordinate, serialized_photos, serialized_links, serialized_answers, serialized_spider_values, serialized_coordinate, serialized_list_places, party, national_party, district, election, election_list, civil_state, denomination, education, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -488,6 +488,16 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_candidate'] = array(
 		'serialized_coordinate' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.serialized_coordinate',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'serialized_list_places' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_candidate.serialized_list_places',
 			'config' => array(
 				'type' => 'text',
 				'cols' => 40,

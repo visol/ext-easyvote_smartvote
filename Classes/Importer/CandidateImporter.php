@@ -77,6 +77,7 @@ class CandidateImporter extends AbstractImporter {
 		'answers' => 'serialized_answers',
 		'spiderValues' => 'serialized_spider_values',
 		'mapValues' => 'serialized_coordinate',
+		'listPlaces' => 'serialized_list_places',
 	);
 
 	/**
@@ -95,7 +96,6 @@ class CandidateImporter extends AbstractImporter {
 	'party_short' => 'party_short',
 	#'ID_list' => null, -> handled via $this->relations
 	'list' => 'election_list_name',
-	#'listPlaces' => [ ],
 	'incumbent' => 'incumbent',
 	'elected' => 'elected',
 	#'ID_civil_status' => null, -> handled via $this->relations

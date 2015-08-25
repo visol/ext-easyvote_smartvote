@@ -26,6 +26,7 @@ class CandidateProcessor extends AbstractProcessor {
 	 */
 	public function process(array $items) {
 		$items = $this->deserializeSomeValues($items);
+		$items = $this->processListPlaces($items);
 		$items = $this->convertKeysToCamelCase($items);
 		$items = $this->convertToInteger($items);
 		$items = $this->enrichWithPhoto($items);
@@ -42,7 +43,7 @@ class CandidateProcessor extends AbstractProcessor {
 		foreach ($items as $item) {
 			$item['uid'] = (int)$item['uid'];
 			$item['yearOfBirth'] = (int)$item['yearOfBirth'];
-			$item['elected'] = (int)$item['elected'];
+			$item['incumbent'] = (int)$item['incumbent'];
 			$convertedItems[] = $item;
 		}
 		return $convertedItems;
@@ -66,6 +67,33 @@ class CandidateProcessor extends AbstractProcessor {
 			$item['answers'] = $answers;
 			unset($item['serialized_answers']);
 
+			$itemsWithNewValues[$index] = $item;
+		}
+
+		return $itemsWithNewValues;
+	}
+
+	/**
+	 * @param array $items
+	 * @return array
+	 */
+	protected function processListPlaces(array $items) {
+		$itemsWithNewValues = array();
+		foreach ($items as $index => $item) {
+
+			// Adding SpiderChartValues
+			$listPlaces = json_decode($item['serialized_list_places'], TRUE);
+			$formattedListPlaces = array();
+			foreach ($listPlaces as $listPlace) {
+				if (array_key_exists('number', $listPlace) && !empty($listPlace['number'])) {
+					$formattedListPlaces[] = $listPlace['number'];
+				} elseif (array_key_exists('position', $listPlace) && !empty($listPlace['position'])) {
+					$formattedListPlaces[] = $listPlace['position'];
+				}
+			}
+
+			$item['listPlaces'] = implode(' | ', $formattedListPlaces);
+			unset($item['serialized_list_places']);
 			$itemsWithNewValues[$index] = $item;
 		}
 

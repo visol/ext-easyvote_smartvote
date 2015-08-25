@@ -323,6 +323,13 @@ class Candidate extends AbstractEntity {
 	protected $serializedCoordinate = '';
 
 	/**
+	 * serializedListPlaces
+	 *
+	 * @var string
+	 */
+	protected $serializedListPlaces = '';
+
+	/**
 	 * party
 	 *
 	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Party
@@ -1211,6 +1218,20 @@ class Candidate extends AbstractEntity {
 	 */
 	public function setSerializedCoordinate($serializedCoordinate) {
 		$this->serializedCoordinate = $serializedCoordinate;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSerializedListPlaces() {
+		return $this->serializedListPlaces;
+	}
+
+	/**
+	 * @param string $serializedListPlaces
+	 */
+	public function setSerializedListPlaces($serializedListPlaces) {
+		$this->serializedListPlaces = $serializedListPlaces;
 	}
 
 	/**
