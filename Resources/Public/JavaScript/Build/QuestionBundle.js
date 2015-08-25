@@ -549,7 +549,6 @@ var SpiderChartPlotter = (function () {
 					// Label 1
 					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
 						var realWidth = config.w + 2 * config.TranslateX;
-						console.log("rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")");
 						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
 					}).style({
 						"font-family": "Arial,Helvetica,sans-serif",
@@ -562,7 +561,6 @@ var SpiderChartPlotter = (function () {
 					// Label 2
 					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
 						var realWidth = config.w + 2 * config.TranslateX;
-						console.log("rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")");
 						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
 					}).style({
 						"font-family": "Arial,Helvetica,sans-serif",

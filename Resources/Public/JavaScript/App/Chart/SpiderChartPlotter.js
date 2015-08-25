@@ -211,7 +211,6 @@ export default class SpiderChartPlotter {
 				.attr('text-anchor', 'middle')
 				.attr('transform', function() {
 					let realWidth = config.w + 2 * config.TranslateX;
-					console.log('rotate(' + dataset[j].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')');
 					return 'rotate(' + dataset[j].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
 				})
 				.style({
@@ -233,7 +232,6 @@ export default class SpiderChartPlotter {
 				.attr('text-anchor', 'middle')
 				.attr('transform', function() {
 					let realWidth = config.w + 2 * config.TranslateX;
-					console.log('rotate(' + dataset[j].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')');
 					return 'rotate(' + dataset[j].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
 				})
 				.style({
