@@ -29,19 +29,19 @@ abstract class AbstractImporter implements ImporterInterface {
 	/**
 	 * @var string
 	 */
-	protected $baseUrl = 'http://smartvote.ch/api/1.0';
+	protected $baseUrl = 'http://api.smartvote.ch/1.0';
 
 	/**
 	 * @var string
 	 */
-	protected $key = 'be9bbde6c7ee3adf6ab93803da1de736';
+	protected $key = 'b5dc152c476d0a10567782a4faf04d6a';
 
 	/**
 	 * @var array
 	 */
 	protected $models = array(
 		Model::PARTY => 'parties.json',
-		Model::CANDIDATE => 'candidates.json',
+		Model::CANDIDATE => 'easyvote.json',
 		Model::DISTRICT => 'constituencies.json',
 		Model::QUESTION => 'questions.json',
 		Model::QUESTION_CATEGORY => 'categories.json',
