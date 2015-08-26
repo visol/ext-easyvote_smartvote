@@ -121,6 +121,9 @@ class CandidateImporter extends AbstractImporter {
 	'LINK_youtube' => 'link_to_youtube',
 	'LINK_vimeo' => 'link_to_vimeo',
 	'e-mail_public' => 'email',
+	'easyvote_1' => 'ch2055',
+	'easyvote_2' => 'motivation',
+	'easyvote_3' => 'persona',
 	#'termsInOffice' =>  -> skipped
 	'whyMe' => 'why_me',
 	'slogan' => 'slogan',

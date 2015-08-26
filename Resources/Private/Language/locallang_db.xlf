@@ -115,6 +115,15 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.photos">
 				<source>Photos</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.ch2055">
+				<source>Meine Schweiz im Jahr 2055</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.motivation">
+				<source>Das hat mein politisches Interesse geweckt</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.persona">
+				<source>easyvote-Typ</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.links">
 				<source>Links</source>
 			</trans-unit>
