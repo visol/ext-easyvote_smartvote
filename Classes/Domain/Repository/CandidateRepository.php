@@ -37,7 +37,8 @@ class CandidateRepository extends Repository {
 		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city, national_party,
 		            incumbent, slogan, party_short, district, serialized_answers, election_list_name,
 		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize,
-		            serialized_list_places';
+		            serialized_list_places, occupation, education_name, hobbies, personal_website,
+		            link_to_twitter,link_to_facebook,email';
 		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 	}
 

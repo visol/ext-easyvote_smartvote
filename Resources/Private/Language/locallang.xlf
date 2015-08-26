@@ -459,6 +459,40 @@
 			<trans-unit id="candidate.addToList">
 				<source>Zu meiner Liste hinzufügen</source>
 			</trans-unit>
+			<trans-unit id="candidate.listPlace">
+				<source>Nummer</source>
+			</trans-unit>
+			<trans-unit id="candidate.ch2055">
+				<source>Meine Schweiz im Jahr 2055</source>
+			</trans-unit>
+			<trans-unit id="candidate.motivation">
+				<source>Das hat mein politisches Interesse geweckt</source>
+			</trans-unit>
+			<trans-unit id="candidate.website">
+				<source>Website</source>
+			</trans-unit>
+			<trans-unit id="candidate.facebook">
+				<source>Facebook</source>
+			</trans-unit>
+			<trans-unit id="candidate.twitter">
+				<source>Twitter</source>
+			</trans-unit>
+			<trans-unit id="candidate.mail">
+				<source>E-Mail</source>
+			</trans-unit>
+			<trans-unit id="candidate.about_me">
+				<source>Über mich</source>
+			</trans-unit>
+			<trans-unit id="candidate.occupation">
+				<source>Aktueller Beruf</source>
+			</trans-unit>
+			<trans-unit id="candidate.education">
+				<source>Ausbildung</source>
+			</trans-unit>
+			<trans-unit id="candidate.hobbies">
+				<source>Hobbies</source>
+			</trans-unit>
+
 			<trans-unit id="filter_reset">
 				<source>Filter zurücksetzen</source>
 			</trans-unit>
@@ -472,7 +506,7 @@
 				<source>Long Version</source>
 			</trans-unit>
 			<trans-unit id="short_version">
-				<source>Rapide Version</source>
+				<source>Short Version</source>
 			</trans-unit>
 
 			<trans-unit id="to_questionnaire">
@@ -554,8 +588,6 @@
 			<trans-unit id="cleavage8_text2">
 				<source>Sozialstaat</source>
 			</trans-unit>
-
-
 		</body>
 	</file>
 </xliff>

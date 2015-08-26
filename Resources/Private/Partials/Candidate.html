@@ -37,15 +37,26 @@
 								</div>
 							</div>
 							<div class="supertitle">
+								<f:comment>
+									@TODO easyvote-Typ / Icons
+								</f:comment>
+							</div>
+							<h2>
+								<span class="name"><%- firstName %> <%- lastName %></span>
+								<span class="additional">{f:translate(key:'candidate.from')} <%- city %> | <%- yearOfBirth %></span>
+							</h2>
+							<% if (listPlaces !== "") { %>
+								<div class="list-places">
+									<f:translate key="candidate.listPlace" /> <%- listPlaces %><br />
+								</div>
+							<% } %>
+							<div class="election-list">
 								<% if (electionListName !== "") { %>
 									<%- electionListName %>
-								<% } else { %>
-									<%- partyShort %>
-								<%  } %>
+								<% } %>
 							</div>
-							<h2><%- firstName %> <%- lastName %></h2>
-							<div>
-								*<%- yearOfBirth %>, {f:translate(key:'candidate.from')} <%- city %>
+							<div class="national-party">
+								<%- partyShort %>
 							</div>
 							<f:comment>
 								@TODO
@@ -55,8 +66,65 @@
 					</div>
 				</div>
 				<div class="box-content">
-					<h3>Kandidat politisch</h3>
-					<div class="smartspider" id="chart-candidate-<%- id %>"></div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="smartspider" id="chart-candidate-<%- id %>"></div>
+						</div>
+						<div class="col-md-6">
+							<div class="icons">
+								<% if (personalWebsite !== "") { %>
+									<a href="<%- personalWebsite %>" target="_blank">
+										<i class="evicon-website" title="{f:translate(key:'candidate.website')}"></i>
+									</a>
+								<% } %>
+								<% if (linkToFacebook !== "") { %>
+									<a href="<%- linkToFacebook %>" target="_blank">
+										<i class="evicon-facebook" title="{f:translate(key:'candidate.facebook')}"></i>
+									</a>
+								<% } %>
+								<% if (linkToTwitter !== "") { %>
+									<a href="<%- linkToTwitter %>" target="_blank">
+										<i class="evicon-twitter" title="{f:translate(key:'candidate.twitter')}"></i>
+									</a>
+								<% } %>
+								<% if (email !== "") { %>
+									<a href="mailto:<%- email %>">
+										<i class="evicon-mail" title="{f:translate(key:'candidate.mail')}"></i>
+									</a>
+								<% } %>
+							</div>
+							<f:comment>
+								@TODO easyvote-Fragen
+							</f:comment>
+						</div>
+					</div>
+					<h3 class="toggle-trigger"><f:translate key="candidate.about_me" /><div class="toggle-handle toggle-handle-plus"></div></h3>
+					<div class="toggle-closed toggle-content">
+						<div class="table-responsive">
+							<table class="table table-condensed table-striped">
+								<tbody>
+									<% if (occupation !== "") { %>
+									<tr>
+										<th><f:translate key="candidate.occupation" /></th>
+										<td><%- occupation %></td>
+									</tr>
+									<% } %>
+									<% if (educationName !== "") { %>
+									<tr>
+										<th><f:translate key="candidate.education" /></th>
+										<td><%- educationName %></td>
+									</tr>
+									<% } %>
+									<% if (hobbies !== "") { %>
+									<tr>
+										<th><f:translate key="candidate.hobbies" /></th>
+										<td><%- hobbies %></td>
+									</tr>
+									<% } %>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</script>

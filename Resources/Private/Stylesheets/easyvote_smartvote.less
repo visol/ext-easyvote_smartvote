@@ -134,6 +134,7 @@
 			img {
 				width: 100%;
 				height: auto;
+				background: @white;
 			}
 			.matching-badge {
 				position: absolute;
@@ -166,11 +167,65 @@
 		}
 		h2 {
 			margin-bottom: 10px;
+			.additional {
+				font-size: 14px;
+			}
+		}
+		.list-places,
+		.election-list {
+			margin-bottom: 5px;
 		}
 	}
 	.box-content {
 		.smartspider {
+			.clearfix();
 			display: inline-block;
+		}
+		.icons {
+			font-size: 0;
+			a {
+				i {
+					font-size: 35px;
+				}
+				.evicon-facebook { color: @dark-blue; }
+				.evicon-twitter { color: @light-blue; }
+				.evicon-mail { color: @pink; }
+				.evicon-website { color: @dark-blue; }
+			}
+		}
+		h3 {
+			&.toggle-trigger {
+				border-top: 1px solid @dark-blue;
+				padding-top: 10px;
+
+				width: 100%;
+				cursor: pointer;
+				position: relative;
+
+				div.toggle-handle {
+					&:before {
+						.fontello-icon('\e823');
+					}
+					position: absolute;
+					right: 0;
+					top: 8px;
+					width: 16px;
+				}
+				div.toggle-handle-plus {
+					&:before {
+						.fontello-icon('\e824');
+					}
+				}
+			}
+			&.noLine {
+				border-top: 0;
+			}
+		}
+		.toggle-closed {
+			display: none;
+		}
+		.toggle-content {
+			margin-bottom: 10px;
 		}
 	}
 }
