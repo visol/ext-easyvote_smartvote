@@ -171,7 +171,7 @@ class CandidateImporter extends AbstractImporter {
 					$clause = 'internal_identifier = ' . $answer['questionId'];
 					$question = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', 'tx_easyvotesmartvote_domain_model_question', $clause);
 					if (empty($question)) {
-						throw new \Exception('I could not find a proper question id. Fix me otherwise data may be inconsistent', 1435653232);
+						throw new \Exception('Could not find a proper question id: Candidate ' . $candidate['uid'] . ' / Question ' . $answer['questionId'] . '. Fix me, otherwise data may be inconsistent', 1435653232);
 					}
 					$convertedAnswer['answer'] = $answer['answer'];
 					$convertedAnswer['questionId'] = (int)$question['uid'];
