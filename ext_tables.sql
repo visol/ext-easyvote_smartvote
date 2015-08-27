@@ -51,6 +51,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_candidate (
 	serialized_answers text NOT NULL,
 	serialized_spider_values text NOT NULL,
 	serialized_coordinate text NOT NULL,
+  serialized_list_places text NOT NULL,
 	ch2055 text NOT NULL,
 	motivation text NOT NULL,
   persona varchar(255) DEFAULT '' NOT NULL,
