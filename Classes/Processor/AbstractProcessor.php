@@ -14,6 +14,9 @@ namespace Visol\EasyvoteSmartvote\Processor;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Resource\ProcessedFile;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Abstract Processor
  */
@@ -82,6 +85,53 @@ abstract class AbstractProcessor {
 			$convertedItems[] = $item;
 		}
 		return $convertedItems;
+	}
+
+	/**
+	 * @param integer $objectUid
+	 * @param $tableName
+	 * @param $fieldName
+	 * @param int $limit
+	 * @param array $processConfiguration
+	 * @return string|array
+	 */
+	protected function getImages($objectUid, $tableName, $fieldName, $limit = 1, $processConfiguration = array()) {
+		$photos = $this->getFileRepository()->findByRelation($tableName, $fieldName, $objectUid);
+		if (count($photos)) {
+			$images = array();
+			$i = 1;
+			foreach ($photos as $photo) {
+				if ($i > $limit) { break; }
+				/** @var \TYPO3\CMS\Core\Resource\FileReference $photo */
+				if (!empty($processConfiguration)) {
+					$photoPublicUrl = '/' . $photo->getOriginalFile()->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processConfiguration)->getPublicUrl();
+				} else {
+					$photoPublicUrl = '/' . $photo->getOriginalFile()->getPublicUrl();
+				}
+				if (!empty($photoPublicUrl)) {
+					if ($limit === 1) {
+						return $photoPublicUrl;
+					} else {
+						$images[] = $photoPublicUrl;
+					}
+				} else {
+					if ($limit === 1) {
+						return NULL;
+					}
+				}
+				$i++;
+			}
+			return $images;
+		} else {
+			return NULL;
+		}
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Resource\FileRepository
+	 */
+	protected function getFileRepository() {
+		return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
 	}
 
 }

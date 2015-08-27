@@ -30,13 +30,13 @@ export default class ListView extends Backbone.View {
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
-		QuestionCollection.getInstance().load().done(() => {
+		//QuestionCollection.getInstance().load().done(() => {
 
 			// Fetch parties.
 			partyCollection.fetch().done(() => {
 				partyCollection.sort(); // will trigger the rendering.
 			});
-		});
+		//});
 
 		// Call parent constructor.
 		super();
@@ -58,12 +58,15 @@ export default class ListView extends Backbone.View {
 
 		// Finally update the DOM.
 		$('#container-party-list').html(container);
+
+		// Add lazy loading to images.
+		$("img.lazy", $('#container-party-list')).lazyload();
 	}
 
 	/**
 	 * @param argument
 	 */
-	changeAnswer(argument) {
+/*	changeAnswer(argument) {
 		let party = argument.attributes;
 
 		this.updateChart(party);
@@ -72,7 +75,7 @@ export default class ListView extends Backbone.View {
 		let nextIndex = (partyCollection.length - 1) - party.index;
 		let nextParty = partyCollection.at(nextIndex);
 		nextParty.trigger('visible');
-	}
+	}*/
 
 	/**
 	 * Add a single party item to the list by creating a view for it, then

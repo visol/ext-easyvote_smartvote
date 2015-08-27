@@ -249,5 +249,168 @@
 			}
 		}
 	}
-
 }
+
+#container-parties {
+
+	.box-teaser {
+		.col-md-3 {
+			img {
+				width: 100%;
+				height: auto;
+				background: @white;
+			}
+/*			.matching-badge {
+				position: absolute;
+				top: -15px;
+				left: 0;
+				background: @pink;
+				width: 40px;
+				height: 40px;
+				-webkit-border-radius: 100%;
+				border-radius: 100%;
+				.inner {
+					display: table-cell;
+					width: 40px;
+					height: 40px;
+					.font-ubuntu();
+					font-size: 16px;
+					vertical-align: middle;
+					text-align: center;
+					color: @white;
+				}
+			}*/
+
+			.supporters-count {
+				margin-top: 10px;
+				.number {
+					.font-ubuntu();
+					font-size: 18px;
+				}
+			}
+		}
+		h2 {
+			margin-bottom: 10px;
+			.additional {
+				font-size: 14px;
+			}
+		}
+		.list-places,
+		.election-list {
+			margin-bottom: 5px;
+		}
+	}
+	.box-content {
+		.icons {
+			.clearfix();
+			margin-bottom: 10px;
+			font-size: 0;
+			a {
+				i {
+					font-size: 35px;
+				}
+				&:first-child {
+					i {
+						&:before {
+							margin-left: 0;
+						}
+					}
+				}
+				.evicon-facebook { color: @dark-blue; }
+				.evicon-twitter { color: @light-blue; }
+				.evicon-mail { color: @pink; }
+				.evicon-website { color: @dark-blue; }
+			}
+
+		}
+		.incumbent-politicians-images, .candidates-images {
+			font-size: 0;
+			img {
+				width: 20%;
+				height: auto;
+				background: white;
+			}
+		}
+		.position {
+			margin-bottom: 15px;
+		}
+		.positions-images {
+			img {
+				width: 100%;
+				height: auto;
+				background: white;
+			}
+		}
+		.incumbent-politicians-content, .candidates-content, .positions-content {
+			h3 {
+				margin-bottom: 5px;
+			}
+			p {
+				margin-bottom: 10px;
+			}
+		}
+		h3 {
+			&.toggle-trigger {
+				border-top: 1px solid @dark-blue;
+				padding-top: 10px;
+
+				width: 100%;
+				cursor: pointer;
+				position: relative;
+
+				div.toggle-handle {
+					&:before {
+						.fontello-icon('\e823');
+					}
+					position: absolute;
+					right: 0;
+					top: 8px;
+					width: 16px;
+				}
+				div.toggle-handle-plus {
+					&:before {
+						.fontello-icon('\e824');
+					}
+				}
+			}
+			&.noLine {
+				border-top: 0;
+			}
+		}
+		.toggle-closed {
+			display: none;
+		}
+		.toggle-content {
+			margin-bottom: 10px;
+		}
+	}
+}
+
+@media (max-width: @screen-sm-max) {
+	#container-parties {
+
+		.box-teaser {
+			.col-md-3 {
+/*
+				.matching-badge {
+					top: -13px;
+					left: 2;
+					width: 30px;
+					height: 30px;
+					.inner {
+						width: 30px;
+						height: 30px;
+						font-size: 12px;
+					}
+				}
+*/
+			}
+		}
+		.box-content {
+			.incumbent-politicians-images, .candidates-images {
+				margin-bottom: 10px;
+			}
+		}
+	}
+}
+

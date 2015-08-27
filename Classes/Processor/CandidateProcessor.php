@@ -107,22 +107,9 @@ class CandidateProcessor extends AbstractProcessor {
 	protected function enrichWithPhoto(array $items) {
 		$itemsWithPhoto = array();
 		foreach ($items as $index => $item) {
-			$photos = $this->getFileRepository()->findByRelation('tx_easyvotesmartvote_domain_model_candidate', 'photo', $item['uid']);
-			if (count($photos)) {
-				/** @var \TYPO3\CMS\Core\Resource\FileReference $photo */
-				// We need the first file reference (there is only supposed to be one photo)
-				$photo = $photos[0];
-				$photoPublicUrl = '/' . $photo->getOriginalFile()->getPublicUrl();
-				if (!empty($photoPublicUrl)) {
-					$item['photo'] = $photoPublicUrl;
-				}
-
-			} else {
-				$item['photo'] = NULL;
-			}
+			$item['photo'] = $this->getImages($item['uid'], 'tx_easyvotesmartvote_domain_model_candidate', 'photo', 1);
 			unset($item['photoCachedRemoteFilesize']);
 			unset($item['serializedPhotos']);
-
 			$itemsWithPhoto[$index] = $item;
 		}
 		return $itemsWithPhoto;

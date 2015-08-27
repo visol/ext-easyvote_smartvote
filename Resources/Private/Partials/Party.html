@@ -1,5 +1,5 @@
-<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://www.w3.org/1999/html" lang="en"
+	 xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
 	<f:section name="Party">
 		<script type="text/template" id="template-party">
@@ -7,23 +7,12 @@
 				<div class="box-teaser">
 					<div class="row">
 						<div class="col-xs-3 col-md-3">
-							<f:comment>
-								@TODO
-								<% if (typeof(matching) == "number") { %>
-								<div class="matching-badge">
-									<div class="inner"><%- matching %>%</div>
-								</div>
-								<% } %>
-							</f:comment>
-							<% if (typeof(image) == "string") { %>
-							<img src="<%- image %>" alt="<%- title %>" />
+							<% if (typeof(imageUri) == "string") { %>
+							<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-image.svg" class="lazy" data-original="<%- imageUri %>" width="250" height="250" alt="<%- title %>" />
 							<%  } %>
-							<f:comment>
-								@TODO
-								<div class="supporters-count">
-									<span class="number">86</span> {f:translate(key:'candidate.supporters')}
-								</div>
-							</f:comment>
+							<div class="supporters-count">
+								<span class="number"><%- numberOfCandidates %></span> {f:translate(key:'party.candidates')}
+							</div>
 						</div>
 						<div class="col-xs-9 col-md-9">
 							<div class="actions">
@@ -36,22 +25,151 @@
 									<i class="evicon-down-open"></i>
 								</div>
 							</div>
-							<div class="supertitle">
-								ev. kleiner Titel
-							</div>
+							<f:comment>
+								TODO Badges
+								<div class="supertitle">
+								</div>
+							</f:comment>
 							<h2><%- title %></h2>
+							<% if (ch2055 !== "") { %>
 							<div>
-								Platz für Einleitungstext
+								<h3><f:translate key="party.ch2055" /></h3>
+								<%= ch2055 %>
 							</div>
+							<% } %>
+							<f:comment>
+								@TODO
+								<div>
+									<f:translate key="party.display_candidates_nr" />
+									<f:translate key="party.display_candidates_sr" />
+								</div>
+							</f:comment>
 						</div>
 					</div>
 				</div>
 				<div class="box-content">
-					Detailansicht
-					<f:comment>
-					<h3>Kandidat politisch</h3>
-					<div class="smartspider" id="chart-candidate-<%- id %>"></div>
-					</f:comment>
+					<% if (videoUrl) { %>
+					<div class="youtube-embed">
+						<iframe src="<%- videoUrl %>?theme=light&html5&rel=0" frameborder="0" allowfullscreen="1"></iframe>
+					</div>
+					<% } %>
+					<div class="icons">
+						<% if (website !== "") { %>
+						<a href="<%- website %>" target="_blank">
+							<i class="evicon-website" title="{f:translate(key:'party.website')}"></i>
+						</a>
+						<% } %>
+						<% if (facebookProfile !== "") { %>
+						<a href="<%- facebookProfile %>" target="_blank">
+							<i class="evicon-facebook" title="{f:translate(key:'party.facebook')}"></i>
+						</a>
+						<% } %>
+						<% if (linkToTwitter !== "") { %>
+						<a href="<%- linkToTwitter %>" target="_blank">
+							<i class="evicon-twitter" title="{f:translate(key:'party.twitter')}"></i>
+						</a>
+						<% } %>
+						<% if (email !== "") { %>
+						<a href="mailto:<%- email %>">
+							<i class="evicon-mail" title="{f:translate(key:'party.email')}"></i>
+						</a>
+						<% } %>
+					</div>
+					<h3 class="toggle-trigger"><f:translate key="party.header_candidates" /><div class="toggle-handle toggle-handle-plus"></div></h3>
+					<div class="row toggle-closed toggle-content">
+						<div class="col-sm-6 col-md-6 candidates-images">
+							<% _.each(candidatesImages, function(image) { %>
+							<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-image.svg" class="lazy" data-original="<%- image %>" width="120" height="120" />
+							<% }); %>
+						</div>
+						<div class="col-sm-6 col-md-6 candidates-content">
+							<h3><f:translate key="party.number_of_candidates" /></h3>
+							<p><%- numberOfCandidates %></p>
+							<h3><f:translate key="party.number_of_candidates_below_35" /></h3>
+							<p><%- candidatesBelowAge35 %></p>
+							<h3><f:translate key="party.average_age" /></h3>
+							<p><%- averageAge %> {f:translate(key:'party.years')}</p>
+							<h3><f:translate key="party.distribution_between_sexes" /></h3>
+							<p><%- sexDistributionFemale %>% {f:translate(key:'party.women')} / <%- sexDistributionMale %>% {f:translate(key:'party.men')}</p>
+							<f:comment>
+								@TODO
+								<div>
+									<f:translate key="party.display_candidates_nr" />
+									<f:translate key="party.display_candidates_sr" />
+								</div>
+							</f:comment>
+						</div>
+					</div>
+					<h3 class="toggle-trigger"><f:translate key="party.header_incumbent_politicians" /><div class="toggle-handle toggle-handle-plus"></div></h3>
+					<div class="row toggle-closed toggle-content">
+						<div class="col-sm-6 col-md-6 incumbent-politicians-images">
+							<% _.each(incumbentPoliticiansImages, function(image) { %>
+							<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-image.svg" class="lazy" data-original="<%- image %>" width="120" height="120" />
+							<% }); %>
+						</div>
+						<div class="col-sm-6 col-md-6 incumbent-politicians-content">
+							<%= incumbentPoliticiansContent %>
+						</div>
+					</div>
+					<h3 class="toggle-trigger"><f:translate key="party.header_positions" /><div class="toggle-handle toggle-handle-plus"></div></h3>
+					<div class="toggle-closed toggle-content">
+						<div class="row position">
+							<div class="col-xs-3 col-md-3 positions-images">
+								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-image.svg" class="lazy" data-original="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/position_retirement_provision.jpg" width="120" height="120" />
+							</div>
+							<div class="col-xs-9 col-md-9 positions-content">
+								<h3><f:translate key="party.position_retirement_provision" /></h3>
+								<% if (positionRetirementProvision !== "") { %>
+								<p><%- positionRetirementProvision %></p>
+								<% } else { %>
+								<p>-</p>
+								<%  } %>
+								<a href="https://youtu.be/YEVXxC_NYlU" target="_blank" class="link-box">{f:translate(key:'party.watch_clip')}</a>
+							</div>
+						</div>
+						<div class="row position">
+							<div class="col-xs-3 col-md-3 positions-images">
+								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-image.svg" class="lazy" data-original="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/position_european_union.jpg" width="120" height="120" />
+							</div>
+							<div class="col-xs-9 col-md-9 positions-content">
+								<h3><f:translate key="party.position_european_union" /></h3>
+								<% if (positionEuropeanUnion !== "") { %>
+								<p><%- positionEuropeanUnion %></p>
+								<% } else { %>
+								<p>-</p>
+								<% } %>
+								<a href="https://youtu.be/KEQaXHlqFsI" target="_blank" class="link-box">{f:translate(key:'party.watch_clip')}</a>
+							</div>
+						</div>
+						<div class="row position">
+							<div class="col-xs-3 col-md-3 positions-images">
+								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-image.svg" class="lazy" data-original="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/position_migration.jpg" width="120" height="120" />
+							</div>
+							<div class="col-xs-9 col-md-9 positions-content">
+								<h3><f:translate key="party.position_migration" /></h3>
+								<% if (positionMigration !== "") { %>
+								<p><%- positionMigration %></p>
+								<% } else { %>
+								<p>-</p>
+								<% } %>
+								<a href="https://youtu.be/2b8Inrh3HwE" target="_blank" class="link-box">{f:translate(key:'party.watch_clip')}</a>
+							</div>
+						</div>
+						<div class="row position">
+							<div class="col-xs-3 col-md-3 positions-images">
+								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-image.svg" class="lazy" data-original="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/position_energy.jpg" width="120" height="120" />
+							</div>
+							<div class="col-xs-9 col-md-9 positions-content">
+								<h3><f:translate key="party.position_energy" /></h3>
+								<% if (positionEnergy !== "") { %>
+								<p><%- positionEnergy %></p>
+								<% } else { %>
+								<p>-</p>
+								<% } %>
+								<a href="https://youtu.be/NWkzrVX2dFY" target="_blank" class="link-box">{f:translate(key:'party.watch_clip')}</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</script>

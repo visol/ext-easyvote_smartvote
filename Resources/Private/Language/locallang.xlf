@@ -588,6 +588,85 @@
 			<trans-unit id="cleavage8_text2">
 				<source>Sozialstaat</source>
 			</trans-unit>
+
+			<trans-unit id="party.ch2055">
+				<source>Unsere Schweiz im Jahr 2055</source>
+			</trans-unit>
+			<trans-unit id="party.display_candidates_nr">
+				<source>KandidatInnen Nationalrat</source>
+			</trans-unit>
+			<trans-unit id="party.display_candidates_sr">
+				<source>KandidatInnen Ständerat</source>
+			</trans-unit>
+			<trans-unit id="party.candidates">
+				<source>KandidatInnen</source>
+			</trans-unit>
+			<trans-unit id="party.website">
+				<source>Website</source>
+			</trans-unit>
+			<trans-unit id="party.facebook">
+				<source>Facebook</source>
+			</trans-unit>
+			<trans-unit id="party.twitter">
+				<source>Twitter</source>
+			</trans-unit>
+			<trans-unit id="party.email">
+				<source>E-Mail</source>
+			</trans-unit>
+			<trans-unit id="party.header_candidates">
+				<source>KandidatInnen</source>
+			</trans-unit>
+			<trans-unit id="party.number_of_candidates">
+				<source>Anzahl KandidatInnen</source>
+			</trans-unit>
+			<trans-unit id="party.persons">
+				<source>Personen schweizweit</source>
+			</trans-unit>
+			<trans-unit id="party.years">
+				<source>Jahre</source>
+			</trans-unit>
+			<trans-unit id="party.number_of_candidates_below_35">
+				<source>Anzahl KandidatInnen unter 35 Jahren</source>
+			</trans-unit>
+			<trans-unit id="party.average_age">
+				<source>Durchschnittsalter</source>
+			</trans-unit>
+			<trans-unit id="party.distribution_between_sexes">
+				<source>Geschlechterverteilung</source>
+			</trans-unit>
+			<trans-unit id="party.women">
+				<source>Frauen</source>
+			</trans-unit>
+			<trans-unit id="party.men">
+				<source>Männer</source>
+			</trans-unit>
+			<trans-unit id="party.header_incumbent_politicians">
+				<source>Unsere aktiven nationalen PolitikerInnen </source>
+			</trans-unit>
+			<trans-unit id="party.header_political_positions">
+				<source>Unsere Positionen</source>
+			</trans-unit>
+			<trans-unit id="party.easyvote_supporter">
+				<source>easyvote-Götti/Gotte</source>
+			</trans-unit>
+			<trans-unit id="party.header_positions">
+				<source>Unsere Positionen</source>
+			</trans-unit>
+			<trans-unit id="party.position_retirement_provision">
+				<source>Altersvorsorge in der Schweiz</source>
+			</trans-unit>
+			<trans-unit id="party.position_european_union">
+				<source>Die EU und die Schweiz</source>
+			</trans-unit>
+			<trans-unit id="party.position_migration">
+				<source>Die Migration und die Schweiz</source>
+			</trans-unit>
+			<trans-unit id="party.position_energy">
+				<source>Energieproduktion in der Schweiz</source>
+			</trans-unit>
+			<trans-unit id="party.watch_clip">
+				<source>Zum Clip</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

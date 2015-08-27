@@ -46,7 +46,7 @@ class PartyApiController extends AbstractBaseApiController {
 		//$parties = $this->cacheInstance->get($cacheIdentifier);
 
 		if (!$parties) {
-			$parties = $this->partyRepository->findAllAsRawArray();
+			$parties = $this->partyRepository->findAllWithoutOthers();
 			$parties = $this->getPartyProcessor()->process($parties);
 			$parties = json_encode($parties);
 

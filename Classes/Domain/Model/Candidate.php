@@ -340,6 +340,7 @@ class Candidate extends AbstractEntity {
 	 * national party
 	 *
 	 * @var \Visol\Easyvote\Domain\Model\Party
+	 * @lazy
 	 */
 	protected $nationalParty = NULL;
 

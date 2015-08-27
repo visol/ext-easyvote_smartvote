@@ -192,6 +192,7 @@ var SpiderChartPlotter = (function () {
 					// Label 1
 					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
 						var realWidth = config.w + 2 * config.TranslateX;
+						console.log("rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")");
 						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
 					}).style({
 						"font-family": "Arial,Helvetica,sans-serif",
@@ -204,6 +205,7 @@ var SpiderChartPlotter = (function () {
 					// Label 2
 					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
 						var realWidth = config.w + 2 * config.TranslateX;
+						console.log("rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")");
 						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
 					}).style({
 						"font-family": "Arial,Helvetica,sans-serif",
@@ -1175,8 +1177,6 @@ var _inherits = require("babel-runtime/helpers/inherits")["default"];
 
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
 
-var _core = require("babel-runtime/core-js")["default"];
-
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
 var QuestionCollection = _interopRequire(require("../Collections/QuestionCollection"));
@@ -1225,49 +1225,27 @@ var PartyModel = (function (_Backbone$Model) {
 				var candidateAnswers = this.get("answers");
 
 				// true means the candidate has answered the survey which is normally the case but not always...
-				if (questionCollection.hasCompletedAnswers() && candidateAnswers.length > 0) {
-
-					var aggregatedResult = 0;
-					var counter = 0;
-
-					var _iteratorNormalCompletion = true;
-					var _didIteratorError = false;
-					var _iteratorError = undefined;
-
-					try {
-						for (var _iterator = _core.$for.getIterator(candidateAnswers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-							var candidateAnswer = _step.value;
-
-							var userQuestion = this.retrieveQuestion(candidateAnswer);
-							if (userQuestion) {
-								if (userQuestion.get("answer") !== null && userQuestion.get("answer") !== -1) {
-									aggregatedResult += Math.pow(userQuestion.get("answer") - candidateAnswer.answer, 2);
-									counter++;
-								}
-							} else {
-								console.log("Warning #1435731882: I could not retrieve the question filled by the User " + candidateAnswer.questionId);
-							}
-						}
-					} catch (err) {
-						_didIteratorError = true;
-						_iteratorError = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion && _iterator["return"]) {
-								_iterator["return"]();
-							}
-						} finally {
-							if (_didIteratorError) {
-								throw _iteratorError;
-							}
-						}
-					}
-
-					var distance = Math.sqrt(aggregatedResult);
-					var maximalDistance = Math.sqrt(counter * Math.pow(100, 2));
-					var nominalDistance = distance / maximalDistance;
-					matching = Math.round(100 * (1 - nominalDistance));
-				}
+				//if (questionCollection.hasCompletedAnswers() && candidateAnswers.length > 0) {
+				//
+				//	var aggregatedResult = 0;
+				//	var counter = 0;
+				//
+				//	for (let candidateAnswer of candidateAnswers) {
+				//		var userQuestion = this.retrieveQuestion(candidateAnswer);
+				//		if (userQuestion) {
+				//			if (userQuestion.get('answer') !== null && userQuestion.get('answer') !== -1) {
+				//				aggregatedResult += Math.pow(userQuestion.get('answer') - candidateAnswer.answer, 2);
+				//				counter++
+				//			}
+				//		} else {
+				//			console.log('Warning #1435731882: I could not retrieve the question filled by the User ' + candidateAnswer.questionId);
+				//		}
+				//	}
+				//	let distance = Math.sqrt(aggregatedResult);
+				//	let maximalDistance = Math.sqrt(counter * Math.pow(100, 2));
+				//	let nominalDistance = distance / maximalDistance;
+				//	matching = Math.round(100 * (1 - nominalDistance));
+				//}
 
 				this.set("matching", matching);
 				return this.get("matching");
@@ -1299,7 +1277,7 @@ var PartyModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = PartyModel;
-},{"../Collections/QuestionCollection":3,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],8:[function(require,module,exports){
+},{"../Collections/QuestionCollection":3,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],8:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1592,13 +1570,13 @@ var ListView = (function (_Backbone$View) {
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
-		QuestionCollection.getInstance().load().done(function () {
+		//QuestionCollection.getInstance().load().done(() => {
 
-			// Fetch parties.
-			partyCollection.fetch().done(function () {
-				partyCollection.sort(); // will trigger the rendering.
-			});
+		// Fetch parties.
+		partyCollection.fetch().done(function () {
+			partyCollection.sort(); // will trigger the rendering.
 		});
+		//});
 
 		// Call parent constructor.
 		_get(_core.Object.getPrototypeOf(ListView.prototype), "constructor", this).call(this);
@@ -1647,26 +1625,26 @@ var ListView = (function (_Backbone$View) {
 
 				// Finally update the DOM.
 				$("#container-party-list").html(container);
+
+				// Add lazy loading to images.
+				$("img.lazy", $("#container-party-list")).lazyload();
 			}
 		},
-		changeAnswer: {
+		renderOne: {
 
 			/**
     * @param argument
     */
-
-			value: function changeAnswer(argument) {
-				var party = argument.attributes;
-
-				this.updateChart(party);
-
-				var partyCollection = PartyCollection.getInstance();
-				var nextIndex = partyCollection.length - 1 - party.index;
-				var nextParty = partyCollection.at(nextIndex);
-				nextParty.trigger("visible");
-			}
-		},
-		renderOne: {
+			/*	changeAnswer(argument) {
+   		let party = argument.attributes;
+   
+   		this.updateChart(party);
+   
+   		let partyCollection = PartyCollection.getInstance();
+   		let nextIndex = (partyCollection.length - 1) - party.index;
+   		let nextParty = partyCollection.at(nextIndex);
+   		nextParty.trigger('visible');
+   	}*/
 
 			/**
     * Add a single party item to the list by creating a view for it, then
