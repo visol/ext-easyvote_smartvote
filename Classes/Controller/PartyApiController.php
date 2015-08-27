@@ -41,9 +41,7 @@ class PartyApiController extends AbstractBaseApiController {
 		$this->initializeCache();
 
 		$cacheIdentifier = 'parties-' . $election->getUid();
-		// todo enable cache
-		$parties = NULL;
-		//$parties = $this->cacheInstance->get($cacheIdentifier);
+		$parties = $this->cacheInstance->get($cacheIdentifier);
 
 		if (!$parties) {
 			$parties = $this->partyRepository->findAllWithoutOthers();
