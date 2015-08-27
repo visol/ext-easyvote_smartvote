@@ -183,14 +183,31 @@
 		}
 		.icons {
 			font-size: 0;
+			margin-bottom: 10px;
 			a {
 				i {
 					font-size: 35px;
+				}
+				&:first-child {
+					i {
+						&:before {
+							margin-left: 0;
+						}
+					}
 				}
 				.evicon-facebook { color: @dark-blue; }
 				.evicon-twitter { color: @light-blue; }
 				.evicon-mail { color: @pink; }
 				.evicon-website { color: @dark-blue; }
+			}
+		}
+		.information {
+			h3 {
+				margin-bottom: 5px;
+			}
+			p {
+				margin-bottom: 10px;
+				white-space: pre-wrap;
 			}
 		}
 		h3 {
