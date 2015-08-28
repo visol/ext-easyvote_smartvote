@@ -151,6 +151,78 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
 				'eval' => 'int'
 			],
 		],
+		'total_cleavage_short1' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:total_cleavage_short1',
+			'config' => [
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			]
+		],
+		'total_cleavage_short2' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:total_cleavage_short2',
+			'config' => [
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			]
+		],
+		'total_cleavage_short3' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:total_cleavage_short3',
+			'config' => [
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			]
+		],
+		'total_cleavage_short4' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:total_cleavage_short4',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'int'
+			],
+		],
+		'total_cleavage_short5' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:total_cleavage_short5',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'int'
+			],
+		],
+		'total_cleavage_short6' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:total_cleavage_short6',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'int'
+			],
+		],
+		'total_cleavage_short7' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:total_cleavage_short7',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'int'
+			],
+		],
+		'total_cleavage_short8' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:total_cleavage_short8',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'int'
+			],
+		],
 		'related_election' => [
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:related_election',
 			'config' => array(

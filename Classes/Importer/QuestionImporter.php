@@ -153,11 +153,16 @@ class QuestionImporter extends AbstractImporter {
 			$clause .= BackendUtility::deleteClause($this->tableName);
 			$totalCleavage = $this->getDatabaseConnection()->exec_SELECTcountRows('cleavage' . $index, $this->tableName, $clause);
 			$values['total_cleavage' . $index] = $totalCleavage;
+
+			$clause .= ' AND rapide = 1';
+			$totalCleavage = $this->getDatabaseConnection()->exec_SELECTcountRows('cleavage' . $index, $this->tableName, $clause);
+			$values['total_cleavage_short' . $index] = $totalCleavage;
 		}
+
 
 		$this->getDatabaseConnection()->exec_UPDATEquery(
 			'tx_easyvotesmartvote_domain_model_election',
-			'uid = ' . $this->election->getUid() . ' AND sys_language_uid = ' . $languageUid,
+			'uid = ' . $this->election->getUid(),
 			$values
 		);
 	}
