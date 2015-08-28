@@ -4,185 +4,217 @@
 		<header/>
 		<body>
 			<trans-unit id="who_to_elect">
-				<source>Wen soll ich wählen?</source>
+				<target>Pour qui voter ?</target>
 			</trans-unit>
 			<trans-unit id="voting_recommendation">
-				<source>Recommendation de vote</source>
+				<target>Recommandation de vote</target>
 			</trans-unit>
 
 			<trans-unit id="filter_candidates">
-				<source>Filtrer les candidats</source>
+				<target>filtrer les candidats</target>
 			</trans-unit>
 			<trans-unit id="filter.party.title">
-				<source>Parti</source>
+				<target>Parti</target>
 			</trans-unit>
 			<trans-unit id="filter.district.title.canton">
-				<source>Canton</source>
+				<target>Canton</target>
 			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
-				<source>Type</source>
+				<target>individu easyvote</target>
 			</trans-unit>
 			<trans-unit id="filter.age.title">
-				<source>Âge</source>
+				<target>Âge</target>
 			</trans-unit>
 			<trans-unit id="filter.age.toAge">
-				<source>jusque</source>
+				<target>jusqu'à</target>
 			</trans-unit>
 			<trans-unit id="filter.gender.title">
-				<source>Sexe</source>
+				<target>Sexe</target>
 			</trans-unit>
 			<trans-unit id="filter.gender.female">
-				<source>Féminin</source>
+				<target>Femme</target>
 			</trans-unit>
 			<trans-unit id="filter.gender.male">
-				<source>Masculin</source>
+				<target>Homme</target>
 			</trans-unit>
 			<trans-unit id="filter.incumbent.title">
-				<source>Bisherig</source>
+				<target>Actuel</target>
 			</trans-unit>
 			<trans-unit id="filter.incumbent.yes">
-				<source>Oui</source>
+				<target>Oui</target>
 			</trans-unit>
 			<trans-unit id="filter.incumbent.no">
-				<source>Non</source>
+				<target>Non</target>
 			</trans-unit>
 			<trans-unit id="yes">
-				<source>Oui</source>
+				<target>Oui</target>
 			</trans-unit>
 			<trans-unit id="rather_yes">
-				<source>Plutôt oui</source>
+				<target>Plutôt oui</target>
 			</trans-unit>
 			<trans-unit id="rather_no">
-				<source>Plutôt non</source>
+				<target>Plutôt non</target>
 			</trans-unit>
 			<trans-unit id="no">
-				<source>Non</source>
+				<target>Non</target>
 			</trans-unit>
 			<trans-unit id="no_answer">
-				<source>Pas de réponse</source>
+				<target>Pas de réponse</target>
 			</trans-unit>
 			<trans-unit id="spend_more_significantly">
-				<source>Deutlich mehr ausgeben</source>
+				<target>Dépenser nettement plus</target>
 			</trans-unit>
 			<trans-unit id="spend_more">
-				<source>Mehr ausgeben</source>
+				<target>Dépenser plus</target>
 			</trans-unit>
 			<trans-unit id="spend_same">
-				<source>Gleich viel ausgeben</source>
+				<target>Dépenser la même chose</target>
 			</trans-unit>
 			<trans-unit id="spend_less">
-				<source>Weniger ausgeben</source>
+				<target>Dépenser moins</target>
 			</trans-unit>
 			<trans-unit id="spend_less_significantly">
-				<source>Deutlich weniger ausgeben</source>
+				<target>Dépenser nettement moins</target>
 			</trans-unit>
 
 			<trans-unit id="candidate.supporters">
-				<source>Unterstützer</source>
+				<target>Partisans</target>
 			</trans-unit>
 			<trans-unit id="candidate.from">
-				<source>aus</source>
+				<target>de</target>
 			</trans-unit>
 			<trans-unit id="candidate.addToList">
-				<source>Zu meiner Liste hinzufügen</source>
+				<target>Ajouter à ma liste</target>
 			</trans-unit>
+			<trans-unit id="candidate.listPlace">
+				<target>Numéro</target>
+			</trans-unit>
+			<trans-unit id="candidate.ch2055">
+				<target>Ma Suisse en 2055</target>
+			</trans-unit>
+			<trans-unit id="candidate.motivation">
+				<target>Ce qui a éveillé mon intérêt politique</target>
+			</trans-unit>
+			<trans-unit id="candidate.website">
+				<target>Website</target>
+			</trans-unit>
+			<trans-unit id="candidate.facebook">
+				<target>Facebook</target>
+			</trans-unit>
+			<trans-unit id="candidate.twitter">
+				<target>Twitter</target>
+			</trans-unit>
+			<trans-unit id="candidate.mail">
+				<target>E-Mail</target>
+			</trans-unit>
+			<trans-unit id="candidate.about_me">
+				<target>À mon propos</target>
+			</trans-unit>
+			<trans-unit id="candidate.occupation">
+				<target>Emploi actuel</target>
+			</trans-unit>
+			<trans-unit id="candidate.education">
+				<target>Formation</target>
+			</trans-unit>
+			<trans-unit id="candidate.hobbies">
+				<target>Loisirs</target>
+			</trans-unit>
+
 			<trans-unit id="filter_reset">
-				<source>Filter zurücksetzen</source>
+				<target>Réinitialiser les filtres</target>
 			</trans-unit>
 			<trans-unit id="candidates_found">
-				<source>Kandidierende gefunden</source>
+				<target>Candidats trouvés</target>
 			</trans-unit>
 			<trans-unit id="candidate_found">
-				<source>Kandidierende/r gefunden</source>
+				<target>Candidat/e trouvé/e</target>
 			</trans-unit>
 			<trans-unit id="long_version">
-				<source>Long Version</source>
+				<target>Long Version</target>
 			</trans-unit>
 			<trans-unit id="short_version">
-				<source>Rapide Version</source>
+				<target>Short Version</target>
 			</trans-unit>
 
 			<trans-unit id="to_questionnaire">
-				<source>Zum Fragebogen</source>
+				<target>Vers le questionnaire</target>
 			</trans-unit>
 			<trans-unit id="to_long_questionnaire">
-				<source>Zum langen Fragebogen</source>
+				<target>Vers le questionnaire long</target>
 			</trans-unit>
 			<trans-unit id="is_only_a_few_clicks">
-				<source>ist nur wenige Klicks entfernt!</source>
+				<target>il ne reste plus que quelques clics !</target>
 			</trans-unit>
 			<trans-unit id="anser_questionnaire_to_get_recommendation">
-				<source>Beantworte die smartvote-Fragen, um eine persönliche Wahlempfehlung zu erhalten.</source>
+				<target>Réponds aux questions smartvote pour obtenir une recommandation de vote personnalisée.</target>
 			</trans-unit>
 			<trans-unit id="or">
-				<source>oder</source>
+				<target>ou</target>
 			</trans-unit>
 			<trans-unit id="set_filter">
-				<source>Durchsuche die Datenbank aller Kandidierenden. Um loszugehen, musst du mindestends einee Filter setzen:</source>
+				<target>Parcours la banque de données de tous les candidats. Pour commencer tu dois sélectionner au moins un filtre:</target>
 			</trans-unit>
 			<trans-unit id="create_account">
-				<source>Melde dich bei easyvote an oder erstelle ein Konto, um automatisch die Kandidaten in deiner Nähe anzuzeigen</source>
+				<target>Inscris-toi sur easyvote ou crée un compte pour que les candidats de ta région apparaissent automatiquement</target>
 			</trans-unit>
 			<trans-unit id="sorted_by">
-				<source>sortiert nach</source>
+				<target>trié selon</target>
 			</trans-unit>
 			<trans-unit id="matching">
-				<source>Übereinstimmung</source>
+				<target>correspondance</target>
 			</trans-unit>
 			<trans-unit id="name">
-				<source>Name</source>
+				<target>Nom</target>
 			</trans-unit>
 
 			<trans-unit id="cleavage1_text1">
-				<source>Ouverture</source>
+				<target>Ouvert</target>
 			</trans-unit>
 			<trans-unit id="cleavage1_text2">
-				<source>vers l'étranger</source>
+				<target>Politique extérieure</target>
 			</trans-unit>
 			<trans-unit id="cleavage2_text1">
-				<source>Politique</source>
+				<target>Liberale</target>
 			</trans-unit>
 			<trans-unit id="cleavage2_text2">
-				<source>économique liberale</source>
+				<target>Politique économique</target>
 			</trans-unit>
 			<trans-unit id="cleavage3_text1">
-				<source>Politique</source>
+				<target>Restrictive</target>
 			</trans-unit>
 			<trans-unit id="cleavage3_text2">
-				<source>financière restrictive</source>
+				<target>Politique budgétaire</target>
 			</trans-unit>
 			<trans-unit id="cleavage4_text1">
-				<source></source>
+				<target>Libéral</target>
 			</trans-unit>
 			<trans-unit id="cleavage4_text2">
-				<source>Société libérale</source>
+				<target>Société</target>
 			</trans-unit>
 			<trans-unit id="cleavage5_text1">
-				<source></source>
+				<target></target>
 			</trans-unit>
 			<trans-unit id="cleavage5_text2">
-				<source>Ordre et sécurité</source>
+				<target>Law &amp; Order</target>
 			</trans-unit>
 			<trans-unit id="cleavage6_text1">
-				<source>Politique</source>
+				<target>Restrictif</target>
 			</trans-unit>
 			<trans-unit id="cleavage6_text2">
-				<source>migratoire restrictives</source>
+				<target>Politique migratoire</target>
 			</trans-unit>
 			<trans-unit id="cleavage7_text1">
-				<source>Forte protection</source>
+				<target>Aménagé</target>
 			</trans-unit>
 			<trans-unit id="cleavage7_text2">
-				<source>de l'environnement</source>
+				<target>Protection de l'environnement</target>
 			</trans-unit>
 			<trans-unit id="cleavage8_text1">
-				<source></source>
+				<target>Aménagé</target>
 			</trans-unit>
 			<trans-unit id="cleavage8_text2">
-				<source>Etat social fort</source>
+				<target>État social</target>
 			</trans-unit>
-
-
 		</body>
 	</file>
 </xliff>
