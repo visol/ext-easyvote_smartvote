@@ -8,12 +8,6 @@ plugin.tx_easyvotesmartvote {
 	persistence {
 		storagePid = {$plugin.tx_easyvotesmartvote.persistence.storagePid}
 	}
-	features {
-		# uncomment the following line to enable the new Property Mapper.
-		# rewrittenPropertyMapper = 1
-	}
-
 	settings {
-		content_element_map_uid = 2617
 	}
 }
