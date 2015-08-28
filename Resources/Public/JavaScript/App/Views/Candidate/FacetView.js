@@ -78,11 +78,15 @@ export default class FacetView extends Backbone.View {
 			query.push(facet.name + '=' + facet.value)
 		}
 
-		// Set state of the filter in the URL.
-		window.location.hash = query.join('&');
+		// Only save if a query was found. Could be the DOM is not yet initialized.
+		if (query.length > 0) {
 
-		this.model.save(data);
-		Backbone.trigger('facet:changed');
+			// Set state of the filter in the URL.
+			window.location.hash = query.join('&');
+
+			this.model.save(data);
+			Backbone.trigger('facet:changed');
+		}
 	}
 
 	/**
