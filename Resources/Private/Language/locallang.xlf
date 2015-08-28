@@ -506,10 +506,10 @@
 				<source>Kandidierende/r gefunden</source>
 			</trans-unit>
 			<trans-unit id="long_version">
-				<source>Long Version</source>
+				<source>75 Fragen</source>
 			</trans-unit>
 			<trans-unit id="short_version">
-				<source>Short Version</source>
+				<source>30 Fragen</source>
 			</trans-unit>
 
 			<trans-unit id="to_questionnaire">
@@ -528,10 +528,10 @@
 				<source>oder</source>
 			</trans-unit>
 			<trans-unit id="set_filter">
-				<source>Durchsuche die Datenbank aller Kandidierenden. Um loszugehen, musst du mindestends einee Filter setzen:</source>
+				<source>Durchsuche die Datenbank aller Kandidierenden. Um loszugehen, musst du mindestens einen Filter setzen:</source>
 			</trans-unit>
 			<trans-unit id="create_account">
-				<source>Melde dich bei easyvote an oder erstelle ein Konto, um automatisch die Kandidaten in deiner Nähe anzuzeigen</source>
+				<source>Melde dich bei easyvote an oder erstelle ein Konto, um automatisch die Kandidierenden in deiner Nähe anzuzeigen</source>
 			</trans-unit>
 			<trans-unit id="sorted_by">
 				<source>sortiert nach</source>

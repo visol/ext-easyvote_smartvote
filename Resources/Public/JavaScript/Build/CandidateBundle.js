@@ -1520,12 +1520,22 @@ var Responsive = (function () {
 				this.reference.addFunc({
 					breakpoint: "mobile",
 					enter: function enter() {
-						var $box = $("#wrapper-filter").parent().detach();
+						EasyvoteSmartvote.originalWrapperFilter = $("#wrapper-filter");
+						EasyvoteSmartvote.originalWrapperFilterParentContent = EasyvoteSmartvote.originalWrapperFilter.closest(".csc-default");
+						var $box = EasyvoteSmartvote.originalWrapperFilter.parent().detach();
 						$("#container-filter-responsive").append($box);
+
+						EasyvoteSmartvote.chartElement = $("#chart");
+						EasyvoteSmartvote.chartElementParentContent = EasyvoteSmartvote.chartElement.closest(".csc-default");
+						var $chart = EasyvoteSmartvote.chartElement.parent().detach();
+						$("#spider-responsive").append($chart);
 					},
 					exit: function exit() {
 						var $box = $("#wrapper-filter").parent().detach();
-						$("#c3293").append($box);
+						EasyvoteSmartvote.originalWrapperFilterParentContent.append($box);
+
+						var $chart = $("#chart").parent().detach();
+						EasyvoteSmartvote.chartElementParentContent.append($chart);
 					}
 				});
 			}

@@ -355,7 +355,7 @@ var SpiderChart = (function () {
 })();
 
 module.exports = SpiderChart;
-},{"./SpiderChartPlotter":2,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/interop-require":19}],2:[function(require,module,exports){
+},{"./SpiderChartPlotter":2,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/interop-require":20}],2:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -784,7 +784,7 @@ var SpiderChartPlotter = (function () {
 })();
 
 module.exports = SpiderChartPlotter;
-},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],3:[function(require,module,exports){
+},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],3:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1032,7 +1032,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":11,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],4:[function(require,module,exports){
+},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":12,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1303,7 +1303,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":9,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],5:[function(require,module,exports){
+},{"../Models/QuestionModel":9,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],5:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1429,7 +1429,7 @@ var FilterEngine = (function () {
 })();
 
 module.exports = FilterEngine;
-},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],6:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],6:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1473,7 +1473,7 @@ var FacetIterator = (function () {
 })();
 
 module.exports = FacetIterator;
-},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],7:[function(require,module,exports){
+},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],7:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1607,7 +1607,7 @@ var CandidateModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = CandidateModel;
-},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],8:[function(require,module,exports){
+},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],8:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1741,7 +1741,7 @@ var FacetModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = FacetModel;
-},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18}],9:[function(require,module,exports){
+},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19}],9:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1816,7 +1816,7 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18}],10:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19}],10:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
@@ -1825,11 +1825,83 @@ var ListView = _interopRequire(require("./Views/Question/ListView"));
 
 var SpiderChart = _interopRequire(require("./Chart/SpiderChart"));
 
+var Responsive = _interopRequire(require("./Responsive.js"));
+
 $(function () {
 	new ListView();
 	SpiderChart.getInstance().draw();
+
+	// Add some responsiveness feature such as the search form
+	// which should be displayed elsewhere in the mobile layout.
+	var responsive = new Responsive();
+	responsive.bindAction();
 });
-},{"./Chart/SpiderChart":1,"./Views/Question/ListView":12,"babel-runtime/helpers/interop-require":19}],11:[function(require,module,exports){
+},{"./Chart/SpiderChart":1,"./Responsive.js":11,"./Views/Question/ListView":13,"babel-runtime/helpers/interop-require":20}],11:[function(require,module,exports){
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var Responsive = (function () {
+
+	/**
+  * Constructor
+  */
+
+	function Responsive() {
+		_classCallCheck(this, Responsive);
+
+		this.reference = jRespond([{
+			label: "mobile",
+			enter: 0,
+			exit: 991
+		}, {
+			label: "desktop",
+			enter: 992,
+			exit: 10000
+		}]);
+	}
+
+	_createClass(Responsive, {
+		bindAction: {
+
+			/**
+    * @return void
+    */
+
+			value: function bindAction() {
+
+				this.reference.addFunc({
+					breakpoint: "mobile",
+					enter: function enter() {
+						EasyvoteSmartvote.originalWrapperFilter = $("#wrapper-filter");
+						EasyvoteSmartvote.originalWrapperFilterParentContent = EasyvoteSmartvote.originalWrapperFilter.closest(".csc-default");
+						var $box = EasyvoteSmartvote.originalWrapperFilter.parent().detach();
+						$("#container-filter-responsive").append($box);
+
+						EasyvoteSmartvote.chartElement = $("#chart");
+						EasyvoteSmartvote.chartElementParentContent = EasyvoteSmartvote.chartElement.closest(".csc-default");
+						var $chart = EasyvoteSmartvote.chartElement.parent().detach();
+						$("#spider-responsive").append($chart);
+					},
+					exit: function exit() {
+						var $box = $("#wrapper-filter").parent().detach();
+						EasyvoteSmartvote.originalWrapperFilterParentContent.append($box);
+
+						var $chart = $("#chart").parent().detach();
+						EasyvoteSmartvote.chartElementParentContent.append($chart);
+					}
+				});
+			}
+		}
+	});
+
+	return Responsive;
+})();
+
+module.exports = Responsive;
+},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],12:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -2001,7 +2073,7 @@ var FacetView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = FacetView;
-},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":6,"../../Models/FacetModel":8,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],12:[function(require,module,exports){
+},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":6,"../../Models/FacetModel":8,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],13:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -2301,7 +2373,7 @@ var ListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = ListView;
-},{"../../Chart/SpiderChart":1,"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./QuestionView":13,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],13:[function(require,module,exports){
+},{"../../Chart/SpiderChart":1,"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./QuestionView":14,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],14:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -2394,7 +2466,7 @@ var QuestionView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = QuestionView;
-},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18}],14:[function(require,module,exports){
+},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19}],15:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -4736,7 +4808,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -4746,7 +4818,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -4768,7 +4840,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -4812,7 +4884,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":14}],18:[function(require,module,exports){
+},{"babel-runtime/core-js":15}],19:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -4832,7 +4904,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
