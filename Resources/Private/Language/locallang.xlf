@@ -201,16 +201,16 @@
 				<source>Law &amp; Order</source>
 			</trans-unit>
 			<trans-unit id="cleavage6_text1">
-				<source>Restriktive</source>
-			</trans-unit>
-			<trans-unit id="cleavage6_text2">
 				<source>Migrationspolitik</source>
 			</trans-unit>
+			<trans-unit id="cleavage6_text2">
+				<source>Restriktive</source>
+			</trans-unit>
 			<trans-unit id="cleavage7_text1">
-				<source>Ausgebauter</source>
+				<source>Umweltschutz</source>
 			</trans-unit>
 			<trans-unit id="cleavage7_text2">
-				<source>Umweltschutz</source>
+				<source>Ausgebauter</source>
 			</trans-unit>
 			<trans-unit id="cleavage8_text1">
 				<source>Ausgebauter</source>
