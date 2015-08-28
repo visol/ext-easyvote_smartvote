@@ -32,7 +32,7 @@ class QuestionController extends ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
-		$electionIdentifier = (int)$this->settings['elections'];
+		$electionIdentifier = (int)$this->settings['election'];
 		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
 		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
 		$this->view->assign('currentElection', $currentElection);
