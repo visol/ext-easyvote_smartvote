@@ -297,6 +297,16 @@
 			<trans-unit id="party.watch_clip">
 				<source>Zum Clip</source>
 			</trans-unit>
+
+			<trans-unit id="questions.show_recommendation">
+				<source>Wahlempfehlung anzeigen</source>
+			</trans-unit>
+			<trans-unit id="questions.recommendation_nr">
+				<source>Nationrat</source>
+			</trans-unit>
+			<trans-unit id="questions.recommendation_sr">
+				<source>Ständerat</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

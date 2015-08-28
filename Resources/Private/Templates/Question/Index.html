@@ -15,9 +15,14 @@
 		<h2>
 			<f:translate key="who_to_elect"/>
 		</h2>
-		<div>
-			<a href="#version=short" id="btn-short-version" class="btn btn-primary link-questionnaire">{f:translate(key:'short_version')}</a><br />
+		<div id="questionnaire-type-links">
+			<a href="#version=short" id="btn-short-version" class="btn btn-primary link-questionnaire">{f:translate(key:'short_version')}</a>
 			<a href="#version=long" id="btn-long-version">{f:translate(key:'long_version')}</a>
+		</div>
+		<div id="directory-links">
+			<h3><f:translate key="questions.show_recommendation" /></h3>
+			<f:link.page pageUid="{settings.candidateDirectoryNRPid}" class="btn btn-primary"><f:translate key="questions.recommendation_nr" /></f:link.page>
+			<f:link.page pageUid="{settings.candidateDirectorySRPid}" class="btn btn-primary"><f:translate key="questions.recommendation_sr" /></f:link.page>
 		</div>
 	</div>
 

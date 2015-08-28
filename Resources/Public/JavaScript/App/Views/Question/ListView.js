@@ -27,6 +27,7 @@ export default class ListView extends Backbone.View {
 		// Store the flag whether it is a short or long version of the questionnaire.
 		this.isShortVersion = this.isShortQuestionnaire();
 		this.updateWidget();
+		this.linkToDirectoriesIfAllQuestionsAnswered();
 
 		// Special binding since the reset button is outside the scope of this view.
 		_.bindAll(this, 'showShortVersion');
@@ -122,6 +123,29 @@ export default class ListView extends Backbone.View {
 	}
 
 	/**
+	 * Display the links to the candidate directory if needed
+	 */
+	linkToDirectoriesIfAllQuestionsAnswered() {
+		let numberOfQuestionAnswered = this.questionCollection.countVisible(this.isShortVersion);
+		let totalNumberOfQuestions = this.questionCollection.count(this.isShortVersion);
+		if (totalNumberOfQuestions === 0) {
+			// As long as no question is answered, totalNumberOfQuestions equals 0
+			// In this case we can make an early return
+			return;
+		}
+		if (numberOfQuestionAnswered === totalNumberOfQuestions && this.isShortVersion) {
+			// The short version is taken completely, display directory links and hide short version link
+			$('#directory-links').show();
+			$('#btn-short-version').hide();
+		} else if (numberOfQuestionAnswered === totalNumberOfQuestions) {
+			// The long version is taken completely, display directory links and hide version links
+			$('#directory-links').show();
+			$('#btn-short-version').hide();
+			$('#btn-long-version').hide();
+		}
+	}
+
+	/**
 	 * @returns {number}
 	 */
 	getProgress() {
@@ -167,6 +191,7 @@ export default class ListView extends Backbone.View {
 		// Update GUI.
 		this.updateChart(question);
 		this.renderProgressBar();
+		this.linkToDirectoriesIfAllQuestionsAnswered();
 
 		// Persist new status to the storage.
 		question.save().done((question) => {
