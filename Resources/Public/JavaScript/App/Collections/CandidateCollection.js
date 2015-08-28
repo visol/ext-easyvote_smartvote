@@ -41,13 +41,21 @@ export default class CandidateCollection extends Backbone.Collection {
 		var comparison;
 
 		if (this.sorting === 'name' && this.direction === 'ascending') {
-			comparison = candidate1.get('lastName') > candidate2.get('lastName');
+			if (candidate1.get('lastName') === candidate2.get('lastName')) {
+				comparison = candidate1.get('firstName') > candidate2.get('firstName') ? 1 : -1;
+			} else {
+				comparison = candidate1.get('lastName') > candidate2.get('lastName') ? 1 : -1;
+			}
 		} else if (this.sorting === 'name' && this.direction === 'descending') {
-			comparison = candidate1.get('lastName') < candidate2.get('lastName');
+			if (candidate1.get('lastName') === candidate2.get('lastName')) {
+				comparison = candidate1.get('firstName') < candidate2.get('firstName') ? 1 : -1;
+			} else {
+				comparison = candidate1.get('lastName') < candidate2.get('lastName') ? 1 : -1;
+			}
 		} else if (this.sorting === 'matching' && this.direction === 'ascending') {
-			comparison = candidate1.getMatching() > candidate2.getMatching();
+			comparison = candidate1.getMatching() > candidate2.getMatching() ? 1 : -1;
 		} else {
-			comparison = candidate1.getMatching() < candidate2.getMatching(); // default choice
+			comparison = candidate1.getMatching() < candidate2.getMatching() ? 1 : -1; // default choice
 		}
 
 		return comparison;
