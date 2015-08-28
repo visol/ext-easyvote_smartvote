@@ -89,6 +89,46 @@ class Election extends AbstractEntity {
 	protected $totalCleavage8 = '';
 
 	/**
+	 * @var int
+	 */
+	protected $totalCleavageShort1 = 0;
+
+	/**
+	 * @var int
+	 */
+	protected $totalCleavageShort2 = 0;
+
+	/**
+	 * @var int
+	 */
+	protected $totalCleavageShort3 = 0;
+
+	/**
+	 * @var int
+	 */
+	protected $totalCleavageShort4 = '';
+
+	/**
+	 * @var int
+	 */
+	protected $totalCleavageShort5 = '';
+
+	/**
+	 * @var int
+	 */
+	protected $totalCleavageShort6 = '';
+
+	/**
+	 * @var int
+	 */
+	protected $totalCleavageShort7 = '';
+
+	/**
+	 * @var int
+	 */
+	protected $totalCleavageShort8 = '';
+
+	/**
 	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
 	 */
 	protected $relatedElection;
@@ -313,6 +353,134 @@ class Election extends AbstractEntity {
 	 */
 	public function setRelatedElection($relatedElection) {
 		$this->relatedElection = $relatedElection;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalCleavageShort1() {
+		return $this->totalCleavageShort1;
+	}
+
+	/**
+	 * @param int $totalCleavageShort1
+	 * @return $this
+	 */
+	public function setTotalCleavageShort1($totalCleavageShort1) {
+		$this->totalCleavageShort1 = $totalCleavageShort1;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalCleavageShort2() {
+		return $this->totalCleavageShort2;
+	}
+
+	/**
+	 * @param int $totalCleavageShort2
+	 * @return $this
+	 */
+	public function setTotalCleavageShort2($totalCleavageShort2) {
+		$this->totalCleavageShort2 = $totalCleavageShort2;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalCleavageShort3() {
+		return $this->totalCleavageShort3;
+	}
+
+	/**
+	 * @param int $totalCleavageShort3
+	 * @return $this
+	 */
+	public function setTotalCleavageShort3($totalCleavageShort3) {
+		$this->totalCleavageShort3 = $totalCleavageShort3;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalCleavageShort4() {
+		return $this->totalCleavageShort4;
+	}
+
+	/**
+	 * @param int $totalCleavageShort4
+	 * @return $this
+	 */
+	public function setTotalCleavageShort4($totalCleavageShort4) {
+		$this->totalCleavageShort4 = $totalCleavageShort4;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalCleavageShort5() {
+		return $this->totalCleavageShort5;
+	}
+
+	/**
+	 * @param int $totalCleavageShort5
+	 * @return $this
+	 */
+	public function setTotalCleavageShort5($totalCleavageShort5) {
+		$this->totalCleavageShort5 = $totalCleavageShort5;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalCleavageShort6() {
+		return $this->totalCleavageShort6;
+	}
+
+	/**
+	 * @param int $totalCleavageShort6
+	 * @return $this
+	 */
+	public function setTotalCleavageShort6($totalCleavageShort6) {
+		$this->totalCleavageShort6 = $totalCleavageShort6;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalCleavageShort7() {
+		return $this->totalCleavageShort7;
+	}
+
+	/**
+	 * @param int $totalCleavageShort7
+	 * @return $this
+	 */
+	public function setTotalCleavageShort7($totalCleavageShort7) {
+		$this->totalCleavageShort7 = $totalCleavageShort7;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalCleavageShort8() {
+		return $this->totalCleavageShort8;
+	}
+
+	/**
+	 * @param int $totalCleavageShort8
+	 * @return $this
+	 */
+	public function setTotalCleavageShort8($totalCleavageShort8) {
+		$this->totalCleavageShort8 = $totalCleavageShort8;
 		return $this;
 	}
 

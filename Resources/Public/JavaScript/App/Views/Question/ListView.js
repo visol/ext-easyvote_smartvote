@@ -180,7 +180,7 @@ export default class ListView extends Backbone.View {
 	updateChart(question) {
 
 		if (typeof question.get('answer') === 'number') {
-			SpiderChart.getInstance()
+			SpiderChart.getInstance(this.isShortVersion)
 				.addToCleavage1(question.id, question.get('answer'), question.get('cleavage1'))
 				.addToCleavage2(question.id, question.get('answer'), question.get('cleavage2'))
 				.addToCleavage3(question.id, question.get('answer'), question.get('cleavage3'))

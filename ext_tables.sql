@@ -186,6 +186,15 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_election (
 	total_cleavage7 int(11) DEFAULT '0' NOT NULL,
 	total_cleavage8 int(11) DEFAULT '0' NOT NULL,
 
+	total_cleavage_short1 int(11) DEFAULT '0' NOT NULL,
+	total_cleavage_short2 int(11) DEFAULT '0' NOT NULL,
+	total_cleavage_short3 int(11) DEFAULT '0' NOT NULL,
+	total_cleavage_short4 int(11) DEFAULT '0' NOT NULL,
+	total_cleavage_short5 int(11) DEFAULT '0' NOT NULL,
+	total_cleavage_short6 int(11) DEFAULT '0' NOT NULL,
+	total_cleavage_short7 int(11) DEFAULT '0' NOT NULL,
+	total_cleavage_short8 int(11) DEFAULT '0' NOT NULL,
+
 	related_election int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),

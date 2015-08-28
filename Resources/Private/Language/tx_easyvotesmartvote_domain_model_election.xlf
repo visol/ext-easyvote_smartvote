@@ -70,6 +70,34 @@
 			<trans-unit id="related_election">
 				<source>Related election</source>
 			</trans-unit>
+
+			<trans-unit id="total_cleavage_short1">
+				<source>Total cleavage short 1</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage_short2">
+				<source>Total cleavage short 2</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage_short3">
+				<source>Total cleavage short 3</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage_short4">
+				<source>Total cleavage short 4</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage_short5">
+				<source>Total cleavage short 5</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage_short6">
+				<source>Total cleavage short 6</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage_short7">
+				<source>Total cleavage short 7</source>
+			</trans-unit>
+			<trans-unit id="total_cleavage_short8">
+				<source>Total cleavage short 8</source>
+			</trans-unit>
+			<trans-unit id="related_election">
+				<source>Related election</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

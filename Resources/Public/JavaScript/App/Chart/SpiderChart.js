@@ -12,7 +12,7 @@ export default class SpiderChart {
 	/**
 	 * Constructor
 	 */
-	constructor() {
+	constructor(isShortVersion) {
 		this.cleavage1 = [];
 		this.cleavage2 = [];
 		this.cleavage3 = [];
@@ -22,14 +22,7 @@ export default class SpiderChart {
 		this.cleavage7 = [];
 		this.cleavage8 = [];
 
-		this.totalCleavage1 = EasyvoteSmartvote.totalCleavage1;
-		this.totalCleavage2 = EasyvoteSmartvote.totalCleavage2;
-		this.totalCleavage3 = EasyvoteSmartvote.totalCleavage3;
-		this.totalCleavage4 = EasyvoteSmartvote.totalCleavage4;
-		this.totalCleavage5 = EasyvoteSmartvote.totalCleavage5;
-		this.totalCleavage6 = EasyvoteSmartvote.totalCleavage6;
-		this.totalCleavage7 = EasyvoteSmartvote.totalCleavage7;
-		this.totalCleavage8 = EasyvoteSmartvote.totalCleavage8;
+		this.isShortVersion = isShortVersion;
 
 		// Start the local storage
 		this.localStorage = new Backbone.LocalStorage('spider-chart-' + EasyvoteSmartvote.token);
@@ -228,16 +221,37 @@ export default class SpiderChart {
 	 * Draw the Spider Chart.
 	 */
 	draw() {
+
+		if (this.isShortVersion) {
+			var totalCleavage1 = EasyvoteSmartvote.totalCleavageShort1;
+			var totalCleavage2 = EasyvoteSmartvote.totalCleavageShort8;
+			var totalCleavage3 = EasyvoteSmartvote.totalCleavageShort7;
+			var totalCleavage4 = EasyvoteSmartvote.totalCleavageShort6;
+			var totalCleavage5 = EasyvoteSmartvote.totalCleavageShort5;
+			var totalCleavage6 = EasyvoteSmartvote.totalCleavageShort4;
+			var totalCleavage7 = EasyvoteSmartvote.totalCleavageShort3;
+			var totalCleavage8 = EasyvoteSmartvote.totalCleavageShort2;
+		} else {
+			var totalCleavage1 = EasyvoteSmartvote.totalCleavage1;
+			var totalCleavage2 = EasyvoteSmartvote.totalCleavage8;
+			var totalCleavage3 = EasyvoteSmartvote.totalCleavage7;
+			var totalCleavage4 = EasyvoteSmartvote.totalCleavage6;
+			var totalCleavage5 = EasyvoteSmartvote.totalCleavage5;
+			var totalCleavage6 = EasyvoteSmartvote.totalCleavage4;
+			var totalCleavage7 = EasyvoteSmartvote.totalCleavage3;
+			var totalCleavage8 = EasyvoteSmartvote.totalCleavage2;
+		}
+
 		let data = [
 			//                                                                                                             cleavage* - position in circle
-			{value: this.computeValueForCleavage1() / (EasyvoteSmartvote.totalCleavage1 * 100)}, // Offene Aussenpolitik           1 - 1
-			{value: this.computeValueForCleavage8() / (EasyvoteSmartvote.totalCleavage8 * 100)}, // Liberale Gesellschaft          8 - 2
-			{value: this.computeValueForCleavage7() / (EasyvoteSmartvote.totalCleavage7 * 100)}, // Ausgebauter Sozialstaat        7 - 3
-			{value: this.computeValueForCleavage6() / (EasyvoteSmartvote.totalCleavage6 * 100)}, // Ausgebauter Umweltschutz       6 - 4
-			{value: this.computeValueForCleavage5() / (EasyvoteSmartvote.totalCleavage5 * 100)}, // Restrictive Migrationspolitik  5 - 5
-			{value: this.computeValueForCleavage4() / (EasyvoteSmartvote.totalCleavage4 * 100)}, // Law & Order                    4 - 6
-			{value: this.computeValueForCleavage3() / (EasyvoteSmartvote.totalCleavage3 * 100)}, // Restrictive Finanzpolitik      3 - 7
-			{value: this.computeValueForCleavage2() / (EasyvoteSmartvote.totalCleavage2 * 100)}  // Liberale Wirtschaftspolitik    2 - 8
+			{value: this.computeValueForCleavage1() / (totalCleavage1 * 100)}, // Offene Aussenpolitik           1 - 1
+			{value: this.computeValueForCleavage8() / (totalCleavage8 * 100)}, // Liberale Gesellschaft          8 - 2
+			{value: this.computeValueForCleavage7() / (totalCleavage7 * 100)}, // Ausgebauter Sozialstaat        7 - 3
+			{value: this.computeValueForCleavage6() / (totalCleavage6 * 100)}, // Ausgebauter Umweltschutz       6 - 4
+			{value: this.computeValueForCleavage5() / (totalCleavage5 * 100)}, // Restrictive Migrationspolitik  5 - 5
+			{value: this.computeValueForCleavage4() / (totalCleavage4 * 100)}, // Law & Order                    4 - 6
+			{value: this.computeValueForCleavage3() / (totalCleavage3 * 100)}, // Restrictive Finanzpolitik      3 - 7
+			{value: this.computeValueForCleavage2() / (totalCleavage2 * 100)}  // Liberale Wirtschaftspolitik    2 - 8
 		];
 
 		// Save the data to be used in the view candidate.
@@ -259,11 +273,19 @@ export default class SpiderChart {
 	/**
 	 * @return Chart
 	 */
-	static getInstance() {
-		if (!this.instance) {
-			this.instance = new SpiderChart();
+	static getInstance(isShortVersion = true) {
+
+		var versionType = isShortVersion ? 'short' : 'long';
+
+		if (!this.instances) {
+			this.instances = [];
 		}
-		return this.instance;
+
+		if (!this.instances[versionType]) {
+			this.instances[versionType] = new SpiderChart(isShortVersion);
+		}
+
+		return this.instances[versionType];
 	}
 
 }
