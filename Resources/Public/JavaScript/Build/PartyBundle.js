@@ -1,436 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*jshint esnext:true */
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var _core = require("babel-runtime/core-js")["default"];
-
-var SpiderChartPlotter = (function () {
-	function SpiderChartPlotter() {
-		_classCallCheck(this, SpiderChartPlotter);
-	}
-
-	_createClass(SpiderChartPlotter, null, {
-		plot: {
-			value: function plot(id, serie1, options) {
-				var serie2 = arguments[3] === undefined ? [] : arguments[3];
-
-				var config = {
-					radius: 5,
-					w: 600,
-					h: 600,
-					factor: 0.8, // was changed from original, default was 1
-					factorLegend: 0.85,
-					levels: 3,
-					maxValue: 0,
-					radians: 2 * Math.PI,
-					opacityArea: 0.5,
-					ToRight: 5,
-					TranslateX: 8,
-					TranslateY: 8,
-					ExtraWidthX: 16,
-					ExtraWidthY: 16,
-					color: "#1f77b4"
-				};
-
-				if ("undefined" !== typeof options) {
-					for (var i in options) {
-						if ("undefined" !== typeof options[i]) {
-							config[i] = options[i];
-						}
-					}
-				}
-				config.maxValue = Math.max(config.maxValue, d3.max(serie1, function (i) {
-					return d3.max(i.map(function (o) {
-						return o.value;
-					}));
-				}));
-				var allAxis = serie1[0].map(function (i, j) {
-					return i.axis;
-				});
-				var total = allAxis.length;
-				var radius = config.factor * Math.min(config.w / 2, config.h / 2);
-				var Format = d3.format("%");
-				d3.select(id).select("svg").remove();
-
-				var g = d3.select(id).append("svg").attr("width", config.w + config.ExtraWidthX).attr("height", config.h + config.ExtraWidthY).append("g").attr("transform", "translate(" + config.TranslateX + "," + config.TranslateY + ")");
-
-				/**
-     * Function that returns a SVG path
-     * Example: m14,120 a114,114 0 0 1 228,0
-     *
-     * @param {int} sweepFlag
-     * @param {float} adjustment
-     * @returns {string}
-     */
-				function getPathData(sweepFlag) {
-					var adjustment = arguments[1] === undefined ? 0.95 : arguments[1];
-
-					// adjust the radius a little so our text's baseline isn't sitting directly on the circle
-					var radiusWithoutScalingFactor = Math.min(config.w / 2, config.h / 2);
-					var r = radiusWithoutScalingFactor * adjustment;
-					var startX = config.w / 2 - r + config.TranslateX;
-					return "m" + startX + "," + config.h / 2 + " " + "a" + r + "," + r + " 0 0 " + sweepFlag + " " + 2 * r + ",0";
-				}
-
-				// Draw first invisible path for the text, upper demi-circle
-				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function () {
-						var sweepFlag = 1;
-						var adjustment = 0.9;
-						return getPathData(sweepFlag, adjustment);
-					},
-					id: "curvedTextPathUp"
-				});
-
-				// Draw first invisible path for the text, upper demi-circle
-				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function () {
-						var sweepFlag = 1;
-						var adjustment = 0.82;
-						return getPathData(sweepFlag, adjustment);
-					},
-					id: "curvedTextPathUpInnerCircle"
-				});
-
-				// Draw second invisible path for the text, upper demi-circle
-				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function () {
-						var sweepFlag = 0;
-						var adjustment = 1.08;
-						return getPathData(sweepFlag, adjustment);
-					},
-					id: "curvedTextPathDown"
-				});
-
-				// Draw second invisible path for the text, upper demi-circle
-				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function () {
-						var sweepFlag = 0;
-						var adjustment = 1;
-						return getPathData(sweepFlag, adjustment);
-					},
-					id: "curvedTextPathDownInnerCircle"
-				});
-
-				// Debug: to see the path where the text is written
-				//d3.select(id).selectAll('svg')
-				//	.append('path')
-				//	.attr({
-				//		d: function() {
-				//			let sweepFlag = 0;
-				//			return getPathData(sweepFlag)
-				//		},
-				//		fill: 'red',
-				//		opacity: '0.4',
-				//		id: 'visiblePath'
-				//	});
-
-				var dataset = [{
-					position: 1,
-					text1: EasyvoteSmartvote.cleavage1Text1,
-					text2: EasyvoteSmartvote.cleavage1Text2,
-					rotation: 0,
-					path: "curvedTextPathUp"
-				}, {
-					position: 2,
-					text1: EasyvoteSmartvote.cleavage2Text1,
-					text2: EasyvoteSmartvote.cleavage2Text2,
-					rotation: 45,
-					path: "curvedTextPathUp"
-				}, {
-					position: 3,
-					text1: EasyvoteSmartvote.cleavage3Text1,
-					text2: EasyvoteSmartvote.cleavage3Text2,
-					rotation: 90,
-					path: "curvedTextPathUp"
-				}, {
-					position: 4,
-					text1: EasyvoteSmartvote.cleavage4Text1,
-					text2: EasyvoteSmartvote.cleavage4Text2,
-					rotation: -45,
-					path: "curvedTextPathUp"
-				}, {
-					position: 5,
-					text1: EasyvoteSmartvote.cleavage5Text1,
-					text2: EasyvoteSmartvote.cleavage5Text2,
-					rotation: -45,
-					path: "curvedTextPathDown"
-				}, {
-					position: 6,
-					text1: EasyvoteSmartvote.cleavage6Text1,
-					text2: EasyvoteSmartvote.cleavage6Text2,
-					rotation: 0,
-					path: "curvedTextPathDown"
-				}, {
-					position: 7,
-					text1: EasyvoteSmartvote.cleavage7Text1,
-					text2: EasyvoteSmartvote.cleavage7Text2,
-					rotation: 45,
-					path: "curvedTextPathDown"
-				}, {
-					position: 8,
-					text1: EasyvoteSmartvote.cleavage8Text1,
-					text2: EasyvoteSmartvote.cleavage8Text2,
-					rotation: -90,
-					path: "curvedTextPathUp"
-				}];
-
-				// Loop around the dataset and write text + draw lines around the axis.
-				for (j = 0; j < dataset.length; j++) {
-
-					// Label 1
-					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
-						var realWidth = config.w + 2 * config.TranslateX;
-						console.log("rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")");
-						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
-					}).style({
-						"font-family": "Arial,Helvetica,sans-serif",
-						"font-size": "10px"
-					}).append("textPath").attr({
-						startOffset: "50%",
-						"xlink:href": "#" + dataset[j].path
-					}).text(dataset[j].text1);
-
-					// Label 2
-					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
-						var realWidth = config.w + 2 * config.TranslateX;
-						console.log("rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")");
-						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
-					}).style({
-						"font-family": "Arial,Helvetica,sans-serif",
-						"font-size": "10px"
-					}).append("textPath").attr({
-						startOffset: "50%",
-						"xlink:href": "#" + dataset[j].path + "InnerCircle"
-					}).text(dataset[j].text2);
-
-					// Draw the axe
-					d3.select(id).selectAll("svg").append("path").attr({
-						d: function () {
-
-							var point1X = config.w / 2 + config.TranslateX;
-							var point1Y = config.h / 2 + config.TranslateY;
-
-							var point2X = config.w - config.TranslateX * 2;
-							var point2Y = config.h / 2 + config.TranslateY;
-
-							return "M " + point1X + ", " + point1Y + " L " + point2X + ", " + point2Y;
-						},
-						stroke: "grey",
-						"stroke-width": "0.3px",
-						"stroke-opacity": "0.75",
-						transform: function (object) {
-
-							var unitAngle = 360 / dataset.length;
-							var angle = unitAngle * dataset[j].position;
-
-							var rotationOriginPointX = config.w / 2 + config.TranslateX;
-							var rotationOriginPointY = config.h / 2 + config.TranslateY;
-
-							return "rotate(" + angle + " , " + rotationOriginPointX + ", " + rotationOriginPointY + ")";
-						}
-					});
-				}
-
-				// Circular segments
-				var j = 0;
-				for (j = 0; j < config.levels - 1; j++) {
-
-					var _radius = Math.min(config.w / 2, config.h / 2);
-					var circleRadius = _radius / config.levels * (j + 1);
-					var translateAxisX = config.w / 2 + config.TranslateX;
-					var translateAxisY = config.h / 2 + config.TranslateY;
-
-					d3.select(id).selectAll("svg").insert("circle").attr({
-						cx: "0",
-						cy: "0",
-						r: circleRadius,
-						fill: "none",
-						stroke: "grey",
-						"stroke-width": "0.3px",
-						"stroke-opacity": "0.75",
-						transform: "translate(" + translateAxisX + ", " + translateAxisY + ")"
-					});
-				}
-
-				// Previous spider lines, which was replaced by circles
-				//for (var j = 0; j < config.levels; j++) {
-				//	var levelFactor = config.factor * radius * ((j + 1) / config.levels);
-				//	g.selectAll(".levels")
-				//		.data(allAxis)
-				//		.enter()
-				//		.append("svg:line")
-				//		.attr("x1", function(d, i) {
-				//			return levelFactor * (1 - config.factor * Math.sin(i * config.radians / total));
-				//		})
-				//		.attr("y1", function(d, i) {
-				//			return levelFactor * (1 - config.factor * Math.cos(i * config.radians / total));
-				//		})
-				//		.attr("x2", function(d, i) {
-				//			return levelFactor * (1 - config.factor * Math.sin((i + 1) * config.radians / total));
-				//		})
-				//		.attr("y2", function(d, i) {
-				//			return levelFactor * (1 - config.factor * Math.cos((i + 1) * config.radians / total));
-				//		})
-				//		.attr('class', "line")
-				//		.style("stroke", "grey")
-				//		.style("stroke-opacity", "0.75")
-				//		.style("stroke-width", "0.3px")
-				//		.attr('transform', "translate(" + (config.w / 2 - levelFactor) + ", " + (config.h / 2 - levelFactor) + ")");
-				//}
-
-				//Text indicating at what % each level is
-				//for(var j=0; j<config.levels; j++){
-				//  var levelFactor = config.factor*radius*((j+1)/config.levels);
-				//  g.selectAll(".levels")
-				//   .data([1]) //dummy data
-				//   .enter()
-				//   .append("svg:text")
-				//   .attr("x", function(d){return levelFactor*(1-config.factor*Math.sin(0));})
-				//   .attr("y", function(d){return levelFactor*(1-config.factor*Math.cos(0));})
-				//   .attr('class', "legend")
-				//   .style("font-family", "sans-serif")
-				//   .style("font-size", "10px")
-				//   .attr('transform', "translate(" + (config.w/2-levelFactor + config.ToRight) + ", " + (config.h/2-levelFactor) + ")")
-				//   .attr("fill", "#737373")
-				//   .text(Format((j+1)*config.maxValue/config.levels));
-				//}
-
-				var axis = g.selectAll(".axis").data(allAxis).enter().append("g").attr("class", "axis");
-
-				//axis.append('line')
-				//	.attr("x1", config.w / 2)
-				//	.attr("y1", config.h / 2)
-				//	.attr("x2", function(d, i) {
-				//		return config.w / 2 * (1 - config.factor * Math.sin(i * config.radians / total));
-				//	})
-				//	.attr("y2", function(d, i) {
-				//		return config.h / 2 * (1 - config.factor * Math.cos(i * config.radians / total));
-				//	})
-				//	.attr('class', 'line')
-				//	.style('stroke', 'grey')
-				//	.style('stroke-width', '1px');
-
-				axis.append("text").attr("class", "legend").text(function (d) {
-					return d;
-				}).style("font-family", "sans-serif").style("font-size", "11px").attr("text-anchor", "middle").attr("dy", "1.5em").attr("transform", function (d, i) {
-					return "translate(0, -10)";
-				}).attr("x", function (d, i) {
-					return config.w / 2 * (1 - config.factorLegend * Math.sin(i * config.radians / total)) - 60 * Math.sin(i * config.radians / total);
-				}).attr("y", function (d, i) {
-					return config.h / 2 * (1 - Math.cos(i * config.radians / total)) - 20 * Math.cos(i * config.radians / total);
-				});
-
-				var tooltip;
-				var counter = 0;
-				var series = [{ points: serie2, color: "#E5005E" }, { points: serie1, color: config.color }];
-
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-
-				try {
-					for (var _iterator = _core.$for.getIterator(series), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var serie = _step.value;
-
-						var dataValues = [];
-						serie.points.forEach(function (y, x) {
-							g.selectAll(".nodes").data(y, function (j, i) {
-								dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
-							});
-							dataValues.push(dataValues[0]);
-							g.selectAll(".area").data([dataValues]).enter().append("polygon").attr("class", "radar-chart-serie" + counter).style("stroke-width", "2px").style("stroke", serie.color).attr("points", function (d) {
-								var str = "";
-								for (var pti = 0; pti < d.length; pti++) {
-									str = str + d[pti][0] + "," + d[pti][1] + " ";
-								}
-								return str;
-							}).style("fill", serie.color).style("fill-opacity", config.opacityArea).on("mouseover", function (d) {
-								z = "polygon." + d3.select(this).attr("class");
-								g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-								g.selectAll(z).transition(200).style("fill-opacity", 0.7);
-							}).on("mouseout", function () {
-								g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
-							});
-							counter++;
-						});
-						counter = 0;
-
-						serie.points.forEach(function (y, x) {
-							g.selectAll(".nodes").data(y).enter().append("svg:circle").attr("class", "radar-chart-serie" + counter).attr("r", config.radius).attr("alt", function (j) {
-								return Math.max(j.value, 0);
-							}).attr("cx", function (j, i) {
-								dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
-								return config.w / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.sin(i * config.radians / total));
-							}).attr("cy", function (j, i) {
-								return config.h / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.cos(i * config.radians / total));
-							}).attr("data-id", function (j) {
-								return j.axis;
-							}).style("fill", serie.color).style("fill-opacity", 0.9).on("mouseover", function (d) {
-								newX = parseFloat(d3.select(this).attr("cx")) - 10;
-								newY = parseFloat(d3.select(this).attr("cy")) - 5;
-
-								//tooltip
-								//	.attr('x', newX)
-								//	.attr('y', newY)
-								//	.text(Format(d.value))
-								//	.transition(200)
-								//	.style('opacity', 1);
-
-								z = "polygon." + d3.select(this).attr("class");
-								g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-								g.selectAll(z).transition(200).style("fill-opacity", 0.7);
-							}).on("mouseout", function () {
-								//tooltip
-								//	.transition(200)
-								//	.style('opacity', 0);
-								g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
-							}).append("svg:title");
-							//.text(function(j){return Math.max(j.value, 0)});
-
-							counter++;
-						});
-						//Tooltip
-						//tooltip = g.append('text')
-						//		   .style('opacity', 0)
-						//		   .style('font-family', 'sans-serif')
-						//		   .style('font-size', '13px');
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator["return"]) {
-							_iterator["return"]();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
-					}
-				}
-			}
-		}
-	});
-
-	return SpiderChartPlotter;
-})();
-
-module.exports = SpiderChartPlotter;
-},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],2:[function(require,module,exports){
-/*jshint esnext:true */
 "use strict";
 
 var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
@@ -446,10 +15,6 @@ var _core = require("babel-runtime/core-js")["default"];
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
 var PartyModel = _interopRequire(require("../Models/PartyModel"));
-
-var FilterEngine = _interopRequire(require("../Filter/FilterEngine"));
-
-var FacetIterator = _interopRequire(require("../Iterator/FacetIterator"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -478,20 +43,6 @@ var PartyCollection = (function (_Backbone$Collection) {
 	_inherits(PartyCollection, _Backbone$Collection);
 
 	_createClass(PartyCollection, {
-		comparator: {
-
-			/**
-    * Comparator used to sort parties by "matching" criteria.
-    *
-    * @param party1
-    * @param party2
-    * @returns {number}
-    */
-
-			value: function comparator(party1, party2) {
-				return party1.getMatching() > party2.getMatching() ? -1 : 1;
-			}
-		},
 		fetch: {
 
 			/**
@@ -508,31 +59,6 @@ var PartyCollection = (function (_Backbone$Collection) {
 					// call original fetch method.
 					return _get(_core.Object.getPrototypeOf(PartyCollection.prototype), "fetch", this).call(this);
 				}
-			}
-		},
-		getFilteredParties: {
-
-			/**
-    * @returns {*}
-    */
-
-			value: function getFilteredParties() {
-
-				return this.filter(function (party) {
-
-					var filterEngine = new FilterEngine();
-					var facetIterator = FacetIterator.getIterator();
-					var isOk = true;
-
-					// Fetch first facet
-					var facet = facetIterator.next().value;
-					while (facet && isOk) {
-						isOk = filterEngine.isOk(party, facet);
-						facet = facetIterator.next().value;
-					}
-
-					return isOk;
-				});
 			}
 		},
 		remoteFetch: {
@@ -554,7 +80,7 @@ var PartyCollection = (function (_Backbone$Collection) {
 						for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 							var model = _step.value;
 
-							_this.create(model, { sort: false });
+							_this.create(model);
 						}
 					} catch (err) {
 						_didIteratorError = true;
@@ -613,7 +139,7 @@ var PartyCollection = (function (_Backbone$Collection) {
 module.exports = PartyCollection;
 // Trigger final sort => will trigger the view to render.
 //this.sort(); // not needed here since manually triggered in the view.
-},{"../Filter/FilterEngine":4,"../Iterator/FacetIterator":5,"../Models/PartyModel":7,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],3:[function(require,module,exports){
+},{"../Models/PartyModel":3,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],2:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -884,290 +410,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":8,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],4:[function(require,module,exports){
-/*jshint esnext:true */
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var FilterEngine = (function () {
-	function FilterEngine() {
-		_classCallCheck(this, FilterEngine);
-	}
-
-	_createClass(FilterEngine, {
-		isOk: {
-
-			/**
-    * @param candidate
-    * @param facet
-    * @returns {boolean}
-    */
-
-			value: (function (_isOk) {
-				var _isOkWrapper = function isOk(_x, _x2) {
-					return _isOk.apply(this, arguments);
-				};
-
-				_isOkWrapper.toString = function () {
-					return _isOk.toString();
-				};
-
-				return _isOkWrapper;
-			})(function (candidate, facet) {
-
-				var value, filterValue;
-				var isOk = true;
-
-				if (!facet.value) {
-					isOk = true;
-				} else if (facet.name === "minAge") {
-					value = candidate.get("yearOfBirth");
-					filterValue = facet.value;
-					isOk = this.isYoungerOrEqual(value, filterValue);
-				} else if (facet.name === "maxAge") {
-					value = candidate.get("yearOfBirth");
-					filterValue = facet.value;
-					isOk = this.isOlderOrEqual(value, filterValue);
-				} else {
-					value = candidate.get(facet.name);
-					isOk = this.isEqual(value, facet.value);
-				}
-
-				return isOk;
-			})
-		},
-		isEqual: {
-
-			/**
-    * @param {int} objectValue
-    * @param {int} facetValue
-    * @returns {boolean}
-    */
-
-			value: function isEqual(objectValue, facetValue) {
-				return objectValue == facetValue;
-			}
-		},
-		isYoungerOrEqual: {
-
-			/**
-    * @param {int} subjectYearOfBirth
-    * @param {int} age
-    * @returns {boolean}
-    */
-
-			value: function isYoungerOrEqual(subjectYearOfBirth, age) {
-				var currentYear = new Date().getFullYear();
-				return subjectYearOfBirth <= currentYear - age;
-			}
-		},
-		isOlderOrEqual: {
-
-			/**
-    * @param {int} subjectYearOfBirth
-    * @param {int} age
-    * @returns {boolean}
-    */
-
-			value: function isOlderOrEqual(subjectYearOfBirth, age) {
-				var currentYear = new Date().getFullYear();
-				return subjectYearOfBirth >= currentYear - age;
-			}
-		}
-	});
-
-	return FilterEngine;
-})();
-
-module.exports = FilterEngine;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],5:[function(require,module,exports){
-/*jshint esnext:true */
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var _core = require("babel-runtime/core-js")["default"];
-
-var FacetIterator = (function () {
-	function FacetIterator() {
-		_classCallCheck(this, FacetIterator);
-	}
-
-	_createClass(FacetIterator, null, {
-		getIterator: {
-			value: function getIterator() {
-
-				var facets = [];
-				var $elements = $("#container-candidate-filter").find(".form-control");
-				$elements.each(function (index, element) {
-					var facet = {};
-					facet.name = $(element).attr("name");
-					facet.value = $(element).val();
-					facets.push(facet);
-				});
-
-				return _core.$for.getIterator(facets);
-			}
-		}
-	});
-
-	return FacetIterator;
-})();
-
-module.exports = FacetIterator;
-},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],6:[function(require,module,exports){
-/*jshint esnext:true */
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _inherits = require("babel-runtime/helpers/inherits")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var _core = require("babel-runtime/core-js")["default"];
-
-var FacetModel = (function (_Backbone$Model) {
-	function FacetModel() {
-		_classCallCheck(this, FacetModel);
-
-		if (_Backbone$Model != null) {
-			_Backbone$Model.apply(this, arguments);
-		}
-	}
-
-	_inherits(FacetModel, _Backbone$Model);
-
-	_createClass(FacetModel, {
-		defaults: {
-
-			/**
-    * @returns {{id: number, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string}}
-    */
-
-			value: function defaults() {
-				return {
-					id: 1, // fictive id but is mandatory in order to retrieve the model in the session.
-					nationalParty: "",
-					district: EasyvoteSmartvote.userDistrict,
-					minAge: "18",
-					maxAge: "90",
-					incumbent: "",
-					gender: ""
-				};
-			}
-		},
-		initialize: {
-
-			/**
-    * Initialize object.
-    */
-
-			value: function initialize() {
-				this.localStorage = new Backbone.LocalStorage("candidates-facet-" + EasyvoteSmartvote.token);
-			}
-		},
-		hasState: {
-
-			/**
-    * Return whether the object has a state
-    */
-
-			value: function hasState() {
-				return _core.Object.keys(this.getState()).length;
-			}
-		},
-		getState: {
-
-			/**
-    * Get state of the object coming form the URL hash.
-    */
-
-			value: function getState() {
-
-				if (!this.state) {
-					this.state = {};
-
-					var allowedArguments = ["nationalParty", "district", "minAge", "maxAge", "incumbent", "gender"];
-					var query = window.location.hash.split("&");
-					var _iteratorNormalCompletion = true;
-					var _didIteratorError = false;
-					var _iteratorError = undefined;
-
-					try {
-						for (var _iterator = _core.$for.getIterator(query), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-							var argument = _step.value;
-
-							// sanitize arguments
-							argument = argument.replace("#", "");
-							var argumentParts = argument.split("=");
-							if (argumentParts.length === 2 && allowedArguments.indexOf(argumentParts[0]) >= 0) {
-								var _name = argumentParts[0];
-								var value = argumentParts[1];
-								this.state[_name] = value;
-							}
-						}
-					} catch (err) {
-						_didIteratorError = true;
-						_iteratorError = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion && _iterator["return"]) {
-								_iterator["return"]();
-							}
-						} finally {
-							if (_didIteratorError) {
-								throw _iteratorError;
-							}
-						}
-					}
-				}
-				return this.state;
-			}
-		},
-		setState: {
-
-			/**
-    * Set default values form the URL hash.
-    */
-
-			value: function setState() {
-				this.save(this.getState());
-			}
-		}
-	});
-
-	return FacetModel;
-})(Backbone.Model);
-
-module.exports = FacetModel;
-},{"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],7:[function(require,module,exports){
+},{"../Models/QuestionModel":4,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],3:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1210,66 +453,6 @@ var PartyModel = (function (_Backbone$Model) {
 					matching: null
 				};
 			}
-		},
-		getMatching: {
-
-			/**
-    * @returns {int}
-    */
-
-			value: function getMatching() {
-
-				var questionCollection = QuestionCollection.getInstance();
-
-				var matching = null;
-				var candidateAnswers = this.get("answers");
-
-				// true means the candidate has answered the survey which is normally the case but not always...
-				//if (questionCollection.hasCompletedAnswers() && candidateAnswers.length > 0) {
-				//
-				//	var aggregatedResult = 0;
-				//	var counter = 0;
-				//
-				//	for (let candidateAnswer of candidateAnswers) {
-				//		var userQuestion = this.retrieveQuestion(candidateAnswer);
-				//		if (userQuestion) {
-				//			if (userQuestion.get('answer') !== null && userQuestion.get('answer') !== -1) {
-				//				aggregatedResult += Math.pow(userQuestion.get('answer') - candidateAnswer.answer, 2);
-				//				counter++
-				//			}
-				//		} else {
-				//			console.log('Warning #1435731882: I could not retrieve the question filled by the User ' + candidateAnswer.questionId);
-				//		}
-				//	}
-				//	let distance = Math.sqrt(aggregatedResult);
-				//	let maximalDistance = Math.sqrt(counter * Math.pow(100, 2));
-				//	let nominalDistance = distance / maximalDistance;
-				//	matching = Math.round(100 * (1 - nominalDistance));
-				//}
-
-				this.set("matching", matching);
-				return this.get("matching");
-			}
-		},
-		retrieveQuestion: {
-
-			/**
-    * @param answer
-    * @returns Question
-    */
-
-			value: function retrieveQuestion(answer) {
-				var questionCollection = QuestionCollection.getInstance();
-				var questionId = answer.questionId;
-				var question = questionCollection.get(questionId);
-				if (!question) {
-					var questions = questionCollection.where({ alternativeId: questionId });
-					if (questions.length > 0) {
-						question = questions[0];
-					}
-				}
-				return question;
-			}
 		}
 	});
 
@@ -1277,7 +460,7 @@ var PartyModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = PartyModel;
-},{"../Collections/QuestionCollection":3,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],8:[function(require,module,exports){
+},{"../Collections/QuestionCollection":2,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],4:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1352,173 +535,17 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/inherits":17}],9:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/inherits":12}],5:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
 var ListView = _interopRequire(require("./Views/Party/ListView"));
 
-var FacetView = _interopRequire(require("./Views/Party/FacetView"));
-
 $(function () {
-	//new FacetView().render();
 	new ListView();
 });
-},{"./Views/Party/FacetView":10,"./Views/Party/ListView":11,"babel-runtime/helpers/interop-require":18}],10:[function(require,module,exports){
-/*jshint esnext:true */
-"use strict";
-
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _inherits = require("babel-runtime/helpers/inherits")["default"];
-
-var _get = require("babel-runtime/helpers/get")["default"];
-
-var _createClass = require("babel-runtime/helpers/create-class")["default"];
-
-var _core = require("babel-runtime/core-js")["default"];
-
-var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
-
-var PartyCollection = _interopRequire(require("../../Collections/PartyCollection"));
-
-var FacetModel = _interopRequire(require("../../Models/FacetModel"));
-
-var FacetIterator = _interopRequire(require("../../Iterator/FacetIterator"));
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
-
-var FacetView = (function (_Backbone$View) {
-
-	/**
-  * Constructor
-  *
-  * @param options
-  */
-
-	function FacetView(options) {
-		_classCallCheck(this, FacetView);
-
-		// Instead of generating a new element, bind to the existing skeleton of
-		// the App already present in the HTML.
-		this.setElement($("#container-party-filter"), true);
-
-		// *Cache the template function for a single item.*
-		this.template = _.template($("#template-party-filter").html());
-
-		// *Define the DOM events specific to an item.*
-		this.events = {
-			"change .form-control": "save"
-		};
-
-		this.model = new FacetModel();
-		if (this.model.hasState()) {
-			this.model.setState();
-		} else {
-			this.model.fetch();
-		}
-
-		this.bindings = {
-			"#nationalParty": "nationalParty",
-			"#district": "district",
-			"#minAge": "minAge",
-			"#maxAge": "maxAge",
-			"#incumbent": "incumbent",
-			"#gender": "gender"
-		};
-
-		// special binding since the reset button is outside the scope of this view.
-		_.bindAll(this, "reset");
-		$(document).on("click", "#btn-reset-facets", this.reset);
-
-		_get(_core.Object.getPrototypeOf(FacetView.prototype), "constructor", this).call(this, options);
-	}
-
-	_inherits(FacetView, _Backbone$View);
-
-	_createClass(FacetView, {
-		save: {
-
-			/**
-    * @returns void
-    */
-
-			value: function save() {
-
-				var query = [];
-				var data = {};
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-
-				try {
-					for (var _iterator = _core.$for.getIterator(FacetIterator.getIterator()), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var facet = _step.value;
-
-						data[facet.name] = facet.value;
-						query.push(facet.name + "=" + facet.value);
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator["return"]) {
-							_iterator["return"]();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
-					}
-				}
-
-				// Set state of the filter in the URL.
-				window.location.hash = query.join("&");
-
-				this.model.save(data);
-				Backbone.trigger("facet:changed");
-			}
-		},
-		reset: {
-
-			/**
-    * @returns {boolean}
-    */
-
-			value: function reset() {
-				this.model = new FacetModel();
-				this.render();
-				this.save();
-				return false;
-			}
-		},
-		render: {
-
-			/**
-    * Render the party view.
-    *
-    * @returns void
-    */
-
-			value: function render() {
-				var content = this.template();
-				this.$el.html(content);
-				this.stickit();
-			}
-		}
-	});
-
-	return FacetView;
-})(Backbone.View);
-
-module.exports = FacetView;
-},{"../../Collections/PartyCollection":2,"../../Iterator/FacetIterator":5,"../../Models/FacetModel":6,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],11:[function(require,module,exports){
+},{"./Views/Party/ListView":6,"babel-runtime/helpers/interop-require":13}],6:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1555,6 +582,8 @@ var ListView = (function (_Backbone$View) {
   */
 
 	function ListView(options) {
+		var _this = this;
+
 		_classCallCheck(this, ListView);
 
 		// Instead of generating a new element, bind to the existing skeleton of
@@ -1564,19 +593,10 @@ var ListView = (function (_Backbone$View) {
 		/** @var partyCollection PartyCollection*/
 		var partyCollection = PartyCollection.getInstance();
 
-		// Important: define listener before fetching data.
-		this.listenTo(partyCollection, "sort reset", this.render);
-		this.listenTo(Backbone, "facet:changed", this.render, this);
-
-		// Load first the Question collection.
-		/** @var questionCollection QuestionCollection */
-		//QuestionCollection.getInstance().load().done(() => {
-
 		// Fetch parties.
 		partyCollection.fetch().done(function () {
-			partyCollection.sort(); // will trigger the rendering.
+			_this.render();
 		});
-		//});
 
 		// Call parent constructor.
 		_get(_core.Object.getPrototypeOf(ListView.prototype), "constructor", this).call(this);
@@ -1593,8 +613,7 @@ var ListView = (function (_Backbone$View) {
 
 			value: function render() {
 
-				var filteredParties = PartyCollection.getInstance().getFilteredParties();
-
+				var parties = PartyCollection.getInstance().filter();
 				// Render intermediate content in a temporary DOM.
 				var container = document.createDocumentFragment();
 				var _iteratorNormalCompletion = true;
@@ -1602,7 +621,7 @@ var ListView = (function (_Backbone$View) {
 				var _iteratorError = undefined;
 
 				try {
-					for (var _iterator = _core.$for.getIterator(filteredParties), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					for (var _iterator = _core.$for.getIterator(parties), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 						var party = _step.value;
 
 						var content = this.renderOne(party);
@@ -1633,20 +652,6 @@ var ListView = (function (_Backbone$View) {
 		renderOne: {
 
 			/**
-    * @param argument
-    */
-			/*	changeAnswer(argument) {
-   		let party = argument.attributes;
-   
-   		this.updateChart(party);
-   
-   		let partyCollection = PartyCollection.getInstance();
-   		let nextIndex = (partyCollection.length - 1) - party.index;
-   		let nextParty = partyCollection.at(nextIndex);
-   		nextParty.trigger('visible');
-   	}*/
-
-			/**
     * Add a single party item to the list by creating a view for it, then
     * appending its element to the `<div>`.
     * @param model
@@ -1674,8 +679,14 @@ var ListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = ListView;
-},{"../../Collections/PartyCollection":2,"../../Collections/QuestionCollection":3,"./PartyView":12,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],12:[function(require,module,exports){
+},{"../../Collections/PartyCollection":1,"../../Collections/QuestionCollection":2,"./PartyView":7,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],7:[function(require,module,exports){
 /*jshint esnext:true */
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
 "use strict";
 
 var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
@@ -1687,16 +698,6 @@ var _get = require("babel-runtime/helpers/get")["default"];
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
 
 var _core = require("babel-runtime/core-js")["default"];
-
-var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
-
-var SpiderChartPlotter = _interopRequire(require("../../Chart/SpiderChartPlotter"));
-
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * See LICENSE.txt that was shipped with this package.
- */
 
 var PartyView = (function (_Backbone$View) {
 
@@ -1722,25 +723,6 @@ var PartyView = (function (_Backbone$View) {
 	_inherits(PartyView, _Backbone$View);
 
 	_createClass(PartyView, {
-		renderChart: {
-
-			/**
-    * Render the party view.
-    *
-    * @returns string
-    */
-
-			value: function renderChart() {
-
-				// Lazy rendering of the Chart.
-				if (!$("#chart-party-" + this.model.id).has("svg").length) {
-					var values = this.model.get("spiderChart");
-					if (values.length > 0) {
-						this.drawChart(this.model.id, values);
-					}
-				}
-			}
-		},
 		render: {
 
 			/**
@@ -1754,37 +736,6 @@ var PartyView = (function (_Backbone$View) {
 				this.$el.html(content);
 				return this.el;
 			}
-		},
-		drawChart: {
-
-			/**
-    * @param {int} partyId
-    * @param {array} values
-    * @return {bool}
-    * @private
-    */
-
-			value: function drawChart(partyId, values) {
-
-				var data = [
-				//                                                         cleavage# - position in chart
-				{ value: values[0].value * 0.01 }, // Offene Aussenpolitik           1 - 1
-				{ value: values[7].value * 0.01 }, // Liberale Gesellschaft          8 - 2
-				{ value: values[6].value * 0.01 }, // Ausgebauter Sozialstaat        7 - 3
-				{ value: values[5].value * 0.01 }, // Ausgebauter Umweltschutz       6 - 4
-				{ value: values[4].value * 0.01 }, // Restrictive Migrationspolitik  5 - 5
-				{ value: values[3].value * 0.01 }, // Law & Order                    4 - 6
-				{ value: values[2].value * 0.01 }, // Restrictive Finanzpolitik      3 - 7
-				{ value: values[1].value * 0.01 } // Liberale Wirtschaftspolitik    2 - 8
-				];
-
-				SpiderChartPlotter.plot("#chart-party-" + partyId, [data], {
-					w: 240,
-					h: 240,
-					levels: 5,
-					maxValue: 1
-				});
-			}
 		}
 	});
 
@@ -1792,9 +743,7 @@ var PartyView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = PartyView;
-
-//'click .toggle': 'renderChart'
-},{"../../Chart/SpiderChartPlotter":1,"babel-runtime/core-js":13,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require":18}],13:[function(require,module,exports){
+},{"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12}],8:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -4136,7 +3085,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],14:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -4146,7 +3095,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],15:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -4168,7 +3117,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],16:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -4212,7 +3161,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":13}],17:[function(require,module,exports){
+},{"babel-runtime/core-js":8}],12:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -4232,7 +3181,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],18:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
@@ -4240,4 +3189,4 @@ exports["default"] = function (obj) {
 };
 
 exports.__esModule = true;
-},{}]},{},[9]);
+},{}]},{},[5]);

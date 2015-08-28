@@ -1,7 +1,5 @@
 /*jshint esnext:true */
 import PartyModel from '../Models/PartyModel'
-import FilterEngine from '../Filter/FilterEngine'
-import FacetIterator from '../Iterator/FacetIterator';
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -25,17 +23,6 @@ export default class PartyCollection extends Backbone.Collection {
 	}
 
 	/**
-	 * Comparator used to sort parties by "matching" criteria.
-	 *
-	 * @param party1
-	 * @param party2
-	 * @returns {number}
-	 */
-	comparator(party1, party2) {
-		return party1.getMatching() > party2.getMatching() ? -1 : 1;
-	}
-
-	/**
 	 * @returns {*}
 	 */
 	fetch() {
@@ -51,35 +38,13 @@ export default class PartyCollection extends Backbone.Collection {
 	}
 
 	/**
-	 * @returns {*}
-	 */
-	getFilteredParties() {
-
-		return this.filter(party => {
-
-			var filterEngine = new FilterEngine();
-			var facetIterator = FacetIterator.getIterator();
-			var isOk = true;
-
-			// Fetch first facet
-			var facet = facetIterator.next().value;
-			while (facet && isOk) {
-				isOk = filterEngine.isOk(party, facet);
-				facet = facetIterator.next().value;
-			}
-
-			return isOk;
-		});
-	}
-
-	/**
 	 *
 	 * @returns {*}
 	 */
 	remoteFetch() {
 		return Backbone.ajaxSync('read', this).done(models => {
 			for (let model of models) {
-				this.create(model, {sort: false});
+				this.create(model);
 			}
 			// Trigger final sort => will trigger the view to render.
 			//this.sort(); // not needed here since manually triggered in the view.
