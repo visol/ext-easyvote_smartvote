@@ -364,6 +364,11 @@ var SpiderChartPlotter = (function () {
 					for (var _iterator = _core.$for.getIterator(series), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 						var serie = _step.value;
 
+						if (serie.points.length > 0 && serie.points[0].length === 0) {
+							// Hotfix for https://redmine.visol.ch/issues/1263
+							continue;
+						}
+
 						var dataValues = [];
 						serie.points.forEach(function (y, x) {
 							g.selectAll(".nodes").data(y, function (j, i) {
@@ -1646,9 +1651,9 @@ var CandidateView = (function (_Backbone$View) {
 				{ value: values[7].value * 0.01 }, // Liberale Gesellschaft          8 - 2
 				{ value: values[6].value * 0.01 }, // Ausgebauter Sozialstaat        7 - 3
 				{ value: values[5].value * 0.01 }, // Ausgebauter Umweltschutz       6 - 4
-				{ value: values[4].value * 0.01 }, // Restrictive Migrationspolitik  5 - 5
+				{ value: values[4].value * 0.01 }, // Restriktive Migrationspolitik  5 - 5
 				{ value: values[3].value * 0.01 }, // Law & Order                    4 - 6
-				{ value: values[2].value * 0.01 }, // Restrictive Finanzpolitik      3 - 7
+				{ value: values[2].value * 0.01 }, // Restriktive Finanzpolitik      3 - 7
 				{ value: values[1].value * 0.01 } // Liberale Wirtschaftspolitik    2 - 8
 				];
 
@@ -1818,15 +1823,11 @@ var FacetView = (function (_Backbone$View) {
 					}
 				}
 
-				// Only save if a query was found. Could be the DOM is not yet initialized.
-				if (query.length > 0) {
+				// Set state of the filter in the URL.
+				window.location.hash = query.join("&");
 
-					// Set state of the filter in the URL.
-					window.location.hash = query.join("&");
-
-					this.model.save(data);
-					Backbone.trigger("facet:changed");
-				}
+				this.model.save(data);
+				Backbone.trigger("facet:changed");
 			}
 		},
 		reset: {

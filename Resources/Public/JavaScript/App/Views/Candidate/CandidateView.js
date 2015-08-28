@@ -69,9 +69,9 @@ export default class CandidateView extends Backbone.View {
 			{value: values[7].value * 0.01}, // Liberale Gesellschaft          8 - 2
 			{value: values[6].value * 0.01}, // Ausgebauter Sozialstaat        7 - 3
 			{value: values[5].value * 0.01}, // Ausgebauter Umweltschutz       6 - 4
-			{value: values[4].value * 0.01}, // Restrictive Migrationspolitik  5 - 5
+			{value: values[4].value * 0.01}, // Restriktive Migrationspolitik  5 - 5
 			{value: values[3].value * 0.01}, // Law & Order                    4 - 6
-			{value: values[2].value * 0.01}, // Restrictive Finanzpolitik      3 - 7
+			{value: values[2].value * 0.01}, // Restriktive Finanzpolitik      3 - 7
 			{value: values[1].value * 0.01}  // Liberale Wirtschaftspolitik    2 - 8
 		];
 

@@ -722,6 +722,11 @@ var SpiderChartPlotter = (function () {
 					for (var _iterator = _core.$for.getIterator(series), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 						var serie = _step.value;
 
+						if (serie.points.length > 0 && serie.points[0].length === 0) {
+							// Hotfix for https://redmine.visol.ch/issues/1263
+							continue;
+						}
+
 						var dataValues = [];
 						serie.points.forEach(function (y, x) {
 							g.selectAll(".nodes").data(y, function (j, i) {
@@ -2053,15 +2058,11 @@ var FacetView = (function (_Backbone$View) {
 					}
 				}
 
-				// Only save if a query was found. Could be the DOM is not yet initialized.
-				if (query.length > 0) {
+				// Set state of the filter in the URL.
+				window.location.hash = query.join("&");
 
-					// Set state of the filter in the URL.
-					window.location.hash = query.join("&");
-
-					this.model.save(data);
-					Backbone.trigger("facet:changed");
-				}
+				this.model.save(data);
+				Backbone.trigger("facet:changed");
 			}
 		},
 		reset: {

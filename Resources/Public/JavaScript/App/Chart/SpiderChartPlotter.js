@@ -389,6 +389,10 @@ export default class SpiderChartPlotter {
 		];
 
 		for (var serie of series) {
+			if (serie.points.length > 0 && serie.points[0].length === 0) {
+				// Hotfix for https://redmine.visol.ch/issues/1263
+				continue;
+			}
 
 			var dataValues = [];
 			serie.points.forEach(function(y, x) {
