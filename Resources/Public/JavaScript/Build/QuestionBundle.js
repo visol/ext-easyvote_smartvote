@@ -1349,6 +1349,10 @@ var FilterEngine = (function () {
 					value = candidate.get("yearOfBirth");
 					filterValue = facet.value;
 					isOk = this.isOlderOrEqual(value, filterValue);
+				} else if (facet.name === "name") {
+					value = candidate.get("firstName") + " " + candidate.get("lastName") + " " + candidate.get("firstName");
+					filterValue = facet.value;
+					isOk = this.isLike(value, filterValue);
 				} else {
 					value = candidate.get(facet.name);
 					isOk = this.isEqual(value, facet.value);
@@ -1367,6 +1371,22 @@ var FilterEngine = (function () {
 
 			value: function isEqual(objectValue, facetValue) {
 				return objectValue == facetValue;
+			}
+		},
+		isLike: {
+
+			/**
+    * @param objectValue
+    * @param facetValue
+    * @returns {boolean}
+    */
+
+			value: function isLike(objectValue, facetValue) {
+				if (objectValue.toLowerCase().indexOf(facetValue.toLowerCase()) >= 0) {
+					return true;
+				} else {
+					return false;
+				}
 			}
 		},
 		isYoungerOrEqual: {
@@ -1613,12 +1633,13 @@ var FacetModel = (function (_Backbone$Model) {
 		defaults: {
 
 			/**
-    * @returns {{id: number, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string}}
+    * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string}}
     */
 
 			value: function defaults() {
 				return {
 					id: 1, // fictive id but is mandatory in order to retrieve the model in the session.
+					name: "",
 					nationalParty: "",
 					district: EasyvoteSmartvote.userDistrict,
 					minAge: "18",
@@ -1659,7 +1680,7 @@ var FacetModel = (function (_Backbone$Model) {
 				if (!this.state) {
 					this.state = {};
 
-					var allowedArguments = ["nationalParty", "district", "minAge", "maxAge", "incumbent", "gender"];
+					var allowedArguments = ["name", "nationalParty", "district", "minAge", "maxAge", "incumbent", "gender"];
 					var query = window.location.hash.split("&");
 					var _iteratorNormalCompletion = true;
 					var _didIteratorError = false;
@@ -1862,6 +1883,7 @@ var FacetView = (function (_Backbone$View) {
 		}
 
 		this.bindings = {
+			"#name": "name",
 			"#nationalParty": "nationalParty",
 			"#district": "district",
 			"#minAge": "minAge",

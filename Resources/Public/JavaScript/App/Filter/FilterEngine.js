@@ -28,6 +28,10 @@ export default class FilterEngine {
 			value = candidate.get('yearOfBirth');
 			filterValue = facet.value;
 			isOk = this.isOlderOrEqual(value, filterValue);
+		} else if (facet.name === 'name') {
+			value = candidate.get('firstName') + ' ' + candidate.get('lastName') + ' ' + candidate.get('firstName');
+			filterValue = facet.value;
+			isOk = this.isLike(value, filterValue);
 		} else {
 			value = candidate.get(facet.name);
 			isOk = this.isEqual(value, facet.value);
@@ -43,6 +47,19 @@ export default class FilterEngine {
 	 */
 	isEqual(objectValue, facetValue) {
 		return objectValue == facetValue;
+	}
+
+	/**
+	 * @param objectValue
+	 * @param facetValue
+	 * @returns {boolean}
+	 */
+	isLike(objectValue, facetValue) {
+		if (objectValue.toLowerCase().indexOf(facetValue.toLowerCase()) >= 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

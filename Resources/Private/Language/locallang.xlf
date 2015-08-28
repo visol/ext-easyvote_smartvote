@@ -386,6 +386,9 @@
 			<trans-unit id="filter_candidates">
 				<source>Kandidaten filtern</source>
 			</trans-unit>
+			<trans-unit id="filter.name.title">
+				<source>Name</source>
+			</trans-unit>
 			<trans-unit id="filter.party.title">
 				<source>Partei</source>
 			</trans-unit>

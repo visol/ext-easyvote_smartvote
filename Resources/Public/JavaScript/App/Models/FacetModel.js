@@ -9,11 +9,12 @@
 export default class FacetModel extends Backbone.Model {
 
 	/**
-	 * @returns {{id: number, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string}}
+	 * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string}}
 	 */
 	defaults() {
 		return {
 			id: 1, // fictive id but is mandatory in order to retrieve the model in the session.
+			name: '',
 			nationalParty: '',
 			district: EasyvoteSmartvote.userDistrict,
 			minAge: '18',
@@ -45,7 +46,7 @@ export default class FacetModel extends Backbone.Model {
 		if (!this.state) {
 			this.state = {};
 
-			var allowedArguments = ['nationalParty', 'district', 'minAge', 'maxAge', 'incumbent', 'gender'];
+			var allowedArguments = ['name', 'nationalParty', 'district', 'minAge', 'maxAge', 'incumbent', 'gender'];
 			var query = window.location.hash.split('&');
 			for (let argument of query) {
 
