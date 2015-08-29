@@ -224,22 +224,22 @@ export default class SpiderChart {
 
 		if (this.isShortVersion) {
 			var totalCleavage1 = EasyvoteSmartvote.totalCleavageShort1;
-			var totalCleavage2 = EasyvoteSmartvote.totalCleavageShort8;
-			var totalCleavage3 = EasyvoteSmartvote.totalCleavageShort7;
-			var totalCleavage4 = EasyvoteSmartvote.totalCleavageShort6;
+			var totalCleavage8 = EasyvoteSmartvote.totalCleavageShort8;
+			var totalCleavage7 = EasyvoteSmartvote.totalCleavageShort7;
+			var totalCleavage6 = EasyvoteSmartvote.totalCleavageShort6;
 			var totalCleavage5 = EasyvoteSmartvote.totalCleavageShort5;
-			var totalCleavage6 = EasyvoteSmartvote.totalCleavageShort4;
-			var totalCleavage7 = EasyvoteSmartvote.totalCleavageShort3;
-			var totalCleavage8 = EasyvoteSmartvote.totalCleavageShort2;
+			var totalCleavage4 = EasyvoteSmartvote.totalCleavageShort4;
+			var totalCleavage3 = EasyvoteSmartvote.totalCleavageShort3;
+			var totalCleavage2 = EasyvoteSmartvote.totalCleavageShort2;
 		} else {
 			var totalCleavage1 = EasyvoteSmartvote.totalCleavage1;
-			var totalCleavage2 = EasyvoteSmartvote.totalCleavage8;
-			var totalCleavage3 = EasyvoteSmartvote.totalCleavage7;
-			var totalCleavage4 = EasyvoteSmartvote.totalCleavage6;
+			var totalCleavage8 = EasyvoteSmartvote.totalCleavage8;
+			var totalCleavage7 = EasyvoteSmartvote.totalCleavage7;
+			var totalCleavage6 = EasyvoteSmartvote.totalCleavage6;
 			var totalCleavage5 = EasyvoteSmartvote.totalCleavage5;
-			var totalCleavage6 = EasyvoteSmartvote.totalCleavage4;
-			var totalCleavage7 = EasyvoteSmartvote.totalCleavage3;
-			var totalCleavage8 = EasyvoteSmartvote.totalCleavage2;
+			var totalCleavage4 = EasyvoteSmartvote.totalCleavage4;
+			var totalCleavage3 = EasyvoteSmartvote.totalCleavage3;
+			var totalCleavage2 = EasyvoteSmartvote.totalCleavage2;
 		}
 
 		let data = [
