@@ -1996,10 +1996,20 @@ var ListView = (function (_Backbone$View) {
 					}
 
 					// Finally update the DOM.
-					$("#container-candidate-list").html(container);
+					var $containerCandidateList = $("#container-candidate-list");
+					$containerCandidateList.html(container);
 
 					// Add lazy loading to images.
-					$("img.lazy", $("#container-candidate-list")).lazyload();
+					$("img.lazy", $containerCandidateList).lazyload();
+
+					// Bind fancybox
+					$("body").on("click", ".fancybox", function (event) {
+						event.preventDefault();
+						$.fancybox({
+							href: this.href,
+							title: this.title
+						});
+					});
 
 					// Update top list content.
 					var content = this.listTopTemplate({

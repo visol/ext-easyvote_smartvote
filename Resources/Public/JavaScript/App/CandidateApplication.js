@@ -14,5 +14,4 @@ $(() => {
 	// which should be displayed elsewhere in the mobile layout.
 	var responsive = new Responsive();
 	responsive.bindAction();
-
 });

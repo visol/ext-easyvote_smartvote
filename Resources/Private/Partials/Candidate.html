@@ -14,7 +14,9 @@
 							<% } %>
 
 							<% if (typeof(photo) == "string") { %>
-								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-candidate-<%- gender %>.svg" class="lazy" data-original="<%- photo %>" width="210" height="210" alt="<%- firstName %> <%- lastName %>" />
+								<a class="fancybox" title="<%- firstName %> <%- lastName %>" rel="candidates" href="<%- photo %>">
+									<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-candidate-<%- gender %>.svg" class="lazy" data-original="<%- photo %>" width="210" height="210" alt="<%- firstName %> <%- lastName %>" />
+								</a>
 							<% } else { %>
 								<img src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/placeholder-candidate-<%- gender %>.svg" alt="" />
 							<%  } %>
