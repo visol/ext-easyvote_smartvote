@@ -41,6 +41,7 @@ export default class ListView extends Backbone.View {
 		_.bindAll(this, 'changeFacetView');
 		_.bindAll(this, 'sortAndRender');
 		$(document).on('click', '#btn-show-login', this.showLoginBox);
+		$(document).on('click', '#link-show-registration', this.showRegistrationBox);
 		$(document).on('change', '#container-before-starting .form-control', this.changeFacetView);
 		$(document).on('change', '#btn-sorting', this.sortAndRender);
 
@@ -140,6 +141,14 @@ export default class ListView extends Backbone.View {
 	 */
 	showLoginBox() {
 		$('.login-link').trigger('click');
+		return false; // prevent default behaviour.
+	}
+
+	/**
+	 * Display the registraton box
+	 */
+	showRegistrationBox() {
+		$('.register-link').trigger('click');
 		return false; // prevent default behaviour.
 	}
 

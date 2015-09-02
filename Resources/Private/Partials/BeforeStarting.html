@@ -4,17 +4,17 @@
 	<f:section name="BeforeStarting">
 		<script type="text/template" id="template-before-starting">
 
-			<h2><f:translate key="voting_recommendation"/>...</h2>
+			<h2><f:translate key="voting_recommendation"/></h2>
 
 			<p>
-				... <f:translate key="is_only_a_few_clicks"/>
+				<f:translate key="is_only_a_few_clicks"/>
 			</p>
 
 			<% if (isFormDefaultFilter) { %>
 			<p>
 				<f:translate key="set_filter"/>
 			</p>
-			<form class="form filter-candidates">
+			<form class="form filter-candidates filter-candidates-beforestarting">
 				<fieldset>
 					<div class="form-group">
 						<div class="row">
@@ -63,6 +63,9 @@
 			</p>
 			<a id="btn-show-login" class="btn btn-primary" href="#">
 				<f:translate key="loginPanel.login" extensionName="easyvote"/>
+			</a><br />
+			<a id="link-show-registration" href="#">
+				<f:translate key="loginPanel.register" extensionName="easyvote" />
 			</a>
 			<% } %>
 

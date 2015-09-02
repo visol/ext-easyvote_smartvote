@@ -1932,6 +1932,7 @@ var ListView = (function (_Backbone$View) {
 		_.bindAll(this, "changeFacetView");
 		_.bindAll(this, "sortAndRender");
 		$(document).on("click", "#btn-show-login", this.showLoginBox);
+		$(document).on("click", "#link-show-registration", this.showRegistrationBox);
 		$(document).on("change", "#container-before-starting .form-control", this.changeFacetView);
 		$(document).on("change", "#btn-sorting", this.sortAndRender);
 
@@ -2066,6 +2067,17 @@ var ListView = (function (_Backbone$View) {
 
 			value: function showLoginBox() {
 				$(".login-link").trigger("click");
+				return false; // prevent default behaviour.
+			}
+		},
+		showRegistrationBox: {
+
+			/**
+    * Display the registraton box
+    */
+
+			value: function showRegistrationBox() {
+				$(".register-link").trigger("click");
 				return false; // prevent default behaviour.
 			}
 		},
