@@ -92,6 +92,20 @@ class Candidate extends AbstractEntity {
 	protected $incumbent = FALSE;
 
 	/**
+	 * easyvote Supporter
+	 *
+	 * @var boolean
+	 */
+	protected $easyvoteSupporter = FALSE;
+
+	/**
+	 * Polittalk Participant
+	 *
+	 * @var boolean
+	 */
+	protected $polittalkParticipant = FALSE;
+
+	/**
 	 * elected
 	 *
 	 * @var boolean

@@ -38,7 +38,8 @@ class CandidateRepository extends Repository {
 		            incumbent, slogan, party_short, district, serialized_answers, election_list_name,
 		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize,
 		            serialized_list_places, occupation, education_name, hobbies, personal_website,
-		            link_to_twitter,link_to_facebook,email,ch2055,motivation';
+		            link_to_twitter,link_to_facebook,email,ch2055,motivation, easyvote_supporter,
+		            polittalk_participant';
 		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 	}
 

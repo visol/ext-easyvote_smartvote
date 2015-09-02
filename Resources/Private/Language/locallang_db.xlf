@@ -124,6 +124,12 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.persona">
 				<source>easyvote-Typ</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.easyvote_supporter">
+				<source>easyvote-Götti</source>
+			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.polittalk_participant">
+				<source>Polittalk-TeilnehmerIn</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.links">
 				<source>Links</source>
 			</trans-unit>

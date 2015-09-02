@@ -63,6 +63,8 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_candidate (
 	civil_state int(11) unsigned DEFAULT '0',
 	denomination int(11) unsigned DEFAULT '0',
 	education int(11) unsigned DEFAULT '0',
+  easyvote_supporter tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  polittalk_participant tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
