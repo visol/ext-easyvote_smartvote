@@ -67,17 +67,15 @@
 	h2, span, div {
 		color: #333;
 	}
-}
+	&:hover {
+		background-color: @box-background;
+		opacity: 1;
 
-.content-box-answered:hover {
-	background-color: @box-background;
-	opacity: 1;
-
-	h2, span, div {
-		color: inherit;
+		h2, span, div {
+			color: inherit;
+		}
 	}
 }
-
 
 .filter-candidates {
 	margin-bottom: 0;
@@ -105,8 +103,14 @@
 
 			.col-sm-20p {
 				width: 100%;
+				margin-bottom: 0;
 				float: none;
 				label {
+					display: block;
+					padding: 5px;
+					margin-bottom: 3px;
+					background: @light-blue-trans;
+					border-radius: 5px;
 					span {
 						display: inline;
 						&:before {
@@ -128,6 +132,21 @@
 				text-align: left;
 			}
 
+		}
+
+		.content-box-answered {
+			.col-sm-20p {
+				label {
+					background: @grey;
+				}
+			}
+			&:hover {
+				.col-sm-20p {
+					label {
+						background: @light-blue-trans;
+					}
+				}
+			}
 		}
 
 	}
