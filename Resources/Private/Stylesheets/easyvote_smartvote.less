@@ -275,6 +275,10 @@
 	}
 }
 
+#filter-expand-collapse {
+	display: none;
+}
+
 @media (max-width: @screen-sm-max) {
 	#container-candidates {
 		.box-teaser {
@@ -297,6 +301,37 @@
 		.col-md-6 {
 			&:first-child {
 				margin-bottom: 10px;
+			}
+		}
+	}
+	#container-filter-responsive {
+		position: relative;
+		#wrapper-filter {
+			max-height: 230px;
+			overflow: hidden;
+			&.wrapper-filter-open {
+				max-height: 1000px;
+				overflow: visible;
+				-webkit-transition: all 0.5s ease;
+				-moz-transition: all 0.5s ease;
+				-ms-transition: all 0.5s ease;
+				-o-transition: all 0.5s ease;
+				transition: all 0.5s ease;
+			}
+		}
+		#filter-expand-collapse {
+			z-index: 20150209;
+			display: inline-block;
+			cursor: pointer;
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			height: 30px;
+			width: 30px;
+			line-height: 30px;
+			i {
+				font-size: 20px;
+				color: @blue;
 			}
 		}
 	}

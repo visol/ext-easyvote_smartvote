@@ -13,6 +13,13 @@ class Responsive {
 			enter: 992,
 			exit: 10000
 		}]);
+
+		$('body').on('click', '#filter-expand-collapse', function() {
+			var $this = $(this);
+			var $icon = $(this).find('i');
+			$icon.toggleClass('evicon-down-open');
+			$this.closest('#container-filter-responsive').find('#wrapper-filter').toggleClass('wrapper-filter-open');
+		});
 	}
 
 	/**
