@@ -47,6 +47,7 @@ class District extends AbstractEntity {
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Visol\EasyvoteSmartvote\Domain\Model\Candidate>
 	 * @cascade remove
+	 * @lazy
 	 */
 	protected $candidates = NULL;
 
@@ -54,6 +55,7 @@ class District extends AbstractEntity {
 	 * election
 	 *
 	 * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
+	 * @lazy
 	 */
 	protected $election = NULL;
 
