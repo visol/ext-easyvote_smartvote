@@ -215,6 +215,86 @@
 			<trans-unit id="cleavage8_text2">
 				<target>État social</target>
 			</trans-unit>
+
+			<trans-unit id="party.ch2055">
+				<target>Notre Suisse en 2055</target>
+			</trans-unit>
+			<trans-unit id="party.display_candidates_nr">
+				<target>Candidat-e-s au Conseil national</target>
+			</trans-unit>
+			<trans-unit id="party.display_candidates_sr">
+				<target>Candidat-e-s au Conseil des États</target>
+			</trans-unit>
+			<trans-unit id="party.candidates">
+				<target>Candidat-e-s</target>
+			</trans-unit>
+			<trans-unit id="party.website">
+				<target>site web</target>
+			</trans-unit>
+			<trans-unit id="party.facebook">
+				<target>Facebook</target>
+			</trans-unit>
+			<trans-unit id="party.twitter">
+				<target>Twitter</target>
+			</trans-unit>
+			<trans-unit id="party.email">
+				<target>E-mail</target>
+			</trans-unit>
+			<trans-unit id="party.header_candidates">
+				<target>Candidat-e-s</target>
+			</trans-unit>
+			<trans-unit id="party.number_of_candidates">
+				<target>Nombre de candidat-e-s</target>
+			</trans-unit>
+			<trans-unit id="party.persons">
+				<target>Personnes dans toute la Suisse</target>
+			</trans-unit>
+			<trans-unit id="party.years">
+				<target>Années</target>
+			</trans-unit>
+			<trans-unit id="party.number_of_candidates_below_35">
+				<target>Nombre de candidat-e-s de moins de 35 ans</target>
+			</trans-unit>
+			<trans-unit id="party.average_age">
+				<target>Âge moyen</target>
+			</trans-unit>
+			<trans-unit id="party.distribution_between_sexes">
+				<target>Répartition hommes-femmes</target>
+			</trans-unit>
+			<trans-unit id="party.women">
+				<target>Femmes</target>
+			</trans-unit>
+			<trans-unit id="party.men">
+				<target>Hommes</target>
+			</trans-unit>
+			<trans-unit id="party.header_incumbent_politicians">
+				<target>Nos politicien-ne-s sortant-e-s</target>
+			</trans-unit>
+			<trans-unit id="party.header_political_positions">
+				<target>Nos positions</target>
+			</trans-unit>
+			<trans-unit id="party.easyvote_supporter">
+				<target>Parrain/marraine easyvote</target>
+			</trans-unit>
+			<trans-unit id="party.header_positions">
+				<target>Nos positions</target>
+			</trans-unit>
+			<trans-unit id="party.position_retirement_provision">
+				<target>Prévoyance vieillesse en Suisse</target>
+			</trans-unit>
+			<trans-unit id="party.position_european_union">
+				<target>L'UE et la Suisse</target>
+			</trans-unit>
+			<trans-unit id="party.position_migration">
+				<target>La migration et la Suisse</target>
+			</trans-unit>
+			<trans-unit id="party.position_energy">
+				<target>Production d'énergie en Suisse</target>
+			</trans-unit>
+			<trans-unit id="party.watch_clip">
+				<target>Voi le clip</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
