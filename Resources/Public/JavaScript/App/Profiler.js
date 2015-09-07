@@ -6,24 +6,39 @@
  * See LICENSE.txt that was shipped with this package.
  */
 
+/**
+ * Usage:
+ * import SpiderChartPlotter from '../../Profiler'
+ *
+ * Profile.getInstance().track('Start something');
+ * Profile.getInstance().track('Stop something');
+ */
 export default
 class Profiler {
 
+	/**
+	 * Constructor
+	 */
 	constructor() {
 		this.time = window.performance.now();
 	}
 
 	/**
 	 *
-	 * @param message
+	 * @param {string} message
+	 * @param {bool} resetTimer
 	 */
-	track(message = '') {
-		if (message) {
-			console.log(message);
+	track(message = '', resetTimer = false) {
+
+		if (resetTimer) {
+			this.time = window.performance.now();
 		}
 
-		let spentTime = window.performance.now() - this.time
-		console.log(spentTime);
+		let spentTime = window.performance.now() - this.time;
+		if (message) {
+			spentTime = Math.round(spentTime);
+			console.log(spentTime + "ms", message);
+		}
 	}
 
 	/**

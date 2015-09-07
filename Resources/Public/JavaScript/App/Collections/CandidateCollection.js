@@ -26,7 +26,8 @@ export default class CandidateCollection extends Backbone.Collection {
 		this.direction = 'descending';
 
 		// Save all of the candidate items under the `'candidates'` namespace.
-		this.localStorage = new Backbone.LocalStorage('candidates-' + EasyvoteSmartvote.token);
+		// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
+		//this.localStorage = new Backbone.LocalStorage('candidates-' + EasyvoteSmartvote.token);
 	}
 
 	/**
@@ -65,16 +66,19 @@ export default class CandidateCollection extends Backbone.Collection {
 	/**
 	 * @returns {*}
 	 */
-	fetch() {
+	fetch(filter) {
 
+		return super.fetch({ data: filter });
+
+		// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
 		// Check whether localStorage contains record about this collection otherwise fetch it by ajax.
-		let records = this.localStorage.findAll();
-		if (_.isEmpty(records)) {
-			return this.remoteFetch();
-		} else {
-			// call original fetch method.
-			return super.fetch();
-		}
+		//let records = this.localStorage.findAll();
+		//if (_.isEmpty(records)) {
+		//	return this.remoteFetch();
+		//} else {
+		//	// call original fetch method.
+		//	return super.fetch();
+		//}
 	}
 
 	/**

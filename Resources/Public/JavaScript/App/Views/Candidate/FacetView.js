@@ -32,8 +32,6 @@ export default class FacetView extends Backbone.View {
 
 		this.model = new FacetModel();
 
-		this.listenTo(this.model, 'change', this.save);
-
 		if (this.model.hasState()) {
 			this.model.setState();
 		} else {

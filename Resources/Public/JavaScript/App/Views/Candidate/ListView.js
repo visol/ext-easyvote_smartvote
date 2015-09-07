@@ -31,11 +31,13 @@ export default class ListView extends Backbone.View {
 		this.listTopTemplate = _.template($('#template-candidates-top').html());
 
 		/** @var candidateCollection CandidateCollection*/
-		var candidateCollection = CandidateCollection.getInstance();
+		this.candidateCollection = CandidateCollection.getInstance();
 		this.questionCollection = QuestionCollection.getInstance();
+		this.district = 0;
+		this.nationalParty = 0;
 
 		// Important: define listener before fetching data.
-		this.listenTo(candidateCollection, 'sort', this.render);
+		this.listenTo(this.candidateCollection, 'sort', this.renderList);
 		this.listenTo(Backbone, 'facet:changed', this.render, this);
 
 		_.bindAll(this, 'changeFacetView');
@@ -47,18 +49,54 @@ export default class ListView extends Backbone.View {
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
-		this.questionCollection.load().done(() => {
-
-			candidateCollection.fetch(); // will trigger the rendering.
-
-			// Fetch candidates.
-			//candidateCollection.fetch().done(() => {
-				//candidateCollection.sort(); // will trigger the rendering.
-			//});
-		});
+		this.questionCollection.load().done(() => this.render());
 
 		// Call parent constructor.
 		super();
+	}
+
+	/**
+	 * Properly render the list.
+	 */
+	renderList() {
+		var filteredCandidates = this.candidateCollection.getFilteredCandidates();
+
+		// Render intermediate content in a temporary DOM.
+		var container = document.createDocumentFragment();
+
+		var counter = 0;
+		for (let candidate of filteredCandidates) {
+			let content = this.renderOne(candidate);
+			container.appendChild(content);
+			counter++;
+		}
+
+		// Finally update the DOM.
+		var $containerCandidateList = $('#container-candidate-list');
+		$containerCandidateList.html(container);
+
+		// Add lazy loading to images.
+		$("img.lazy", $containerCandidateList).lazyload();
+
+		// Bind fancybox
+		$('body').on('click', '.fancybox', function(event) {
+			event.preventDefault();
+			$.fancybox({
+				'href': this.href,
+				'title': this.title
+			});
+		});
+
+		// Update top list content.
+		let content = this.listTopTemplate({
+			numberOfItems: filteredCandidates.length,
+			sorting: CandidateCollection.getInstance().getSorting(),
+			direction: CandidateCollection.getInstance().getDirection()
+		});
+		$('#container-candidates-top').html(content);
+		$('#wrapper-candidates').removeClass('hidden');
+		$('#wrapper-filter').removeClass('hidden');
+		$('#container-before-starting').addClass('hidden');
 	}
 
 	/**
@@ -68,41 +106,25 @@ export default class ListView extends Backbone.View {
 
 		if (this.facetView.hasMinimumFilter()) {
 
-			var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
+			// Only fetch chunk of data if necessary
+			if (this.district != this.facetView.model.get('district') ||
+				this.nationalParty != this.facetView.model.get('nationalParty')) {
 
-			// Render intermediate content in a temporary DOM.
-			var container = document.createDocumentFragment();
-			for (let candidate of filteredCandidates) {
-				let content = this.renderOne(candidate);
-				container.appendChild(content);
+				this.district = this.facetView.model.get('district');
+				this.nationalParty = this.facetView.model.get('nationalParty');
+
+				let filter = {
+					district: this.district,
+					nationalParty: this.nationalParty
+				};
+
+				this.candidateCollection.fetch(filter).done(candidates => {
+					this.renderList();
+				});
+			} else {
+				this.renderList();
 			}
 
-			// Finally update the DOM.
-			var $containerCandidateList = $('#container-candidate-list');
-			$containerCandidateList.html(container);
-
-			// Add lazy loading to images.
-			$("img.lazy", $containerCandidateList).lazyload();
-
-			// Bind fancybox
-			$('body').on('click', '.fancybox', function(event) {
-				event.preventDefault();
-				$.fancybox({
-					'href': this.href,
-					'title': this.title
-				});
-			});
-
-			// Update top list content.
-			let content = this.listTopTemplate({
-				numberOfItems: filteredCandidates.length,
-				sorting: CandidateCollection.getInstance().getSorting(),
-				direction: CandidateCollection.getInstance().getDirection()
-			});
-			$('#container-candidates-top').html(content);
-			$('#wrapper-candidates').removeClass('hidden');
-			$('#wrapper-filter').removeClass('hidden');
-			$('#container-before-starting').addClass('hidden');
 		} else {
 
 			// User must pick some option

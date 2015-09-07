@@ -25,14 +25,24 @@ class CandidateRepository extends Repository {
 
 	/**
 	 * @param Election $election
+	 * @param int $district
+	 * @param int $nationalParty
 	 * @return array|NULL
 	 */
-	public function findByElection(Election $election){
+	public function findByElection(Election $election, $district = 0, $nationalParty = 0) {
 
 		$tableName = 'tx_easyvotesmartvote_domain_model_candidate';
 
 		$clause = 'election = ' . $election->getUid();
 		$clause .= $this->getDeleteClauseAndEnableFieldsConstraint($tableName);
+
+		if ($district > 0) {
+			$clause .= ' AND district = ' . $district;
+		}
+
+		if ($nationalParty > 0) {
+			$clause .= ' AND national_party = ' . $nationalParty;
+		}
 
 		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city, national_party,
 		            incumbent, slogan, party_short, district, serialized_answers, election_list_name,

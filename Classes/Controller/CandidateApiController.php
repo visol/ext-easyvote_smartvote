@@ -14,6 +14,7 @@ namespace Visol\EasyvoteSmartvote\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Processor\CandidateProcessor;
 
@@ -40,11 +41,16 @@ class CandidateApiController extends AbstractBaseApiController {
 	public function listAction(Election $election = NULL) {
 		$this->initializeCache();
 
-		$cacheIdentifier = 'candidates-' . $election->getUid();
+
+		$district = (int)GeneralUtility::_GP('district');
+		$nationalParty = (int)GeneralUtility::_GP('nationalParty');
+
+		$cacheIdentifier = sprintf('candidates-%s-%s-%s', $election->getUid(), $district, $nationalParty);
 		$candidates = $this->cacheInstance->get($cacheIdentifier);
 
 		if (!$candidates) {
-			$candidates = $this->candidateRepository->findByElection($election);
+			$candidates = $this->candidateRepository->findByElection($election, $district, $nationalParty);
+
 			$candidates = $this->getCandidateProcessor()->process($candidates);
 			$candidates = json_encode($candidates);
 
