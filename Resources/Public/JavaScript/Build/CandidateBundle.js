@@ -1937,6 +1937,8 @@ var ListView = (function (_Backbone$View) {
 		this.questionCollection = QuestionCollection.getInstance();
 		this.district = 0;
 		this.nationalParty = 0;
+		this.numberOfRenderedItems = 0;
+		this.isRendering = false;
 
 		// Important: define listener before fetching data.
 		this.listenTo(this.candidateCollection, "sort", this.renderList);
@@ -1944,10 +1946,12 @@ var ListView = (function (_Backbone$View) {
 
 		_.bindAll(this, "changeFacetView");
 		_.bindAll(this, "sortAndRender");
+		_.bindAll(this, "renderAsYouScroll");
 		$(document).on("click", "#btn-show-login", this.showLoginBox);
 		$(document).on("click", "#link-show-registration", this.showRegistrationBox);
 		$(document).on("change", "#container-before-starting .form-control", this.changeFacetView);
 		$(document).on("change", "#btn-sorting", this.sortAndRender);
+		$(window).on("scroll", "", this.renderAsYouScroll);
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
@@ -1962,6 +1966,37 @@ var ListView = (function (_Backbone$View) {
 	_inherits(ListView, _Backbone$View);
 
 	_createClass(ListView, {
+		renderAsYouScroll: {
+
+			/**
+    * Properly render the list.
+    */
+
+			value: function renderAsYouScroll() {
+
+				var footerSize = 500;
+				if (!this.isRendering && this.numberOfRenderedItems < this.candidateCollection.size() && $(window).scrollTop() >= $(document).height() - $(window).height() - footerSize) {
+
+					$("#container-candidates-loading").show();
+
+					// display loading message while rendering
+					this.renderList();
+				}
+			}
+		},
+		getCandidatesWithBoundary: {
+
+			/**
+    * Return the parts of data to be rendered.
+    */
+
+			value: function getCandidatesWithBoundary(offsetLeft, numberOfItemsByBatch) {
+				var candidates = this.candidateCollection.getFilteredCandidates();
+
+				var offsetRight = offsetLeft + numberOfItemsByBatch;
+				return candidates.slice(offsetLeft, offsetRight);
+			}
+		},
 		renderList: {
 
 			/**
@@ -1969,12 +2004,15 @@ var ListView = (function (_Backbone$View) {
     */
 
 			value: function renderList() {
-				var filteredCandidates = this.candidateCollection.getFilteredCandidates();
+				this.isRendering = true;
+				var numberOfItemsByBatch = 10;
+
+				var filteredCandidates = this.getCandidatesWithBoundary(this.numberOfRenderedItems, numberOfItemsByBatch);
 
 				// Render intermediate content in a temporary DOM.
 				var container = document.createDocumentFragment();
-
-				var counter = 0;
+				var box = container.appendChild(document.createElement("div"));
+				box.className = "batch-" + this.numberOfRenderedItems;
 				var _iteratorNormalCompletion = true;
 				var _didIteratorError = false;
 				var _iteratorError = undefined;
@@ -1984,8 +2022,15 @@ var ListView = (function (_Backbone$View) {
 						var candidate = _step.value;
 
 						var _content = this.renderOne(candidate);
-						container.appendChild(_content);
-						counter++;
+						box.appendChild(_content);
+
+						// handle counters
+						this.numberOfRenderedItems++;
+						numberOfItemsByBatch--;
+
+						if (numberOfItemsByBatch <= 0) {
+							break;
+						}
 					}
 				} catch (err) {
 					_didIteratorError = true;
@@ -2004,10 +2049,10 @@ var ListView = (function (_Backbone$View) {
 
 				// Finally update the DOM.
 				var $containerCandidateList = $("#container-candidate-list");
-				$containerCandidateList.html(container);
+				$containerCandidateList.append(container);
 
 				// Add lazy loading to images.
-				$("img.lazy", $containerCandidateList).lazyload();
+				$("img.lazy", $(".batch-" + this.numberOfRenderedItems)).lazyload();
 
 				// Bind fancybox
 				$("body").on("click", ".fancybox", function (event) {
@@ -2020,7 +2065,7 @@ var ListView = (function (_Backbone$View) {
 
 				// Update top list content.
 				var content = this.listTopTemplate({
-					numberOfItems: filteredCandidates.length,
+					numberOfItems: this.candidateCollection.size(),
 					sorting: CandidateCollection.getInstance().getSorting(),
 					direction: CandidateCollection.getInstance().getDirection()
 				});
@@ -2028,6 +2073,9 @@ var ListView = (function (_Backbone$View) {
 				$("#wrapper-candidates").removeClass("hidden");
 				$("#wrapper-filter").removeClass("hidden");
 				$("#container-before-starting").addClass("hidden");
+
+				this.isRendering = false;
+				$("#container-candidates-loading").hide();
 			}
 		},
 		render: {
@@ -2053,6 +2101,8 @@ var ListView = (function (_Backbone$View) {
 						};
 
 						this.candidateCollection.fetch(filter).done(function (candidates) {
+							$("#container-candidate-list").html(""); // empty list
+							_this.numberOfRenderedItems = 0;
 							_this.renderList();
 						});
 					} else {
