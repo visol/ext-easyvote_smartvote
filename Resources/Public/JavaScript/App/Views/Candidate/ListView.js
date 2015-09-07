@@ -35,6 +35,8 @@ export default class ListView extends Backbone.View {
 		this.questionCollection = QuestionCollection.getInstance();
 		this.district = 0;
 		this.nationalParty = 0;
+		this.numberOfRenderedItems = 0;
+		this.isRendering = false;
 
 		// Important: define listener before fetching data.
 		this.listenTo(this.candidateCollection, 'sort', this.renderList);
@@ -42,10 +44,12 @@ export default class ListView extends Backbone.View {
 
 		_.bindAll(this, 'changeFacetView');
 		_.bindAll(this, 'sortAndRender');
+		_.bindAll(this, 'renderAsYouScroll');
 		$(document).on('click', '#btn-show-login', this.showLoginBox);
 		$(document).on('click', '#link-show-registration', this.showRegistrationBox);
 		$(document).on('change', '#container-before-starting .form-control', this.changeFacetView);
 		$(document).on('change', '#btn-sorting', this.sortAndRender);
+		$(window).on('scroll', '', this.renderAsYouScroll);
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
@@ -58,25 +62,62 @@ export default class ListView extends Backbone.View {
 	/**
 	 * Properly render the list.
 	 */
+	renderAsYouScroll() {
+
+		var footerSize = 500;
+		if (!this.isRendering
+			&& this.numberOfRenderedItems < this.candidateCollection.size()
+			&& $(window).scrollTop() >= $(document).height() - $(window).height() - footerSize) {
+
+			$('#container-candidates-loading').show();
+
+			// display loading message while rendering
+			this.renderList();
+		}
+	}
+
+	/**
+	 * Return the parts of data to be rendered.
+	 */
+	getCandidatesWithBoundary(offsetLeft, numberOfItemsByBatch) {
+		let candidates = this.candidateCollection.getFilteredCandidates();
+
+		var offsetRight = offsetLeft + numberOfItemsByBatch;
+		return candidates.slice(offsetLeft, offsetRight);
+	}
+
+	/**
+	 * Properly render the list.
+	 */
 	renderList() {
-		var filteredCandidates = this.candidateCollection.getFilteredCandidates();
+		this.isRendering = true;
+		var numberOfItemsByBatch = 10;
+
+		var filteredCandidates = this.getCandidatesWithBoundary(this.numberOfRenderedItems, numberOfItemsByBatch);
 
 		// Render intermediate content in a temporary DOM.
 		var container = document.createDocumentFragment();
-
-		var counter = 0;
+		var box = container.appendChild(document.createElement('div'));
+		box.className = 'batch-' + this.numberOfRenderedItems;
 		for (let candidate of filteredCandidates) {
 			let content = this.renderOne(candidate);
-			container.appendChild(content);
-			counter++;
+			box.appendChild(content);
+
+			// handle counters
+			this.numberOfRenderedItems++;
+			numberOfItemsByBatch--;
+
+			if (numberOfItemsByBatch <= 0) {
+				break;
+			}
 		}
 
 		// Finally update the DOM.
 		var $containerCandidateList = $('#container-candidate-list');
-		$containerCandidateList.html(container);
+		$containerCandidateList.append(container);
 
 		// Add lazy loading to images.
-		$("img.lazy", $containerCandidateList).lazyload();
+		$("img.lazy", $('.batch-' + this.numberOfRenderedItems)).lazyload();
 
 		// Bind fancybox
 		$('body').on('click', '.fancybox', function(event) {
@@ -89,7 +130,7 @@ export default class ListView extends Backbone.View {
 
 		// Update top list content.
 		let content = this.listTopTemplate({
-			numberOfItems: filteredCandidates.length,
+			numberOfItems: this.candidateCollection.size(),
 			sorting: CandidateCollection.getInstance().getSorting(),
 			direction: CandidateCollection.getInstance().getDirection()
 		});
@@ -97,6 +138,9 @@ export default class ListView extends Backbone.View {
 		$('#wrapper-candidates').removeClass('hidden');
 		$('#wrapper-filter').removeClass('hidden');
 		$('#container-before-starting').addClass('hidden');
+
+		this.isRendering = false;
+		$('#container-candidates-loading').hide();
 	}
 
 	/**
@@ -119,6 +163,8 @@ export default class ListView extends Backbone.View {
 				};
 
 				this.candidateCollection.fetch(filter).done(candidates => {
+					$('#container-candidate-list').html(''); // empty list
+					this.numberOfRenderedItems = 0;
 					this.renderList();
 				});
 			} else {
