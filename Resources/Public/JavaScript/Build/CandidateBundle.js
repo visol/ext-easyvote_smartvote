@@ -503,7 +503,8 @@ var CandidateCollection = (function (_Backbone$Collection) {
 		this.direction = "descending";
 
 		// Save all of the candidate items under the `'candidates'` namespace.
-		this.localStorage = new Backbone.LocalStorage("candidates-" + EasyvoteSmartvote.token);
+		// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
+		//this.localStorage = new Backbone.LocalStorage('candidates-' + EasyvoteSmartvote.token);
 	}
 
 	_inherits(CandidateCollection, _Backbone$Collection);
@@ -550,16 +551,19 @@ var CandidateCollection = (function (_Backbone$Collection) {
     * @returns {*}
     */
 
-			value: function fetch() {
+			value: function fetch(filter) {
 
+				return _get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this, { data: filter });
+
+				// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
 				// Check whether localStorage contains record about this collection otherwise fetch it by ajax.
-				var records = this.localStorage.findAll();
-				if (_.isEmpty(records)) {
-					return this.remoteFetch();
-				} else {
-					// call original fetch method.
-					return _get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this);
-				}
+				//let records = this.localStorage.findAll();
+				//if (_.isEmpty(records)) {
+				//	return this.remoteFetch();
+				//} else {
+				//	// call original fetch method.
+				//	return super.fetch();
+				//}
 			}
 		},
 		getFilteredCandidates: {
@@ -1754,8 +1758,6 @@ var FacetView = (function (_Backbone$View) {
 
 		this.model = new FacetModel();
 
-		this.listenTo(this.model, "change", this.save);
-
 		if (this.model.hasState()) {
 			this.model.setState();
 		} else {
@@ -1914,6 +1916,8 @@ var ListView = (function (_Backbone$View) {
   */
 
 	function ListView(options) {
+		var _this = this;
+
 		_classCallCheck(this, ListView);
 
 		this.facetView = options.facet;
@@ -1929,11 +1933,13 @@ var ListView = (function (_Backbone$View) {
 		this.listTopTemplate = _.template($("#template-candidates-top").html());
 
 		/** @var candidateCollection CandidateCollection*/
-		var candidateCollection = CandidateCollection.getInstance();
+		this.candidateCollection = CandidateCollection.getInstance();
 		this.questionCollection = QuestionCollection.getInstance();
+		this.district = 0;
+		this.nationalParty = 0;
 
 		// Important: define listener before fetching data.
-		this.listenTo(candidateCollection, "sort", this.render);
+		this.listenTo(this.candidateCollection, "sort", this.renderList);
 		this.listenTo(Backbone, "facet:changed", this.render, this);
 
 		_.bindAll(this, "changeFacetView");
@@ -1946,13 +1952,7 @@ var ListView = (function (_Backbone$View) {
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
 		this.questionCollection.load().done(function () {
-
-			candidateCollection.fetch(); // will trigger the rendering.
-
-			// Fetch candidates.
-			//candidateCollection.fetch().done(() => {
-			//candidateCollection.sort(); // will trigger the rendering.
-			//});
+			return _this.render();
 		});
 
 		// Call parent constructor.
@@ -1962,6 +1962,74 @@ var ListView = (function (_Backbone$View) {
 	_inherits(ListView, _Backbone$View);
 
 	_createClass(ListView, {
+		renderList: {
+
+			/**
+    * Properly render the list.
+    */
+
+			value: function renderList() {
+				var filteredCandidates = this.candidateCollection.getFilteredCandidates();
+
+				// Render intermediate content in a temporary DOM.
+				var container = document.createDocumentFragment();
+
+				var counter = 0;
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(filteredCandidates), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var candidate = _step.value;
+
+						var _content = this.renderOne(candidate);
+						container.appendChild(_content);
+						counter++;
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				// Finally update the DOM.
+				var $containerCandidateList = $("#container-candidate-list");
+				$containerCandidateList.html(container);
+
+				// Add lazy loading to images.
+				$("img.lazy", $containerCandidateList).lazyload();
+
+				// Bind fancybox
+				$("body").on("click", ".fancybox", function (event) {
+					event.preventDefault();
+					$.fancybox({
+						href: this.href,
+						title: this.title
+					});
+				});
+
+				// Update top list content.
+				var content = this.listTopTemplate({
+					numberOfItems: filteredCandidates.length,
+					sorting: CandidateCollection.getInstance().getSorting(),
+					direction: CandidateCollection.getInstance().getDirection()
+				});
+				$("#container-candidates-top").html(content);
+				$("#wrapper-candidates").removeClass("hidden");
+				$("#wrapper-filter").removeClass("hidden");
+				$("#container-before-starting").addClass("hidden");
+			}
+		},
 		render: {
 
 			/**
@@ -1969,65 +2037,27 @@ var ListView = (function (_Backbone$View) {
     */
 
 			value: function render() {
+				var _this = this;
 
 				if (this.facetView.hasMinimumFilter()) {
 
-					var filteredCandidates = CandidateCollection.getInstance().getFilteredCandidates();
+					// Only fetch chunk of data if necessary
+					if (this.district != this.facetView.model.get("district") || this.nationalParty != this.facetView.model.get("nationalParty")) {
 
-					// Render intermediate content in a temporary DOM.
-					var container = document.createDocumentFragment();
-					var _iteratorNormalCompletion = true;
-					var _didIteratorError = false;
-					var _iteratorError = undefined;
+						this.district = this.facetView.model.get("district");
+						this.nationalParty = this.facetView.model.get("nationalParty");
 
-					try {
-						for (var _iterator = _core.$for.getIterator(filteredCandidates), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-							var candidate = _step.value;
+						var filter = {
+							district: this.district,
+							nationalParty: this.nationalParty
+						};
 
-							var _content = this.renderOne(candidate);
-							container.appendChild(_content);
-						}
-					} catch (err) {
-						_didIteratorError = true;
-						_iteratorError = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion && _iterator["return"]) {
-								_iterator["return"]();
-							}
-						} finally {
-							if (_didIteratorError) {
-								throw _iteratorError;
-							}
-						}
-					}
-
-					// Finally update the DOM.
-					var $containerCandidateList = $("#container-candidate-list");
-					$containerCandidateList.html(container);
-
-					// Add lazy loading to images.
-					$("img.lazy", $containerCandidateList).lazyload();
-
-					// Bind fancybox
-					$("body").on("click", ".fancybox", function (event) {
-						event.preventDefault();
-						$.fancybox({
-							href: this.href,
-							title: this.title
+						this.candidateCollection.fetch(filter).done(function (candidates) {
+							_this.renderList();
 						});
-					});
-
-					// Update top list content.
-					var content = this.listTopTemplate({
-						numberOfItems: filteredCandidates.length,
-						sorting: CandidateCollection.getInstance().getSorting(),
-						direction: CandidateCollection.getInstance().getDirection()
-					});
-					$("#container-candidates-top").html(content);
-					$("#wrapper-candidates").removeClass("hidden");
-					$("#wrapper-filter").removeClass("hidden");
-					$("#container-before-starting").addClass("hidden");
+					} else {
+						this.renderList();
+					}
 				} else {
 
 					// User must pick some option

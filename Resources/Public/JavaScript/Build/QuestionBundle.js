@@ -861,7 +861,8 @@ var CandidateCollection = (function (_Backbone$Collection) {
 		this.direction = "descending";
 
 		// Save all of the candidate items under the `'candidates'` namespace.
-		this.localStorage = new Backbone.LocalStorage("candidates-" + EasyvoteSmartvote.token);
+		// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
+		//this.localStorage = new Backbone.LocalStorage('candidates-' + EasyvoteSmartvote.token);
 	}
 
 	_inherits(CandidateCollection, _Backbone$Collection);
@@ -908,16 +909,19 @@ var CandidateCollection = (function (_Backbone$Collection) {
     * @returns {*}
     */
 
-			value: function fetch() {
+			value: function fetch(filter) {
 
+				return _get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this, { data: filter });
+
+				// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
 				// Check whether localStorage contains record about this collection otherwise fetch it by ajax.
-				var records = this.localStorage.findAll();
-				if (_.isEmpty(records)) {
-					return this.remoteFetch();
-				} else {
-					// call original fetch method.
-					return _get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this);
-				}
+				//let records = this.localStorage.findAll();
+				//if (_.isEmpty(records)) {
+				//	return this.remoteFetch();
+				//} else {
+				//	// call original fetch method.
+				//	return super.fetch();
+				//}
 			}
 		},
 		getFilteredCandidates: {
@@ -1988,8 +1992,6 @@ var FacetView = (function (_Backbone$View) {
 		};
 
 		this.model = new FacetModel();
-
-		this.listenTo(this.model, "change", this.save);
 
 		if (this.model.hasState()) {
 			this.model.setState();
