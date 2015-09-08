@@ -250,7 +250,7 @@
 				<target>Persone in tutta la Svizzera</target>
 			</trans-unit>
 			<trans-unit id="party.years">
-				<target>Anni/target>
+				<target>Anni</target>
 			</trans-unit>
 			<trans-unit id="party.number_of_candidates_below_35">
 				<target>Numero di candidati al di sotto dei 35 anni</target>
