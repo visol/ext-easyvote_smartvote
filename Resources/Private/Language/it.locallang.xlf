@@ -130,17 +130,17 @@
 				<target>Candidato trovato</target>
 			</trans-unit>
 			<trans-unit id="long_version">
-				<target>Long Version</target>
+				<target>73 domande</target>
 			</trans-unit>
 			<trans-unit id="short_version">
-				<target>Short Version</target>
+				<target>30 domance</target>
 			</trans-unit>
 
 			<trans-unit id="to_questionnaire">
-				<target>Al questionario</target>
+				<target>Al questionario (30 domande)</target>
 			</trans-unit>
 			<trans-unit id="to_long_questionnaire">
-				<target>Al questionario lungo</target>
+				<target>Al questionario lungo (75 domande)</target>
 			</trans-unit>
 			<trans-unit id="is_only_a_few_clicks">
 				<target>mancano solo un paio di clic!</target>
@@ -168,52 +168,52 @@
 			</trans-unit>
 
 			<trans-unit id="cleavage1_text1">
-				<target>Aperto</target>
+				<target>Apertura</target>
 			</trans-unit>
 			<trans-unit id="cleavage1_text2">
-				<target>Politica estera</target>
+				<target>verso l'estero</target>
 			</trans-unit>
 			<trans-unit id="cleavage2_text1">
-				<target>Liberale</target>
-			</trans-unit>
-			<trans-unit id="cleavage2_text2">
 				<target>Politica economica</target>
 			</trans-unit>
-			<trans-unit id="cleavage3_text1">
-				<target>Restrittiva</target>
+			<trans-unit id="cleavage2_text2">
+				<target>liberale</target>
 			</trans-unit>
-			<trans-unit id="cleavage3_text2">
+			<trans-unit id="cleavage3_text1">
 				<target>Politica finanziaria</target>
 			</trans-unit>
+			<trans-unit id="cleavage3_text2">
+				<target>restrittiva</target>
+			</trans-unit>
 			<trans-unit id="cleavage4_text1">
-				<target>Liberale</target>
+				<target>Società liberale</target>
 			</trans-unit>
 			<trans-unit id="cleavage4_text2">
-				<target>Società</target>
+				<target> </target>
 			</trans-unit>
 			<trans-unit id="cleavage5_text1">
 				<target></target>
 			</trans-unit>
 			<trans-unit id="cleavage5_text2">
-				<target>Ordine pubblico</target>
+				<target>Ordine e sicurezza</target>
 			</trans-unit>
 			<trans-unit id="cleavage6_text1">
-				<target>Restrittivo</target>
+				<target>restrittiva</target>
 			</trans-unit>
 			<trans-unit id="cleavage6_text2">
 				<target>Politica migratoria</target>
 			</trans-unit>
 			<trans-unit id="cleavage7_text1">
-				<target>Potenziata</target>
+				<target>dell’ambiente</target>
 			</trans-unit>
 			<trans-unit id="cleavage7_text2">
-				<target>Protezione dell’ambiente</target>
+				<target>Forte protezione</target>
 			</trans-unit>
 			<trans-unit id="cleavage8_text1">
-				<target>Potenziata</target>
+				<target>Stato sociale forte</target>
 			</trans-unit>
 			<trans-unit id="cleavage8_text2">
-				<target>Stato sociale</target>
+				<target> </target>
 			</trans-unit>
 			
 			<trans-unit id="party.ch2055">
@@ -293,7 +293,18 @@
 			</trans-unit>
 			<trans-unit id="party.watch_clip">
 				<target>Al video</target>
-			</trans-unit>			
+			</trans-unit>
+
+			<trans-unit id="questions.show_recommendation">
+				<target>Wahlempfehlung anzeigen</target>
+			</trans-unit>
+			<trans-unit id="questions.recommendation_nr">
+				<target>Consiglio nazionale</target>
+			</trans-unit>
+			<trans-unit id="questions.recommendation_sr">
+				<target>Consiglio degli stati</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

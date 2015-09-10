@@ -302,7 +302,7 @@
 				<source>Wahlempfehlung anzeigen</source>
 			</trans-unit>
 			<trans-unit id="questions.recommendation_nr">
-				<source>Nationrat</source>
+				<source>Nationalrat</source>
 			</trans-unit>
 			<trans-unit id="questions.recommendation_sr">
 				<source>Ständerat</source>
