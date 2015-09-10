@@ -72,7 +72,7 @@ class QuestionApiController extends AbstractBaseApiController {
 
 		$this->initializeCache();
 
-		$cacheIdentifier = 'questions-' . $election->getUid();
+		$cacheIdentifier = 'questions-' . $election->getUid() . '-lang-' . (int)$GLOBALS['TSFE']->sys_language_uid;
 		$questions = $this->cacheInstance->get($cacheIdentifier);
 
 		if (empty($questions)) {
