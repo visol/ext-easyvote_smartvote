@@ -296,13 +296,13 @@
 			</trans-unit>
 
 			<trans-unit id="questions.show_recommendation">
-				<target>Wahlempfehlung anzeigen</target>
+				<target>Mostra le raccomandazioni di voto</target>
 			</trans-unit>
 			<trans-unit id="questions.recommendation_nr">
 				<target>Consiglio nazionale</target>
 			</trans-unit>
 			<trans-unit id="questions.recommendation_sr">
-				<target>Consiglio degli stati</target>
+				<target>Consiglio degli Stati</target>
 			</trans-unit>
 
 		</body>

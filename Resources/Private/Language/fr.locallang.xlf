@@ -296,7 +296,7 @@
 			</trans-unit>
 
 			<trans-unit id="questions.show_recommendation">
-				<target>Wahlempfehlung anzeigen</target>
+				<target>Recommandation de vote</target>
 			</trans-unit>
 			<trans-unit id="questions.recommendation_nr">
 				<target>Conseil national</target>
