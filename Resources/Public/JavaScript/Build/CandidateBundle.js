@@ -1753,8 +1753,12 @@ var FacetView = (function (_Backbone$View) {
 
 		// *Define the DOM events specific to an item.*
 		this.events = {
-			"change .form-control": "save"
+			"change .form-control-select": "save"
 		};
+
+		// We want a delay on the input field, so we bind the action via jQuery instead of the backbone mechanism.
+		_.bindAll(this, "save");
+		$(document).on("keydown", ".form-control-input", _.debounce(this.save, 500));
 
 		this.model = new FacetModel();
 
@@ -2106,6 +2110,8 @@ var ListView = (function (_Backbone$View) {
 							_this.renderList();
 						});
 					} else {
+						$("#container-candidate-list").html(""); // empty list
+						this.numberOfRenderedItems = 0;
 						this.renderList();
 					}
 				} else {
