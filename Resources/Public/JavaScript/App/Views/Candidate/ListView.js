@@ -190,6 +190,7 @@ export default class ListView extends Backbone.View {
 	 * update facet view.
 	 */
 	sortAndRender(e) {
+
 		var candidateCollection = CandidateCollection.getInstance();
 
 		var parameters = $(e.target).val().split('&');
@@ -199,6 +200,11 @@ export default class ListView extends Backbone.View {
 			let direction = parameters[1];
 			candidateCollection.setSorting(sorting);
 			candidateCollection.setDirection(direction);
+
+			// Reset list
+			$('#container-candidate-list').html('');
+			this.numberOfRenderedItems = 0;
+
 			candidateCollection.sort(); // trigger rendering
 		}
 	}

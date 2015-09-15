@@ -2130,6 +2130,7 @@ var ListView = (function (_Backbone$View) {
     */
 
 			value: function sortAndRender(e) {
+
 				var candidateCollection = CandidateCollection.getInstance();
 
 				var parameters = $(e.target).val().split("&");
@@ -2139,6 +2140,11 @@ var ListView = (function (_Backbone$View) {
 					var direction = parameters[1];
 					candidateCollection.setSorting(sorting);
 					candidateCollection.setDirection(direction);
+
+					// Reset list
+					$("#container-candidate-list").html("");
+					this.numberOfRenderedItems = 0;
+
 					candidateCollection.sort(); // trigger rendering
 				}
 			}
