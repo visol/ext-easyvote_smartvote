@@ -26,8 +26,7 @@ export default class ListView extends Backbone.View {
 
 		// Store the flag whether it is a short or long version of the questionnaire.
 		this.isShortVersion = this.isShortQuestionnaire();
-		this.updateWidget();
-		this.linkToDirectoriesIfAllQuestionsAnswered();
+		this.updateShortAndLongButtonState();
 
 		// Special binding since the reset button is outside the scope of this view.
 		_.bindAll(this, 'showShortVersion');
@@ -48,7 +47,9 @@ export default class ListView extends Backbone.View {
 	/**
 	 * Adjust widget
 	 */
-	updateWidget() {
+	updateShortAndLongButtonState() {
+
+		$('#btn-short-version').show(); // short version could be hidden... show it in any case
 		if (this.isShortVersion) {
 			$('#btn-short-version').addClass('disabled');
 			$('#btn-long-version').removeClass('disabled');
@@ -67,7 +68,8 @@ export default class ListView extends Backbone.View {
 		this.isShortVersion = true;
 
 		// Toggle property.
-		this.updateWidget();
+		this.updateShortAndLongButtonState();
+		//this.linkToDirectoriesIfAllQuestionsAnswered();
 
 		// Update the view.
 		this.render();
@@ -80,7 +82,8 @@ export default class ListView extends Backbone.View {
 
 		// Toggle property.
 		this.isShortVersion = false;
-		this.updateWidget();
+		this.updateShortAndLongButtonState();
+		this.linkToDirectoriesIfAllQuestionsAnswered();
 
 		// Update the view.
 		this.render();
@@ -107,6 +110,7 @@ export default class ListView extends Backbone.View {
 		}
 
 		$('#container-question-list').html(container);
+		this.linkToDirectoriesIfAllQuestionsAnswered();
 	}
 
 	/**
@@ -126,6 +130,7 @@ export default class ListView extends Backbone.View {
 	 * Display the links to the candidate directory if needed
 	 */
 	linkToDirectoriesIfAllQuestionsAnswered() {
+
 		let numberOfQuestionAnswered = this.questionCollection.countVisible(this.isShortVersion);
 		let totalNumberOfQuestions = this.questionCollection.count(this.isShortVersion);
 		if (totalNumberOfQuestions === 0) {
@@ -133,15 +138,17 @@ export default class ListView extends Backbone.View {
 			// In this case we can make an early return
 			return;
 		}
-		if (numberOfQuestionAnswered === totalNumberOfQuestions && this.isShortVersion) {
+		if (numberOfQuestionAnswered === totalNumberOfQuestions) {
 			// The short version is taken completely, display directory links and hide short version link
 			$('#directory-links').show();
+			$('#container-congratulations').show();
 			$('#btn-short-version').hide();
-		} else if (numberOfQuestionAnswered === totalNumberOfQuestions) {
-			// The long version is taken completely, display directory links and hide version links
-			$('#directory-links').show();
-			$('#btn-short-version').hide();
-			$('#btn-long-version').hide();
+			if (!this.isShortVersion) {
+				$('#btn-long-version').hide();
+			}
+		} else {
+			$('#directory-links').hide();
+			$('#container-congratulations').hide();
 		}
 	}
 

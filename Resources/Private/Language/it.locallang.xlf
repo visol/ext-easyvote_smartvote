@@ -215,7 +215,7 @@
 			<trans-unit id="cleavage8_text2">
 				<target> </target>
 			</trans-unit>
-			
+
 			<trans-unit id="party.ch2055">
 				<target>La nostra Svizzera nel 2055</target>
 			</trans-unit>
@@ -303,6 +303,12 @@
 			</trans-unit>
 			<trans-unit id="questions.recommendation_sr">
 				<target>Consiglio degli Stati</target>
+			</trans-unit>
+			<trans-unit id="questions.you_have_done_it">
+				<source>Du hast es geschafft</source>
+			</trans-unit>
+			<trans-unit id="questions.go_to_recommendation">
+				<source>Hier geht es zu deiner persönlichen Wahlempfehlung.</source>
 			</trans-unit>
 
 		</body>
