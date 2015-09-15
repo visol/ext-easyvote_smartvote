@@ -27,8 +27,12 @@ export default class FacetView extends Backbone.View {
 
 		// *Define the DOM events specific to an item.*
 		this.events = {
-			'change .form-control': 'save'
+			'change .form-control-select': 'save'
 		};
+
+		// We want a delay on the input field, so we bind the action via jQuery instead of the backbone mechanism.
+		_.bindAll(this, 'save');
+		$(document).on('keydown', '.form-control-input', _.debounce(this.save, 500));
 
 		this.model = new FacetModel();
 
@@ -37,6 +41,7 @@ export default class FacetView extends Backbone.View {
 		} else {
 			this.model.fetch()
 		}
+
 
 		this.bindings = {
 			'#name': 'name',

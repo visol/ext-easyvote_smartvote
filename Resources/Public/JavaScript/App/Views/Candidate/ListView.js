@@ -168,6 +168,8 @@ export default class ListView extends Backbone.View {
 					this.renderList();
 				});
 			} else {
+				$('#container-candidate-list').html(''); // empty list
+				this.numberOfRenderedItems = 0;
 				this.renderList();
 			}
 
