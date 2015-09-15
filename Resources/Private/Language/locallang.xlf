@@ -308,10 +308,10 @@
 				<source>Ständerat</source>
 			</trans-unit>
 			<trans-unit id="questions.you_have_done_it">
-				<source>Du hast es geschafft</source>
+				<source>Du hast es geschafft!</source>
 			</trans-unit>
 			<trans-unit id="questions.go_to_recommendation">
-				<source>Hier geht es zu deiner persönlichen Wahlempfehlung.</source>
+				<source>Hier geht es zu deiner persönlichen Wahlempfehlung:</source>
 			</trans-unit>
 		</body>
 	</file>

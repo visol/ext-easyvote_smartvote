@@ -2069,7 +2069,8 @@ var ListView = (function (_Backbone$View) {
 
 				// Update top list content.
 				var content = this.listTopTemplate({
-					numberOfItems: this.candidateCollection.size(),
+					totalNumberOfCandidates: this.candidateCollection.size(),
+					numberOfCandidates: this.candidateCollection.getFilteredCandidates().length,
 					sorting: CandidateCollection.getInstance().getSorting(),
 					direction: CandidateCollection.getInstance().getDirection()
 				});

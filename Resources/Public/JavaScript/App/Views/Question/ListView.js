@@ -140,14 +140,12 @@ export default class ListView extends Backbone.View {
 		}
 		if (numberOfQuestionAnswered === totalNumberOfQuestions) {
 			// The short version is taken completely, display directory links and hide short version link
-			$('#directory-links').show();
 			$('#container-congratulations').show();
 			$('#btn-short-version').hide();
 			if (!this.isShortVersion) {
 				$('#btn-long-version').hide();
 			}
 		} else {
-			$('#directory-links').hide();
 			$('#container-congratulations').hide();
 		}
 	}

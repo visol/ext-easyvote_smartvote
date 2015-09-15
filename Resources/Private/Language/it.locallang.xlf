@@ -305,10 +305,10 @@
 				<target>Consiglio degli Stati</target>
 			</trans-unit>
 			<trans-unit id="questions.you_have_done_it">
-				<source>Du hast es geschafft</source>
+				<target>Ce l'hai fatta!</target>
 			</trans-unit>
 			<trans-unit id="questions.go_to_recommendation">
-				<source>Hier geht es zu deiner persönlichen Wahlempfehlung.</source>
+				<target>Mostra le raccomandazioni di voto:</target>
 			</trans-unit>
 
 		</body>

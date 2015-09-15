@@ -305,10 +305,10 @@
 				<target>Conseil des Etats</target>
 			</trans-unit>
 			<trans-unit id="questions.you_have_done_it">
-				<source>Du hast es geschafft</source>
+				<target>Ça y est !</target>
 			</trans-unit>
 			<trans-unit id="questions.go_to_recommendation">
-				<source>Hier geht es zu deiner persönlichen Wahlempfehlung.</source>
+				<target>Recommandation de vote:</target>
 			</trans-unit>
 
 		</body>
