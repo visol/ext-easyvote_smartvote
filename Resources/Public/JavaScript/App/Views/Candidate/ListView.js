@@ -130,7 +130,8 @@ export default class ListView extends Backbone.View {
 
 		// Update top list content.
 		let content = this.listTopTemplate({
-			numberOfItems: this.candidateCollection.size(),
+			totalNumberOfCandidates: this.candidateCollection.size(),
+			numberOfCandidates: this.candidateCollection.getFilteredCandidates().length,
 			sorting: CandidateCollection.getInstance().getSorting(),
 			direction: CandidateCollection.getInstance().getDirection()
 		});

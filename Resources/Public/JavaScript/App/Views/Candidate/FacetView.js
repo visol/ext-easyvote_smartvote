@@ -42,7 +42,6 @@ export default class FacetView extends Backbone.View {
 			this.model.fetch()
 		}
 
-
 		this.bindings = {
 			'#name': 'name',
 			'#nationalParty': 'nationalParty',

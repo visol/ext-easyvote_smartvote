@@ -33,10 +33,11 @@
 			<f:translate key="voting_recommendation"/>
 		</h2>
 		<div>
-			<% if (numberOfItems > 1) { %>
-			<%- numberOfItems %> {f:translate(key:'candidates_found')},
+			<%- numberOfCandidates %> /
+			<% if (totalNumberOfCandidates > 1) { %>
+			<%- totalNumberOfCandidates %> {f:translate(key:'candidates_found')},
 			<% } else { %>
-			<%- numberOfItems %> {f:translate(key:'candidate_found')},
+			<%- totalNumberOfCandidates %> {f:translate(key:'candidate_found')},
 			<% } %>
 
 			<f:translate key="sorted_by"/>
