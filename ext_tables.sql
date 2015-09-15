@@ -200,7 +200,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_election (
 	related_election int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid),
+	KEY parent (pid)
 );
 
 #
