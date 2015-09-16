@@ -34,20 +34,28 @@ export default class ListView extends Backbone.View {
 		$(document).on('click', '#btn-short-version', this.showShortVersion);
 		$(document).on('click', '#btn-long-version', this.showLongVersion);
 
+
 		// Render after loading the data-set.
 		this.questionCollection.load().done(() => {
 
-			// Overlay possible questions from question stats
-			for (var questionState of EasyvoteSmartvote.questionState) {
+			// Count number of answers from localStorage
+			var numberOfAnswersFromLocalStorage = this.questionCollection.countAnsweredQuestions();
 
-				let question = this.questionCollection.get(questionState['id']);
-				question.set('answer', questionState['answer']);
-				question.set('visible', questionState['visible']);
+			// Count number of answers from profile
+			var numberOfAnswersFromProfile = this.questionCollection.countAnsweredQuestionsFromProfile();
+
+			// Save profile if more answers in localStorage
+			if (numberOfAnswersFromLocalStorage > numberOfAnswersFromProfile) {
+				if (EasyvoteSmartvote.isUserAuthenticated) {
+					this.persistQuestionState();
+				}
+			} else {
+				this.overlayWithQuestionState();
 			}
 
 			this.render();
 
-			// Finally add listener
+			// Finally add listener ... and not before because it will be triggered by method this.overlayWithQuestionState()
 			this.listenTo(this.questionCollection, 'change:answer', this.afterAnswerChanged);
 		});
 
@@ -55,11 +63,28 @@ export default class ListView extends Backbone.View {
 	}
 
 	/**
+	 * Overlay possible questions coming question state.
+	 *
+	 * @return void
+	 */
+	overlayWithQuestionState() {
+
+		// Overlay possible questions from question stats
+		for (var questionState of EasyvoteSmartvote.questionState) {
+
+			let question = this.questionCollection.get(questionState['id']);
+			question.set('answer', questionState['answer']);
+			question.set('visible', questionState['visible']);
+		}
+	}
+
+	/**
 	 * Adjust widget
 	 */
 	updateButtonStatusShortAndLongVersion() {
+		// short version button could might be hidden... force it to be shown it in any case.
+		$('#btn-short-version').show();
 
-		$('#btn-short-version').show(); // short version could be hidden... show it in any case
 		if (this.isShortVersion) {
 			$('#btn-short-version').addClass('disabled');
 			$('#btn-long-version').removeClass('disabled');
@@ -211,7 +236,9 @@ export default class ListView extends Backbone.View {
 		// Persist new status to the storage.
 		question.save().done((question) => {
 			nextQuestion.save();
-			this.persistState()
+			if (EasyvoteSmartvote.isUserAuthenticated) {
+				this.persistQuestionState();
+			}
 
 		});
 	}
@@ -221,36 +248,37 @@ export default class ListView extends Backbone.View {
 	 *
 	 * @return void
 	 */
-	persistState() {
+	persistQuestionState() {
+
 		window.clearTimeout(window.timeout);
 		window.timeout = window.setTimeout(
 			function() {
 
-				// Only perist state if FE User Exists.
-				if (EasyvoteSmartvote.isUserAuthenticated) {
-					var url = '/routing/state/?token=' + EasyvoteSmartvote.token;
+				// Only persist state if FE User Exists.
 
-					// Initialize payLoad which contains useful data to persist.
-					var payLoad = [];
-					QuestionCollection.getInstance().each(question => {
-						let data = {};
-						data['id'] = question.get('id');
-						data['answer'] = question.get('answer');
-						data['visible'] = question.get('visible');
+				var url = '/routing/state/?token=' + EasyvoteSmartvote.token;
 
-						payLoad.push(data);
-					});
+				// Initialize payLoad which contains useful data to persist.
+				var payLoad = [];
+				QuestionCollection.getInstance().each(question => {
+					let data = {};
+					data['id'] = question.get('id');
+					data['answer'] = question.get('answer');
+					data['visible'] = question.get('visible');
 
-					// Send by ajax the answer state.
-					$.ajax({
-						url: url,
-						method: 'post',
-						data: JSON.stringify(payLoad),
-					});
-				}
+					payLoad.push(data);
+				});
+
+				// Send by ajax the answer state.
+				$.ajax({
+					url: url,
+					method: 'post',
+					data: JSON.stringify(payLoad)
+				});
 			},
 			1000
 		);
+
 	}
 
 	/**

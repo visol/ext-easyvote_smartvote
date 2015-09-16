@@ -94,16 +94,38 @@ export default class QuestionCollection extends Backbone.Collection {
 	/**
 	 * @returns {array}
 	 */
-	countAnsweredQuestions() {
+	getAnsweredQuestions() {
 		return this.filter(question => question.get('answer') !== null);
+	}
+
+	/**
+	 * @returns {int}
+	 */
+	countAnsweredQuestions() {
+		return this.getAnsweredQuestions().length;
 	}
 
 	/**
 	 * @returns {bool}
 	 */
 	hasAnsweredQuestions() {
-		let numberOfAnsweredQuestions = this.countAnsweredQuestions();
-		return numberOfAnsweredQuestions.length > 0;
+		return this.countAnsweredQuestions() > 0;
+	}
+
+	/**
+	 * @returns {int}
+	 */
+	countAnsweredQuestionsFromProfile() {
+
+		var numberOfAnswersFromProfile = 0;
+		// Overlay possible questions from question stats
+		for (var questionState of EasyvoteSmartvote.questionState) {
+			if (questionState['answer'] !== null) {
+				numberOfAnswersFromProfile++;
+			}
+		}
+
+		return numberOfAnswersFromProfile;
 	}
 
 	/**

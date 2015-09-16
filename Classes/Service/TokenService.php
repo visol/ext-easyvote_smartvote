@@ -31,13 +31,10 @@ class TokenService implements SingletonInterface {
 	public function generate($currentElectionUid) {
 
 		$token = sprintf(
-			'ext-easyvote-smart-%s-%s-%s%s',
+			'ext-easyvote-smart-%s-%s-%s',
 			$currentElectionUid,
 			$this->getLanguageOfWebsite(),
-			$this->getElectionCacheTimeStamp($currentElectionUid),
-			$this->getUserService()->isAuthenticated() ?
-				'-' . $this->getUserService()->getUserData()['uid'] :
-				''
+			$this->getElectionCacheTimeStamp($currentElectionUid)
 		);
 
 		// Offend the token.
