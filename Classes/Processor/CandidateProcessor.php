@@ -30,6 +30,7 @@ class CandidateProcessor extends AbstractProcessor {
 		$items = $this->convertKeysToCamelCase($items);
 		$items = $this->convertToInteger($items);
 		$items = $this->enrichWithPhoto($items);
+		$items = $this->unsetUnneededValues($items);
 		$items = $this->convertUidToId($items);
 		return $items;
 	}
@@ -113,6 +114,21 @@ class CandidateProcessor extends AbstractProcessor {
 			$itemsWithPhoto[$index] = $item;
 		}
 		return $itemsWithPhoto;
+	}
+
+	/**
+	/**
+	 * @param array $items
+	 * @return array
+	 */
+	protected function unsetUnneededValues(array $items) {
+		$processedItems = array();
+		foreach ($items as $index => $item) {
+			// party was only fetched for language overlay
+			unset($item['party']);
+			$processedItems[$index] = $item;
+		}
+		return $processedItems;
 	}
 
 	/**

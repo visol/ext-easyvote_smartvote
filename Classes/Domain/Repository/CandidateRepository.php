@@ -31,6 +31,21 @@ class CandidateRepository extends Repository {
 	 */
 	public function findByElection(Election $election, $district = 0, $nationalParty = 0) {
 
+		// Fetch the parties and do the overlay
+		$partyTable = 'tx_easyvotesmartvote_domain_model_party';
+		$clause = 'election = ' . $election->getUid();
+		$clause .= ' AND (sys_language_uid IN (-1,0) OR (sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid. ' AND l10n_parent = 0))';
+		$clause .= $this->getPageRepository()->deleteClause($partyTable);
+		$clause .= $this->getPageRepository()->enableFields($partyTable);
+		$fields = 'uid, pid, sys_language_uid, name';
+		$parties = $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $partyTable, $clause, NULL, NULL, NULL, 'uid');
+		if (count($parties)) {
+			foreach ($parties as $key => $row) {
+				$parties[$key] = $this->getPageRepository()->getRecordOverlay($partyTable, $row, $GLOBALS['TSFE']->sys_language_content, $GLOBALS['TSFE']->sys_language_contentOL);
+			}
+		}
+
+		// Fetch the candidates
 		$tableName = 'tx_easyvotesmartvote_domain_model_candidate';
 
 		$clause = 'election = ' . $election->getUid();
@@ -45,12 +60,26 @@ class CandidateRepository extends Repository {
 		}
 
 		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city, national_party,
-		            incumbent, slogan, party_short, district, serialized_answers, election_list_name,
+		            incumbent, slogan, district, serialized_answers, election_list_name,
 		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize,
 		            serialized_list_places, occupation, education_name, hobbies, personal_website,
 		            link_to_twitter,link_to_facebook,email,ch2055,motivation, easyvote_supporter,
-		            polittalk_participant';
-		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
+		            polittalk_participant, persona, party';
+		$candidates = $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
+
+		// Add the overlaid partyName to the candidates
+		if (count($candidates)) {
+			foreach ($candidates as $key => $row) {
+				if (array_key_exists($row['party'], $parties)) {
+					$candidates[$key]['party_name'] = $parties[$row['party']]['name'];
+				} else {
+					$candidates[$key]['party_name'] = '';
+				}
+			}
+		}
+
+		return $candidates;
+
 	}
 
 	/**

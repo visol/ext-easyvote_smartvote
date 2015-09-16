@@ -999,7 +999,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
     */
 
 			value: function url() {
-				return "/routing/candidates/" + EasyvoteSmartvote.currentElection;
+				return "/routing/candidates/" + EasyvoteSmartvote.currentElection + "?id=" + EasyvoteSmartvote.pageUid + "&L=" + EasyvoteSmartvote.sysLanguageUid;
 			}
 		},
 		getSorting: {

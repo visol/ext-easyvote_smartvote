@@ -123,7 +123,7 @@ export default class CandidateCollection extends Backbone.Collection {
 	 * @returns {string}
 	 */
 	url() {
-		return '/routing/candidates/' + EasyvoteSmartvote.currentElection;
+		return '/routing/candidates/' + EasyvoteSmartvote.currentElection +  '?id=' + EasyvoteSmartvote.pageUid + '&L=' + EasyvoteSmartvote.sysLanguageUid;
 	}
 
 	/**

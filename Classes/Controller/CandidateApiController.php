@@ -44,8 +44,7 @@ class CandidateApiController extends AbstractBaseApiController {
 
 		$district = (int)GeneralUtility::_GP('district');
 		$nationalParty = (int)GeneralUtility::_GP('nationalParty');
-
-		$cacheIdentifier = sprintf('candidates-%s-%s-%s', $election->getUid(), $district, $nationalParty);
+		$cacheIdentifier = sprintf('candidates-%s-%s-%s-lang-%s', $election->getUid(), $district, $nationalParty, (int)$GLOBALS['TSFE']->sys_language_uid);
 		$candidates = $this->cacheInstance->get($cacheIdentifier);
 
 		if (!$candidates) {
