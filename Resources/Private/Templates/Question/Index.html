@@ -50,6 +50,7 @@
 		EasyvoteSmartvote.pageUid = '{contentObjectData.pid}';
 		EasyvoteSmartvote.sysLanguageUid = '{contentObjectData.sys_language_uid}';
 		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')}
+		EasyvoteSmartvote.questionState = {smartvote:questionState()};
 	</script>
 
 </f:section>

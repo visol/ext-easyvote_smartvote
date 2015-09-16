@@ -135,6 +135,7 @@ export default class ListView extends Backbone.View {
 			sorting: CandidateCollection.getInstance().getSorting(),
 			direction: CandidateCollection.getInstance().getDirection()
 		});
+
 		$('#container-candidates-top').html(content);
 		$('#wrapper-candidates').removeClass('hidden');
 		$('#wrapper-filter').removeClass('hidden');

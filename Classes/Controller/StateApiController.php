@@ -27,7 +27,7 @@ class StateApiController extends AbstractBaseApiController {
 	 */
 	public function saveAction() {
 
-		$question = array();
+		$result = 'ko';
 
 		$token = GeneralUtility::_GP('token');
 		if (!empty($token) && $this->getUserService()->isAuthenticated()) {
@@ -35,39 +35,17 @@ class StateApiController extends AbstractBaseApiController {
 
 			if ($isAllowed) {
 
-				// Fetch collection of question from User preferences.
-				$questions = $this->getUserService()->getCache($token);
-
 				// Retrieve the question to update.
 				$requestBody = file_get_contents('php://input');
-				$question = json_decode($requestBody, TRUE);
+				$questions = json_decode($requestBody, TRUE);
 
 				// Update the collection
-				$updatedQuestions = $this->updateCollection($question, $questions);
-				$this->getUserService()->setCache($token, $updatedQuestions);
+				$this->getUserService()->setCache($token, $questions);
+				$result = 'ok';
 			}
 		}
 		$this->response->setHeader('Content-Type', 'application/json');
-		return json_encode($question);
-	}
-
-	/**
-	 * @param array $updatedItem
-	 * @param array $items
-	 * @return array
-	 */
-	protected function updateCollection(array $updatedItem, array $items) {
-		$updatedItems = array();
-		foreach ($items as $index => $question) {
-
-			// Check whether that the question coming from the request.
-			if ((int)$question['id'] === (int)$updatedItem['id']) {
-				$question = $updatedItem;
-			}
-			$updatedItems[$index] = $question;
-		}
-
-		return $updatedItems;
+		return json_encode($result);
 	}
 
 	/**

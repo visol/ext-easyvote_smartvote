@@ -26,7 +26,7 @@ export default class ListView extends Backbone.View {
 
 		// Store the flag whether it is a short or long version of the questionnaire.
 		this.isShortVersion = this.isShortQuestionnaire();
-		this.updateShortAndLongButtonState();
+		this.updateButtonStatusShortAndLongVersion();
 
 		// Special binding since the reset button is outside the scope of this view.
 		_.bindAll(this, 'showShortVersion');
@@ -34,11 +34,21 @@ export default class ListView extends Backbone.View {
 		$(document).on('click', '#btn-short-version', this.showShortVersion);
 		$(document).on('click', '#btn-long-version', this.showLongVersion);
 
-		this.listenTo(this.questionCollection, 'change:answer', this.afterAnswerChanged);
-
 		// Render after loading the data-set.
-		this.questionCollection.load().done(()=> {
+		this.questionCollection.load().done(() => {
+
+			// Overlay possible questions from question stats
+			for (var questionState of EasyvoteSmartvote.questionState) {
+
+				let question = this.questionCollection.get(questionState['id']);
+				question.set('answer', questionState['answer']);
+				question.set('visible', questionState['visible']);
+			}
+
 			this.render();
+
+			// Finally add listener
+			this.listenTo(this.questionCollection, 'change:answer', this.afterAnswerChanged);
 		});
 
 		super();
@@ -47,7 +57,7 @@ export default class ListView extends Backbone.View {
 	/**
 	 * Adjust widget
 	 */
-	updateShortAndLongButtonState() {
+	updateButtonStatusShortAndLongVersion() {
 
 		$('#btn-short-version').show(); // short version could be hidden... show it in any case
 		if (this.isShortVersion) {
@@ -68,7 +78,7 @@ export default class ListView extends Backbone.View {
 		this.isShortVersion = true;
 
 		// Toggle property.
-		this.updateShortAndLongButtonState();
+		this.updateButtonStatusShortAndLongVersion();
 		//this.linkToDirectoriesIfAllQuestionsAnswered();
 
 		// Update the view.
@@ -82,7 +92,7 @@ export default class ListView extends Backbone.View {
 
 		// Toggle property.
 		this.isShortVersion = false;
-		this.updateShortAndLongButtonState();
+		this.updateButtonStatusShortAndLongVersion();
 		this.linkToDirectoriesIfAllQuestionsAnswered();
 
 		// Update the view.
@@ -201,7 +211,46 @@ export default class ListView extends Backbone.View {
 		// Persist new status to the storage.
 		question.save().done((question) => {
 			nextQuestion.save();
+			this.persistState()
+
 		});
+	}
+
+	/**
+	 * Persist state after 1 second if there is no interaction.
+	 *
+	 * @return void
+	 */
+	persistState() {
+		window.clearTimeout(window.timeout);
+		window.timeout = window.setTimeout(
+			function() {
+
+				// Only perist state if FE User Exists.
+				if (EasyvoteSmartvote.isUserAuthenticated) {
+					var url = '/routing/state/?token=' + EasyvoteSmartvote.token;
+
+					// Initialize payLoad which contains useful data to persist.
+					var payLoad = [];
+					QuestionCollection.getInstance().each(question => {
+						let data = {};
+						data['id'] = question.get('id');
+						data['answer'] = question.get('answer');
+						data['visible'] = question.get('visible');
+
+						payLoad.push(data);
+					});
+
+					// Send by ajax the answer state.
+					$.ajax({
+						url: url,
+						method: 'post',
+						data: JSON.stringify(payLoad),
+					});
+				}
+			},
+			1000
+		);
 	}
 
 	/**
@@ -232,7 +281,7 @@ export default class ListView extends Backbone.View {
 	renderOne(model, counter) {
 		this.updateChart(model);
 
-		let view = new QuestionView({model:model, counter:counter});
+		let view = new QuestionView({model: model, counter: counter});
 		return view.render();
 	}
 

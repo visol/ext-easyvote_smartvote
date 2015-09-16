@@ -37,39 +37,6 @@ class QuestionApiController extends AbstractBaseApiController {
 	 */
 	public function listAction(Election $election = NULL) {
 
-		$token = GeneralUtility::_GP('token');
-		if ($this->getUserService()->isAuthenticated() && $this->isTokenAllowed($token)) {
-			$questions = $this->getListForAuthenticatedUser($election, $token);
-		} else {
-			$questions = $this->getListForAnonymousUser($election);
-		}
-
-		$this->response->setHeader('Content-Type', 'application/json');
-		return $questions;
-	}
-
-	/**
-	 * @param Election $election
-	 * @param string $token
-	 * @return string
-	 */
-	public function getListForAuthenticatedUser(Election $election, $token) {
-		$questions = $this->getUserService()->getCache($token);
-		if (empty($questions)) {
-			$questions = $this->questionRepository->findByElection($election);
-			$questions = $this->getQuestionProcessor()->process($questions);
-			$this->getUserService()->setCache($token, $questions);
-		}
-
-		return json_encode($questions);
-	}
-
-	/**
-	 * @param Election $election
-	 * @return string
-	 */
-	public function getListForAnonymousUser(Election $election) {
-
 		$this->initializeCache();
 
 		$cacheIdentifier = 'questions-' . $election->getUid() . '-lang-' . (int)$GLOBALS['TSFE']->sys_language_uid;
@@ -85,6 +52,7 @@ class QuestionApiController extends AbstractBaseApiController {
 			$this->cacheInstance->set($cacheIdentifier, $questions, $tags, $lifetime);
 		}
 
+		$this->response->setHeader('Content-Type', 'application/json');
 		return $questions;
 	}
 
@@ -93,28 +61,6 @@ class QuestionApiController extends AbstractBaseApiController {
 	 */
 	public function getQuestionProcessor() {
 		return $this->objectManager->get(QuestionProcessor::class);
-	}
-
-	/**
-	 * @param string $token
-	 * @return bool
-	 */
-	protected function isTokenAllowed($token) {
-		return !empty($token) && $this->getTokenService()->isAllowed($token);
-	}
-
-	/**
-	 * @return UserService
-	 */
-	protected function getUserService() {
-		return $this->objectManager->get(UserService::class);
-	}
-
-	/**
-	 * @return TokenService
-	 */
-	protected function getTokenService() {
-		return $this->objectManager->get(TokenService::class);
 	}
 
 }
