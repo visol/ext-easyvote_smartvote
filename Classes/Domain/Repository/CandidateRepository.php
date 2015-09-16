@@ -45,6 +45,20 @@ class CandidateRepository extends Repository {
 			}
 		}
 
+		// Fetch the educations and do the overlay
+		$educationTable = 'tx_easyvotesmartvote_domain_model_education';
+		$clause = 'election = ' . $election->getUid();
+		$clause .= ' AND (sys_language_uid IN (-1,0) OR (sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid. ' AND l10n_parent = 0))';
+		$clause .= $this->getPageRepository()->deleteClause($educationTable);
+		$clause .= $this->getPageRepository()->enableFields($educationTable);
+		$fields = 'uid, pid, sys_language_uid, name';
+		$educations = $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $educationTable, $clause, NULL, NULL, NULL, 'uid');
+		if (count($educations)) {
+			foreach ($educations as $key => $row) {
+				$educations[$key] = $this->getPageRepository()->getRecordOverlay($educationTable, $row, $GLOBALS['TSFE']->sys_language_content, $GLOBALS['TSFE']->sys_language_contentOL);
+			}
+		}
+
 		// Fetch the candidates
 		$tableName = 'tx_easyvotesmartvote_domain_model_candidate';
 
@@ -62,7 +76,7 @@ class CandidateRepository extends Repository {
 		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city, national_party,
 		            incumbent, slogan, district, serialized_answers, election_list_name,
 		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize,
-		            serialized_list_places, occupation, education_name, hobbies, personal_website,
+		            serialized_list_places, occupation, education, hobbies, personal_website,
 		            link_to_twitter,link_to_facebook,email,ch2055,motivation, easyvote_supporter,
 		            polittalk_participant, persona, party';
 		$candidates = $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
@@ -74,6 +88,11 @@ class CandidateRepository extends Repository {
 					$candidates[$key]['party_name'] = $parties[$row['party']]['name'];
 				} else {
 					$candidates[$key]['party_name'] = '';
+				}
+				if (array_key_exists($row['education'], $educations)) {
+					$candidates[$key]['education_name'] = $educations[$row['education']]['name'];
+				} else {
+					$candidates[$key]['education_name'] = '';
 				}
 			}
 		}

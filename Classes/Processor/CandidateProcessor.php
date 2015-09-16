@@ -124,8 +124,9 @@ class CandidateProcessor extends AbstractProcessor {
 	protected function unsetUnneededValues(array $items) {
 		$processedItems = array();
 		foreach ($items as $index => $item) {
-			// party was only fetched for language overlay
+			// only fetched for language overlay
 			unset($item['party']);
+			unset($item['education']);
 			$processedItems[$index] = $item;
 		}
 		return $processedItems;
