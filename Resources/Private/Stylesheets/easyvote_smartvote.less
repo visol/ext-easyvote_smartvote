@@ -88,6 +88,8 @@
 	margin-bottom: 0;
 	.filter-age {
 		.col-md-2 {
+			padding: 0;
+			text-align: center;
 			label {
 				display: block;
 				margin-top: 5px;
@@ -98,6 +100,17 @@
 	.form-group {
 		&:last-child {
 			margin-bottom: 0;
+		}
+	}
+}
+
+@media (max-width: @screen-sm-max) {
+	.filter-candidates {
+		.filter-age {
+			.col-md-2 {
+				padding: 0 15px;
+				text-align: left;
+			}
 		}
 	}
 }
@@ -381,6 +394,9 @@
 				.number {
 					.font-ubuntu();
 					font-size: 18px;
+				}
+				.no-break {
+					white-space: nowrap;
 				}
 			}
 		}

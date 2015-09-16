@@ -11,7 +11,7 @@
 			</trans-unit>
 
 			<trans-unit id="filter_candidates">
-				<target>filtrer les candidats</target>
+				<target>Filtrer les candidats</target>
 			</trans-unit>
 			<trans-unit id="filter.party.title">
 				<target>Parti</target>

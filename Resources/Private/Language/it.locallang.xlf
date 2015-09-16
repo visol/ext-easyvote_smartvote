@@ -38,7 +38,7 @@
 				<target>uomo</target>
 			</trans-unit>
 			<trans-unit id="filter.incumbent.title">
-				<target>Finora</target>
+				<target>Uscenti</target>
 			</trans-unit>
 			<trans-unit id="filter.incumbent.yes">
 				<target>Sì</target>
@@ -161,7 +161,7 @@
 				<target>ordina in base a</target>
 			</trans-unit>
 			<trans-unit id="matching">
-				<target>Combaciamento</target>
+				<target>Compatibilità</target>
 			</trans-unit>
 			<trans-unit id="name">
 				<target>Nome</target>
