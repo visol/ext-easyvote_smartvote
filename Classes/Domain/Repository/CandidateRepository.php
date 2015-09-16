@@ -59,6 +59,16 @@ class CandidateRepository extends Repository {
 			}
 		}
 
+		// Fetch cantonAbbreviation for each district
+		$sql = 'SELECT district.uid, kanton.abbreviation AS canton_abbreviation
+			FROM tx_easyvotesmartvote_domain_model_district AS district
+			JOIN tx_easyvote_domain_model_kanton AS kanton ON district.canton = kanton.uid;';
+		$res = $this->getDatabaseConnection()->sql_query($sql);
+		$cantonForDistricts = array();
+		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+			$cantonForDistricts[$row['uid']] = $row['canton_abbreviation'];
+		}
+
 		// Fetch the candidates
 		$tableName = 'tx_easyvotesmartvote_domain_model_candidate';
 
@@ -93,6 +103,11 @@ class CandidateRepository extends Repository {
 					$candidates[$key]['education_name'] = $educations[$row['education']]['name'];
 				} else {
 					$candidates[$key]['education_name'] = '';
+				}
+				if (array_key_exists($row['district'], $cantonForDistricts)) {
+					$candidates[$key]['canton_abbreviation'] = strtolower($cantonForDistricts[$row['district']]);
+				} else {
+					$candidates[$key]['canton_abbreviation'] = '';
 				}
 			}
 		}
