@@ -39,9 +39,11 @@
 								</div>
 							</div>
 							<div class="supertitle">
-								<f:comment>
-									@TODO easyvote-Typ / Icons
-								</f:comment>
+								<span class="feature--persona" style="display: none">
+									<% if (typeof(personaName) == "string") { %>
+										<%- personaName %>
+									<% } %>
+								</span>
 							</div>
 							<h2>
 								<span class="name"><%- firstName %> <%- lastName %></span>

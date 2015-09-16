@@ -123,6 +123,193 @@
 				<source>Hobbies</source>
 			</trans-unit>
 
+			<trans-unit id="candidate.persona.emo">
+				<source>Emo</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.emo.f">
+				<source>Emo</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.emo.m">
+				<source>Emo</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hipster">
+				<source>Hipster</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hipster.f">
+				<source>Hipster</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hipster.m">
+				<source>Hipster</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.toefflibueb">
+				<source>Töfflibueb</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.toefflibueb.f">
+				<source>Töfflimeitschi</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.toefflibueb.m">
+				<source>Töfflibueb</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.shopping_queen">
+				<source>Shopping-Queen</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.shopping_queen.f">
+				<source>Shopping-Queen</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.shopping_queen.m">
+				<source>Shopping-Queen</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rocker">
+				<source>RockerIn</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rocker.f">
+				<source>Rockerin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rocker.m">
+				<source>Rocker</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hip-hop_head">
+				<source>Hip-HopperIn</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hip-hop_head.f">
+				<source>Hip-Hopperin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hip-hop_head.m">
+				<source>Hip-Hopper</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.heartthrob">
+				<source>Klassenschwarm</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.heartthrob.f">
+				<source>Klassenschwarm</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.heartthrob.m">
+				<source>Klassenschwarm</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rebel">
+				<source>Rebell</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rebel.f">
+				<source>Rebellin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rebel.m">
+				<source>Rebell</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.class_clown">
+				<source>Pausenclown</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.class_clown.f">
+				<source>Pausenclown</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.class_clown.m">
+				<source>Pausenclown</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.fitness_junkie">
+				<source>Fitnessjunkie</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.fitness_junkie.f">
+				<source>Fitnessjunkie</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.fitness_junkie.m">
+				<source>Fitnessjunkie</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.scout">
+				<source>PfadfinderIn</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.scout.f">
+				<source>Pfadfinderin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.scout.m">
+				<source>Pfadfinder</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.animal_friend">
+				<source>TierfreundIn</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.animal_friend.f">
+				<source>Tierfreundin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.animal_friend.m">
+				<source>Tierfreund</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.chiller">
+				<source>ChillerIn</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.chiller.f">
+				<source>Chillerin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.chiller.m">
+				<source>Chiller</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.globetrotter">
+				<source>Globetrotter</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.globetrotter.f">
+				<source>Globetrotter</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.globetrotter.m">
+				<source>Globetrotter</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.artist">
+				<source>(Lebens-)KünstlerIn</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.artist.f">
+				<source>(Lebens-)Künstlerin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.artist.m">
+				<source>(Lebens-)Künstler</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.nature_lover">
+				<source>NaturliebhaberIn</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.nature_lover.f">
+				<source>Naturliebhaberin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.nature_lover.m">
+				<source>Naturliebhaber</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.gamer">
+				<source>GamerIn</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.gamer.f">
+				<source>Gamerin</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.gamer.m">
+				<source>Gamer</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.party_animal">
+				<source>Partytier</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.party_animal.f">
+				<source>Partytier</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.party_animal.m">
+				<source>Partytier</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hippie">
+				<source>Hippie</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hippie.f">
+				<source>Hippie</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hippie.m">
+				<source>Hippie</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.redneck">
+				<source>Landei</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.redneck.f">
+				<source>Landei</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.redneck.m">
+				<source>Landei</source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.none.f">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="candidate.persona.none.m">
+				<source></source>
+			</trans-unit>
+
 			<trans-unit id="filter_reset">
 				<source>Filter zurücksetzen</source>
 			</trans-unit>

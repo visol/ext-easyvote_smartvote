@@ -32,6 +32,10 @@ export default class FilterEngine {
 			value = candidate.get('firstName') + ' ' + candidate.get('lastName') + ' ' + candidate.get('firstName');
 			filterValue = facet.value;
 			isOk = this.isLike(value, filterValue);
+		} else if (facet.name === 'persona') {
+			value = candidate.get('persona');
+			filterValue = facet.value;
+			isOk = this.isLike(value, filterValue);
 		} else {
 			value = candidate.get(facet.name);
 			isOk = this.isEqual(value, facet.value);

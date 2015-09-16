@@ -120,6 +120,193 @@
 				<target>Loisirs</target>
 			</trans-unit>
 
+			<trans-unit id="candidate.persona.emo">
+				<target>Emo</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.emo.f">
+				<target>Emo</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.emo.m">
+				<target>Emo</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hipster">
+				<target>Hipster</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hipster.f">
+				<target>Hipster</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hipster.m">
+				<target>Hipster</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.toefflibueb">
+				<target>Motard-e</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.toefflibueb.f">
+				<target>Motarde</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.toefflibueb.m">
+				<target>Motard</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.shopping_queen">
+				<target>Reine du shopping</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.shopping_queen.f">
+				<target>Reine du shopping</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.shopping_queen.m">
+				<target>Reine du shopping</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rocker">
+				<target>Rocker</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rocker.f">
+				<target>Rocker</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rocker.m">
+				<target>Rocker</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hip-hop_head">
+				<target>Rappeur</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hip-hop_head.f">
+				<target>Rappeur</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hip-hop_head.m">
+				<target>Rappeur</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.heartthrob">
+				<target>Pitre de la classe</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.heartthrob.f">
+				<target>Pitre de la classe</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.heartthrob.m">
+				<target>Pitre de la classe</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rebel">
+				<target>Rebelle</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rebel.f">
+				<target>Rebelle</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.rebel.m">
+				<target>Rebelle</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.class_clown">
+				<target>Populaire</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.class_clown.f">
+				<target>Populaire</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.class_clown.m">
+				<target>Populaire</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.fitness_junkie">
+				<target>Sportif</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.fitness_junkie.f">
+				<target>Sportif</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.fitness_junkie.m">
+				<target>Sportif</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.scout">
+				<target>Scout</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.scout.f">
+				<target>Scout</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.scout.m">
+				<target>Scout</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.animal_friend">
+				<target>Ami des animaux</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.animal_friend.f">
+				<target>Ami des animaux</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.animal_friend.m">
+				<target>Ami des animaux</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.chiller">
+				<target>Chiller</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.chiller.f">
+				<target>Chiller</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.chiller.m">
+				<target>Chiller</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.globetrotter">
+				<target>Globetrotter</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.globetrotter.f">
+				<target>Globetrotter</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.globetrotter.m">
+				<target>Globetrotter</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.artist">
+				<target>Bon vivant-e</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.artist.f">
+				<target>Bon vivante</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.artist.m">
+				<target>Bon vivant</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.nature_lover">
+				<target>Amoureux de la nature</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.nature_lover.f">
+				<target>Amoureux de la nature</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.nature_lover.m">
+				<target>Amoureux de la nature</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.gamer">
+				<target>Gamer</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.gamer.f">
+				<target>Gamer</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.gamer.m">
+				<target>Gamer</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.party_animal">
+				<target>Fêtarde</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.party_animal.f">
+				<target>Fêtarde</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.party_animal.m">
+				<target>Fêtard</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hippie">
+				<target>Hippie</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hippie.f">
+				<target>Hippie</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.hippie.m">
+				<target>Hippie</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.redneck">
+				<target>Péquenaud</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.redneck.f">
+				<target>Péquenaud</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.redneck.m">
+				<target>Péquenaud</target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.none.f">
+				<target></target>
+			</trans-unit>
+			<trans-unit id="candidate.persona.none.m">
+				<target></target>
+			</trans-unit>
+
 			<trans-unit id="filter_reset">
 				<target>Réinitialiser les filtres</target>
 			</trans-unit>

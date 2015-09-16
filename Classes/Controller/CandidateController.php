@@ -16,6 +16,7 @@ namespace Visol\EasyvoteSmartvote\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Visol\EasyvoteSmartvote\Service\DistrictService;
 
 /**
@@ -79,6 +80,16 @@ class CandidateController extends ActionController {
 		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
 		$districts = $this->districtRepository->findByElection($currentElection);
 		$this->view->assign('districts', $districts);
+
+		$smartvotePersonaValues = array('GAMER', 'PARTY_ANIMAL', 'HIPPIE', 'REDNECK', 'EMO', 'HIPSTER', 'REDNECK',
+			'TOEFFLIBUEB', 'SHOPPING_QUEEN', 'ROCKER', 'HIP-HOP_HEAD', 'HEARTTHROB', 'REBEL', 'CLASS_CLOWN',
+			'FITNESS_JUNKIE', 'SCOUT', 'ANIMAL_FRIEND', 'CHILLER', 'GLOBETROTTER', 'ARTIST', 'NATURE_LOVER');
+		$personas = array();
+		foreach ($smartvotePersonaValues as $value) {
+			$labelKey = 'candidate.persona.' . strtolower($value);
+			$personas[$value] = LocalizationUtility::translate($labelKey, 'easyvote_smartvote');
+		}
+		$this->view->assign('personas', $personas);
 	}
 
 	/**

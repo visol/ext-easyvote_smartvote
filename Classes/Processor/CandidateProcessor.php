@@ -14,6 +14,7 @@ namespace Visol\EasyvoteSmartvote\Processor;
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Processor Interface
@@ -30,6 +31,7 @@ class CandidateProcessor extends AbstractProcessor {
 		$items = $this->convertKeysToCamelCase($items);
 		$items = $this->convertToInteger($items);
 		$items = $this->enrichWithPhoto($items);
+		$items = $this->resolvePersona($items);
 		$items = $this->unsetUnneededValues($items);
 		$items = $this->convertUidToId($items);
 		return $items;
@@ -117,6 +119,21 @@ class CandidateProcessor extends AbstractProcessor {
 	}
 
 	/**
+	 * @param array $items
+	 * @return array
+	 */
+	protected function resolvePersona(array $items) {
+		$processedItems = array();
+		foreach ($items as $index => $item) {
+			if (!empty($item['persona'])) {
+				$labelKey = 'candidate.persona.' . strtolower($item['persona']) . '.' . $item['gender'];
+				$item['personaName'] = LocalizationUtility::translate($labelKey, 'easyvote_smartvote');
+			}
+			$processedItems[$index] = $item;
+		}
+		return $processedItems;
+	}
+
 	/**
 	 * @param array $items
 	 * @return array
