@@ -53,10 +53,30 @@ export default class ListView extends Backbone.View {
 
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
-		this.questionCollection.load().done(() => this.render());
+		this.questionCollection.load().done(() => {
+
+			this.overlayWithQuestionState();
+			this.render()
+		});
 
 		// Call parent constructor.
 		super();
+	}
+
+	/**
+	 * Overlay possible questions with question state coming from the User Profile.
+	 *
+	 * @return void
+	 */
+	overlayWithQuestionState() {
+
+		// Overlay possible questions with question state
+		for (var questionState of EasyvoteSmartvote.questionState) {
+
+			let question = this.questionCollection.get(questionState['id']);
+			question.set('answer', questionState['answer']);
+			question.set('visible', questionState['visible']);
+		}
 	}
 
 	/**

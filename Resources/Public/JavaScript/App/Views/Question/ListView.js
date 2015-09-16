@@ -63,13 +63,13 @@ export default class ListView extends Backbone.View {
 	}
 
 	/**
-	 * Overlay possible questions coming question state.
+	 * Overlay possible questions with question state coming from the User Profile.
 	 *
 	 * @return void
 	 */
 	overlayWithQuestionState() {
 
-		// Overlay possible questions from question stats
+		// Overlay possible questions with question state
 		for (var questionState of EasyvoteSmartvote.questionState) {
 
 			let question = this.questionCollection.get(questionState['id']);

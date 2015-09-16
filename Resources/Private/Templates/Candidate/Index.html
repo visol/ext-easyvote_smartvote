@@ -81,6 +81,7 @@
 		EasyvoteSmartvote.relatedToken = '{smartvote:token(forRelatedElection: 1)}';
 		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')};
 		EasyvoteSmartvote.userDistrict = '{userDistrict}';
+		EasyvoteSmartvote.questionState = {smartvote:questionState()};
 	</script>
 </f:section>
 

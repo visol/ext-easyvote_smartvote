@@ -37,6 +37,16 @@ class QuestionStateViewHelper extends AbstractViewHelper {
 		$questions = $this->getUserService()->getCache($token);
 
 		if (empty($questions)) {
+
+			$relatedElection = $election->getRelatedElection();
+			if ($relatedElection) {
+				$token = $this->getTokenService()->generate($relatedElection->getUid());
+				$questions = $this->getUserService()->getCache($token);
+			}
+		}
+
+		// default value.
+		if (empty($questions)) {
 			$questions = [];
 		}
 
