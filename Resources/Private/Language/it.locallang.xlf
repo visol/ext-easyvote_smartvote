@@ -20,22 +20,22 @@
 				<target>Cantone</target>
 			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
-				<target>tipo easyvote</target>
+				<target>Tipo easyvote</target>
 			</trans-unit>
 			<trans-unit id="filter.age.title">
-				<target>età</target>
+				<target>Età</target>
 			</trans-unit>
 			<trans-unit id="filter.age.toAge">
 				<target>fino a</target>
 			</trans-unit>
 			<trans-unit id="filter.gender.title">
-				<target>sesso</target>
+				<target>Sesso</target>
 			</trans-unit>
 			<trans-unit id="filter.gender.female">
-				<target>donna</target>
+				<target>Donna</target>
 			</trans-unit>
 			<trans-unit id="filter.gender.male">
-				<target>uomo</target>
+				<target>Uomo</target>
 			</trans-unit>
 			<trans-unit id="filter.incumbent.title">
 				<target>Uscenti</target>

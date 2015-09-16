@@ -20,7 +20,7 @@
 				<target>Canton</target>
 			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
-				<target>individu easyvote</target>
+				<target>Individu easyvote</target>
 			</trans-unit>
 			<trans-unit id="filter.age.title">
 				<target>Âge</target>
