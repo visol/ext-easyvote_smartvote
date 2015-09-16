@@ -1182,16 +1182,26 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return questions;
 			}
 		},
-		countAnsweredQuestions: {
+		getAnsweredQuestions: {
 
 			/**
     * @returns {array}
     */
 
-			value: function countAnsweredQuestions() {
+			value: function getAnsweredQuestions() {
 				return this.filter(function (question) {
 					return question.get("answer") !== null;
 				});
+			}
+		},
+		countAnsweredQuestions: {
+
+			/**
+    * @returns {int}
+    */
+
+			value: function countAnsweredQuestions() {
+				return this.getAnsweredQuestions().length;
 			}
 		},
 		hasAnsweredQuestions: {
@@ -1201,8 +1211,47 @@ var QuestionCollection = (function (_Backbone$Collection) {
     */
 
 			value: function hasAnsweredQuestions() {
-				var numberOfAnsweredQuestions = this.countAnsweredQuestions();
-				return numberOfAnsweredQuestions.length > 0;
+				return this.countAnsweredQuestions() > 0;
+			}
+		},
+		countAnsweredQuestionsFromProfile: {
+
+			/**
+    * @returns {int}
+    */
+
+			value: function countAnsweredQuestionsFromProfile() {
+
+				var numberOfAnswersFromProfile = 0;
+				// Overlay possible questions from question stats
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(EasyvoteSmartvote.questionState), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var questionState = _step.value;
+
+						if (questionState.answer !== null) {
+							numberOfAnswersFromProfile++;
+						}
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				return numberOfAnswersFromProfile;
 			}
 		},
 		load: {
@@ -2161,37 +2210,24 @@ var ListView = (function (_Backbone$View) {
 		// Render after loading the data-set.
 		this.questionCollection.load().done(function () {
 
-			// Overlay possible questions from question stats
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
+			// Count number of answers from localStorage
+			var numberOfAnswersFromLocalStorage = _this.questionCollection.countAnsweredQuestions();
 
-			try {
-				for (var _iterator = _core.$for.getIterator(EasyvoteSmartvote.questionState), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var questionState = _step.value;
+			// Count number of answers from profile
+			var numberOfAnswersFromProfile = _this.questionCollection.countAnsweredQuestionsFromProfile();
 
-					var question = _this.questionCollection.get(questionState.id);
-					question.set("answer", questionState.answer);
-					question.set("visible", questionState.visible);
+			// Save profile if more answers in localStorage
+			if (numberOfAnswersFromLocalStorage > numberOfAnswersFromProfile) {
+				if (EasyvoteSmartvote.isUserAuthenticated) {
+					_this.persistQuestionState();
 				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator["return"]) {
-						_iterator["return"]();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
+			} else {
+				_this.overlayWithQuestionState();
 			}
 
 			_this.render();
 
-			// Finally add listener
+			// Finally add listener ... and not before because it will be triggered by method this.overlayWithQuestionState()
 			_this.listenTo(_this.questionCollection, "change:answer", _this.afterAnswerChanged);
 		});
 
@@ -2201,6 +2237,45 @@ var ListView = (function (_Backbone$View) {
 	_inherits(ListView, _Backbone$View);
 
 	_createClass(ListView, {
+		overlayWithQuestionState: {
+
+			/**
+    * Overlay possible questions with question state coming from the User Profile.
+    *
+    * @return void
+    */
+
+			value: function overlayWithQuestionState() {
+
+				// Overlay possible questions with question state
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(EasyvoteSmartvote.questionState), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var questionState = _step.value;
+
+						var question = this.questionCollection.get(questionState.id);
+						question.set("answer", questionState.answer);
+						question.set("visible", questionState.visible);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+			}
+		},
 		updateButtonStatusShortAndLongVersion: {
 
 			/**
@@ -2208,8 +2283,9 @@ var ListView = (function (_Backbone$View) {
     */
 
 			value: function updateButtonStatusShortAndLongVersion() {
+				// short version button could might be hidden... force it to be shown it in any case.
+				$("#btn-short-version").show();
 
-				$("#btn-short-version").show(); // short version could be hidden... show it in any case
 				if (this.isShortVersion) {
 					$("#btn-short-version").addClass("disabled");
 					$("#btn-long-version").removeClass("disabled");
@@ -2428,11 +2504,13 @@ var ListView = (function (_Backbone$View) {
 				// Persist new status to the storage.
 				question.save().done(function (question) {
 					nextQuestion.save();
-					_this.persistState();
+					if (EasyvoteSmartvote.isUserAuthenticated) {
+						_this.persistQuestionState();
+					}
 				});
 			}
 		},
-		persistState: {
+		persistQuestionState: {
 
 			/**
     * Persist state after 1 second if there is no interaction.
@@ -2440,31 +2518,32 @@ var ListView = (function (_Backbone$View) {
     * @return void
     */
 
-			value: function persistState() {
+			value: function persistQuestionState() {
+
 				window.clearTimeout(window.timeout);
 				window.timeout = window.setTimeout(function () {
 
-					// Only perist state if FE User Exists.
-					if (EasyvoteSmartvote.isUserAuthenticated) {
-						var url = "/routing/state/?token=" + EasyvoteSmartvote.token;
+					// Only persist state if FE User Exists.
 
-						// Initialize payLoad which contains useful data to persist.
-						var payLoad = [];
-						QuestionCollection.getInstance().each(function (question) {
-							var data = {};
-							data.id = question.get("id");
-							data.answer = question.get("answer");
-							data.visible = question.get("visible");
+					var url = "/routing/state/?token=" + EasyvoteSmartvote.token;
 
-							payLoad.push(data);
-						});
+					// Initialize payLoad which contains useful data to persist.
+					var payLoad = [];
+					QuestionCollection.getInstance().each(function (question) {
+						var data = {};
+						data.id = question.get("id");
+						data.answer = question.get("answer");
+						data.visible = question.get("visible");
 
-						// Send by ajax the answer state.
-						$.ajax({
-							url: url,
-							method: "post",
-							data: JSON.stringify(payLoad) });
-					}
+						payLoad.push(data);
+					});
+
+					// Send by ajax the answer state.
+					$.ajax({
+						url: url,
+						method: "post",
+						data: JSON.stringify(payLoad)
+					});
 				}, 1000);
 			}
 		},

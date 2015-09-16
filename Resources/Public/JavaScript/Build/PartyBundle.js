@@ -257,16 +257,26 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return questions;
 			}
 		},
-		countAnsweredQuestions: {
+		getAnsweredQuestions: {
 
 			/**
     * @returns {array}
     */
 
-			value: function countAnsweredQuestions() {
+			value: function getAnsweredQuestions() {
 				return this.filter(function (question) {
 					return question.get("answer") !== null;
 				});
+			}
+		},
+		countAnsweredQuestions: {
+
+			/**
+    * @returns {int}
+    */
+
+			value: function countAnsweredQuestions() {
+				return this.getAnsweredQuestions().length;
 			}
 		},
 		hasAnsweredQuestions: {
@@ -276,8 +286,47 @@ var QuestionCollection = (function (_Backbone$Collection) {
     */
 
 			value: function hasAnsweredQuestions() {
-				var numberOfAnsweredQuestions = this.countAnsweredQuestions();
-				return numberOfAnsweredQuestions.length > 0;
+				return this.countAnsweredQuestions() > 0;
+			}
+		},
+		countAnsweredQuestionsFromProfile: {
+
+			/**
+    * @returns {int}
+    */
+
+			value: function countAnsweredQuestionsFromProfile() {
+
+				var numberOfAnswersFromProfile = 0;
+				// Overlay possible questions from question stats
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(EasyvoteSmartvote.questionState), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var questionState = _step.value;
+
+						if (questionState.answer !== null) {
+							numberOfAnswersFromProfile++;
+						}
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				return numberOfAnswersFromProfile;
 			}
 		},
 		load: {

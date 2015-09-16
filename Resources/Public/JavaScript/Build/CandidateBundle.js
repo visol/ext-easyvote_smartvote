@@ -824,16 +824,26 @@ var QuestionCollection = (function (_Backbone$Collection) {
 				return questions;
 			}
 		},
-		countAnsweredQuestions: {
+		getAnsweredQuestions: {
 
 			/**
     * @returns {array}
     */
 
-			value: function countAnsweredQuestions() {
+			value: function getAnsweredQuestions() {
 				return this.filter(function (question) {
 					return question.get("answer") !== null;
 				});
+			}
+		},
+		countAnsweredQuestions: {
+
+			/**
+    * @returns {int}
+    */
+
+			value: function countAnsweredQuestions() {
+				return this.getAnsweredQuestions().length;
 			}
 		},
 		hasAnsweredQuestions: {
@@ -843,8 +853,47 @@ var QuestionCollection = (function (_Backbone$Collection) {
     */
 
 			value: function hasAnsweredQuestions() {
-				var numberOfAnsweredQuestions = this.countAnsweredQuestions();
-				return numberOfAnsweredQuestions.length > 0;
+				return this.countAnsweredQuestions() > 0;
+			}
+		},
+		countAnsweredQuestionsFromProfile: {
+
+			/**
+    * @returns {int}
+    */
+
+			value: function countAnsweredQuestionsFromProfile() {
+
+				var numberOfAnswersFromProfile = 0;
+				// Overlay possible questions from question stats
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(EasyvoteSmartvote.questionState), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var questionState = _step.value;
+
+						if (questionState.answer !== null) {
+							numberOfAnswersFromProfile++;
+						}
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				return numberOfAnswersFromProfile;
 			}
 		},
 		load: {
@@ -1944,7 +1993,9 @@ var ListView = (function (_Backbone$View) {
 		// Load first the Question collection.
 		/** @var questionCollection QuestionCollection */
 		this.questionCollection.load().done(function () {
-			return _this.render();
+
+			_this.overlayWithQuestionState();
+			_this.render();
 		});
 
 		// Call parent constructor.
@@ -1954,6 +2005,45 @@ var ListView = (function (_Backbone$View) {
 	_inherits(ListView, _Backbone$View);
 
 	_createClass(ListView, {
+		overlayWithQuestionState: {
+
+			/**
+    * Overlay possible questions with question state coming from the User Profile.
+    *
+    * @return void
+    */
+
+			value: function overlayWithQuestionState() {
+
+				// Overlay possible questions with question state
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(EasyvoteSmartvote.questionState), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var questionState = _step.value;
+
+						var question = this.questionCollection.get(questionState.id);
+						question.set("answer", questionState.answer);
+						question.set("visible", questionState.visible);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+			}
+		},
 		renderAsYouScroll: {
 
 			/**
