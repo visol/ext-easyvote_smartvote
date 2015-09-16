@@ -748,55 +748,6 @@ var QuestionCollection = (function (_Backbone$Collection) {
 	_inherits(QuestionCollection, _Backbone$Collection);
 
 	_createClass(QuestionCollection, {
-		fetchForAnonymousUser: {
-
-			/**
-    * Anonymous User uses the localStorage as a first storage.
-    *
-    * @returns {*}
-    */
-
-			value: function fetchForAnonymousUser() {
-				var _this = this;
-
-				// Save all of the question items under the `'questions'` namespace for anonymous user.
-				this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
-
-				// Check whether localStorage contains record about this collection
-				var records = this.localStorage.findAll();
-				if (_.isEmpty(records)) {
-					return Backbone.ajaxSync("read", this).done(function (models) {
-						var _iteratorNormalCompletion = true;
-						var _didIteratorError = false;
-						var _iteratorError = undefined;
-
-						try {
-							for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-								var model = _step.value;
-
-								_this.create(model, { sort: false });
-							}
-						} catch (err) {
-							_didIteratorError = true;
-							_iteratorError = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion && _iterator["return"]) {
-									_iterator["return"]();
-								}
-							} finally {
-								if (_didIteratorError) {
-									throw _iteratorError;
-								}
-							}
-						}
-					});
-				} else {
-					// call original fetch method
-					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
-				}
-			}
-		},
 		hasCompletedAnswers: {
 
 			/**
@@ -903,9 +854,42 @@ var QuestionCollection = (function (_Backbone$Collection) {
     */
 
 			value: function load() {
-				if (this._isAnonymous()) {
-					return this.fetchForAnonymousUser();
+				var _this = this;
+
+				// Save all of the question items under the `'questions'` namespace for anonymous user.
+				this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
+
+				// Check whether localStorage contains record about this collection
+				var records = this.localStorage.findAll();
+				if (_.isEmpty(records)) {
+					return Backbone.ajaxSync("read", this).done(function (models) {
+						var _iteratorNormalCompletion = true;
+						var _didIteratorError = false;
+						var _iteratorError = undefined;
+
+						try {
+							for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+								var model = _step.value;
+
+								_this.create(model, { sort: false });
+							}
+						} catch (err) {
+							_didIteratorError = true;
+							_iteratorError = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion && _iterator["return"]) {
+									_iterator["return"]();
+								}
+							} finally {
+								if (_didIteratorError) {
+									throw _iteratorError;
+								}
+							}
+						}
+					});
 				} else {
+					// call original fetch method
 					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 				}
 			}
@@ -2074,6 +2058,7 @@ var ListView = (function (_Backbone$View) {
 					sorting: CandidateCollection.getInstance().getSorting(),
 					direction: CandidateCollection.getInstance().getDirection()
 				});
+
 				$("#container-candidates-top").html(content);
 				$("#wrapper-candidates").removeClass("hidden");
 				$("#wrapper-filter").removeClass("hidden");

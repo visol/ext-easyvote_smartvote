@@ -1106,55 +1106,6 @@ var QuestionCollection = (function (_Backbone$Collection) {
 	_inherits(QuestionCollection, _Backbone$Collection);
 
 	_createClass(QuestionCollection, {
-		fetchForAnonymousUser: {
-
-			/**
-    * Anonymous User uses the localStorage as a first storage.
-    *
-    * @returns {*}
-    */
-
-			value: function fetchForAnonymousUser() {
-				var _this = this;
-
-				// Save all of the question items under the `'questions'` namespace for anonymous user.
-				this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
-
-				// Check whether localStorage contains record about this collection
-				var records = this.localStorage.findAll();
-				if (_.isEmpty(records)) {
-					return Backbone.ajaxSync("read", this).done(function (models) {
-						var _iteratorNormalCompletion = true;
-						var _didIteratorError = false;
-						var _iteratorError = undefined;
-
-						try {
-							for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-								var model = _step.value;
-
-								_this.create(model, { sort: false });
-							}
-						} catch (err) {
-							_didIteratorError = true;
-							_iteratorError = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion && _iterator["return"]) {
-									_iterator["return"]();
-								}
-							} finally {
-								if (_didIteratorError) {
-									throw _iteratorError;
-								}
-							}
-						}
-					});
-				} else {
-					// call original fetch method
-					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
-				}
-			}
-		},
 		hasCompletedAnswers: {
 
 			/**
@@ -1261,9 +1212,42 @@ var QuestionCollection = (function (_Backbone$Collection) {
     */
 
 			value: function load() {
-				if (this._isAnonymous()) {
-					return this.fetchForAnonymousUser();
+				var _this = this;
+
+				// Save all of the question items under the `'questions'` namespace for anonymous user.
+				this.localStorage = new Backbone.LocalStorage("questions-" + this.getToken());
+
+				// Check whether localStorage contains record about this collection
+				var records = this.localStorage.findAll();
+				if (_.isEmpty(records)) {
+					return Backbone.ajaxSync("read", this).done(function (models) {
+						var _iteratorNormalCompletion = true;
+						var _didIteratorError = false;
+						var _iteratorError = undefined;
+
+						try {
+							for (var _iterator = _core.$for.getIterator(models), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+								var model = _step.value;
+
+								_this.create(model, { sort: false });
+							}
+						} catch (err) {
+							_didIteratorError = true;
+							_iteratorError = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion && _iterator["return"]) {
+									_iterator["return"]();
+								}
+							} finally {
+								if (_didIteratorError) {
+									throw _iteratorError;
+								}
+							}
+						}
+					});
 				} else {
+					// call original fetch method
 					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 				}
 			}
@@ -2166,7 +2150,7 @@ var ListView = (function (_Backbone$View) {
 
 		// Store the flag whether it is a short or long version of the questionnaire.
 		this.isShortVersion = this.isShortQuestionnaire();
-		this.updateShortAndLongButtonState();
+		this.updateButtonStatusShortAndLongVersion();
 
 		// Special binding since the reset button is outside the scope of this view.
 		_.bindAll(this, "showShortVersion");
@@ -2174,11 +2158,41 @@ var ListView = (function (_Backbone$View) {
 		$(document).on("click", "#btn-short-version", this.showShortVersion);
 		$(document).on("click", "#btn-long-version", this.showLongVersion);
 
-		this.listenTo(this.questionCollection, "change:answer", this.afterAnswerChanged);
-
 		// Render after loading the data-set.
 		this.questionCollection.load().done(function () {
+
+			// Overlay possible questions from question stats
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = _core.$for.getIterator(EasyvoteSmartvote.questionState), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var questionState = _step.value;
+
+					var question = _this.questionCollection.get(questionState.id);
+					question.set("answer", questionState.answer);
+					question.set("visible", questionState.visible);
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator["return"]) {
+						_iterator["return"]();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
 			_this.render();
+
+			// Finally add listener
+			_this.listenTo(_this.questionCollection, "change:answer", _this.afterAnswerChanged);
 		});
 
 		_get(_core.Object.getPrototypeOf(ListView.prototype), "constructor", this).call(this);
@@ -2187,13 +2201,13 @@ var ListView = (function (_Backbone$View) {
 	_inherits(ListView, _Backbone$View);
 
 	_createClass(ListView, {
-		updateShortAndLongButtonState: {
+		updateButtonStatusShortAndLongVersion: {
 
 			/**
     * Adjust widget
     */
 
-			value: function updateShortAndLongButtonState() {
+			value: function updateButtonStatusShortAndLongVersion() {
 
 				$("#btn-short-version").show(); // short version could be hidden... show it in any case
 				if (this.isShortVersion) {
@@ -2217,7 +2231,7 @@ var ListView = (function (_Backbone$View) {
 				this.isShortVersion = true;
 
 				// Toggle property.
-				this.updateShortAndLongButtonState();
+				this.updateButtonStatusShortAndLongVersion();
 				//this.linkToDirectoriesIfAllQuestionsAnswered();
 
 				// Update the view.
@@ -2234,7 +2248,7 @@ var ListView = (function (_Backbone$View) {
 
 				// Toggle property.
 				this.isShortVersion = false;
-				this.updateShortAndLongButtonState();
+				this.updateButtonStatusShortAndLongVersion();
 				this.linkToDirectoriesIfAllQuestionsAnswered();
 
 				// Update the view.
@@ -2399,6 +2413,7 @@ var ListView = (function (_Backbone$View) {
     */
 
 			value: function afterAnswerChanged(question) {
+				var _this = this;
 
 				// Find next question and update its visible flag.
 				var nextIndex = this.questionCollection.length - 1 - question.get("index");
@@ -2413,7 +2428,44 @@ var ListView = (function (_Backbone$View) {
 				// Persist new status to the storage.
 				question.save().done(function (question) {
 					nextQuestion.save();
+					_this.persistState();
 				});
+			}
+		},
+		persistState: {
+
+			/**
+    * Persist state after 1 second if there is no interaction.
+    *
+    * @return void
+    */
+
+			value: function persistState() {
+				window.clearTimeout(window.timeout);
+				window.timeout = window.setTimeout(function () {
+
+					// Only perist state if FE User Exists.
+					if (EasyvoteSmartvote.isUserAuthenticated) {
+						var url = "/routing/state/?token=" + EasyvoteSmartvote.token;
+
+						// Initialize payLoad which contains useful data to persist.
+						var payLoad = [];
+						QuestionCollection.getInstance().each(function (question) {
+							var data = {};
+							data.id = question.get("id");
+							data.answer = question.get("answer");
+							data.visible = question.get("visible");
+
+							payLoad.push(data);
+						});
+
+						// Send by ajax the answer state.
+						$.ajax({
+							url: url,
+							method: "post",
+							data: JSON.stringify(payLoad) });
+					}
+				}, 1000);
 			}
 		},
 		updateChart: {
