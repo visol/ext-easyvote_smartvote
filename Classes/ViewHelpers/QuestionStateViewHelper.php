@@ -31,23 +31,24 @@ class QuestionStateViewHelper extends AbstractViewHelper {
 	 */
 	public function render() {
 
-		/** @var Election $election */
-		$election = $this->templateVariableContainer->get('currentElection');
-		$token = $this->getTokenService()->generate($election->getUid());
-		$questions = $this->getUserService()->getCache($token);
-
-		if (empty($questions)) {
-
-			$relatedElection = $election->getRelatedElection();
-			if ($relatedElection) {
-				$token = $this->getTokenService()->generate($relatedElection->getUid());
-				$questions = $this->getUserService()->getCache($token);
-			}
-		}
-
 		// default value.
-		if (empty($questions)) {
-			$questions = [];
+		$questions = [];
+
+		if ($this->getUserService()->isAuthenticated()) {
+
+			/** @var Election $election */
+			$election = $this->templateVariableContainer->get('currentElection');
+			$token = $this->getTokenService()->generate($election->getUid());
+			$questions = $this->getUserService()->getCache($token);
+
+			if (empty($questions)) {
+
+				$relatedElection = $election->getRelatedElection();
+				if ($relatedElection) {
+					$token = $this->getTokenService()->generate($relatedElection->getUid());
+					$questions = $this->getUserService()->getCache($token);
+				}
+			}
 		}
 
 		return json_encode($questions);
