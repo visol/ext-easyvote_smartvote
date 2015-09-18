@@ -9,7 +9,7 @@
 export default class FacetModel extends Backbone.Model {
 
 	/**
-	 * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string}}
+	 * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string, candidate: string}}
 	 */
 	defaults() {
 		return {
@@ -20,7 +20,8 @@ export default class FacetModel extends Backbone.Model {
 			minAge: '18',
 			maxAge: '90',
 			incumbent: '',
-			gender: ''
+			gender: '',
+			candidate: ''
 		};
 	}
 
@@ -46,7 +47,7 @@ export default class FacetModel extends Backbone.Model {
 		if (!this.state) {
 			this.state = {};
 
-			var allowedArguments = ['name', 'nationalParty', 'district', 'minAge', 'maxAge', 'incumbent', 'gender'];
+			var allowedArguments = ['candidate', 'name', 'nationalParty', 'district', 'minAge', 'maxAge', 'incumbent', 'gender'];
 			var query = window.location.hash.split('&');
 			for (let argument of query) {
 

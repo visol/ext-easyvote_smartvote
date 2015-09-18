@@ -25,6 +25,19 @@
   httpMethods: ['GET']
 
 ####################
+# Candidate permalink
+####################
+-
+  name: 'Permalink Candidate'
+  uriPattern: 'c/{candidate}'
+  defaults:
+    '@package':    'Visol.Easyvote_smartvote'
+    '@controller': 'Candidate'
+    '@action':     'permalink'
+    '@plugin':     'Candidate'
+  httpMethods: ['GET']
+
+####################
 # Party
 ####################
 -

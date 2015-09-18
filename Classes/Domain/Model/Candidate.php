@@ -401,6 +401,11 @@ class Candidate extends AbstractEntity {
 	protected $education = NULL;
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+	 */
+	protected $photo;
+
+	/**
 	 * Returns the firstName
 	 *
 	 * @return string $firstName
@@ -1394,6 +1399,13 @@ class Candidate extends AbstractEntity {
 	 */
 	public function setEducation(\Visol\EasyvoteSmartvote\Domain\Model\Education $education) {
 		$this->education = $education;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference
+	 */
+	public function getPhoto() {
+		return $this->photo;
 	}
 
 }

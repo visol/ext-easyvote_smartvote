@@ -25,6 +25,12 @@ use Visol\EasyvoteSmartvote\Service\DistrictService;
 class CandidateController extends ActionController {
 
 	/**
+	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\CandidateRepository
+	 * @inject
+	 */
+	protected $candidateRepository;
+
+	/**
 	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\ElectionRepository
 	 * @inject
 	 */
@@ -93,10 +99,63 @@ class CandidateController extends ActionController {
 	}
 
 	/**
+	 * Checks if the link requests a candidate and the candidate exists
+	 * Redirects to the candidate directory if an error occurs
+	 *
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+	 */
+	public function initializePermalinkAction() {
+		if ($this->request->hasArgument('candidate')) {
+			$candidateAndLanguage = GeneralUtility::trimExplode('-', $this->request->getArgument('candidate'));
+			$this->request->setArgument('candidate', (int)$candidateAndLanguage[0]);
+			$this->request->setArgument('language', (int)$candidateAndLanguage[1]);
+			if (is_null($this->candidateRepository->findByUid((int)$candidateAndLanguage[0]))) {
+				$targetUri = $this->uriBuilder->setArguments(array('L' => $candidateAndLanguage[1]))->setTargetPageUid((int)$this->settings['candidateDirectoryNRPid'])->build();
+				$this->redirectToUri($targetUri);
+			}
+		} else {
+			$targetUri = $this->uriBuilder->setTargetPageUid((int)$this->settings['candidateDirectoryNRPid'])->build();
+			$this->redirectToUri($targetUri);
+		}
+	}
+
+	/**
+	 * @param \Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+	 */
+	public function permalinkAction(\Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate = NULL) {
+		$languageUid = (int)$this->request->getArgument('language');
+		if ($candidate instanceof \Visol\EasyvoteSmartvote\Domain\Model\Candidate) {
+			if (strpos(GeneralUtility::getIndpEnv('HTTP_USER_AGENT'), 'facebookexternalhit') !== FALSE) {
+				$this->view->assign('languageUid', $languageUid);
+				$this->view->assign('candidate', $candidate);
+				$this->view->assign('baseUrl', GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'));
+				$this->view->assign('requestUri', GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
+			} else {
+				// TODO for future elections this should be made more flexible
+				if (strpos($candidate->getElection()->getSmartVoteIdentifier(), 'nr') !== FALSE) {
+					$targetPageUid = (int)$this->settings['candidateDirectoryNRPid'];
+				} else {
+					$targetPageUid = (int)$this->settings['candidateDirectorySRPid'];
+				}
+				$section = 'candidate=' . $candidate->getUid() . '&district=' . $candidate->getDistrict()->getUid();
+				$redirectUri = $this->uriBuilder->setTargetPageUid($targetPageUid)->setSection($section)->setUseCacheHash(FALSE)->setArguments(array('L' => $languageUid))->build();
+				$this->redirectToUri($redirectUri);
+			}
+		} else {
+			// this shouldn't happen
+			die();
+		}
+	}
+
+	/**
 	 * @return DistrictService
 	 */
 	protected function getDistrictService() {
-
 		return GeneralUtility::makeInstance(DistrictService::class);
 	}
 

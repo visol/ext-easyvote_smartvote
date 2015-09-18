@@ -58,10 +58,12 @@ if (!defined('TYPO3_MODE')) {
 	'Candidate',
 	array(
 		'CandidateApi' => 'list',
+		'Candidate' => 'permalink',
 	),
 	// non-cacheable actions
 	array(
 		'CandidateApi' => 'list', // @todo check if it can be cached.
+		'Candidate' => 'permalink',
 	)
 );
 

@@ -17,7 +17,6 @@ export default class FilterEngine {
 
 		var value, filterValue;
 		var isOk = true;
-
 		if (!facet.value) {
 			isOk = true;
 		} else if (facet.name === 'minAge') {
@@ -36,6 +35,10 @@ export default class FilterEngine {
 			value = candidate.get('persona');
 			filterValue = facet.value;
 			isOk = this.isLike(value, filterValue);
+		}  else if (facet.name === 'candidate') {
+			value = candidate.get('id');
+			filterValue = facet.value;
+			isOk = this.isEqual(value, filterValue);
 		} else {
 			value = candidate.get(facet.name);
 			isOk = this.isEqual(value, facet.value);

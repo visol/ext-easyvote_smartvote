@@ -1053,7 +1053,6 @@ var FilterEngine = (function () {
 
 				var value, filterValue;
 				var isOk = true;
-
 				if (!facet.value) {
 					isOk = true;
 				} else if (facet.name === "minAge") {
@@ -1072,6 +1071,10 @@ var FilterEngine = (function () {
 					value = candidate.get("persona");
 					filterValue = facet.value;
 					isOk = this.isLike(value, filterValue);
+				} else if (facet.name === "candidate") {
+					value = candidate.get("id");
+					filterValue = facet.value;
+					isOk = this.isEqual(value, filterValue);
 				} else {
 					value = candidate.get(facet.name);
 					isOk = this.isEqual(value, facet.value);
@@ -1352,7 +1355,7 @@ var FacetModel = (function (_Backbone$Model) {
 		defaults: {
 
 			/**
-    * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string}}
+    * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string, candidate: string}}
     */
 
 			value: function defaults() {
@@ -1364,7 +1367,8 @@ var FacetModel = (function (_Backbone$Model) {
 					minAge: "18",
 					maxAge: "90",
 					incumbent: "",
-					gender: ""
+					gender: "",
+					candidate: ""
 				};
 			}
 		},
@@ -1399,7 +1403,7 @@ var FacetModel = (function (_Backbone$Model) {
 				if (!this.state) {
 					this.state = {};
 
-					var allowedArguments = ["name", "nationalParty", "district", "minAge", "maxAge", "incumbent", "gender"];
+					var allowedArguments = ["candidate", "name", "nationalParty", "district", "minAge", "maxAge", "incumbent", "gender"];
 					var query = window.location.hash.split("&");
 					var _iteratorNormalCompletion = true;
 					var _didIteratorError = false;
@@ -1812,7 +1816,9 @@ var FacetView = (function (_Backbone$View) {
 			"#minAge": "minAge",
 			"#maxAge": "maxAge",
 			"#incumbent": "incumbent",
-			"#gender": "gender"
+			"#gender": "gender",
+			"#candidate": "candidate",
+			"#persona": "persona"
 		};
 
 		// special binding since the reset button is outside the scope of this view.

@@ -49,7 +49,9 @@ export default class FacetView extends Backbone.View {
 			'#minAge': 'minAge',
 			'#maxAge': 'maxAge',
 			'#incumbent': 'incumbent',
-			'#gender': 'gender'
+			'#gender': 'gender',
+			'#candidate': 'candidate',
+			'#persona': 'persona'
 		};
 
 		// special binding since the reset button is outside the scope of this view.
