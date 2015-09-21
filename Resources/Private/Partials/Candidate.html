@@ -44,14 +44,22 @@
 									<% if (typeof(cantonAbbreviation) == "string") { %>
 										<img class="badge" src="/typo3conf/ext/usereasyvotetemplate/Resources/Public/Images/Flags/flag-<%- cantonAbbreviation %>.svg" />
 									<% } %>
-									<f:comment>
-										<% if (easyvoteSupporter == true) { %>
-											<img class="badge" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/easyvote-supporter.svg" />
-										<% } %>
-										<% if (polittalkParticipant == true) { %>
-											<img class="badge" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/polittalk-participant.svg" />
-										<% } %>
-									</f:comment>
+									<% if (easyvoteSupporter == true) { %>
+										<f:link.page pageUid="{settings.easyvoteSupporterPid}">
+											<img class="badge hasTooltip" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/easyvote-supporter.svg" />
+											<div class="hidden">
+												<f:translate key="candidate.badge.easyvote_supporter" />
+											</div>
+										</f:link.page>
+									<% } %>
+									<% if (polittalkParticipant == true) { %>
+										<f:link.page pageUid="{settings.polittalkHomePid}">
+											<img class="badge hasTooltip" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/polittalk-participant.svg" />
+											<div class="hidden">
+												<f:translate key="candidate.badge.polittalk_participant" />
+											</div>
+										</f:link.page>
+									<% } %>
 								</div>
 								<f:comment>
 									<div class="persona">

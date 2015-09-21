@@ -306,6 +306,12 @@
 			<trans-unit id="candidate.persona.none.m">
 				<target></target>
 			</trans-unit>
+			<trans-unit id="candidate.badge.easyvote_supporter">
+				<target>easyvote-Madrina/Padrino</target>
+			</trans-unit>
+			<trans-unit id="candidate.badge.polittalk_participant">
+				<target>Partecipante Polittalk</target>
+			</trans-unit>
 
 			<trans-unit id="filter_reset">
 				<target>Resettare il filtro</target>

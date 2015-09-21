@@ -2142,6 +2142,9 @@ var ListView = (function (_Backbone$View) {
 				// Add lazy loading to images.
 				$("img.lazy", $(".batch-" + this.numberOfRenderedItems)).lazyload();
 
+				// Bind tooltips for candidate badges
+				Easyvote.bindToolTips();
+
 				// Bind fancybox
 				$("body").on("click", ".fancybox", function (event) {
 					event.preventDefault();

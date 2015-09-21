@@ -309,6 +309,12 @@
 			<trans-unit id="candidate.persona.none.m">
 				<source></source>
 			</trans-unit>
+			<trans-unit id="candidate.badge.easyvote_supporter">
+				<source>easyvote-Gotti/-Götti</source>
+			</trans-unit>
+			<trans-unit id="candidate.badge.polittalk_participant">
+				<source>Polittalk-TeilnehmerIn</source>
+			</trans-unit>
 
 			<trans-unit id="filter_reset">
 				<source>Filter zurücksetzen</source>
@@ -500,6 +506,7 @@
 			<trans-unit id="questions.go_to_recommendation">
 				<source>Hier geht es zu deiner persönlichen Wahlempfehlung:</source>
 			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
