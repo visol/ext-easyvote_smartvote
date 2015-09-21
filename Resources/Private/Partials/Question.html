@@ -15,92 +15,125 @@
 							<%= name %>
 						</h2>
 					</div>
-
-					<div class="row question-answers">
-						<div class="col-sm-20p col-sm-20p">
-							<label>
-								<span>
-									<% if (type === "standard") { %>
+					<% if (type === "standard") { %>
+						<div class="row question-answers">
+							<div class="col-sm-20p col-sm-20p">
+								<label>
+									<span>
 										<f:translate key="yes"/>
-									<% } else { %>
-										<f:translate key="spend_more_significantly"/>
-									<%  } %>
-								</span>
-								<input type="radio" class="btn-answer" name="weight" value="100"
-								<%= answer === 100 ? 'checked' : '' %>
-								/>
-							</label>
-						</div>
-						<div class="col-sm-20p col-sm-20p">
-							<label>
-								<span>
-									<% if (type === "standard") { %>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="100"
+									<%= answer === 100 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-20p col-sm-20p">
+								<label>
+									<span>
 										<f:translate key="rather_yes"/>
-									<% } else { %>
-										<f:translate key="spend_more"/>
-									<%  } %>
-								</span>
-								<input type="radio" class="btn-answer" name="weight" value="75"
-								<%= answer === 75 ? 'checked' : '' %>
-								/>
-							</label>
-						</div>
-						<f:comment>
-							BUDGET QUESTIONS HAVE INTERMEDIATE 50 VALUE
-							TODO: FIX WIDTH PROBLEM
-						<% if (type === "budget") { %>
-						<div class="col-sm-20p col-sm-20p">
-							<label>
-								<span>
-										<f:translate key="spend_same"/>
-								</span>
-								<input type="radio" class="btn-answer" name="weight" value="50"
-								<%= answer === 50 ? 'checked' : '' %>
-								/>
-							</label>
-						</div>
-						<%  } %>
-						</f:comment>
-						<div class="col-sm-20p col-sm-20p">
-							<label>
-								<span>
-									<% if (type === "standard") { %>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="75"
+									<%= answer === 75 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-20p col-sm-20p">
+								<label>
+									<span>
 										<f:translate key="rather_no"/>
-									<% } else { %>
-										<f:translate key="spend_less"/>
-									<%  } %>
-								</span>
-								<input type="radio" class="btn-answer" name="weight" value="25"
-								<%= answer === 25 ? 'checked' : '' %>
-								/>
-							</label>
-						</div>
-						<div class="col-sm-20p col-sm-20p">
-							<label>
-								<span>
-									<% if (type === "standard") { %>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="25"
+									<%= answer === 25 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-20p col-sm-20p">
+								<label>
+									<span>
 										<f:translate key="no"/>
-									<% } else { %>
-										<f:translate key="spend_less_significantly"/>
-									<%  } %>
-								</span>
-								<input type="radio" class="btn-answer" name="weight" value="0"
-								<%= answer === 0 ? 'checked' : '' %>
-								/>
-							</label>
-						</div>
-						<div class="col-sm-20p col-sm-20p">
-							<label>
-								<span>
-									<f:translate key="no_answer"/>
-								</span>
-								<input type="radio" class="btn-answer" name="weight" value="-1"
-								<%= answer === -1 ? 'checked' : '' %>
-								/>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="0"
+									<%= answer === 0 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-20p col-sm-20p">
+								<label>
+									<span>
+										<f:translate key="no_answer"/>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="-1"
+									<%= answer === -1 ? 'checked' : '' %>
+									/>
 
-							</label>
+								</label>
+							</div>
 						</div>
-					</div>
+					<% } else { %>
+						<div class="row question-answers">
+							<div class="col-sm-2">
+								<label>
+									<span>
+										<f:translate key="spend_more_significantly"/>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="100"
+									<%= answer === 100 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-2">
+								<label>
+									<span>
+										<f:translate key="spend_more"/>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="75"
+									<%= answer === 75 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-2">
+								<label>
+									<span>
+											<f:translate key="spend_same"/>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="50"
+									<%= answer === 50 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-2">
+								<label>
+									<span>
+										<f:translate key="spend_less"/>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="25"
+									<%= answer === 25 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-2">
+								<label>
+									<span>
+										<f:translate key="spend_less_significantly"/>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="0"
+									<%= answer === 0 ? 'checked' : '' %>
+									/>
+								</label>
+							</div>
+							<div class="col-sm-2">
+								<label>
+									<span>
+										<f:translate key="no_answer"/>
+									</span>
+									<input type="radio" class="btn-answer" name="weight" value="-1"
+									<%= answer === -1 ? 'checked' : '' %>
+									/>
+
+								</label>
+							</div>
+						</div>
+					<%  } %>
 				</div>
 			</form>
 		</script>
