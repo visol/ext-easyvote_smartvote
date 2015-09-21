@@ -312,6 +312,9 @@
 			<trans-unit id="candidate.badge.polittalk_participant">
 				<target>Partecipante Polittalk</target>
 			</trans-unit>
+			<trans-unit id="candidate.list">
+				<target>Lista</target>
+			</trans-unit>
 
 			<trans-unit id="filter_reset">
 				<target>Resettare il filtro</target>

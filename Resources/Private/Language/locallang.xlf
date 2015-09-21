@@ -315,6 +315,9 @@
 			<trans-unit id="candidate.badge.polittalk_participant">
 				<source>Polittalk-TeilnehmerIn</source>
 			</trans-unit>
+			<trans-unit id="candidate.list">
+				<source>Liste</source>
+			</trans-unit>
 
 			<trans-unit id="filter_reset">
 				<source>Filter zurücksetzen</source>
