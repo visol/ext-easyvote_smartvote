@@ -166,7 +166,7 @@ export default class ListView extends Backbone.View {
 	 */
 	linkToDirectoriesIfAllQuestionsAnswered() {
 
-		let numberOfQuestionAnswered = this.questionCollection.countVisible(this.isShortVersion);
+		let numberOfQuestionAnswered = this.questionCollection.countAnsweredQuestions(this.isShortVersion);
 		let totalNumberOfQuestions = this.questionCollection.count(this.isShortVersion);
 		if (totalNumberOfQuestions === 0) {
 			// As long as no question is answered, totalNumberOfQuestions equals 0

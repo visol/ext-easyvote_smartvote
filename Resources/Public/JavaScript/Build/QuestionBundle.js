@@ -2413,7 +2413,7 @@ var ListView = (function (_Backbone$View) {
 
 			value: function linkToDirectoriesIfAllQuestionsAnswered() {
 
-				var numberOfQuestionAnswered = this.questionCollection.countVisible(this.isShortVersion);
+				var numberOfQuestionAnswered = this.questionCollection.countAnsweredQuestions(this.isShortVersion);
 				var totalNumberOfQuestions = this.questionCollection.count(this.isShortVersion);
 				if (totalNumberOfQuestions === 0) {
 					// As long as no question is answered, totalNumberOfQuestions equals 0
