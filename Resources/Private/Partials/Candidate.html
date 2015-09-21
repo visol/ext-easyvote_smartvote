@@ -44,18 +44,22 @@
 									<% if (typeof(cantonAbbreviation) == "string") { %>
 										<img class="badge" src="/typo3conf/ext/usereasyvotetemplate/Resources/Public/Images/Flags/flag-<%- cantonAbbreviation %>.svg" />
 									<% } %>
-									<% if (easyvoteSupporter == true) { %>
-										<img class="badge" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/easyvote-supporter.svg" />
-									<% } %>
-									<% if (polittalkParticipant == true) { %>
-										<img class="badge" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/polittalk-participant.svg" />
-									<% } %>
+									<f:comment>
+										<% if (easyvoteSupporter == true) { %>
+											<img class="badge" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/easyvote-supporter.svg" />
+										<% } %>
+										<% if (polittalkParticipant == true) { %>
+											<img class="badge" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/polittalk-participant.svg" />
+										<% } %>
+									</f:comment>
 								</div>
-								<div class="persona">
-									<% if (typeof(personaName) == "string") { %>
-										<span class="inner"><%- personaName %></span>
-									<% } %>
-								</div>
+								<f:comment>
+									<div class="persona">
+										<% if (typeof(personaName) == "string") { %>
+											<span class="inner"><%- personaName %></span>
+										<% } %>
+									</div>
+								</f:comment>
 							</div>
 							<% } %>
 							<h2>

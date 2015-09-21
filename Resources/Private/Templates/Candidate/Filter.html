@@ -41,11 +41,15 @@
 						               class="form-control form-control-select"/>
 					</div>
 
-					<div class="form-group">
-						<f:form.select id="persona" name="persona" options="{personas}"
-						   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.easyvote.title')}"
-						   prependOptionValue="" class="form-control form-control-select"/>
-					</div>
+					<f:form.hidden name="persona" id="persona" class="form-control"/>
+
+					<f:comment>
+						<div class="form-group">
+							<f:form.select id="persona" name="persona" options="{personas}"
+							   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.easyvote.title')}"
+							   prependOptionValue="" class="form-control form-control-select"/>
+						</div>
+					</f:comment>
 
 					<div class="form-group filter-age">
 						<label class="control-label" for="minAge">{f:translate(key:'filter.age.title')}</label>
