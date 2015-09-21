@@ -4,8 +4,12 @@
 		<header/>
 		<body>
 			<trans-unit id="who_to_elect">
-				<target>Pour qui voter ?</target>
+				<target>Tu ne connais pas les candidats ?</target>
 			</trans-unit>
+			<trans-unit id="questionnaire.introduction">
+				<target>Aucun soucis, nous sommes là pour t'aider. Remplis le bref ou le long questionnaire et découvre quels candidats te correspondent.</target>
+			</trans-unit>
+
 			<trans-unit id="voting_recommendation">
 				<target>Recommandation de vote</target>
 			</trans-unit>

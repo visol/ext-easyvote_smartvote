@@ -4,8 +4,12 @@
 		<header/>
 		<body>
 			<trans-unit id="who_to_elect">
-				<source>Wen soll ich wählen?</source>
+				<source>Kennst du die KandidatInnen nicht?</source>
 			</trans-unit>
+			<trans-unit id="questionnaire.introduction">
+				<source>Kein Problem, wir helfen dir dabei. Fülle den kurzen oder langen Fragebogen aus und finde heraus, welche KandidatInnen zu dir passen.</source>
+			</trans-unit>
+
 			<trans-unit id="voting_recommendation">
 				<source>Wen wählen?</source>
 			</trans-unit>

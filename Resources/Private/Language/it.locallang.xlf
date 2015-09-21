@@ -4,8 +4,12 @@
 		<header/>
 		<body>
 			<trans-unit id="who_to_elect">
-				<target>Chi dovrei eleggere?</target>
+				<target>Non conosci i/le candidati/e?</target>
 			</trans-unit>
+			<trans-unit id="questionnaire.introduction">
+				<target>Non preoccuparti, ti aiutiamo noi. Compila il questionario breve o lungo e trova il/la candidato/a che fa per te.</target>
+			</trans-unit>
+
 			<trans-unit id="voting_recommendation">
 				<target>Il tuo consiglio per le elezioni</target>
 			</trans-unit>
@@ -326,7 +330,7 @@
 				<target>Candidato trovato</target>
 			</trans-unit>
 			<trans-unit id="long_version">
-				<target>73 domande</target>
+				<target>75 domande</target>
 			</trans-unit>
 			<trans-unit id="short_version">
 				<target>30 domande</target>
