@@ -29,11 +29,36 @@
 						</div>
 						<div class="col-xs-9 col-md-9">
 							<div class="actions">
-								<f:comment>
-									@TODO
-									<div class="action share">
-									</div>
-								</f:comment>
+								<div class="action share">
+									<f:if condition="{settings.context} == 'app'">
+										<f:then>
+											<a href="share://title=FOO&text=BAR&url={settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}">
+												<i class="evicon-share"></i>
+											</a>
+										</f:then>
+										<f:else>
+											<a href="#" class="shareTrigger hasModal">
+												<i class="evicon-share"></i>
+											</a>
+											<div class="hidden">
+												<a class="pull-right qtip-close" aria-label="schliessen">
+													<i class="evicon-cancel"></i>
+												</a>
+												<div class="share-links">
+													<a class="share-popup" href="https://www.facebook.com/sharer/sharer.php?u={settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}">
+														<i class="social-icon facebook"><span class="sr-only">Facebook</span></i>
+													</a>
+													<a class="share-popup" href="https://twitter.com/home?status=FOO - {settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid} @easyvote_ch">
+														<i class="social-icon twitter"><span class="sr-only">Twitter</span></i>
+													</a>
+												</div>
+												<div class="share-uri">
+													<input type="text" onclick="select()" id="participationLink" value="{settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}" />
+												</div>
+											</div>
+										</f:else>
+									</f:if>
+								</div>
 								<div class="action toggle handle">
 									<i class="evicon-down-open"></i>
 								</div>
