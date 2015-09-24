@@ -117,9 +117,11 @@ class QuestionImporter extends AbstractImporter {
 					$relatedElection = $this->election->getRelatedElection();
 					$clause = sprintf('election = %s AND name = "%s" AND sys_language_uid = %s', $relatedElection->getUid(), addslashes($question['name']), $languageUid);
 					$clause .= BackendUtility::deleteClause($this->tableName);
+					$this->getDatabaseConnection()->store_lastBuiltQuery = TRUE;
 					$relatedQuestion = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid, l10n_parent', $this->tableName, $clause);
 
 					if (empty($relatedQuestion)) {
+						echo ($this->getDatabaseConnection()->debug_lastBuiltQuery);
 						throw new \Exception('I could not determine a related question. Fix me otherwise data may be inconsistent', 1435737286);
 					}
 
