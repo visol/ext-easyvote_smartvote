@@ -166,12 +166,21 @@ abstract class AbstractImporter implements ImporterInterface {
 
 		$items = array();
 		try {
-			$data = file_get_contents($url);
+			$data = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($url);
 			$items = json_decode($data, TRUE);
 		} catch(\Exception $e) {
 			$this->getLogger()->alert('I could not load SmartVote data given the URL', $url);
 
 		}
+		$cachedDataPathAndFileName = sys_get_temp_dir() . '/' . $this->election->getSmartVoteIdentifier() . '-' . $this->models[$modelType];
+		if (!is_array($items) && file_exists($cachedDataPathAndFileName)) {
+			$data = file_get_contents($cachedDataPathAndFileName);
+			$items = json_decode($data, TRUE);
+		}
+		if (!is_array($items)) {
+			die('Failed fetching data for model "' . $modelType . '" / Remote file name: ' . $url . ' / Local fallback file name: ' . $cachedDataPathAndFileName);
+		}
+
 		return $items;
 	}
 
