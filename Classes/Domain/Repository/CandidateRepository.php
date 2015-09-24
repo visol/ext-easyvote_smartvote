@@ -27,9 +27,10 @@ class CandidateRepository extends Repository {
 	 * @param Election $election
 	 * @param int $district
 	 * @param int $nationalParty
+	 * @param int $persona
 	 * @return array|NULL
 	 */
-	public function findByElection(Election $election, $district = 0, $nationalParty = 0) {
+	public function findByElection(Election $election, $district = 0, $nationalParty = 0, $persona = 0) {
 
 		// Fetch the parties and do the overlay
 		$partyTable = 'tx_easyvotesmartvote_domain_model_party';
@@ -81,6 +82,10 @@ class CandidateRepository extends Repository {
 
 		if ($nationalParty > 0) {
 			$clause .= ' AND national_party = ' . $nationalParty;
+		}
+
+		if ($persona !== 0) {
+			$clause .= ' AND persona = \'' . $persona . '\'';
 		}
 
 		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city, national_party,

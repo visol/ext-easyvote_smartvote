@@ -44,11 +44,12 @@ class CandidateApiController extends AbstractBaseApiController {
 
 		$district = (int)GeneralUtility::_GP('district');
 		$nationalParty = (int)GeneralUtility::_GP('nationalParty');
-		$cacheIdentifier = sprintf('candidates-%s-%s-%s-lang-%s', $election->getUid(), $district, $nationalParty, (int)$GLOBALS['TSFE']->sys_language_uid);
+		$persona = GeneralUtility::_GP('persona') !== '' ? GeneralUtility::_GP('persona') : 0;
+		$cacheIdentifier = sprintf('candidates-%s-%s-%s-%s-lang-%s', $election->getUid(), $district, $nationalParty, $persona, (int)$GLOBALS['TSFE']->sys_language_uid);
 		$candidates = $this->cacheInstance->get($cacheIdentifier);
 
 		if (!$candidates) {
-			$candidates = $this->candidateRepository->findByElection($election, $district, $nationalParty);
+			$candidates = $this->candidateRepository->findByElection($election, $district, $nationalParty, $persona);
 
 			$candidates = $this->getCandidateProcessor()->process($candidates);
 			$candidates = json_encode($candidates);

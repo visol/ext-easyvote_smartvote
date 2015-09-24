@@ -16,6 +16,7 @@ export default class FacetModel extends Backbone.Model {
 			id: 1, // fictive id but is mandatory in order to retrieve the model in the session.
 			name: '',
 			nationalParty: '',
+			persona: '',
 			district: EasyvoteSmartvote.userDistrict,
 			minAge: '18',
 			maxAge: '90',
@@ -47,7 +48,7 @@ export default class FacetModel extends Backbone.Model {
 		if (!this.state) {
 			this.state = {};
 
-			var allowedArguments = ['candidate', 'name', 'nationalParty', 'district', 'minAge', 'maxAge', 'incumbent', 'gender'];
+			var allowedArguments = ['candidate', 'name', 'nationalParty', 'district', 'persona', 'minAge', 'maxAge', 'incumbent', 'gender'];
 			var query = window.location.hash.split('&');
 			for (let argument of query) {
 

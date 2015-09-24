@@ -67,7 +67,8 @@ export default class FacetView extends Backbone.View {
 	hasMinimumFilter() {
 		let district = this.model.get('district') - 0;
 		let nationalParty = this.model.get('nationalParty') - 0;
-		return district > 0 || nationalParty > 0;
+		let persona = this.model.get('persona');
+		return district > 0 || nationalParty > 0 || persona !== '';
 	}
 
 	/**

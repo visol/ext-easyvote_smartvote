@@ -1721,6 +1721,7 @@ var FacetModel = (function (_Backbone$Model) {
 					id: 1, // fictive id but is mandatory in order to retrieve the model in the session.
 					name: "",
 					nationalParty: "",
+					persona: "",
 					district: EasyvoteSmartvote.userDistrict,
 					minAge: "18",
 					maxAge: "90",
@@ -1761,7 +1762,7 @@ var FacetModel = (function (_Backbone$Model) {
 				if (!this.state) {
 					this.state = {};
 
-					var allowedArguments = ["candidate", "name", "nationalParty", "district", "minAge", "maxAge", "incumbent", "gender"];
+					var allowedArguments = ["candidate", "name", "nationalParty", "district", "persona", "minAge", "maxAge", "incumbent", "gender"];
 					var query = window.location.hash.split("&");
 					var _iteratorNormalCompletion = true;
 					var _didIteratorError = false;
@@ -2075,7 +2076,8 @@ var FacetView = (function (_Backbone$View) {
 			value: function hasMinimumFilter() {
 				var district = this.model.get("district") - 0;
 				var nationalParty = this.model.get("nationalParty") - 0;
-				return district > 0 || nationalParty > 0;
+				var persona = this.model.get("persona");
+				return district > 0 || nationalParty > 0 || persona !== "";
 			}
 		},
 		save: {
