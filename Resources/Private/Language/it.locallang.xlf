@@ -24,7 +24,7 @@
 				<target>Cantone</target>
 			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
-				<target>Tipo easyvote</target>
+				<target>Tipo de giovane</target>
 			</trans-unit>
 			<trans-unit id="filter.age.title">
 				<target>Età</target>

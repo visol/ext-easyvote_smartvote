@@ -19,21 +19,21 @@
 					<div class="form-group">
 						<div class="row">
 							<div class="col-md-4">
+								<f:form.select id="persona" name="persona" options="{personas}"
+											   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.easyvote.title')}"
+											   prependOptionValue="" class="form-control" />
+							</div>
+							<div class="col-md-4">
+								<f:form.select name="district" options="{districts}"
+											   optionValueField="uid" optionLabelField="name"
+											   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.district.title.canton')}"
+											   prependOptionValue="" class="form-control"/>
+							</div>
+							<div class="col-md-4">
 								<f:form.select name="nationalParty" options="{nationalParties}"
 								               optionValueField="uid" optionLabelField="title"
 								               sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.party.title')}"
 								               prependOptionValue="" class="form-control"/>
-							</div>
-							<div class="col-md-4">
-								<f:form.select name="district" options="{districts}"
-								               optionValueField="uid" optionLabelField="name"
-								               sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.district.title.canton')}"
-								               prependOptionValue="" class="form-control"/>
-							</div>
-							<div class="col-md-4">
-								<f:form.select id="persona" name="persona" options="{personas}"
-											   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.easyvote.title')}"
-											   prependOptionValue="" class="form-control" />
 							</div>
 						</div>
 					</div>

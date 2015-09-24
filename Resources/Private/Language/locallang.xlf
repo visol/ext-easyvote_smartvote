@@ -27,7 +27,7 @@
 				<source>Kanton</source>
 			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
-				<source>easyvote-Typ</source>
+				<source>Jugendtyp</source>
 			</trans-unit>
 			<trans-unit id="filter.age.title">
 				<source>Alter</source>
