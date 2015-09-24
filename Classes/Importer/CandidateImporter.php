@@ -178,7 +178,7 @@ class CandidateImporter extends AbstractImporter {
 					$convertedAnswers[] = $convertedAnswer;
 				}
 
-				$values = ['serialized_answers' => json_encode($convertedAnswers)];
+				$values = ['serialized_answers_processed' => json_encode($convertedAnswers)];
 				$this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, 'uid = ' . $candidate['uid'], $values);
 			}
 		}

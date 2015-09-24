@@ -151,6 +151,9 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_answers">
 				<source>Serialized Answers</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_answers_processed">
+				<source>Serialized Answers (Processed)</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.serialized_spider_values">
 				<source>Serialized Spider Values</source>
 			</trans-unit>

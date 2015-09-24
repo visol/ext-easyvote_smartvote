@@ -66,9 +66,9 @@ class CandidateProcessor extends AbstractProcessor {
 			unset($item['serialized_spider_values']);
 
 			// Adding answers
-			$answers = json_decode($item['serialized_answers'], TRUE);
+			$answers = json_decode($item['serialized_answers_processed'], TRUE);
 			$item['answers'] = $answers;
-			unset($item['serialized_answers']);
+			unset($item['serialized_answers_processed']);
 
 			$itemsWithNewValues[$index] = $item;
 		}
