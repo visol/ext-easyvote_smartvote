@@ -34,7 +34,6 @@ export default class ListView extends Backbone.View {
 		$(document).on('click', '#btn-short-version', this.showShortVersion);
 		$(document).on('click', '#btn-long-version', this.showLongVersion);
 
-
 		// Render after loading the data-set.
 		this.questionCollection.load().done(() => {
 
@@ -99,6 +98,9 @@ export default class ListView extends Backbone.View {
 	 */
 	showShortVersion(e) {
 
+		// Save in local storage.
+		localStorage.setItem('questionnaireVersionLength', 'short');
+
 		// Toggle property.
 		this.isShortVersion = true;
 
@@ -115,6 +117,9 @@ export default class ListView extends Backbone.View {
 	 */
 	showLongVersion(e) {
 
+		// Save in local storage.
+		localStorage.setItem('questionnaireVersionLength', 'long');
+
 		// Toggle property.
 		this.isShortVersion = false;
 		this.updateButtonStatusShortAndLongVersion();
@@ -125,7 +130,7 @@ export default class ListView extends Backbone.View {
 	}
 
 	/**
-	 * Render the main template.
+	 * Render the list of questions.
 	 */
 	render() {
 
@@ -162,7 +167,7 @@ export default class ListView extends Backbone.View {
 	}
 
 	/**
-	 * Display the links to the candidate directory if needed
+	 * Display the links to the candidate directory if needed.
 	 */
 	linkToDirectoriesIfAllQuestionsAnswered() {
 
@@ -202,7 +207,14 @@ export default class ListView extends Backbone.View {
 	 */
 	isShortQuestionnaire() {
 
+		// default value
 		var value = 'short';
+
+		// Get a possible value from the localStorage.
+		if (localStorage.getItem('questionnaireVersionLength')) {
+			value = localStorage.getItem('questionnaireVersionLength');
+		}
+
 		// sanitize arguments
 		var allowedArguments = ['version'];
 		var query = window.location.hash.split('&');
@@ -215,6 +227,7 @@ export default class ListView extends Backbone.View {
 				value = argumentParts[1];
 			}
 		}
+
 		return value === 'short';
 	}
 
@@ -239,7 +252,6 @@ export default class ListView extends Backbone.View {
 			if (EasyvoteSmartvote.isUserAuthenticated) {
 				this.persistQuestionState();
 			}
-
 		});
 	}
 

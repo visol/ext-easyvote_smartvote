@@ -1,5 +1,7 @@
 /*jshint esnext:true */
 import SpiderChartPlotter from '../../Chart/SpiderChartPlotter'
+import SpiderChart from '../../Chart/SpiderChart'
+import QuestionCollection from '../../Collections/QuestionCollection'
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -63,7 +65,7 @@ export default class CandidateView extends Backbone.View {
 	 */
 	drawChart(candidateId, values) {
 
-		let data = [
+		let serie = [
 			//                                                         cleavage# - position in chart
 			{value: values[0].value * 0.01}, // Offene Aussenpolitik           1 - 1
 			{value: values[7].value * 0.01}, // Liberale Gesellschaft          8 - 2
@@ -75,24 +77,78 @@ export default class CandidateView extends Backbone.View {
 			{value: values[1].value * 0.01}  // Liberale Wirtschaftspolitik    2 - 8
 		];
 
-		// Start the local storage
-		let localStorage = new Backbone.LocalStorage('spider-chart-' + this.getToken());
-		var data2 = JSON.parse(localStorage.localStorage().getItem('data'));
-		if (!data2) {
-			data2 = [];
+
+		// Compute serie of the User.
+		var userSerie = this.getUserSerie();
+
+		// Only if userSerie has relevant values, register the serie to be displayed on the chart.
+		var userSeries = [];
+		if (this.hasValidPoints(userSerie)) {
+			userSeries = [userSerie];
 		}
 
 		SpiderChartPlotter.plot(
 			'#chart-candidate-' + candidateId,
-			[data],
+			[serie],
 			{
 				w: 240,
 				h: 240,
 				levels: 5,
 				maxValue: 1
 			},
-			[data2]
+			userSeries
 		);
+	}
+
+	/**
+	 * @returns {Array}
+	 */
+	getUserSerie() {
+
+		var userSerie = [];
+		var isShortVersion = true;
+
+		// Get a possible value from the localStorage.
+		if (localStorage.getItem('questionnaireVersionLength')) {
+			if (localStorage.getItem('questionnaireVersionLength') === 'long') {
+				isShortVersion = false;
+			}
+		}
+
+		QuestionCollection.getInstance().forEach(question => {
+			if (typeof question.get('answer') === 'number') {
+				userSerie = SpiderChart.getInstance(isShortVersion)
+					.addToCleavage1(question.id, question.get('answer'), question.get('cleavage1'))
+					.addToCleavage2(question.id, question.get('answer'), question.get('cleavage2'))
+					.addToCleavage3(question.id, question.get('answer'), question.get('cleavage3'))
+					.addToCleavage4(question.id, question.get('answer'), question.get('cleavage4'))
+					.addToCleavage5(question.id, question.get('answer'), question.get('cleavage5'))
+					.addToCleavage6(question.id, question.get('answer'), question.get('cleavage6'))
+					.addToCleavage7(question.id, question.get('answer'), question.get('cleavage7'))
+					.addToCleavage8(question.id, question.get('answer'), question.get('cleavage8'))
+					.getSerie();
+			}
+		});
+
+		return userSerie;
+	}
+
+	/**
+	 * Tell whether the serie has points to be displayed on the chart.
+	 *
+	 * @param {Array} serie
+	 * @returns {boolean}
+	 */
+	hasValidPoints(serie) {
+		var hasValidPoints = false;
+		for (var point of serie) {
+			if (serie.value > 0) {
+				hasValidPoints = true;
+				break;
+			}
+		}
+
+		return true;
 	}
 
 	/**
