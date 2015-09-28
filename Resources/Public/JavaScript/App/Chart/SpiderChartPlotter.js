@@ -464,8 +464,8 @@ export default class SpiderChartPlotter {
 					.style("fill", serie.color)
 					.style("fill-opacity", .9)
 					.on('mouseover', function(d) {
-						newX = parseFloat(d3.select(this).attr('cx')) - 10;
-						newY = parseFloat(d3.select(this).attr('cy')) - 5;
+						//newX = parseFloat(d3.select(this).attr('cx')) - 10;
+						//newY = parseFloat(d3.select(this).attr('cy')) - 5;
 
 						//tooltip
 						//	.attr('x', newX)

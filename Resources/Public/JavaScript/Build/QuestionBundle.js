@@ -766,8 +766,8 @@ var SpiderChartPlotter = (function () {
 							}).attr("data-id", function (j) {
 								return j.axis;
 							}).style("fill", serie.color).style("fill-opacity", 0.9).on("mouseover", function (d) {
-								newX = parseFloat(d3.select(this).attr("cx")) - 10;
-								newY = parseFloat(d3.select(this).attr("cy")) - 5;
+								//newX = parseFloat(d3.select(this).attr('cx')) - 10;
+								//newY = parseFloat(d3.select(this).attr('cy')) - 5;
 
 								//tooltip
 								//	.attr('x', newX)
@@ -1909,7 +1909,7 @@ var Responsive = _interopRequire(require("./Responsive.js"));
 $(function () {
 	new ListView();
 
-	// draw empty Spider Chart if not yet initialized
+	// Draw empty Spider Chart only if not yet initialized.
 	if (!$("#chart").html()) {
 		SpiderChart.getInstance().draw();
 	}
