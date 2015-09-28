@@ -20,7 +20,392 @@ $(function () {
 	var responsive = new Responsive();
 	responsive.bindAction();
 });
-},{"./Responsive.js":10,"./Views/Candidate/FacetView":12,"./Views/Candidate/ListView":13,"babel-runtime/helpers/interop-require":19}],2:[function(require,module,exports){
+},{"./Responsive.js":11,"./Views/Candidate/FacetView":13,"./Views/Candidate/ListView":14,"babel-runtime/helpers/interop-require":20}],2:[function(require,module,exports){
+/*jshint esnext:true */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
+
+var SpiderChartPlotter = _interopRequire(require("./SpiderChartPlotter"));
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+var SpiderChart = (function () {
+
+	/**
+  * Constructor
+  */
+
+	function SpiderChart(isShortVersion) {
+		_classCallCheck(this, SpiderChart);
+
+		this.cleavage1 = [];
+		this.cleavage2 = [];
+		this.cleavage3 = [];
+		this.cleavage4 = [];
+		this.cleavage5 = [];
+		this.cleavage6 = [];
+		this.cleavage7 = [];
+		this.cleavage8 = [];
+
+		this.isShortVersion = isShortVersion;
+	}
+
+	_createClass(SpiderChart, {
+		addToCleavage1: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} questionId
+    * @param {int} value
+    * @return Chart
+    */
+
+			value: function addToCleavage1(questionId, value, polarity) {
+				value = this.resolveValue(value, polarity);
+				this.cleavage1[questionId] = value;
+				return this;
+			}
+		},
+		addToCleavage2: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} questionId
+    * @param {int} value
+    * @return Chart
+    */
+
+			value: function addToCleavage2(questionId, value, polarity) {
+				value = this.resolveValue(value, polarity);
+				this.cleavage2[questionId] = value;
+				return this;
+			}
+		},
+		addToCleavage3: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} questionId
+    * @param {int} value
+    * @return Chart
+    */
+
+			value: function addToCleavage3(questionId, value, polarity) {
+				value = this.resolveValue(value, polarity);
+				this.cleavage3[questionId] = value;
+				return this;
+			}
+		},
+		addToCleavage4: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} questionId
+    * @param {int} value
+    * @return Chart
+    */
+
+			value: function addToCleavage4(questionId, value, polarity) {
+				value = this.resolveValue(value, polarity);
+				this.cleavage4[questionId] = value;
+				return this;
+			}
+		},
+		addToCleavage5: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} questionId
+    * @param {int} value
+    * @return Chart
+    */
+
+			value: function addToCleavage5(questionId, value, polarity) {
+				value = this.resolveValue(value, polarity);
+				this.cleavage5[questionId] = value;
+				return this;
+			}
+		},
+		addToCleavage6: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} questionId
+    * @param {int} value
+    * @return Chart
+    */
+
+			value: function addToCleavage6(questionId, value, polarity) {
+				value = this.resolveValue(value, polarity);
+				this.cleavage6[questionId] = value;
+				return this;
+			}
+		},
+		addToCleavage7: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} questionId
+    * @param {int} value
+    * @return Chart
+    */
+
+			value: function addToCleavage7(questionId, value, polarity) {
+				value = this.resolveValue(value, polarity);
+				this.cleavage7[questionId] = value;
+				return this;
+			}
+		},
+		addToCleavage8: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} questionId
+    * @param {int} value
+    * @return Chart
+    */
+
+			value: function addToCleavage8(questionId, value, polarity) {
+				value = this.resolveValue(value, polarity);
+				this.cleavage8[questionId] = value;
+				return this;
+			}
+		},
+		resolveValue: {
+
+			/**
+    * @param {int} polarity
+    * @param {int} value
+    * @return int
+    */
+
+			value: function resolveValue(value, polarity) {
+				if (value === -1) {
+					value = 0;
+				} else {
+
+					value = value * polarity;
+					if (polarity < 0) {
+						value = 100 + value;
+					}
+				}
+
+				return value;
+			}
+		},
+		computeValueForCleavage1: {
+
+			/**
+    * Loop around the cleavage 1 and increment value to be returned.
+    *
+    * @return int
+    */
+
+			value: function computeValueForCleavage1() {
+				var value = 0;
+				this.cleavage1.map(function (v) {
+					return value = value + v;
+				});
+				return value;
+			}
+		},
+		computeValueForCleavage2: {
+
+			/**
+    * @return int
+    */
+
+			value: function computeValueForCleavage2() {
+				var value = 0;
+				this.cleavage2.map(function (v) {
+					return value = value + v;
+				});
+				return value;
+			}
+		},
+		computeValueForCleavage3: {
+
+			/**
+    * @return int
+    */
+
+			value: function computeValueForCleavage3() {
+				var value = 0;
+				this.cleavage3.map(function (v) {
+					return value = value + v;
+				});
+				return value;
+			}
+		},
+		computeValueForCleavage4: {
+
+			/**
+    * @return int
+    */
+
+			value: function computeValueForCleavage4() {
+				var value = 0;
+				this.cleavage4.map(function (v) {
+					return value = value + v;
+				});
+				return value;
+			}
+		},
+		computeValueForCleavage5: {
+
+			/**
+    * @return int
+    */
+
+			value: function computeValueForCleavage5() {
+				var value = 0;
+				this.cleavage5.map(function (v) {
+					return value = value + v;
+				});
+				return value;
+			}
+		},
+		computeValueForCleavage6: {
+
+			/**
+    * @return int
+    */
+
+			value: function computeValueForCleavage6() {
+				var value = 0;
+				this.cleavage6.map(function (v) {
+					return value = value + v;
+				});
+				return value;
+			}
+		},
+		computeValueForCleavage7: {
+
+			/**
+    * @return int
+    */
+
+			value: function computeValueForCleavage7() {
+				var value = 0;
+				this.cleavage7.map(function (v) {
+					return value = value + v;
+				});
+				return value;
+			}
+		},
+		computeValueForCleavage8: {
+
+			/**
+    * @return int
+    */
+
+			value: function computeValueForCleavage8() {
+				var value = 0;
+				this.cleavage8.map(function (v) {
+					return value = value + v;
+				});
+				return value;
+			}
+		},
+		draw: {
+
+			/**
+    * Draw the Spider Chart.
+    */
+
+			value: function draw() {
+
+				var serie = this.getSerie();
+
+				SpiderChartPlotter.plot("#chart", [serie], {
+					w: 240,
+					h: 240,
+					levels: 5,
+					maxValue: 1,
+					color: "#E5005E"
+				});
+			}
+		},
+		getSerie: {
+
+			/**
+    * @return Chart
+    */
+
+			value: function getSerie() {
+
+				var totalCleavage1, totalCleavage7, totalCleavage8, totalCleavage6, totalCleavage5, totalCleavage4, totalCleavage3, totalCleavage2;
+
+				if (this.isShortVersion) {
+					totalCleavage1 = EasyvoteSmartvote.totalCleavageShort1;
+					totalCleavage8 = EasyvoteSmartvote.totalCleavageShort8;
+					totalCleavage7 = EasyvoteSmartvote.totalCleavageShort7;
+					totalCleavage6 = EasyvoteSmartvote.totalCleavageShort6;
+					totalCleavage5 = EasyvoteSmartvote.totalCleavageShort5;
+					totalCleavage4 = EasyvoteSmartvote.totalCleavageShort4;
+					totalCleavage3 = EasyvoteSmartvote.totalCleavageShort3;
+					totalCleavage2 = EasyvoteSmartvote.totalCleavageShort2;
+				} else {
+					totalCleavage1 = EasyvoteSmartvote.totalCleavage1;
+					totalCleavage8 = EasyvoteSmartvote.totalCleavage8;
+					totalCleavage7 = EasyvoteSmartvote.totalCleavage7;
+					totalCleavage6 = EasyvoteSmartvote.totalCleavage6;
+					totalCleavage5 = EasyvoteSmartvote.totalCleavage5;
+					totalCleavage4 = EasyvoteSmartvote.totalCleavage4;
+					totalCleavage3 = EasyvoteSmartvote.totalCleavage3;
+					totalCleavage2 = EasyvoteSmartvote.totalCleavage2;
+				}
+
+				return [{ value: this.computeValueForCleavage1() / (totalCleavage1 * 100) }, // Offene Aussenpolitik           1 - 1
+				{ value: this.computeValueForCleavage8() / (totalCleavage8 * 100) }, // Liberale Gesellschaft          8 - 2
+				{ value: this.computeValueForCleavage7() / (totalCleavage7 * 100) }, // Ausgebauter Sozialstaat        7 - 3
+				{ value: this.computeValueForCleavage6() / (totalCleavage6 * 100) }, // Ausgebauter Umweltschutz       6 - 4
+				{ value: this.computeValueForCleavage5() / (totalCleavage5 * 100) }, // Restrictive Migrationspolitik  5 - 5
+				{ value: this.computeValueForCleavage4() / (totalCleavage4 * 100) }, // Law & Order                    4 - 6
+				{ value: this.computeValueForCleavage3() / (totalCleavage3 * 100) }, // Restrictive Finanzpolitik      3 - 7
+				{ value: this.computeValueForCleavage2() / (totalCleavage2 * 100) } // Liberale Wirtschaftspolitik    2 - 8
+				];
+			}
+		}
+	}, {
+		getInstance: {
+
+			/**
+    * @return Chart
+    */
+
+			value: function getInstance() {
+				var isShortVersion = arguments[0] === undefined ? true : arguments[0];
+
+				var versionType = isShortVersion ? "short" : "long";
+
+				if (!this.instances) {
+					this.instances = [];
+				}
+
+				if (!this.instances[versionType]) {
+					this.instances[versionType] = new SpiderChart(isShortVersion);
+				}
+
+				return this.instances[versionType];
+			}
+		}
+	});
+
+	return SpiderChart;
+})();
+
+module.exports = SpiderChart;
+},{"./SpiderChartPlotter":3,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/interop-require":20}],3:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -454,7 +839,7 @@ var SpiderChartPlotter = (function () {
 })();
 
 module.exports = SpiderChartPlotter;
-},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],3:[function(require,module,exports){
+},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -706,7 +1091,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":12,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],4:[function(require,module,exports){
+},{"../Filter/FilterEngine":6,"../Iterator/FacetIterator":7,"../Models/CandidateModel":8,"../Views/Candidate/FacetView":13,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],5:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1010,7 +1395,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":9,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],5:[function(require,module,exports){
+},{"../Models/QuestionModel":10,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],6:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1143,7 +1528,7 @@ var FilterEngine = (function () {
 })();
 
 module.exports = FilterEngine;
-},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],6:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],7:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1187,7 +1572,7 @@ var FacetIterator = (function () {
 })();
 
 module.exports = FacetIterator;
-},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],7:[function(require,module,exports){
+},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],8:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1321,7 +1706,7 @@ var CandidateModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = CandidateModel;
-},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],8:[function(require,module,exports){
+},{"../Collections/QuestionCollection":5,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],9:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1457,7 +1842,7 @@ var FacetModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = FacetModel;
-},{"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18}],9:[function(require,module,exports){
+},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19}],10:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1532,7 +1917,7 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/inherits":18}],10:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19}],11:[function(require,module,exports){
 "use strict";
 
 var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
@@ -1604,7 +1989,7 @@ var Responsive = (function () {
 })();
 
 module.exports = Responsive;
-},{"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16}],11:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],12:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1621,6 +2006,10 @@ var _core = require("babel-runtime/core-js")["default"];
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
 var SpiderChartPlotter = _interopRequire(require("../../Chart/SpiderChartPlotter"));
+
+var SpiderChart = _interopRequire(require("../../Chart/SpiderChart"));
+
+var QuestionCollection = _interopRequire(require("../../Collections/QuestionCollection"));
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -1698,7 +2087,7 @@ var CandidateView = (function (_Backbone$View) {
 
 			value: function drawChart(candidateId, values) {
 
-				var data = [
+				var serie = [
 				//                                                         cleavage# - position in chart
 				{ value: values[0].value * 0.01 }, // Offene Aussenpolitik           1 - 1
 				{ value: values[7].value * 0.01 }, // Liberale Gesellschaft          8 - 2
@@ -1710,20 +2099,101 @@ var CandidateView = (function (_Backbone$View) {
 				{ value: values[1].value * 0.01 } // Liberale Wirtschaftspolitik    2 - 8
 				];
 
-				// Start the local storage
-				var localStorage = new Backbone.LocalStorage("spider-chart-" + this.getToken());
-				var data2 = JSON.parse(localStorage.localStorage().getItem("data"));
-				if (!data2) {
-					data2 = [];
+				// Compute serie of the User.
+				var userSerie = this.getUserSerie();
+
+				// Only if userSerie has relevant values, register the serie to be displayed on the chart.
+				var userSeries = [];
+				if (this.hasValidPoints(userSerie)) {
+					userSeries = [userSerie];
 				}
 
-				SpiderChartPlotter.plot("#chart-candidate-" + candidateId, [data], {
+				SpiderChartPlotter.plot("#chart-candidate-" + candidateId, [serie], {
 					w: 240,
 					h: 240,
 					levels: 5,
 					maxValue: 1
-				}, [data2]);
+				}, userSeries);
 			}
+		},
+		getUserSerie: {
+
+			/**
+    * @returns {Array}
+    */
+
+			value: function getUserSerie() {
+
+				var userSerie = [];
+				var isShortVersion = true;
+
+				// Get a possible value from the localStorage.
+				if (localStorage.getItem("questionnaireVersionLength")) {
+					if (localStorage.getItem("questionnaireVersionLength") === "long") {
+						isShortVersion = false;
+					}
+				}
+
+				QuestionCollection.getInstance().forEach(function (question) {
+					if (typeof question.get("answer") === "number") {
+						userSerie = SpiderChart.getInstance(isShortVersion).addToCleavage1(question.id, question.get("answer"), question.get("cleavage1")).addToCleavage2(question.id, question.get("answer"), question.get("cleavage2")).addToCleavage3(question.id, question.get("answer"), question.get("cleavage3")).addToCleavage4(question.id, question.get("answer"), question.get("cleavage4")).addToCleavage5(question.id, question.get("answer"), question.get("cleavage5")).addToCleavage6(question.id, question.get("answer"), question.get("cleavage6")).addToCleavage7(question.id, question.get("answer"), question.get("cleavage7")).addToCleavage8(question.id, question.get("answer"), question.get("cleavage8")).getSerie();
+					}
+				});
+
+				return userSerie;
+			}
+		},
+		hasValidPoints: {
+
+			/**
+    * Tell whether the serie has points to be displayed on the chart.
+    *
+    * @param {Array} serie
+    * @returns {boolean}
+    */
+
+			value: (function (_hasValidPoints) {
+				var _hasValidPointsWrapper = function hasValidPoints(_x) {
+					return _hasValidPoints.apply(this, arguments);
+				};
+
+				_hasValidPointsWrapper.toString = function () {
+					return _hasValidPoints.toString();
+				};
+
+				return _hasValidPointsWrapper;
+			})(function (serie) {
+				var hasValidPoints = false;
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _core.$for.getIterator(serie), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var point = _step.value;
+
+						if (serie.value > 0) {
+							hasValidPoints = true;
+							break;
+						}
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator["return"]) {
+							_iterator["return"]();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				return true;
+			})
 		},
 		getToken: {
 
@@ -1747,7 +2217,7 @@ var CandidateView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = CandidateView;
-},{"../../Chart/SpiderChartPlotter":2,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],12:[function(require,module,exports){
+},{"../../Chart/SpiderChart":2,"../../Chart/SpiderChartPlotter":3,"../../Collections/QuestionCollection":5,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],13:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1928,7 +2398,7 @@ var FacetView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = FacetView;
-},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":6,"../../Models/FacetModel":8,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],13:[function(require,module,exports){
+},{"../../Collections/CandidateCollection":4,"../../Iterator/FacetIterator":7,"../../Models/FacetModel":9,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],14:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -2331,7 +2801,7 @@ var ListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = ListView;
-},{"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./CandidateView":11,"babel-runtime/core-js":14,"babel-runtime/helpers/class-call-check":15,"babel-runtime/helpers/create-class":16,"babel-runtime/helpers/get":17,"babel-runtime/helpers/inherits":18,"babel-runtime/helpers/interop-require":19}],14:[function(require,module,exports){
+},{"../../Collections/CandidateCollection":4,"../../Collections/QuestionCollection":5,"./CandidateView":12,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],15:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -4673,7 +5143,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -4683,7 +5153,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -4705,7 +5175,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -4749,7 +5219,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":14}],18:[function(require,module,exports){
+},{"babel-runtime/core-js":15}],19:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -4769,7 +5239,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {

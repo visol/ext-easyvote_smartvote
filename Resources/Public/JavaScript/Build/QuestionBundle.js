@@ -35,9 +35,6 @@ var SpiderChart = (function () {
 		this.cleavage8 = [];
 
 		this.isShortVersion = isShortVersion;
-
-		// Start the local storage
-		this.localStorage = new Backbone.LocalStorage("spider-chart-" + EasyvoteSmartvote.token);
 	}
 
 	_createClass(SpiderChart, {
@@ -305,29 +302,48 @@ var SpiderChart = (function () {
 
 			value: function draw() {
 
+				var serie = this.getSerie();
+
+				SpiderChartPlotter.plot("#chart", [serie], {
+					w: 240,
+					h: 240,
+					levels: 5,
+					maxValue: 1,
+					color: "#E5005E"
+				});
+			}
+		},
+		getSerie: {
+
+			/**
+    * @return Chart
+    */
+
+			value: function getSerie() {
+
+				var totalCleavage1, totalCleavage7, totalCleavage8, totalCleavage6, totalCleavage5, totalCleavage4, totalCleavage3, totalCleavage2;
+
 				if (this.isShortVersion) {
-					var totalCleavage1 = EasyvoteSmartvote.totalCleavageShort1;
-					var totalCleavage8 = EasyvoteSmartvote.totalCleavageShort8;
-					var totalCleavage7 = EasyvoteSmartvote.totalCleavageShort7;
-					var totalCleavage6 = EasyvoteSmartvote.totalCleavageShort6;
-					var totalCleavage5 = EasyvoteSmartvote.totalCleavageShort5;
-					var totalCleavage4 = EasyvoteSmartvote.totalCleavageShort4;
-					var totalCleavage3 = EasyvoteSmartvote.totalCleavageShort3;
-					var totalCleavage2 = EasyvoteSmartvote.totalCleavageShort2;
+					totalCleavage1 = EasyvoteSmartvote.totalCleavageShort1;
+					totalCleavage8 = EasyvoteSmartvote.totalCleavageShort8;
+					totalCleavage7 = EasyvoteSmartvote.totalCleavageShort7;
+					totalCleavage6 = EasyvoteSmartvote.totalCleavageShort6;
+					totalCleavage5 = EasyvoteSmartvote.totalCleavageShort5;
+					totalCleavage4 = EasyvoteSmartvote.totalCleavageShort4;
+					totalCleavage3 = EasyvoteSmartvote.totalCleavageShort3;
+					totalCleavage2 = EasyvoteSmartvote.totalCleavageShort2;
 				} else {
-					var totalCleavage1 = EasyvoteSmartvote.totalCleavage1;
-					var totalCleavage8 = EasyvoteSmartvote.totalCleavage8;
-					var totalCleavage7 = EasyvoteSmartvote.totalCleavage7;
-					var totalCleavage6 = EasyvoteSmartvote.totalCleavage6;
-					var totalCleavage5 = EasyvoteSmartvote.totalCleavage5;
-					var totalCleavage4 = EasyvoteSmartvote.totalCleavage4;
-					var totalCleavage3 = EasyvoteSmartvote.totalCleavage3;
-					var totalCleavage2 = EasyvoteSmartvote.totalCleavage2;
+					totalCleavage1 = EasyvoteSmartvote.totalCleavage1;
+					totalCleavage8 = EasyvoteSmartvote.totalCleavage8;
+					totalCleavage7 = EasyvoteSmartvote.totalCleavage7;
+					totalCleavage6 = EasyvoteSmartvote.totalCleavage6;
+					totalCleavage5 = EasyvoteSmartvote.totalCleavage5;
+					totalCleavage4 = EasyvoteSmartvote.totalCleavage4;
+					totalCleavage3 = EasyvoteSmartvote.totalCleavage3;
+					totalCleavage2 = EasyvoteSmartvote.totalCleavage2;
 				}
 
-				var data = [
-				//                                                                                                             cleavage* - position in circle
-				{ value: this.computeValueForCleavage1() / (totalCleavage1 * 100) }, // Offene Aussenpolitik           1 - 1
+				return [{ value: this.computeValueForCleavage1() / (totalCleavage1 * 100) }, // Offene Aussenpolitik           1 - 1
 				{ value: this.computeValueForCleavage8() / (totalCleavage8 * 100) }, // Liberale Gesellschaft          8 - 2
 				{ value: this.computeValueForCleavage7() / (totalCleavage7 * 100) }, // Ausgebauter Sozialstaat        7 - 3
 				{ value: this.computeValueForCleavage6() / (totalCleavage6 * 100) }, // Ausgebauter Umweltschutz       6 - 4
@@ -336,17 +352,6 @@ var SpiderChart = (function () {
 				{ value: this.computeValueForCleavage3() / (totalCleavage3 * 100) }, // Restrictive Finanzpolitik      3 - 7
 				{ value: this.computeValueForCleavage2() / (totalCleavage2 * 100) } // Liberale Wirtschaftspolitik    2 - 8
 				];
-
-				// Save the data to be used in the view candidate.
-				this.localStorage.localStorage().setItem("data", JSON.stringify(data));
-
-				SpiderChartPlotter.plot("#chart", [data], {
-					w: 240,
-					h: 240,
-					levels: 5,
-					maxValue: 1,
-					color: "#E5005E"
-				});
 			}
 		}
 	}, {
@@ -1903,7 +1908,11 @@ var Responsive = _interopRequire(require("./Responsive.js"));
 
 $(function () {
 	new ListView();
-	SpiderChart.getInstance().draw();
+
+	// draw empty Spider Chart if not yet initialized
+	if (!$("#chart").html()) {
+		SpiderChart.getInstance().draw();
+	}
 
 	// Add some responsiveness feature such as the search form
 	// which should be displayed elsewhere in the mobile layout.
@@ -2315,6 +2324,9 @@ var ListView = (function (_Backbone$View) {
 
 			value: function showShortVersion(e) {
 
+				// Save in local storage.
+				localStorage.setItem("questionnaireVersionLength", "short");
+
 				// Toggle property.
 				this.isShortVersion = true;
 
@@ -2334,6 +2346,9 @@ var ListView = (function (_Backbone$View) {
 
 			value: function showLongVersion(e) {
 
+				// Save in local storage.
+				localStorage.setItem("questionnaireVersionLength", "long");
+
 				// Toggle property.
 				this.isShortVersion = false;
 				this.updateButtonStatusShortAndLongVersion();
@@ -2346,7 +2361,7 @@ var ListView = (function (_Backbone$View) {
 		render: {
 
 			/**
-    * Render the main template.
+    * Render the list of questions.
     */
 
 			value: function render() {
@@ -2410,7 +2425,7 @@ var ListView = (function (_Backbone$View) {
 		linkToDirectoriesIfAllQuestionsAnswered: {
 
 			/**
-    * Display the links to the candidate directory if needed
+    * Display the links to the candidate directory if needed.
     */
 
 			value: function linkToDirectoriesIfAllQuestionsAnswered() {
@@ -2457,7 +2472,14 @@ var ListView = (function (_Backbone$View) {
 
 			value: function isShortQuestionnaire() {
 
+				// default value
 				var value = "short";
+
+				// Get a possible value from the localStorage.
+				if (localStorage.getItem("questionnaireVersionLength")) {
+					value = localStorage.getItem("questionnaireVersionLength");
+				}
+
 				// sanitize arguments
 				var allowedArguments = ["version"];
 				var query = window.location.hash.split("&");
