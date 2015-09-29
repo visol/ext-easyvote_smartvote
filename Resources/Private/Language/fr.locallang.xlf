@@ -492,7 +492,7 @@
 				<target>Production d'énergie en Suisse</target>
 			</trans-unit>
 			<trans-unit id="party.watch_clip">
-				<target>Voi le clip</target>
+				<target>Voir le clip</target>
 			</trans-unit>
 
 			<trans-unit id="questions.show_recommendation">
