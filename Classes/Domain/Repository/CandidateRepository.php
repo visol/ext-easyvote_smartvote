@@ -24,6 +24,8 @@ use Visol\EasyvoteSmartvote\Domain\Model\Election;
 class CandidateRepository extends Repository {
 
 	/**
+	 * [!!!] Only use in Frontend Context
+	 *
 	 * @param Election $election
 	 * @param int $district
 	 * @param int $nationalParty
@@ -96,7 +98,7 @@ class CandidateRepository extends Repository {
 		            polittalk_participant, persona, party';
 		$candidates = $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 
-		// Add the overlaid partyName to the candidates
+		// Add the overlaid partyName, educationName and cantonAbbreviation to the candidates
 		if (count($candidates)) {
 			foreach ($candidates as $key => $row) {
 				if (array_key_exists($row['party'], $parties)) {
@@ -119,6 +121,29 @@ class CandidateRepository extends Repository {
 
 		return $candidates;
 
+	}
+
+	/**
+	 * Find all candidates for an election
+	 * Ignore frontend constraint (e.g. language)
+	 *
+	 * @param Election $election
+	 * @return array|NULL
+	 */
+	public function findByElectionIgnoreFrontend(Election $election) {
+		// Fetch the candidates
+		$tableName = 'tx_easyvotesmartvote_domain_model_candidate';
+
+		$clause = 'election = ' . $election->getUid();
+		$clause .= $this->getDeleteClauseAndEnableFieldsConstraint($tableName);
+
+		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city, national_party,
+		            incumbent, slogan, district, serialized_answers_processed, election_list_name,
+		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize,
+		            serialized_list_places, occupation, education, hobbies, personal_website,
+		            link_to_twitter,link_to_facebook,email,ch2055,motivation, easyvote_supporter,
+		            polittalk_participant, persona, party';
+		return $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 	}
 
 	/**

@@ -78,7 +78,7 @@ class CandidateImageImporterService {
 	 * @return array
 	 */
 	public function importImages($forceReimport = FALSE) {
-		$candidates = $this->candidateRepository->findByElection($this->election);
+		$candidates = $this->candidateRepository->findByElectionIgnoreFrontend($this->election);
 		$i = 0;
 		foreach ($candidates as $candidate) {
 			if ($i > 40) {
