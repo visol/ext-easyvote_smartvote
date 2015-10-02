@@ -91,13 +91,10 @@
 							<p><%- averageAge %> {f:translate(key:'party.years')}</p>
 							<h3><f:translate key="party.distribution_between_sexes" /></h3>
 							<p><%- sexDistributionFemale %>% {f:translate(key:'party.women')} / <%- sexDistributionMale %>% {f:translate(key:'party.men')}</p>
-							<f:comment>
-								@TODO
-								<div>
-									<f:translate key="party.display_candidates_nr" />
-									<f:translate key="party.display_candidates_sr" />
-								</div>
-							</f:comment>
+							<div>
+								<a href="{f:uri.page(pageUid: settings.candidateDirectoryNRPid)}#nationalParty=<%- id %>">{f:translate(key:'party.display_candidates_nr')}</a><br />
+								<a href="{f:uri.page(pageUid: settings.candidateDirectorySRPid)}#nationalParty=<%- id %>">{f:translate(key:'party.display_candidates_sr')}</a>
+							</div>
 						</div>
 					</div>
 					<h3 class="toggle-trigger"><f:translate key="party.header_incumbent_politicians" /><div class="toggle-handle toggle-handle-plus"></div></h3>
