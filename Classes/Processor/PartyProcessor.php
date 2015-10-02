@@ -33,8 +33,14 @@ class PartyProcessor extends AbstractProcessor {
 			$items[$i]['id'] = $party->getUid();
 			$items[$i]['title'] = $party->getTitle();
 			$items[$i]['easyvoteSupporter'] = $party->isEasyvoteSupporter();
+
 			if (!is_null($party->getImage())) {
-				$items[$i]['imageUri'] = $this->getImages($party->getUid(), 'tx_easyvote_domain_model_party', 'image', 1, array('width' => '250', 'height' => '250c'));
+				if ($party->getLocalizedUid() > 0) {
+					// We are in a localized model, so we must pass the localized UID because the FileRepository works this way
+					$items[$i]['imageUri'] = $this->getImages($party->getLocalizedUid(), 'tx_easyvote_domain_model_party', 'image', 1, array('width' => '250', 'height' => '250c'));
+				} else {
+					$items[$i]['imageUri'] = $this->getImages($party->getUid(), 'tx_easyvote_domain_model_party', 'image', 1, array('width' => '250', 'height' => '250c'));
+				}
 			} else {
 				$items[$i]['imageUri'] = NULL;
 			}
