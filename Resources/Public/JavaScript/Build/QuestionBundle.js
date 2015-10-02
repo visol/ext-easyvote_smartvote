@@ -2096,7 +2096,6 @@ var FacetView = (function (_Backbone$View) {
     */
 
 			value: function save() {
-
 				var query = [];
 				var data = {};
 				var _iteratorNormalCompletion = true;
@@ -2107,6 +2106,13 @@ var FacetView = (function (_Backbone$View) {
 					for (var _iterator = _core.$for.getIterator(FacetIterator.getIterator()), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 						var facet = _step.value;
 
+						if (facet.name === "candidate") {
+							// The candidate facet is only available as parameter because it is needed for sharing
+							// As soon as a filter is changed, this facet needs to be unset
+							data[facet.name] = "";
+							query.push(facet.name + "=");
+							continue;
+						}
 						data[facet.name] = facet.value;
 						query.push(facet.name + "=" + facet.value);
 					}
