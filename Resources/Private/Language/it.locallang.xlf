@@ -7,7 +7,7 @@
 				<target>Non conosci i/le candidati/e?</target>
 			</trans-unit>
 			<trans-unit id="questionnaire.introduction">
-				<target>Non preoccuparti, ti aiutiamo noi. Compila il questionario breve o lungo e trova il/la candidato/a che fa per te.</target>
+				<target>Non preoccuparti, ti aiutiamo noi. Compila il questionario breve o lungo di smartvote e trova il/la candidato/a che fa per te.</target>
 			</trans-unit>
 
 			<trans-unit id="voting_recommendation">

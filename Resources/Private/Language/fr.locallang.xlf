@@ -7,7 +7,7 @@
 				<target>Tu ne connais pas les candidats ?</target>
 			</trans-unit>
 			<trans-unit id="questionnaire.introduction">
-				<target>Aucun soucis, nous sommes là pour t'aider. Remplis le bref ou le long questionnaire et découvre quels candidats te correspondent.</target>
+				<target>Aucun soucis, nous sommes là pour t'aider. Remplis le bref ou le long questionnaire de smartvote et découvre quels candidats te correspondent le mieux.</target>
 			</trans-unit>
 
 			<trans-unit id="voting_recommendation">
