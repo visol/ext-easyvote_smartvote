@@ -40,7 +40,7 @@ class PartyApiController extends AbstractBaseApiController {
 	public function listAction(Election $election = NULL) {
 		$this->initializeCache();
 
-		$cacheIdentifier = 'parties-' . $election->getUid();
+		$cacheIdentifier = sprintf('parties-%s-lang-%s', $election->getUid(), (int)$GLOBALS['TSFE']->sys_language_uid);
 		$parties = $this->cacheInstance->get($cacheIdentifier);
 
 		if (!$parties) {
