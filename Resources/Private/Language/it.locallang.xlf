@@ -320,6 +320,25 @@
 				<target>Lista</target>
 			</trans-unit>
 
+			<trans-unit id="candidate.share.opengraph.title">
+				<target>%1$s %2$s a Palazzo federale</target>
+			</trans-unit>
+			<trans-unit id="candidate.share.opengraph.description">
+				<target>Hai cinque minuti? Allora vai su www.easyvote.ch/chieleggere e scopri i candidati che fanno per te. Il mio consiglio di voto: %1$s %2$s aus %3$s (%4$s).</target>
+			</trans-unit>
+			<trans-unit id="candidate.share.app.title">
+				<target>a Palazzo federale</target>
+			</trans-unit>
+			<trans-unit id="candidate.share.app.description">
+				<target>Hai cinque minuti? Allora vai su www.easyvote.ch/chieleggere e scopri i candidati che fanno per te. Il mio consiglio di voto:</target>
+			</trans-unit>
+			<trans-unit id="candidate.share.app.description.from">
+				<target>di</target>
+			</trans-unit>
+			<trans-unit id="candidate.share.twitter">
+				<target>a Palazzo federale!</target>
+			</trans-unit>
+
 			<trans-unit id="filter_reset">
 				<target>Resettare il filtro</target>
 			</trans-unit>

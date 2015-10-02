@@ -323,6 +323,25 @@
 				<source>Liste</source>
 			</trans-unit>
 
+			<trans-unit id="candidate.share.opengraph.title">
+				<source>%1$s %2$s ins Bundeshaus</source>
+			</trans-unit>
+			<trans-unit id="candidate.share.opengraph.description">
+				<source>Nimm dir fünf Minuten Zeit, geh auf www.easyvote.ch/wenwählen und finde raus, welche KandidatInnen zu dir passen. Meine Empfehlung: %1$s %2$s aus %3$s (%4$s).</source>
+			</trans-unit>
+			<trans-unit id="candidate.share.app.title">
+				<source>ins Bundeshaus</source>
+			</trans-unit>
+			<trans-unit id="candidate.share.app.description">
+				<source>Nimm dir fünf Minuten Zeit, geh auf www.easyvote.ch/wenwählen und finde raus, welche KandidatInnen zu dir passen. Meine Empfehlung:</source>
+			</trans-unit>
+			<trans-unit id="candidate.share.app.description.from">
+				<source>aus</source>
+			</trans-unit>
+			<trans-unit id="candidate.share.twitter">
+				<source>ins Bundeshaus!</source>
+			</trans-unit>
+
 			<trans-unit id="filter_reset">
 				<source>Filter zurücksetzen</source>
 			</trans-unit>

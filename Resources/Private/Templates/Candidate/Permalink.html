@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html lang="de" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta property="og:title" content="{candidate.firstName} {candidate.lastName}, {candidate.party.name}"/>
+	<meta property="og:title" content="{f:translate(key: 'candidate.share.opengraph.title', arguments: {1: candidate.firstName, 2: candidate.lastName})}"/>
 	<meta property="og:type" content="article"/>
 	<meta property="og:url" content="{requestUri}"/>
 	<meta property="og:site_name" content="easyvote"/>
-	<meta property="og:description" content="Hier könnten weitere Daten aus dem Profil stehen.">
+	<meta property="og:description" content="{f:translate(key: 'candidate.share.opengraph.description', arguments: {1: candidate.firstName, 2: candidate.lastName, 3: candidate.city, 4: candidate.party.name})}">
 	<f:if condition="{candidate.photo}">
 		<f:then>
 			<meta property="og:image" content="{baseUrl}/{f:uri.image(src: '{candidate.photo.uid}', treatIdAsReference: 1)}"/>
