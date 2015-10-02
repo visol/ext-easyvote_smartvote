@@ -516,6 +516,19 @@
 			<trans-unit id="party.watch_clip">
 				<source>Zum Clip</source>
 			</trans-unit>
+			<trans-unit id="party.clip.position_retirement_provision">
+				<source>YEVXxC_NYlU</source>
+			</trans-unit>
+			<trans-unit id="party.clip.position_european_union">
+				<source>KEQaXHlqFsI</source>
+			</trans-unit>
+			<trans-unit id="party.clip.position_migration">
+				<source>2b8Inrh3HwE</source>
+			</trans-unit>
+			<trans-unit id="party.clip.position_energy">
+				<source>NWkzrVX2dFY</source>
+			</trans-unit>
+
 
 			<trans-unit id="questions.show_recommendation">
 				<source>Wahlempfehlung anzeigen</source>
