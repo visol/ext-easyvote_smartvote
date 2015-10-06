@@ -38,14 +38,14 @@ class QuestionStateViewHelper extends AbstractViewHelper {
 
 			/** @var Election $election */
 			$election = $this->templateVariableContainer->get('currentElection');
-			$token = $this->getTokenService()->generate($election->getUid());
+			$token = $this->getTokenService()->generate($election->getUid(), TRUE);
 			$questions = $this->getUserService()->getCache($token);
 
 			if (empty($questions)) {
 
 				$relatedElection = $election->getRelatedElection();
 				if ($relatedElection) {
-					$token = $this->getTokenService()->generate($relatedElection->getUid());
+					$token = $this->getTokenService()->generate($relatedElection->getUid(), TRUE);
 					$questions = $this->getUserService()->getCache($token);
 				}
 			}

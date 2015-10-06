@@ -26,16 +26,25 @@ class TokenService implements SingletonInterface {
 	 * Return a storage token.
 	 *
 	 * @param int $currentElectionUid
+	 * @param bool $ignoreTimeStamp Ignore the current timestamp for the token generation to provide a persistent token
 	 * @return int
 	 */
-	public function generate($currentElectionUid) {
+	public function generate($currentElectionUid, $ignoreTimeStamp = FALSE) {
 
-		$token = sprintf(
-			'ext-easyvote-smart-%s-%s-%s',
-			$currentElectionUid,
-			$this->getLanguageOfWebsite(),
-			$this->getElectionCacheTimeStamp($currentElectionUid)
-		);
+		if ($ignoreTimeStamp) {
+			$token = sprintf(
+				'ext-easyvote-smart-%s-%s',
+				$currentElectionUid,
+				$this->getLanguageOfWebsite()
+			);
+		} else {
+			$token = sprintf(
+				'ext-easyvote-smart-%s-%s-%s',
+				$currentElectionUid,
+				$this->getLanguageOfWebsite(),
+				$this->getElectionCacheTimeStamp($currentElectionUid)
+			);
+		}
 
 		// Offend the token.
 		$token = md5($token);

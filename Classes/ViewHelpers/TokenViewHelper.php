@@ -28,20 +28,21 @@ class TokenViewHelper extends AbstractViewHelper {
 	 * Return a storage key for the LocalStorage.
 	 *
 	 * @param bool $forRelatedElection
-	 * @return string
+	 * @param bool $ignoreTimeStamp
 	 * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
+	 * @return string
 	 */
-	public function render($forRelatedElection = FALSE) {
+	public function render($forRelatedElection = FALSE, $ignoreTimeStamp = FALSE) {
 		/** @var Election $election */
 		$election = $this->templateVariableContainer->get('currentElection');
 		if ($forRelatedElection) {
 			$token = ''; // default is empty
 			$relatedElection = $election->getRelatedElection();
 			if ($relatedElection) {
-				$token = $this->getTokenService()->generate($relatedElection->getUid());
+				$token = $this->getTokenService()->generate($relatedElection->getUid(), $ignoreTimeStamp);
 			}
 		} else {
-			$token = $this->getTokenService()->generate($election->getUid());
+			$token = $this->getTokenService()->generate($election->getUid(), $ignoreTimeStamp);
 		}
 
 		return $token;

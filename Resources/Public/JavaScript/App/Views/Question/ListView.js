@@ -268,7 +268,7 @@ export default class ListView extends Backbone.View {
 
 				// Only persist state if FE User Exists.
 
-				var url = '/routing/state/?token=' + EasyvoteSmartvote.token;
+				var url = '/routing/state/?token=' + EasyvoteSmartvote.tokenIgnoringTimeStamp;
 
 				// Initialize payLoad which contains useful data to persist.
 				var payLoad = [];

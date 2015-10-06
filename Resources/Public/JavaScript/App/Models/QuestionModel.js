@@ -37,7 +37,7 @@ export default class QuestionModel extends Backbone.Model {
 	url() {
 		var token = '';
 		if (EasyvoteSmartvote.isUserAuthenticated) {
-			token += '?token=' + EasyvoteSmartvote.token;
+			token += '?token=' + EasyvoteSmartvote.tokenIgnoringTimeStamp;
 		}
 		return '/routing/state/' + token;
 	}

@@ -1906,7 +1906,7 @@ var QuestionModel = (function (_Backbone$Model) {
 			value: function url() {
 				var token = "";
 				if (EasyvoteSmartvote.isUserAuthenticated) {
-					token += "?token=" + EasyvoteSmartvote.token;
+					token += "?token=" + EasyvoteSmartvote.tokenIgnoringTimeStamp;
 				}
 				return "/routing/state/" + token;
 			}

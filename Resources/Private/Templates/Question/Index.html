@@ -50,6 +50,7 @@
 		EasyvoteSmartvote.labeLongVersion = '{f:translate(key:"long_version")}';
 		EasyvoteSmartvote.currentElection = '{currentElection.uid}' - 0;
 		EasyvoteSmartvote.token = '{smartvote:token()}';
+		EasyvoteSmartvote.tokenIgnoringTimeStamp = '{smartvote:token(ignoreTimeStamp: 1)}';
 		EasyvoteSmartvote.pageUid = '{contentObjectData.pid}';
 		EasyvoteSmartvote.sysLanguageUid = '{contentObjectData.sys_language_uid}';
 		EasyvoteSmartvote.isUserAuthenticated = {f:if(condition: "{smartvote:isUserAuthenticated()}", then: 'true', else: 'false')}

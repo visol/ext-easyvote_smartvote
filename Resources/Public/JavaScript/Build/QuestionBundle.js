@@ -1884,7 +1884,7 @@ var QuestionModel = (function (_Backbone$Model) {
 			value: function url() {
 				var token = "";
 				if (EasyvoteSmartvote.isUserAuthenticated) {
-					token += "?token=" + EasyvoteSmartvote.token;
+					token += "?token=" + EasyvoteSmartvote.tokenIgnoringTimeStamp;
 				}
 				return "/routing/state/" + token;
 			}
@@ -2565,7 +2565,7 @@ var ListView = (function (_Backbone$View) {
 
 					// Only persist state if FE User Exists.
 
-					var url = "/routing/state/?token=" + EasyvoteSmartvote.token;
+					var url = "/routing/state/?token=" + EasyvoteSmartvote.tokenIgnoringTimeStamp;
 
 					// Initialize payLoad which contains useful data to persist.
 					var payLoad = [];
