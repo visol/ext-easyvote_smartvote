@@ -96,7 +96,7 @@ class UserService implements SingletonInterface {
 	 * @return string
 	 */
 	protected function getUserCacheFileAndPath($token) {
-		$cachePath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote';
+		$cachePath = PATH_site . 'uploads/tx_easyvotesmartvote';
 
 		// Make sure directory exists otherwise create it.
 		if (!is_dir($cachePath)) {
