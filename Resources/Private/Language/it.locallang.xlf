@@ -24,7 +24,7 @@
 				<target>Cantone</target>
 			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
-				<target>Tipo de giovane</target>
+				<target>Tipo di giovane</target>
 			</trans-unit>
 			<trans-unit id="filter.age.title">
 				<target>Età</target>
@@ -524,7 +524,7 @@
 			</trans-unit>
 			<trans-unit id="party.clip.position_energy">
 				<target>eLhvE8TBZFI</target>
-			</trans-unit>						
+			</trans-unit>
 
 			<trans-unit id="questions.show_recommendation">
 				<target>Mostra le raccomandazioni di voto</target>
