@@ -25,11 +25,26 @@
 									<i class="evicon-down-open"></i>
 								</div>
 							</div>
-							<f:comment>
-								TODO Badges
-								<div class="supertitle">
+							<% if (easyvoteSupporter == true) { %>
+							<div class="supertitle">
+								<div class="badges">
+									<% if (easyvoteSupporter == true) { %>
+									<f:link.page pageUid="{settings.easyvoteSupporterPid}">
+										<img class="badge hasTooltip" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/easyvote-supporter.svg" />
+										<div class="hidden">
+											<f:translate key="candidate.badge.easyvote_supporter" />
+										</div>
+									</f:link.page>
+									<% } %>
 								</div>
-							</f:comment>
+								<div class="persona">
+									<% if (typeof(personaName) == "string") { %>
+									<span class="inner"><%- personaName %></span>
+									<% } %>
+								</div>
+							</div>
+							<% } %>
+
 							<h2><%- title %></h2>
 							<% if (ch2055 !== "") { %>
 							<div>

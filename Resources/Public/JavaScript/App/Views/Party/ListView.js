@@ -51,6 +51,9 @@ export default class ListView extends Backbone.View {
 
 		// Add lazy loading to images.
 		$("img.lazy", $('#container-party-list')).lazyload();
+
+		// Bind tooltips for candidate badges
+		Easyvote.bindToolTips();
 	}
 
 	/**

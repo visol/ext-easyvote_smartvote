@@ -680,6 +680,9 @@ var ListView = (function (_Backbone$View) {
 
 				// Add lazy loading to images.
 				$("img.lazy", $("#container-party-list")).lazyload();
+
+				// Bind tooltips for candidate badges
+				Easyvote.bindToolTips();
 			}
 		},
 		renderOne: {
