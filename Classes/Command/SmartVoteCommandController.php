@@ -14,6 +14,7 @@ namespace Visol\EasyvoteSmartvote\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
@@ -32,6 +33,18 @@ class SmartVoteCommandController extends CommandController {
 	 * @inject
 	 */
 	protected $electionRepository;
+
+	/**
+	 * @var \Visol\Easyvote\Domain\Repository\PartyRepository
+	 * @inject
+	 */
+	protected $nationalPartyRepository;
+
+	/**
+	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\DistrictRepository
+	 * @inject
+	 */
+	protected $districtRepository;
 
 	/**
 	 * Import a bunch of data form SmartVote using its API.
@@ -157,6 +170,127 @@ class SmartVoteCommandController extends CommandController {
 				$this->outputLine($logLines);
 			}
 		}
+	}
+
+	/**
+	 * Warmup the cache for the candidates and party directory
+	 *
+	 * @param bool $verbose Display information during import
+	 * @param string $identifier Identifier of election, all elections are selected if not indicated
+	 */
+	public function warmupCacheCommand($verbose = FALSE, $identifier = '') {
+		if ($identifier) {
+			$election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
+			$elections = array($election);
+		} else {
+			$elections = $this->electionRepository->findAll();
+		}
+
+		foreach ($elections as $election) {
+			/** @var $election Election */
+			$this->outputLine('***********************************************');
+			$this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
+			$this->outputLine('***********************************************');
+			$logs = array();
+
+			$logs[] = $this->warmupCandidatesCache($election);
+			$logs[] = $this->warmupPartiesCache($election);
+
+			if ($verbose) {
+				$logLines = implode('', $logs);
+				$this->outputLine($logLines);
+			}
+		}
+
+	}
+
+	/**
+	 * @param $election \Visol\EasyvoteSmartvote\Domain\Model\Election
+	 * @return array
+	 */
+	protected function warmupPartiesCache($election) {
+		if ($election->getSmartVoteIdentifier() === '15_ch_sr') {
+			return 'We do not warum up parties cache for 15_ch_sr.';
+		}
+
+		$pageUidForCmsConfiguration = 201;
+		$rootLine = array(array('uid' => $pageUidForCmsConfiguration));
+		$domain = BackendUtility::firstDomainRecord($rootLine);
+
+		$logs = array();
+		$languageUids = array(0, 1, 2);
+
+		foreach ($languageUids as $languageUid) {
+			$requestUrl = sprintf('http://%s/routing/parties/%s?id=%s&L=%s', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid);
+			$logs[] = 'URL requested: ' . $requestUrl;
+			GeneralUtility::getUrl($requestUrl);
+		}
+
+		return implode("\n", $logs);
+	}
+
+	/**
+	 * @param $election \Visol\EasyvoteSmartvote\Domain\Model\Election
+	 * @return array
+	 */
+	protected function warmupCandidatesCache($election) {
+		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+		$querySettings->setRespectStoragePage(FALSE);
+		$this->districtRepository->setDefaultQuerySettings($querySettings);
+		$this->nationalPartyRepository->setDefaultQuerySettings($querySettings);
+
+		$pageUidForCmsConfiguration = 201;
+		$rootLine = array(array('uid' => $pageUidForCmsConfiguration));
+		$domain = BackendUtility::firstDomainRecord($rootLine);
+
+		$logs = array();
+		$languageUids = array(0, 1, 2);
+
+		$nationalParties = $this->nationalPartyRepository->findAll();
+		$nationalPartyUids = array();
+		// we also need to query all variants an empty value
+		$nationalPartyUids[] = '';
+		foreach ($nationalParties as $nationalParty) {
+			/** @var $nationalParty \Visol\Easyvote\Domain\Model\Party */
+			$nationalPartyUids[] = $nationalParty->getUid();
+		}
+
+		$districts = $this->districtRepository->findByElection($election);
+		$districtUids = array();
+		// we also need to query all variants an empty value
+		$districtUids[] = '';
+		foreach ($districts as $district) {
+			/** @var $district \Visol\EasyvoteSmartvote\Domain\Model\District */
+			$districtUids[] = $district->getUid();
+		}
+
+		$smartvotePersonaValues = array('GAMER', 'PARTY_ANIMAL', 'HIPPIE', 'REDNECK', 'EMO', 'HIPSTER', 'REDNECK',
+			'TOEFFLIBUEB', 'SHOPPING_QUEEN', 'ROCKER', 'HIP-HOP_HEAD', 'HEARTTHROB', 'REBEL', 'CLASS_CLOWN',
+			'FITNESS_JUNKIE', 'SCOUT', 'ANIMAL_FRIEND', 'CHILLER', 'GLOBETROTTER', 'ARTIST', 'NATURE_LOVER');
+
+		foreach ($languageUids as $languageUid) {
+			// Warmup the cache for all district / nationalParty combination
+			foreach ($districtUids as $districtUid) {
+				foreach ($nationalPartyUids as $nationalPartyUid) {
+					$persona = '';
+					$requestUrl = sprintf('http://%s/routing/candidates/%s?id=%s&L=%s&district=%s&nationalParty=%s&persona=%s', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid, $districtUid, $nationalPartyUid, $persona);
+					$logs[] = 'URL requested: ' . $requestUrl;
+					GeneralUtility::getUrl($requestUrl);
+				}
+			}
+			// Warmup the cache for all personas
+			foreach ($smartvotePersonaValues as $persona) {
+				$districtUid = '';
+				$nationalPartyUid = '';
+				$requestUrl = sprintf('http://%s/routing/candidates/%s?id=%s&L=%s&district=%s&nationalParty=%s&persona=%s', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid, $districtUid, $nationalPartyUid, $persona);
+				$logs[] = 'URL requested: ' . $requestUrl;
+				GeneralUtility::getUrl($requestUrl);
+			}
+		}
+
+		return implode("\n", $logs);
+
 	}
 
 	/**
