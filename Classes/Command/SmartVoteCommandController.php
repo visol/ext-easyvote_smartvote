@@ -193,8 +193,8 @@ class SmartVoteCommandController extends CommandController {
 			$this->outputLine('***********************************************');
 			$logs = array();
 
-			$logs[] = $this->warmupCandidatesCache($election);
 			$logs[] = $this->warmupPartiesCache($election);
+			$logs[] = $this->warmupCandidatesCache($election);
 
 			if ($verbose) {
 				$logLines = implode('', $logs);
