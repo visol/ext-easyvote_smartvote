@@ -40,6 +40,9 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.elected">
 				<source>Elected</source>
 			</trans-unit>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.deselected">
+				<source>Deselected</source>
+			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_candidate.civil_state_name">
 				<source>Civil State Name</source>
 			</trans-unit>

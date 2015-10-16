@@ -113,6 +113,13 @@ class Candidate extends AbstractEntity {
 	protected $elected = FALSE;
 
 	/**
+	 * deselected
+	 *
+	 * @var boolean
+	 */
+	protected $deselected = FALSE;
+
+	/**
 	 * civilStateName
 	 *
 	 * @var string
@@ -631,6 +638,29 @@ class Candidate extends AbstractEntity {
 	public function isElected() {
 		return $this->elected;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isDeselected() {
+		return $this->deselected;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getDeselected() {
+		return $this->deselected;
+	}
+
+	/**
+	 * @param boolean $deselected
+	 */
+	public function setDeselected($deselected) {
+		$this->deselected = $deselected;
+	}
+
+
 
 	/**
 	 * Returns the civilStateName

@@ -1740,7 +1740,7 @@ var FacetModel = (function (_Backbone$Model) {
 		defaults: {
 
 			/**
-    * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string, candidate: string}}
+    * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, elected: string, deselected: string, gender: string, candidate: string}}
     */
 
 			value: function defaults() {
@@ -1753,6 +1753,8 @@ var FacetModel = (function (_Backbone$Model) {
 					minAge: "18",
 					maxAge: "90",
 					incumbent: "",
+					elected: "",
+					deselected: "",
 					gender: "",
 					candidate: ""
 				};
@@ -1789,7 +1791,7 @@ var FacetModel = (function (_Backbone$Model) {
 				if (!this.state) {
 					this.state = {};
 
-					var allowedArguments = ["candidate", "name", "nationalParty", "district", "persona", "minAge", "maxAge", "incumbent", "gender"];
+					var allowedArguments = ["candidate", "name", "nationalParty", "district", "persona", "minAge", "maxAge", "incumbent", "elected", "deselected", "gender"];
 					var query = window.location.hash.split("&");
 					var _iteratorNormalCompletion = true;
 					var _didIteratorError = false;
@@ -2287,6 +2289,8 @@ var FacetView = (function (_Backbone$View) {
 			"#minAge": "minAge",
 			"#maxAge": "maxAge",
 			"#incumbent": "incumbent",
+			"#elected": "elected",
+			"#deselected": "deselected",
 			"#gender": "gender",
 			"#candidate": "candidate",
 			"#persona": "persona"
@@ -2312,7 +2316,9 @@ var FacetView = (function (_Backbone$View) {
 				var district = this.model.get("district") - 0;
 				var nationalParty = this.model.get("nationalParty") - 0;
 				var persona = this.model.get("persona");
-				return district > 0 || nationalParty > 0 || persona !== "";
+				var elected = this.model.get("elected");
+				var deselected = this.model.get("deselected");
+				return district > 0 || nationalParty > 0 || persona !== "" || elected > 0 || deselected > 0;
 			}
 		},
 		save: {
@@ -2463,6 +2469,8 @@ var ListView = (function (_Backbone$View) {
 		this.district = 0;
 		this.nationalParty = 0;
 		this.persona = 0;
+		this.elected = 0;
+		this.deselected = 0;
 		this.numberOfRenderedItems = 0;
 		this.isRendering = false;
 
@@ -2662,16 +2670,20 @@ var ListView = (function (_Backbone$View) {
 				if (this.facetView.hasMinimumFilter()) {
 
 					// Only fetch chunk of data if necessary
-					if (this.district != this.facetView.model.get("district") || this.nationalParty != this.facetView.model.get("nationalParty") || this.persona != this.facetView.model.get("persona")) {
+					if (this.district != this.facetView.model.get("district") || this.nationalParty != this.facetView.model.get("nationalParty") || this.elected != this.facetView.model.get("elected") || this.deselected != this.facetView.model.get("deselected") || this.persona != this.facetView.model.get("persona")) {
 
 						this.district = this.facetView.model.get("district");
 						this.nationalParty = this.facetView.model.get("nationalParty");
 						this.persona = this.facetView.model.get("persona");
+						this.elected = this.facetView.model.get("elected");
+						this.deselected = this.facetView.model.get("deselected");
 
 						var filter = {
 							district: this.district,
 							nationalParty: this.nationalParty,
-							persona: this.persona
+							persona: this.persona,
+							elected: this.elected,
+							deselected: this.deselected
 						};
 
 						this.candidateCollection.fetch(filter).done(function (candidates) {

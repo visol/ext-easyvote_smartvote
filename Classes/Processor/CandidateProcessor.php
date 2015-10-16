@@ -47,6 +47,8 @@ class CandidateProcessor extends AbstractProcessor {
 			$item['uid'] = (int)$item['uid'];
 			$item['yearOfBirth'] = (int)$item['yearOfBirth'];
 			$item['incumbent'] = (int)$item['incumbent'];
+			$item['elected'] = (int)$item['elected'];
+			$item['deselected'] = (int)$item['deselected'];
 			$convertedItems[] = $item;
 		}
 		return $convertedItems;

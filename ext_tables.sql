@@ -17,6 +17,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_candidate (
 	party_short varchar(255) DEFAULT '' NOT NULL,
 	incumbent tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	elected tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	deselected tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	civil_state_name varchar(255) DEFAULT '' NOT NULL,
 	denomination_name varchar(255) DEFAULT '' NOT NULL,
 	education_name varchar(255) DEFAULT '' NOT NULL,

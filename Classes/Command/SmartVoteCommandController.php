@@ -270,11 +270,20 @@ class SmartVoteCommandController extends CommandController {
 			'FITNESS_JUNKIE', 'SCOUT', 'ANIMAL_FRIEND', 'CHILLER', 'GLOBETROTTER', 'ARTIST', 'NATURE_LOVER');
 
 		foreach ($languageUids as $languageUid) {
+			// Warmup the cache for all elected candidates
+			$requestUrl = sprintf('http://%s/routing/candidates/%s?id=%s&L=%s&district=&nationalParty=&persona=&elected=1&deselected=', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid);
+			$logs[] = 'URL requested: ' . $requestUrl;
+			GeneralUtility::getUrl($requestUrl);
+			// Warmup the cache for all deselected candidates
+			$requestUrl = sprintf('http://%s/routing/candidates/%s?id=%s&L=%s&district=&nationalParty=&persona=&elected=&deselected=1', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid);
+			$logs[] = 'URL requested: ' . $requestUrl;
+			GeneralUtility::getUrl($requestUrl);
+
 			// Warmup the cache for all district / nationalParty combination
 			foreach ($districtUids as $districtUid) {
 				foreach ($nationalPartyUids as $nationalPartyUid) {
 					$persona = '';
-					$requestUrl = sprintf('http://%s/routing/candidates/%s?id=%s&L=%s&district=%s&nationalParty=%s&persona=%s', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid, $districtUid, $nationalPartyUid, $persona);
+					$requestUrl = sprintf('http://%s/routing/candidates/%s?id=%s&L=%s&district=%s&nationalParty=%s&persona=%s&elected=&deselected=', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid, $districtUid, $nationalPartyUid, $persona);
 					$logs[] = 'URL requested: ' . $requestUrl;
 					GeneralUtility::getUrl($requestUrl);
 				}
@@ -283,7 +292,7 @@ class SmartVoteCommandController extends CommandController {
 			foreach ($smartvotePersonaValues as $persona) {
 				$districtUid = '';
 				$nationalPartyUid = '';
-				$requestUrl = sprintf('http://%s/routing/candidates/%s?id=%s&L=%s&district=%s&nationalParty=%s&persona=%s', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid, $districtUid, $nationalPartyUid, $persona);
+				$requestUrl = sprintf('http://%s/routing/candidates/%s?id=%s&L=%s&district=%s&nationalParty=%s&persona=%s&elected=&deselected=', $domain, $election->getUid(), $pageUidForCmsConfiguration, $languageUid, $districtUid, $nationalPartyUid, $persona);
 				$logs[] = 'URL requested: ' . $requestUrl;
 				GeneralUtility::getUrl($requestUrl);
 			}

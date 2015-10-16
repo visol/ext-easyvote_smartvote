@@ -49,6 +49,8 @@ export default class FacetView extends Backbone.View {
 			'#minAge': 'minAge',
 			'#maxAge': 'maxAge',
 			'#incumbent': 'incumbent',
+			'#elected': 'elected',
+			'#deselected': 'deselected',
 			'#gender': 'gender',
 			'#candidate': 'candidate',
 			'#persona': 'persona'
@@ -68,7 +70,9 @@ export default class FacetView extends Backbone.View {
 		let district = this.model.get('district') - 0;
 		let nationalParty = this.model.get('nationalParty') - 0;
 		let persona = this.model.get('persona');
-		return district > 0 || nationalParty > 0 || persona !== '';
+		let elected = this.model.get('elected');
+		let deselected = this.model.get('deselected');
+		return district > 0 || nationalParty > 0 || persona !== '' || elected > 0 || deselected > 0;
 	}
 
 	/**

@@ -30,9 +30,11 @@ class CandidateRepository extends Repository {
 	 * @param int $district
 	 * @param int $nationalParty
 	 * @param int $persona
+	 * @param int $elected
+	 * @param int $deselected
 	 * @return array|NULL
 	 */
-	public function findByElection(Election $election, $district = 0, $nationalParty = 0, $persona = 0) {
+	public function findByElection(Election $election, $district = 0, $nationalParty = 0, $persona = 0, $elected = 0, $deselected = 0) {
 
 		// Fetch the parties and do the overlay
 		$partyTable = 'tx_easyvotesmartvote_domain_model_party';
@@ -90,8 +92,16 @@ class CandidateRepository extends Repository {
 			$clause .= ' AND persona = \'' . $persona . '\'';
 		}
 
+		if ($elected !== 0) {
+			$clause .= ' AND elected';
+		}
+
+		if ($deselected !== 0) {
+			$clause .= ' AND deselected';
+		}
+
 		$fields = ' uid, pid, first_name, last_name, gender, year_of_birth, city, national_party,
-		            incumbent, slogan, district, serialized_answers_processed, election_list_name,
+		            incumbent, elected, deselected, slogan, district, serialized_answers_processed, election_list_name,
 		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize,
 		            serialized_list_places, occupation, education, hobbies, personal_website,
 		            link_to_twitter,link_to_facebook,email,ch2055,motivation, easyvote_supporter,

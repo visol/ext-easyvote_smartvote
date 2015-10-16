@@ -1718,7 +1718,7 @@ var FacetModel = (function (_Backbone$Model) {
 		defaults: {
 
 			/**
-    * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, gender: string, candidate: string}}
+    * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, elected: string, deselected: string, gender: string, candidate: string}}
     */
 
 			value: function defaults() {
@@ -1731,6 +1731,8 @@ var FacetModel = (function (_Backbone$Model) {
 					minAge: "18",
 					maxAge: "90",
 					incumbent: "",
+					elected: "",
+					deselected: "",
 					gender: "",
 					candidate: ""
 				};
@@ -1767,7 +1769,7 @@ var FacetModel = (function (_Backbone$Model) {
 				if (!this.state) {
 					this.state = {};
 
-					var allowedArguments = ["candidate", "name", "nationalParty", "district", "persona", "minAge", "maxAge", "incumbent", "gender"];
+					var allowedArguments = ["candidate", "name", "nationalParty", "district", "persona", "minAge", "maxAge", "incumbent", "elected", "deselected", "gender"];
 					var query = window.location.hash.split("&");
 					var _iteratorNormalCompletion = true;
 					var _didIteratorError = false;
@@ -2061,6 +2063,8 @@ var FacetView = (function (_Backbone$View) {
 			"#minAge": "minAge",
 			"#maxAge": "maxAge",
 			"#incumbent": "incumbent",
+			"#elected": "elected",
+			"#deselected": "deselected",
 			"#gender": "gender",
 			"#candidate": "candidate",
 			"#persona": "persona"
@@ -2086,7 +2090,9 @@ var FacetView = (function (_Backbone$View) {
 				var district = this.model.get("district") - 0;
 				var nationalParty = this.model.get("nationalParty") - 0;
 				var persona = this.model.get("persona");
-				return district > 0 || nationalParty > 0 || persona !== "";
+				var elected = this.model.get("elected");
+				var deselected = this.model.get("deselected");
+				return district > 0 || nationalParty > 0 || persona !== "" || elected > 0 || deselected > 0;
 			}
 		},
 		save: {

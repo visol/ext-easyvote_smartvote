@@ -36,6 +36,8 @@ export default class ListView extends Backbone.View {
 		this.district = 0;
 		this.nationalParty = 0;
 		this.persona = 0;
+		this.elected = 0;
+		this.deselected = 0;
 		this.numberOfRenderedItems = 0;
 		this.isRendering = false;
 
@@ -179,16 +181,22 @@ export default class ListView extends Backbone.View {
 			// Only fetch chunk of data if necessary
 			if (this.district != this.facetView.model.get('district') ||
 				this.nationalParty != this.facetView.model.get('nationalParty') ||
+				this.elected != this.facetView.model.get('elected') ||
+				this.deselected != this.facetView.model.get('deselected') ||
 				this.persona != this.facetView.model.get('persona')) {
 
 				this.district = this.facetView.model.get('district');
 				this.nationalParty = this.facetView.model.get('nationalParty');
 				this.persona = this.facetView.model.get('persona');
+				this.elected = this.facetView.model.get('elected');
+				this.deselected = this.facetView.model.get('deselected');
 
 				let filter = {
 					district: this.district,
 					nationalParty: this.nationalParty,
-					persona: this.persona
+					persona: this.persona,
+					elected: this.elected,
+					deselected: this.deselected
 				};
 
 				this.candidateCollection.fetch(filter).done(candidates => {
