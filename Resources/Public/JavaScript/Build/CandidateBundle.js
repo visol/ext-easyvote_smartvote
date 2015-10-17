@@ -2696,6 +2696,52 @@ var ListView = (function (_Backbone$View) {
 						this.numberOfRenderedItems = 0;
 						this.renderList();
 					}
+				} else if ($(".evsv-displayElected").length) {
+					// preset filter for elected candidates
+					this.district = this.facetView.model.get("district");
+					this.nationalParty = this.facetView.model.get("nationalParty");
+					this.persona = this.facetView.model.get("persona");
+					this.elected = this.facetView.model.get("elected");
+					this.deselected = this.facetView.model.get("deselected");
+
+					$("#elected").val(1);
+
+					var filter = {
+						district: this.district,
+						nationalParty: this.nationalParty,
+						persona: this.persona,
+						elected: 1,
+						deselected: this.deselected
+					};
+
+					this.candidateCollection.fetch(filter).done(function (candidates) {
+						$("#container-candidate-list").html(""); // empty list
+						_this.numberOfRenderedItems = 0;
+						_this.renderList();
+					});
+				} else if ($(".evsv-displayDeselected").length) {
+					// preset filter for deselected candidates
+					this.district = this.facetView.model.get("district");
+					this.nationalParty = this.facetView.model.get("nationalParty");
+					this.persona = this.facetView.model.get("persona");
+					this.elected = this.facetView.model.get("elected");
+					this.deselected = this.facetView.model.get("deselected");
+
+					$("#deselected").val(1);
+
+					var filter = {
+						district: this.district,
+						nationalParty: this.nationalParty,
+						persona: this.persona,
+						elected: this.elected,
+						deselected: 1
+					};
+
+					this.candidateCollection.fetch(filter).done(function (candidates) {
+						$("#container-candidate-list").html(""); // empty list
+						_this.numberOfRenderedItems = 0;
+						_this.renderList();
+					});
 				} else {
 
 					// User must pick some option

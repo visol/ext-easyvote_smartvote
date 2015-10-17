@@ -176,7 +176,10 @@ export default class ListView extends Backbone.View {
 	 */
 	render() {
 
-		if (this.facetView.hasMinimumFilter()) {
+		var displayElected = $('.evsv-displayElected').length > 0;
+		var displayDeselected = $('.evsv-displayDeselected').length > 0;
+
+		if (this.facetView.hasMinimumFilter() && !displayElected && !displayDeselected) {
 
 			// Only fetch chunk of data if necessary
 			if (this.district != this.facetView.model.get('district') ||
@@ -209,6 +212,54 @@ export default class ListView extends Backbone.View {
 				this.numberOfRenderedItems = 0;
 				this.renderList();
 			}
+
+		} else if (displayElected) {
+			// preset filter for elected candidates
+			this.district = this.facetView.model.get('district');
+			this.nationalParty = this.facetView.model.get('nationalParty');
+			this.persona = this.facetView.model.get('persona');
+			this.elected = this.facetView.model.get('elected');
+			this.deselected = this.facetView.model.get('deselected');
+
+			$('#elected').val(1);
+
+			let filter = {
+				district: this.district,
+				nationalParty: this.nationalParty,
+				persona: this.persona,
+				elected: 1,
+				deselected: this.deselected
+			};
+
+			this.candidateCollection.fetch(filter).done(candidates => {
+				$('#container-candidate-list').html(''); // empty list
+				this.numberOfRenderedItems = 0;
+				this.renderList();
+			});
+
+		}  else if (displayDeselected) {
+			// preset filter for deselected candidates
+			this.district = this.facetView.model.get('district');
+			this.nationalParty = this.facetView.model.get('nationalParty');
+			this.persona = this.facetView.model.get('persona');
+			this.elected = this.facetView.model.get('elected');
+			this.deselected = this.facetView.model.get('deselected');
+
+			$('#deselected').val(1);
+
+			let filter = {
+				district: this.district,
+				nationalParty: this.nationalParty,
+				persona: this.persona,
+				elected: this.elected,
+				deselected: 1
+			};
+
+			this.candidateCollection.fetch(filter).done(candidates => {
+				$('#container-candidate-list').html(''); // empty list
+				this.numberOfRenderedItems = 0;
+				this.renderList();
+			});
 
 		} else {
 
