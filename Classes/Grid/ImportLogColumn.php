@@ -19,16 +19,18 @@ use Fab\Vidi\Grid\GenericRendererComponent;
 /**
  * Class for configuring a "Button Group" Grid Renderer.
  */
-class ImportLogColumn extends GenericRendererComponent {
+class ImportLogColumn extends GenericRendererComponent
+{
 
-	/**
-	 * Configure the "Button Group" Grid Renderer.
-	 */
-	public function __construct() {
-		$configuration = array(
-			'sortable' => FALSE,
-			'width' => '300px',
-		);
-		parent::__construct(ImportLogColumnRenderer::class, $configuration);
-	}
+    /**
+     * Configure the "Button Group" Grid Renderer.
+     */
+    public function __construct()
+    {
+        $configuration = array(
+            'sortable' => FALSE,
+            'width' => '300px',
+        );
+        parent::__construct(ImportLogColumnRenderer::class, $configuration);
+    }
 }

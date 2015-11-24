@@ -19,16 +19,17 @@ use TYPO3\CMS\Core\Type\Enumeration;
 /**
  * Enumeration for model types.
  */
-class Model extends Enumeration {
+class Model extends Enumeration
+{
 
-	const PARTY = 'party';
-	const CANDIDATE = 'candidate';
-	const DISTRICT = 'district';
-	const QUESTION = 'question';
-	const QUESTION_CATEGORY = 'question_category';
-	const DENOMINATION = 'denomination';
-	const CIVIL_STATE = 'civil_state';
-	const EDUCATION = 'education';
-	const ELECTION_LIST = 'election_list';
+    const PARTY = 'party';
+    const CANDIDATE = 'candidate';
+    const DISTRICT = 'district';
+    const QUESTION = 'question';
+    const QUESTION_CATEGORY = 'question_category';
+    const DENOMINATION = 'denomination';
+    const CIVIL_STATE = 'civil_state';
+    const EDUCATION = 'education';
+    const ELECTION_LIST = 'election_list';
 
 }

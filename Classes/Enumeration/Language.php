@@ -19,10 +19,11 @@ use TYPO3\CMS\Core\Type\Enumeration;
 /**
  * Enumeration for languages.
  */
-class Language extends Enumeration {
+class Language extends Enumeration
+{
 
-	const GERMAN = 'de_CH';
-	const FRENCH = 'fr_CH';
-	const ITALIAN = 'it_CH';
+    const GERMAN = 'de_CH';
+    const FRENCH = 'fr_CH';
+    const ITALIAN = 'it_CH';
 
 }

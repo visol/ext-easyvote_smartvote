@@ -225,46 +225,46 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
 		],
 		'related_election' => [
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:related_election',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_election',
-				'items' => array(
-					array('', 0),
-				),
+				'items' => [
+					['', 0],
+				],
 				'minitems' => 0,
 				'maxitems' => 1,
-			),
+			],
 		],
 	],
 	'grid' => [
-		'columns' => array(
-			'__checkbox' => array(
+		'columns' => [
+			'__checkbox' => [
 				'renderer' => new Fab\Vidi\Grid\CheckBoxComponent(),
-			),
-			'uid' => array(
+			],
+			'uid' => [
 				'visible' => FALSE,
 				'label' => 'Id',
 				'width' => '5px',
-			),
-			'title' => array(
+			],
+			'title' => [
 				'editable' => TRUE,
-			),
-			'election_date' => array(
+			],
+			'election_date' => [
 				'editable' => FALSE,
 				'format' => 'Fab\Vidi\Formatter\Date',
-			),
-			'smart_vote_identifier' => array(
+			],
+			'smart_vote_identifier' => [
 				'editable' => TRUE,
-			),
-			'__import_wizard' => array(
+			],
+			'__import_wizard' => [
 				'renderer' => new Visol\EasyvoteSmartvote\Grid\ImportWizardColumn(),
-			),
-			'import_log' => array(
+			],
+			'import_log' => [
 				'renderer' => new Visol\EasyvoteSmartvote\Grid\ImportLogColumn(),
-			),
-			'__buttons' => array(
+			],
+			'__buttons' => [
 				'renderer' => new Fab\Vidi\Grid\ButtonGroupComponent(),
-			),
-		),
+			],
+		],
 	]
 ];

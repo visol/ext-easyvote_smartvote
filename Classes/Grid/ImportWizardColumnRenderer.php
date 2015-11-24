@@ -22,35 +22,38 @@ use Visol\EasyvoteSmartvote\Module\ModuleParameter;
 /**
  * Class for configuring a "Button Group" Grid Renderer.
  */
-class ImportWizardColumnRenderer extends GridRendererAbstract {
+class ImportWizardColumnRenderer extends GridRendererAbstract
+{
 
-	/**
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * @return string
+     */
+    public function render()
+    {
 
-		$out = sprintf(
-			'<div style="text-align: center"><a href="%s" class="btn-import-voting">%s</a></div>',
-			$this->getImportUri(),
-			IconUtility::getSpriteIcon('extensions-easyvote-smartvote-export')
-		);
+        $out = sprintf(
+            '<div style="text-align: center"><a href="%s" class="btn-import-voting">%s</a></div>',
+            $this->getImportUri(),
+            IconUtility::getSpriteIcon('extensions-easyvote-smartvote-export')
+        );
 
-		return $out;
-	}
+        return $out;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	protected function getImportUri() {
-		$urlParameters = array(
-			ModuleParameter::PREFIX => array(
-				'controller' => 'Election',
-				'action' => 'import',
-				'election' => $this->getObject()->getUid(),
-			),
-		);
-		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
-	}
+    /**
+     * @return string
+     */
+    protected function getImportUri()
+    {
+        $urlParameters = array(
+            ModuleParameter::PREFIX => array(
+                'controller' => 'Election',
+                'action' => 'import',
+                'election' => $this->getObject()->getUid(),
+            ),
+        );
+        return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
+    }
 
 }

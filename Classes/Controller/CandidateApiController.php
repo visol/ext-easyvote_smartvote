@@ -21,56 +21,59 @@ use Visol\EasyvoteSmartvote\Processor\CandidateProcessor;
 /**
  * Question Controller
  */
-class CandidateApiController extends AbstractBaseApiController {
+class CandidateApiController extends AbstractBaseApiController
+{
 
-	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\CandidateRepository
-	 * @inject
-	 */
-	protected $candidateRepository;
+    /**
+     * @var \Visol\EasyvoteSmartvote\Domain\Repository\CandidateRepository
+     * @inject
+     */
+    protected $candidateRepository;
 
-	/**
-	 * @var \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend
-	 */
-	protected $cacheInstance;
+    /**
+     * @var \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend
+     */
+    protected $cacheInstance;
 
-	/**
-	 * @param Election $election
-	 * @return string
-	 */
-	public function listAction(Election $election = NULL) {
-		$this->initializeCache();
+    /**
+     * @param Election $election
+     * @return string
+     */
+    public function listAction(Election $election = NULL)
+    {
+        $this->initializeCache();
 
 
-		$district = (int)GeneralUtility::_GP('district');
-		$nationalParty = (int)GeneralUtility::_GP('nationalParty');
-		$persona = GeneralUtility::_GP('persona') !== '' ? GeneralUtility::_GP('persona') : 0;
-		$elected = (int)GeneralUtility::_GP('elected');
-		$deselected = (int)GeneralUtility::_GP('deselected');
+        $district = (int)GeneralUtility::_GP('district');
+        $nationalParty = (int)GeneralUtility::_GP('nationalParty');
+        $persona = GeneralUtility::_GP('persona') !== '' ? GeneralUtility::_GP('persona') : 0;
+        $elected = (int)GeneralUtility::_GP('elected');
+        $deselected = (int)GeneralUtility::_GP('deselected');
 
-		$cacheIdentifier = sprintf('candidates-%s-%s-%s-%s-%s-%s-lang-%s', $election->getUid(), $district, $nationalParty, $persona, $elected, $deselected, (int)$GLOBALS['TSFE']->sys_language_uid);
-		$candidates = $this->cacheInstance->get($cacheIdentifier);
+        $cacheIdentifier = sprintf('candidates-%s-%s-%s-%s-%s-%s-lang-%s', $election->getUid(), $district, $nationalParty, $persona, $elected, $deselected, (int)$GLOBALS['TSFE']->sys_language_uid);
+        $candidates = $this->cacheInstance->get($cacheIdentifier);
 
-		if (!$candidates) {
-			$candidates = $this->candidateRepository->findByElection($election, $district, $nationalParty, $persona, $elected, $deselected);
+        if (!$candidates) {
+            $candidates = $this->candidateRepository->findByElection($election, $district, $nationalParty, $persona, $elected, $deselected);
 
-			$candidates = $this->getCandidateProcessor()->process($candidates);
-			$candidates = json_encode($candidates);
+            $candidates = $this->getCandidateProcessor()->process($candidates);
+            $candidates = json_encode($candidates);
 
-			$tags = array();
-			$lifetime = $this->getLifeTime();
-			$this->cacheInstance->set($cacheIdentifier, $candidates, $tags, $lifetime);
-		}
+            $tags = array();
+            $lifetime = $this->getLifeTime();
+            $this->cacheInstance->set($cacheIdentifier, $candidates, $tags, $lifetime);
+        }
 
-		$this->response->setHeader('Content-Type', 'application/json');
-		return $candidates;
-	}
+        $this->response->setHeader('Content-Type', 'application/json');
+        return $candidates;
+    }
 
-	/**
-	 * @return CandidateProcessor
-	 */
-	public function getCandidateProcessor() {
-		return $this->objectManager->get(CandidateProcessor::class);
-	}
+    /**
+     * @return CandidateProcessor
+     */
+    public function getCandidateProcessor()
+    {
+        return $this->objectManager->get(CandidateProcessor::class);
+    }
 
 }

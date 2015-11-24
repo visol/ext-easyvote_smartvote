@@ -19,56 +19,59 @@ use Visol\EasyvoteSmartvote\Enumeration\Model;
 /**
  * Import Parties from the SmartVote platform.
  */
-class PartyImporter extends AbstractImporter {
+class PartyImporter extends AbstractImporter
+{
 
-	/**
-	 * @var
-	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_party';
+    /**
+     * @var
+     */
+    protected $tableName = 'tx_easyvotesmartvote_domain_model_party';
 
-	/**
-	 * @var
-	 */
-	protected $internalIdentifier = 'ID_party';
+    /**
+     * @var
+     */
+    protected $internalIdentifier = 'ID_party';
 
-	/**
-	 * @var array
-	 */
-	protected $serializedFields = array(
-		'constituencies' => 'serialized_districts',
-		'lists' => 'serialized_election_lists',
-		'answers' => 'serialized_answers',
-	);
+    /**
+     * @var array
+     */
+    protected $serializedFields = array(
+        'constituencies' => 'serialized_districts',
+        'lists' => 'serialized_election_lists',
+        'answers' => 'serialized_answers',
+    );
 
-	/**
-	 * @var
-	 */
-	protected $mappingFields = array(
-		'party' => 'name',
-		'party_short' => 'name_short',
-		'logo' => 'logo',
-		'n_candidates' => 'number_of_candidates',
-		'n_answers' => 'number_of_answers',
-		'facebookProfile' => 'facebook_profile',
-		'website' => 'website',
-		#'parents' => 'parents',
-		#'constituencies' => 'districts', -> serialized
-		#'lists' => 'lists',  -> serialized
-		#'answers' => 'answers',  -> serialized
-	);
+    /**
+     * @var
+     */
+    protected $mappingFields = array(
+        'party' => 'name',
+        'party_short' => 'name_short',
+        'logo' => 'logo',
+        'n_candidates' => 'number_of_candidates',
+        'n_answers' => 'number_of_answers',
+        'facebookProfile' => 'facebook_profile',
+        'website' => 'website',
+        #'parents' => 'parents',
+        #'constituencies' => 'districts', -> serialized
+        #'lists' => 'lists',  -> serialized
+        #'answers' => 'answers',  -> serialized
+    );
 
-	/**
-	 * @return array
-	 */
-	public function import() {
-		return parent::import(Model::PARTY);
-	}
+    /**
+     * @return array
+     */
+    public function import()
+    {
+        return parent::import(Model::PARTY);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function localize() {
-		return parent::localize(Model::PARTY);
-	}
+    /**
+     * @return array
+     */
+    public function localize()
+    {
+        return parent::localize(Model::PARTY);
+    }
 
 }

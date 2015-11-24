@@ -21,38 +21,41 @@ use Visol\EasyvoteSmartvote\Enumeration\Model;
 /**
  * Import Districts from the SmartVote platform.
  */
-class DistrictImporter extends AbstractImporter {
+class DistrictImporter extends AbstractImporter
+{
 
-	/**
-	 * @var
-	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_district';
+    /**
+     * @var
+     */
+    protected $tableName = 'tx_easyvotesmartvote_domain_model_district';
 
-	/**
-	 * @var
-	 */
-	protected $internalIdentifier = 'ID_district';
+    /**
+     * @var
+     */
+    protected $internalIdentifier = 'ID_district';
 
-	/**
-	 * @var
-	 */
-	protected $mappingFields = array(
-		'district' => 'name',
-		'seats' => 'seats',
-	);
+    /**
+     * @var
+     */
+    protected $mappingFields = array(
+        'district' => 'name',
+        'seats' => 'seats',
+    );
 
-	/**
-	 * @return array
-	 */
-	public function import() {
-		return parent::import(Model::DISTRICT);
-	}
+    /**
+     * @return array
+     */
+    public function import()
+    {
+        return parent::import(Model::DISTRICT);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function localize() {
-		return parent::localize(Model::DISTRICT);
-	}
+    /**
+     * @return array
+     */
+    public function localize()
+    {
+        return parent::localize(Model::DISTRICT);
+    }
 
 }

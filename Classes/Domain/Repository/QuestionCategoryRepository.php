@@ -19,7 +19,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * The repository for QuestionCategories
  */
-class QuestionCategoryRepository extends Repository {
+class QuestionCategoryRepository extends Repository
+{
 
 
 }

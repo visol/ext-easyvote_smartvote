@@ -19,7 +19,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * The repository for Educations
  */
-class EducationRepository extends Repository {
+class EducationRepository extends Repository
+{
 
 
 }

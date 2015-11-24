@@ -21,22 +21,25 @@ use Visol\EasyvoteSmartvote\Service\UserService;
 /**
  * View helper to return whether the User is authenticated.
  */
-class IsUserAuthenticatedViewHelper extends AbstractViewHelper {
+class IsUserAuthenticatedViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Returns whether the User is authenticated.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		return $this->getUserService()->isAuthenticated();
-	}
+    /**
+     * Returns whether the User is authenticated.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        return $this->getUserService()->isAuthenticated();
+    }
 
-	/**
-	 * @return UserService
-	 */
-	protected function getUserService(){
-		return $this->objectManager->get(UserService::class);
-	}
+    /**
+     * @return UserService
+     */
+    protected function getUserService()
+    {
+        return $this->objectManager->get(UserService::class);
+    }
 
 }

@@ -19,7 +19,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * The repository for ElectionLists
  */
-class ElectionListRepository extends Repository {
+class ElectionListRepository extends Repository
+{
 
 
 }

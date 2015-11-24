@@ -21,42 +21,45 @@ use Visol\EasyvoteSmartvote\Enumeration\Model;
 /**
  * Import Educations from the SmartVote platform.
  */
-class EducationImporter extends AbstractImporter {
+class EducationImporter extends AbstractImporter
+{
 
-	/**
-	 * @var
-	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_education';
+    /**
+     * @var
+     */
+    protected $tableName = 'tx_easyvotesmartvote_domain_model_education';
 
-	/**
-	 * @var
-	 */
-	protected $internalIdentifier = 'id';
+    /**
+     * @var
+     */
+    protected $internalIdentifier = 'id';
 
-	/**
-	 * @var Election
-	 */
-	protected $election;
+    /**
+     * @var Election
+     */
+    protected $election;
 
-	/**
-	 * @var
-	 */
-	protected $mappingFields = array(
-		'name' => 'name',
-	);
+    /**
+     * @var
+     */
+    protected $mappingFields = array(
+        'name' => 'name',
+    );
 
-	/**
-	 * @return array
-	 */
-	public function import() {
-		return parent::import(Model::EDUCATION);
-	}
+    /**
+     * @return array
+     */
+    public function import()
+    {
+        return parent::import(Model::EDUCATION);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function localize() {
-		return parent::localize(Model::EDUCATION);
-	}
+    /**
+     * @return array
+     */
+    public function localize()
+    {
+        return parent::localize(Model::EDUCATION);
+    }
 
 }

@@ -22,50 +22,54 @@ use Visol\EasyvoteSmartvote\Service\UserService;
 /**
  * View helper to return whether the User is authenticated.
  */
-class QuestionStateViewHelper extends AbstractViewHelper {
+class QuestionStateViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Returns whether the User is authenticated.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Returns whether the User is authenticated.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		// default value.
-		$questions = [];
+        // default value.
+        $questions = [];
 
-		if ($this->getUserService()->isAuthenticated()) {
+        if ($this->getUserService()->isAuthenticated()) {
 
-			/** @var Election $election */
-			$election = $this->templateVariableContainer->get('currentElection');
-			$token = $this->getTokenService()->generate($election->getUid(), TRUE);
-			$questions = $this->getUserService()->getCache($token);
+            /** @var Election $election */
+            $election = $this->templateVariableContainer->get('currentElection');
+            $token = $this->getTokenService()->generate($election->getUid(), TRUE);
+            $questions = $this->getUserService()->getCache($token);
 
-			if (empty($questions)) {
+            if (empty($questions)) {
 
-				$relatedElection = $election->getRelatedElection();
-				if ($relatedElection) {
-					$token = $this->getTokenService()->generate($relatedElection->getUid(), TRUE);
-					$questions = $this->getUserService()->getCache($token);
-				}
-			}
-		}
+                $relatedElection = $election->getRelatedElection();
+                if ($relatedElection) {
+                    $token = $this->getTokenService()->generate($relatedElection->getUid(), TRUE);
+                    $questions = $this->getUserService()->getCache($token);
+                }
+            }
+        }
 
-		return json_encode($questions);
-	}
+        return json_encode($questions);
+    }
 
-	/**
-	 * @return UserService
-	 */
-	protected function getUserService(){
-		return $this->objectManager->get(UserService::class);
-	}
+    /**
+     * @return UserService
+     */
+    protected function getUserService()
+    {
+        return $this->objectManager->get(UserService::class);
+    }
 
-	/**
-	 * @return TokenService
-	 */
-	protected function getTokenService(){
-		return $this->objectManager->get(TokenService::class);
-	}
+    /**
+     * @return TokenService
+     */
+    protected function getTokenService()
+    {
+        return $this->objectManager->get(TokenService::class);
+    }
 
 }

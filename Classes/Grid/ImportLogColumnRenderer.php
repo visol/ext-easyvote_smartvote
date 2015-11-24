@@ -20,16 +20,18 @@ use TYPO3\CMS\Backend\Utility\IconUtility;
 /**
  * Class for configuring a "Button Group" Grid Renderer.
  */
-class ImportLogColumnRenderer extends GridRendererAbstract {
+class ImportLogColumnRenderer extends GridRendererAbstract
+{
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return sprintf(
-			'<pre style="font-size: 90%%">%s</pre>',
-			$this->object[$this->fieldName]
-		);
-	}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return sprintf(
+            '<pre style="font-size: 90%%">%s</pre>',
+            $this->object[$this->fieldName]
+        );
+    }
 
 }

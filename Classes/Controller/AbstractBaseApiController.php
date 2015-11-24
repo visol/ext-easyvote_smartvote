@@ -24,75 +24,81 @@ use TYPO3\CMS\Extbase\Mvc\ResponseInterface;
 /**
  * Base API Controller
  */
-abstract class AbstractBaseApiController extends ActionController {
+abstract class AbstractBaseApiController extends ActionController
+{
 
-	/**
-	 * @var string
-	 */
-	protected $defaultViewObjectName = 'TYPO3\CMS\Extbase\Mvc\View\JsonView';
+    /**
+     * @var string
+     */
+    protected $defaultViewObjectName = 'TYPO3\CMS\Extbase\Mvc\View\JsonView';
 
-	/**
-	 * @var \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend
-	 */
-	protected $cacheInstance;
+    /**
+     * @var \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend
+     */
+    protected $cacheInstance;
 
-	/**
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
-	 * @throws \Exception
-	 */
-	public function processRequest(RequestInterface $request, ResponseInterface $response) {
-		try {
-			parent::processRequest($request, $response);
-		} catch (\Exception $exception) {
-		}
-	}
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @throws \Exception
+     */
+    public function processRequest(RequestInterface $request, ResponseInterface $response)
+    {
+        try {
+            parent::processRequest($request, $response);
+        } catch (\Exception $exception) {
+        }
+    }
 
-	/**
-	 * Reset cache every 0, 30 minutes.
-	 *
-	 * @return int
-	 */
-	protected function getLifeTime() {
-		// 30 days 86400 * 30
-		return 8640030;
-	}
+    /**
+     * Reset cache every 0, 30 minutes.
+     *
+     * @return int
+     */
+    protected function getLifeTime()
+    {
+        // 30 days 86400 * 30
+        return 8640030;
+    }
 
-	/**
-	 * Initialize cache instance to be ready to use
-	 *
-	 * @return void
-	 */
-	protected function initializeCache() {
-		Cache::initializeCachingFramework();
-		try {
-			$this->cacheInstance = $this->getCacheManager()->getCache('easyvote_smartvote');
-		} catch (NoSuchCacheException $e) {
-			$this->cacheInstance = $this->getCacheFactory()->create(
-				'easyvote_smartvote',
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['frontend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['backend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['options']
-			);
-		}
-	}
+    /**
+     * Initialize cache instance to be ready to use
+     *
+     * @return void
+     */
+    protected function initializeCache()
+    {
+        Cache::initializeCachingFramework();
+        try {
+            $this->cacheInstance = $this->getCacheManager()->getCache('easyvote_smartvote');
+        } catch (NoSuchCacheException $e) {
+            $this->cacheInstance = $this->getCacheFactory()->create(
+                'easyvote_smartvote',
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['frontend'],
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['backend'],
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['options']
+            );
+        }
+    }
 
-	/**
-	 * Return the Cache Manager
-	 *
-	 * @return \TYPO3\CMS\Core\Cache\CacheManager
-	 */
-	protected function getCacheManager() {
-		return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
-	}
+    /**
+     * Return the Cache Manager
+     *
+     * @return \TYPO3\CMS\Core\Cache\CacheManager
+     */
+    protected function getCacheManager()
+    {
+        return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
+    }
 
-	/**
-	 * Return the Cache Factory
-	 *
-	 * @return \TYPO3\CMS\Core\Cache\CacheFactory
-	 */
-	protected function getCacheFactory() {
-		return $GLOBALS['typo3CacheFactory'];
-	}
+    /**
+     * Return the Cache Factory
+     *
+     * @return \TYPO3\CMS\Core\Cache\CacheFactory
+     */
+    protected function getCacheFactory()
+    {
+        return $GLOBALS['typo3CacheFactory'];
+    }
 
 }

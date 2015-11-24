@@ -19,10 +19,11 @@ use TYPO3\CMS\Core\Type\Enumeration;
 /**
  * Enumeration object for parameter module.
  */
-class ModuleParameter extends Enumeration {
+class ModuleParameter extends Enumeration
+{
 
-	const MODULE_SIGNATURE = 'content_EasyvoteSmartvoteM1';
+    const MODULE_SIGNATURE = 'content_EasyvoteSmartvoteM1';
 
-	const PREFIX = 'tx_easyvotesmartvote_content_easyvotesmartvotem1';
+    const PREFIX = 'tx_easyvotesmartvote_content_easyvotesmartvotem1';
 
 }

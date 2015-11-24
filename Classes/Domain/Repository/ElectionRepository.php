@@ -19,15 +19,17 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * The repository for Elections
  */
-class ElectionRepository extends Repository {
+class ElectionRepository extends Repository
+{
 
-	/**
-	 * Initialize Repository
-	 */
-	public function initializeObject() {
-		$querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
-		$querySettings->setRespectStoragePage(FALSE);
-		$this->setDefaultQuerySettings($querySettings);
-	}
+    /**
+     * Initialize Repository
+     */
+    public function initializeObject()
+    {
+        $querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(FALSE);
+        $this->setDefaultQuerySettings($querySettings);
+    }
 
 }

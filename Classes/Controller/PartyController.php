@@ -21,68 +21,73 @@ use Visol\EasyvoteSmartvote\Service\DistrictService;
 /**
  * PartyController
  */
-class PartyController extends ActionController {
+class PartyController extends ActionController
+{
 
-	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\ElectionRepository
-	 * @inject
-	 */
-	protected $electionRepository;
+    /**
+     * @var \Visol\EasyvoteSmartvote\Domain\Repository\ElectionRepository
+     * @inject
+     */
+    protected $electionRepository;
 
-	/**
-	 * @var \Visol\Easyvote\Domain\Repository\PartyRepository
-	 * @inject
-	 */
-	protected $nationalPartyRepository;
+    /**
+     * @var \Visol\Easyvote\Domain\Repository\PartyRepository
+     * @inject
+     */
+    protected $nationalPartyRepository;
 
-	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\DistrictRepository
-	 * @inject
-	 */
-	protected $districtRepository;
+    /**
+     * @var \Visol\EasyvoteSmartvote\Domain\Repository\DistrictRepository
+     * @inject
+     */
+    protected $districtRepository;
 
-	public function initializeObject() {
-		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
-		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-		$querySettings->setRespectStoragePage(FALSE);
-		$this->nationalPartyRepository->setDefaultQuerySettings($querySettings);
-		$this->districtRepository->setDefaultQuerySettings($querySettings);
-	}
+    public function initializeObject()
+    {
+        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(FALSE);
+        $this->nationalPartyRepository->setDefaultQuerySettings($querySettings);
+        $this->districtRepository->setDefaultQuerySettings($querySettings);
+    }
 
-	/**
-	 * @return void
-	 */
-	public function indexAction() {
-		$electionIdentifier = (int)$this->settings['election'];
-		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
+    /**
+     * @return void
+     */
+    public function indexAction()
+    {
+        $electionIdentifier = (int)$this->settings['election'];
+        $currentElection = $this->electionRepository->findByUid($electionIdentifier);
 
-		$userDistrict = $this->getDistrictService()->getUserDistrictForCurrentElection($currentElection);
+        $userDistrict = $this->getDistrictService()->getUserDistrictForCurrentElection($currentElection);
 
-		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
-		$this->view->assign('currentElection', $currentElection);
-		$this->view->assign('settings', $this->settings);
-		$this->view->assign('userDistrict', $userDistrict);
+        $this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
+        $this->view->assign('currentElection', $currentElection);
+        $this->view->assign('settings', $this->settings);
+        $this->view->assign('userDistrict', $userDistrict);
 
-	}
+    }
 
-	/**
-	 * @return void
-	 */
-	public function filterAction() {
-		$nationalParties = $this->nationalPartyRepository->findAll();
-		$this->view->assign('nationalParties', $nationalParties);
+    /**
+     * @return void
+     */
+    public function filterAction()
+    {
+        $nationalParties = $this->nationalPartyRepository->findAll();
+        $this->view->assign('nationalParties', $nationalParties);
 
-		$electionIdentifier = (int)$this->settings['election'];
-		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
-		$districts = $this->districtRepository->findByElection($currentElection);
-		$this->view->assign('districts', $districts);
-	}
+        $electionIdentifier = (int)$this->settings['election'];
+        $currentElection = $this->electionRepository->findByUid($electionIdentifier);
+        $districts = $this->districtRepository->findByElection($currentElection);
+        $this->view->assign('districts', $districts);
+    }
 
-	/**
-	 * @return DistrictService
-	 */
-	protected function getDistrictService() {
-		return GeneralUtility::makeInstance(DistrictService::class);
-	}
+    /**
+     * @return DistrictService
+     */
+    protected function getDistrictService()
+    {
+        return GeneralUtility::makeInstance(DistrictService::class);
+    }
 
 }

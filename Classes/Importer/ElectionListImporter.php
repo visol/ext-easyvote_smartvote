@@ -21,52 +21,54 @@ use Visol\EasyvoteSmartvote\Enumeration\Model;
 /**
  * Import Lists from the SmartVote platform.
  */
-class ElectionListImporter extends AbstractImporter {
+class ElectionListImporter extends AbstractImporter
+{
 
-	/**
-	 * @var
-	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_electionlist';
+    /**
+     * @var
+     */
+    protected $tableName = 'tx_easyvotesmartvote_domain_model_electionlist';
 
-	/**
-	 * @var
-	 */
-	protected $internalIdentifier = 'ID_list';
+    /**
+     * @var
+     */
+    protected $internalIdentifier = 'ID_list';
 
-	/**
-	 * @var Election
-	 */
-	protected $election;
+    /**
+     * @var Election
+     */
+    protected $election;
 
-	/**
-	 * @var array
-	 */
-	protected $relations = array(
-		'ID_district' => array(
-			'localField' => 'district',
-			'foreignTable' => 'tx_easyvotesmartvote_domain_model_district',
-		),
-	);
+    /**
+     * @var array
+     */
+    protected $relations = array(
+        'ID_district' => array(
+            'localField' => 'district',
+            'foreignTable' => 'tx_easyvotesmartvote_domain_model_district',
+        ),
+    );
 
-	/**
-	 * @var
-	 */
-	protected $mappingFields = array(
-		'list' => 'name',
-		#'ID_district' => 10200000000, -> handled via $this->relations
-		'list_number' => 'list_number',
-		'LINK_list' => 'link_to_list',
-		'n_candidates' => 'number_of_candidates',
-		'n_answers' => 'number_of_answers',
-	);
+    /**
+     * @var
+     */
+    protected $mappingFields = array(
+        'list' => 'name',
+        #'ID_district' => 10200000000, -> handled via $this->relations
+        'list_number' => 'list_number',
+        'LINK_list' => 'link_to_list',
+        'n_candidates' => 'number_of_candidates',
+        'n_answers' => 'number_of_answers',
+    );
 
-	/**
-	 * Import the
-	 *
-	 * @return array
-	 */
-	public function import() {
-		return parent::import(Model::ELECTION_LIST);
-	}
+    /**
+     * Import the
+     *
+     * @return array
+     */
+    public function import()
+    {
+        return parent::import(Model::ELECTION_LIST);
+    }
 
 }

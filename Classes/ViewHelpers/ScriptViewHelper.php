@@ -29,36 +29,40 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * Loads the given file and adds it to the Frontend
  * </output>
  */
-class ScriptViewHelper extends AbstractViewHelper {
+class ScriptViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * JavaScript file to load
-	 *
-	 * @param string $file
-	 * @param bool $canBeMinified
-	 */
-	public function render($file, $canBeMinified = FALSE) {
-		// Sipped minified file in Production context.
-		if ($canBeMinified && (string)GeneralUtility::getApplicationContext() === 'Production') {
-			$file = str_replace('.js', '.min.js', $file);
-		}
-		$this->getPageRenderer()->addJsFooterFile($file);
-	}
+    /**
+     * JavaScript file to load
+     *
+     * @param string $file
+     * @param bool $canBeMinified
+     */
+    public function render($file, $canBeMinified = FALSE)
+    {
+        // Sipped minified file in Production context.
+        if ($canBeMinified && (string)GeneralUtility::getApplicationContext() === 'Production') {
+            $file = str_replace('.js', '.min.js', $file);
+        }
+        $this->getPageRenderer()->addJsFooterFile($file);
+    }
 
-	/**
-	 * @return \TYPO3\CMS\Core\Page\PageRenderer
-	 */
-	protected function getPageRenderer() {
-		return $this->getFrontendObject()->getPageRenderer();
-	}
+    /**
+     * @return \TYPO3\CMS\Core\Page\PageRenderer
+     */
+    protected function getPageRenderer()
+    {
+        return $this->getFrontendObject()->getPageRenderer();
+    }
 
-	/**
-	 * Returns an instance of the Frontend object.
-	 *
-	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-	 */
-	protected function getFrontendObject() {
-		return $GLOBALS['TSFE'];
-	}
+    /**
+     * Returns an instance of the Frontend object.
+     *
+     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     */
+    protected function getFrontendObject()
+    {
+        return $GLOBALS['TSFE'];
+    }
 
 }

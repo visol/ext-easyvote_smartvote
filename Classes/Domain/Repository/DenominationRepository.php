@@ -19,7 +19,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * The repository for Denominations
  */
-class DenominationRepository extends Repository {
+class DenominationRepository extends Repository
+{
 
 
 }

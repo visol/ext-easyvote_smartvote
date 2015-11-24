@@ -19,7 +19,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * The repository for CivilStates
  */
-class CivilStateRepository extends Repository {
+class CivilStateRepository extends Repository
+{
 
 
 }

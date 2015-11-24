@@ -20,84 +20,90 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Service for retrieving a token.
  */
-class TokenService implements SingletonInterface {
+class TokenService implements SingletonInterface
+{
 
-	/**
-	 * Return a storage token.
-	 *
-	 * @param int $currentElectionUid
-	 * @param bool $ignoreTimeStamp Ignore the current timestamp for the token generation to provide a persistent token
-	 * @return int
-	 */
-	public function generate($currentElectionUid, $ignoreTimeStamp = FALSE) {
+    /**
+     * Return a storage token.
+     *
+     * @param int $currentElectionUid
+     * @param bool $ignoreTimeStamp Ignore the current timestamp for the token generation to provide a persistent token
+     * @return int
+     */
+    public function generate($currentElectionUid, $ignoreTimeStamp = FALSE)
+    {
 
-		if ($ignoreTimeStamp) {
-			$token = sprintf(
-				'ext-easyvote-smart-%s-%s',
-				$currentElectionUid,
-				$this->getLanguageOfWebsite()
-			);
-		} else {
-			$token = sprintf(
-				'ext-easyvote-smart-%s-%s-%s',
-				$currentElectionUid,
-				$this->getLanguageOfWebsite(),
-				$this->getElectionCacheTimeStamp($currentElectionUid)
-			);
-		}
+        if ($ignoreTimeStamp) {
+            $token = sprintf(
+                'ext-easyvote-smart-%s-%s',
+                $currentElectionUid,
+                $this->getLanguageOfWebsite()
+            );
+        } else {
+            $token = sprintf(
+                'ext-easyvote-smart-%s-%s-%s',
+                $currentElectionUid,
+                $this->getLanguageOfWebsite(),
+                $this->getElectionCacheTimeStamp($currentElectionUid)
+            );
+        }
 
-		// Offend the token.
-		$token = md5($token);
+        // Offend the token.
+        $token = md5($token);
 
-		// Bind the token to the user and persist that in the User preferences.
-		if ($this->getUserService()->isAuthenticated()) {
-			$this->getUserService()->initializeCache($token);
-		}
-		return $token;
-	}
+        // Bind the token to the user and persist that in the User preferences.
+        if ($this->getUserService()->isAuthenticated()) {
+            $this->getUserService()->initializeCache($token);
+        }
+        return $token;
+    }
 
-	/**
-	 * Tell whether the token is allowed for this User.
-	 *
-	 * @param string $token
-	 * @return true
-	 */
-	public function isAllowed($token) {
-		return $this->getUserService()->hasCache($token);
-	}
+    /**
+     * Tell whether the token is allowed for this User.
+     *
+     * @param string $token
+     * @return true
+     */
+    public function isAllowed($token)
+    {
+        return $this->getUserService()->hasCache($token);
+    }
 
-	/**
-	 * @return int
-	 */
-	protected function getLanguageOfWebsite() {
-		return (int)GeneralUtility::_GP('L');
-	}
+    /**
+     * @return int
+     */
+    protected function getLanguageOfWebsite()
+    {
+        return (int)GeneralUtility::_GP('L');
+    }
 
-	/**
-	 * @param int $currentElectionUid
-	 * @return int
-	 */
-	protected function getElectionCacheTimeStamp($currentElectionUid) {
-		$cachePath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote';
+    /**
+     * @param int $currentElectionUid
+     * @return int
+     */
+    protected function getElectionCacheTimeStamp($currentElectionUid)
+    {
+        $cachePath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote';
 
-		// Make sure directory exists otherwise create it.
-		if (!is_dir($cachePath)) {
-			mkdir($cachePath, 0777, TRUE);
-		}
+        // Make sure directory exists otherwise create it.
+        if (!is_dir($cachePath)) {
+            mkdir($cachePath, 0777, TRUE);
+        }
 
-		$cacheFileAndPath = $cachePath . '/election-' . $currentElectionUid;
-		if (!is_file($cacheFileAndPath)) {
-			touch($cacheFileAndPath);
-		}
+        $cacheFileAndPath = $cachePath . '/election-' . $currentElectionUid;
+        if (!is_file($cacheFileAndPath)) {
+            touch($cacheFileAndPath);
+        }
 
-		return filemtime($cacheFileAndPath);
-	}
+        return filemtime($cacheFileAndPath);
+    }
 
-	/**
-	 * @return UserService
-	 */
-	protected function getUserService() {
-		return GeneralUtility::makeInstance(UserService::class);
-	}
+    /**
+     * @return UserService
+     */
+    protected function getUserService()
+    {
+        return GeneralUtility::makeInstance(UserService::class);
+    }
 
 }

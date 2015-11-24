@@ -21,42 +21,45 @@ use Visol\EasyvoteSmartvote\Enumeration\Model;
 /**
  * Import Question Categories from the SmartVote platform.
  */
-class QuestionCategoryImporter extends AbstractImporter {
+class QuestionCategoryImporter extends AbstractImporter
+{
 
-	/**
-	 * @var
-	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_questioncategory';
+    /**
+     * @var
+     */
+    protected $tableName = 'tx_easyvotesmartvote_domain_model_questioncategory';
 
-	/**
-	 * @var
-	 */
-	protected $internalIdentifier = 'id';
+    /**
+     * @var
+     */
+    protected $internalIdentifier = 'id';
 
-	/**
-	 * @var Election
-	 */
-	protected $election;
+    /**
+     * @var Election
+     */
+    protected $election;
 
-	/**
-	 * @var
-	 */
-	protected $mappingFields = array(
-		'name' => 'name',
-	);
+    /**
+     * @var
+     */
+    protected $mappingFields = array(
+        'name' => 'name',
+    );
 
-	/**
-	 * @return array
-	 */
-	public function import() {
-		return parent::import(Model::QUESTION_CATEGORY);
-	}
+    /**
+     * @return array
+     */
+    public function import()
+    {
+        return parent::import(Model::QUESTION_CATEGORY);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function localize() {
-		return parent::localize(Model::QUESTION_CATEGORY);
-	}
+    /**
+     * @return array
+     */
+    public function localize()
+    {
+        return parent::localize(Model::QUESTION_CATEGORY);
+    }
 
 }

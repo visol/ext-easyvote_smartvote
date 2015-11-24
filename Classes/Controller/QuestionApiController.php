@@ -23,44 +23,47 @@ use Visol\EasyvoteSmartvote\Service\UserService;
 /**
  * Question Controller
  */
-class QuestionApiController extends AbstractBaseApiController {
+class QuestionApiController extends AbstractBaseApiController
+{
 
-	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\QuestionRepository
-	 * @inject
-	 */
-	protected $questionRepository;
+    /**
+     * @var \Visol\EasyvoteSmartvote\Domain\Repository\QuestionRepository
+     * @inject
+     */
+    protected $questionRepository;
 
-	/**
-	 * @param Election $election
-	 * @return string
-	 */
-	public function listAction(Election $election = NULL) {
+    /**
+     * @param Election $election
+     * @return string
+     */
+    public function listAction(Election $election = NULL)
+    {
 
-		$this->initializeCache();
+        $this->initializeCache();
 
-		$cacheIdentifier = 'questions-' . $election->getUid() . '-lang-' . (int)$GLOBALS['TSFE']->sys_language_uid;
-		$questions = $this->cacheInstance->get($cacheIdentifier);
+        $cacheIdentifier = 'questions-' . $election->getUid() . '-lang-' . (int)$GLOBALS['TSFE']->sys_language_uid;
+        $questions = $this->cacheInstance->get($cacheIdentifier);
 
-		if (empty($questions)) {
-			$questions = $this->questionRepository->findByElection($election);
-			$questions = $this->getQuestionProcessor()->process($questions);
-			$questions = json_encode($questions);
+        if (empty($questions)) {
+            $questions = $this->questionRepository->findByElection($election);
+            $questions = $this->getQuestionProcessor()->process($questions);
+            $questions = json_encode($questions);
 
-			$tags = array();
-			$lifetime = $this->getLifeTime();
-			$this->cacheInstance->set($cacheIdentifier, $questions, $tags, $lifetime);
-		}
+            $tags = array();
+            $lifetime = $this->getLifeTime();
+            $this->cacheInstance->set($cacheIdentifier, $questions, $tags, $lifetime);
+        }
 
-		$this->response->setHeader('Content-Type', 'application/json');
-		return $questions;
-	}
+        $this->response->setHeader('Content-Type', 'application/json');
+        return $questions;
+    }
 
-	/**
-	 * @return QuestionProcessor
-	 */
-	public function getQuestionProcessor() {
-		return $this->objectManager->get(QuestionProcessor::class);
-	}
+    /**
+     * @return QuestionProcessor
+     */
+    public function getQuestionProcessor()
+    {
+        return $this->objectManager->get(QuestionProcessor::class);
+    }
 
 }

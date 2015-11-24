@@ -20,23 +20,25 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * Question Controller
  */
-class QuestionController extends ActionController {
+class QuestionController extends ActionController
+{
 
-	/**
-	 * @var \Visol\EasyvoteSmartvote\Domain\Repository\ElectionRepository
-	 * @inject
-	 */
-	protected $electionRepository;
+    /**
+     * @var \Visol\EasyvoteSmartvote\Domain\Repository\ElectionRepository
+     * @inject
+     */
+    protected $electionRepository;
 
-	/**
-	 * @return void
-	 */
-	public function indexAction() {
-		$electionIdentifier = (int)$this->settings['election'];
-		$currentElection = $this->electionRepository->findByUid($electionIdentifier);
-		$this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
-		$this->view->assign('currentElection', $currentElection);
-		$this->view->assign('settings', $this->settings);
-	}
+    /**
+     * @return void
+     */
+    public function indexAction()
+    {
+        $electionIdentifier = (int)$this->settings['election'];
+        $currentElection = $this->electionRepository->findByUid($electionIdentifier);
+        $this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
+        $this->view->assign('currentElection', $currentElection);
+        $this->view->assign('settings', $this->settings);
+    }
 
 }

@@ -23,116 +23,123 @@ use Visol\EasyvoteSmartvote\Enumeration\Model;
 /**
  * Importer service
  */
-class ImporterService {
+class ImporterService
+{
 
-	/**
-	 * @var Election
-	 */
-	protected $election;
+    /**
+     * @var Election
+     */
+    protected $election;
 
-	/**
-	 * @var array
-	 */
-	protected $logs = array();
+    /**
+     * @var array
+     */
+    protected $logs = array();
 
-	/**
-	 * @var bool
-	 */
-	protected $verbose;
+    /**
+     * @var bool
+     */
+    protected $verbose;
 
-	/**
-	 * Constructor
-	 *
-	 * @param Election $election
-	 */
-	public function __construct(Election $election){
-		$this->election = $election;
-	}
+    /**
+     * Constructor
+     *
+     * @param Election $election
+     */
+    public function __construct(Election $election)
+    {
+        $this->election = $election;
+    }
 
-	/**
-	 * @param bool $verbose
-	 * @return array
-	 */
-	public function import($verbose = FALSE) {
+    /**
+     * @param bool $verbose
+     * @return array
+     */
+    public function import($verbose = FALSE)
+    {
 
-		$this->verbose = $verbose;
+        $this->verbose = $verbose;
 
-		$this->importFor('Denomination');
-		$this->importFor('CivilState');
-		$this->importFor('Education');
-		$this->importFor('District');
-		$this->importFor('ElectionList');
-		$this->importFor('Party');
-		$this->importFor('QuestionCategory');
-		$this->importFor('Question');
-		$this->importFor('Candidate');
+        $this->importFor('Denomination');
+        $this->importFor('CivilState');
+        $this->importFor('Education');
+        $this->importFor('District');
+        $this->importFor('ElectionList');
+        $this->importFor('Party');
+        $this->importFor('QuestionCategory');
+        $this->importFor('Question');
+        $this->importFor('Candidate');
 
-		return $this->logs;
-	}
+        return $this->logs;
+    }
 
-	/**
-	 * @param bool $verbose
-	 * @return array
-	 */
-	public function localize($verbose = FALSE) {
+    /**
+     * @param bool $verbose
+     * @return array
+     */
+    public function localize($verbose = FALSE)
+    {
 
-		$this->verbose = $verbose;
+        $this->verbose = $verbose;
 
-		$this->localizeFor('Denomination');
-		$this->localizeFor('CivilState');
-		$this->localizeFor('Education');
-		$this->localizeFor('District');
-		$this->localizeFor('Party');
-		$this->localizeFor('QuestionCategory');
-		$this->localizeFor('Question');
+        $this->localizeFor('Denomination');
+        $this->localizeFor('CivilState');
+        $this->localizeFor('Education');
+        $this->localizeFor('District');
+        $this->localizeFor('Party');
+        $this->localizeFor('QuestionCategory');
+        $this->localizeFor('Question');
 
-		return $this->logs;
-	}
+        return $this->logs;
+    }
 
-	/**
-	 * @param string $dataType
-	 */
-	protected function importFor($dataType){
+    /**
+     * @param string $dataType
+     */
+    protected function importFor($dataType)
+    {
 
-		$log = sprintf('Importing %s... ', $dataType);
+        $log = sprintf('Importing %s... ', $dataType);
 
-		/** @var ImporterInterface $importer */
-		$className = sprintf('Visol\EasyvoteSmartvote\Importer\%sImporter', $dataType);
-		$importer = GeneralUtility::makeInstance($className, $this->election);
+        /** @var ImporterInterface $importer */
+        $className = sprintf('Visol\EasyvoteSmartvote\Importer\%sImporter', $dataType);
+        $importer = GeneralUtility::makeInstance($className, $this->election);
 
-		$collectedData = $importer->import();
-		$this->log(sprintf($log . '%s', $collectedData['numberOfItems']));
+        $collectedData = $importer->import();
+        $this->log(sprintf($log . '%s', $collectedData['numberOfItems']));
 
-		if ($this->verbose) {
-			$this->log(sprintf('  -> %s', $collectedData['url']));
-		}
-	}
+        if ($this->verbose) {
+            $this->log(sprintf('  -> %s', $collectedData['url']));
+        }
+    }
 
-	/**
-	 * @param string $dataType
-	 */
-	protected function localizeFor($dataType){
+    /**
+     * @param string $dataType
+     */
+    protected function localizeFor($dataType)
+    {
 
-		$log = sprintf('Localizing %s... ', $dataType);
+        $log = sprintf('Localizing %s... ', $dataType);
 
-		/** @var ImporterInterface $importer */
-		$className = sprintf('Visol\EasyvoteSmartvote\Importer\%sImporter', $dataType);
-		$importer = GeneralUtility::makeInstance($className, $this->election);
+        /** @var ImporterInterface $importer */
+        $className = sprintf('Visol\EasyvoteSmartvote\Importer\%sImporter', $dataType);
+        $importer = GeneralUtility::makeInstance($className, $this->election);
 
-		$collectedData = $importer->localize();
-		$this->log(sprintf($log . '%s', $collectedData['numberOfItems']));
+        $collectedData = $importer->localize();
+        $this->log(sprintf($log . '%s', $collectedData['numberOfItems']));
 
-		if ($this->verbose) {
-			$this->log(sprintf('  -> %s', $collectedData['url']));
-		}
-	}
+        if ($this->verbose) {
+            $this->log(sprintf('  -> %s', $collectedData['url']));
+        }
+    }
 
-	/**
-	 * @param string $log
-	 * @return void
-	 */
-	protected function log($log){
-		$this->logs[] = $log . "\n";
-	}
+    /**
+     * @param string $log
+     * @return void
+     */
+    protected function log($log)
+    {
+        $this->logs[] = $log . "\n";
+    }
 
 }

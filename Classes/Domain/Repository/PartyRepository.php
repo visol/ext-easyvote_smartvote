@@ -19,7 +19,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * The repository for Parties
  */
-class PartyRepository extends Repository {
+class PartyRepository extends Repository
+{
 
 
 }

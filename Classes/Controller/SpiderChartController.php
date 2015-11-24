@@ -19,14 +19,16 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * SpiderChart Controller
  */
-class SpiderChartController extends ActionController {
+class SpiderChartController extends ActionController
+{
 
 
-	/**
-	 * @return void
-	 */
-	public function indexAction() {
+    /**
+     * @return void
+     */
+    public function indexAction()
+    {
 
-	}
+    }
 
 }

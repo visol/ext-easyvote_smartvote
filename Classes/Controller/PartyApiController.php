@@ -20,48 +20,51 @@ use Visol\EasyvoteSmartvote\Processor\PartyProcessor;
 /**
  * Party Api Controller
  */
-class PartyApiController extends AbstractBaseApiController {
+class PartyApiController extends AbstractBaseApiController
+{
 
-	/**
-	 * @var \Visol\Easyvote\Domain\Repository\PartyRepository
-	 * @inject
-	 */
-	protected $partyRepository;
+    /**
+     * @var \Visol\Easyvote\Domain\Repository\PartyRepository
+     * @inject
+     */
+    protected $partyRepository;
 
-	/**
-	 * @var \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend
-	 */
-	protected $cacheInstance;
+    /**
+     * @var \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend
+     */
+    protected $cacheInstance;
 
-	/**
-	 * @param Election $election
-	 * @return string
-	 */
-	public function listAction(Election $election = NULL) {
-		$this->initializeCache();
+    /**
+     * @param Election $election
+     * @return string
+     */
+    public function listAction(Election $election = NULL)
+    {
+        $this->initializeCache();
 
-		$cacheIdentifier = sprintf('parties-%s-lang-%s', $election->getUid(), (int)$GLOBALS['TSFE']->sys_language_uid);
-		$parties = $this->cacheInstance->get($cacheIdentifier);
+        $cacheIdentifier = sprintf('parties-%s-lang-%s', $election->getUid(), (int)$GLOBALS['TSFE']->sys_language_uid);
+        $parties = $this->cacheInstance->get($cacheIdentifier);
 
-		if (!$parties) {
-			$parties = $this->partyRepository->findAllWithoutOthers();
-			$parties = $this->getPartyProcessor()->process($parties);
-			$parties = json_encode($parties);
+        if (!$parties) {
+            $parties = $this->partyRepository->findAllWithoutOthers();
+            $parties = $this->getPartyProcessor()->process($parties);
+            $parties = json_encode($parties);
 
-			$tags = array();
-			$lifetime = $this->getLifeTime();
-			$this->cacheInstance->set($cacheIdentifier, $parties, $tags, $lifetime);
-		}
+            $tags = array();
+            $lifetime = $this->getLifeTime();
+            $this->cacheInstance->set($cacheIdentifier, $parties, $tags, $lifetime);
+        }
 
-		$this->response->setHeader('Content-Type', 'application/json');
-		return $parties;
-	}
+        $this->response->setHeader('Content-Type', 'application/json');
+        return $parties;
+    }
 
-	/**
-	 * @return PartyProcessor
-	 */
-	public function getPartyProcessor() {
-		return $this->objectManager->get(PartyProcessor::class);
-	}
+    /**
+     * @return PartyProcessor
+     */
+    public function getPartyProcessor()
+    {
+        return $this->objectManager->get(PartyProcessor::class);
+    }
 
 }

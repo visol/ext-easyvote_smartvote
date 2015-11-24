@@ -21,42 +21,45 @@ use Visol\EasyvoteSmartvote\Enumeration\Model;
 /**
  * Import Civil States from the SmartVote platform.
  */
-class CivilStateImporter extends AbstractImporter {
+class CivilStateImporter extends AbstractImporter
+{
 
-	/**
-	 * @var
-	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_civilstate';
+    /**
+     * @var
+     */
+    protected $tableName = 'tx_easyvotesmartvote_domain_model_civilstate';
 
-	/**
-	 * @var
-	 */
-	protected $internalIdentifier = 'id';
+    /**
+     * @var
+     */
+    protected $internalIdentifier = 'id';
 
-	/**
-	 * @var Election
-	 */
-	protected $election;
+    /**
+     * @var Election
+     */
+    protected $election;
 
-	/**
-	 * @var
-	 */
-	protected $mappingFields = array(
-		'name' => 'name',
-	);
+    /**
+     * @var
+     */
+    protected $mappingFields = array(
+        'name' => 'name',
+    );
 
-	/**
-	 * @return array
-	 */
-	public function import() {
-		return parent::import(Model::CIVIL_STATE);
-	}
+    /**
+     * @return array
+     */
+    public function import()
+    {
+        return parent::import(Model::CIVIL_STATE);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function localize() {
-		return parent::localize(Model::CIVIL_STATE);
-	}
+    /**
+     * @return array
+     */
+    public function localize()
+    {
+        return parent::localize(Model::CIVIL_STATE);
+    }
 
 }

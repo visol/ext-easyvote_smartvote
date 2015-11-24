@@ -24,43 +24,48 @@ use Visol\EasyvoteSmartvote\Service\UserService;
 /**
  * Service related to Districts.
  */
-class DistrictService implements SingletonInterface {
+class DistrictService implements SingletonInterface
+{
 
-	/**
-	 * @param Election $election
-	 * @return null
-	 */
-	public function getUserDistrictForCurrentElection(Election $election) {
-		if (!$this->getUserService()->isAuthenticated()) {
-			return NULL;
-		}
-		$userData = $this->getUserService()->getUserData();
-		if (array_key_exists('city_selection', $userData) && !empty($userData['city_selection'])) {
-			return $this->getDistrictRepository()->findOneByElectionAndCityUid($election, $userData['city_selection']);
-		} else {
-			return NULL;
-		}
-	}
+    /**
+     * @param Election $election
+     * @return null
+     */
+    public function getUserDistrictForCurrentElection(Election $election)
+    {
+        if (!$this->getUserService()->isAuthenticated()) {
+            return NULL;
+        }
+        $userData = $this->getUserService()->getUserData();
+        if (array_key_exists('city_selection', $userData) && !empty($userData['city_selection'])) {
+            return $this->getDistrictRepository()->findOneByElectionAndCityUid($election, $userData['city_selection']);
+        } else {
+            return NULL;
+        }
+    }
 
-	/**
-	 * @return UserService
-	 */
-	protected function getUserService() {
-		return GeneralUtility::makeInstance(UserService::class);
-	}
+    /**
+     * @return UserService
+     */
+    protected function getUserService()
+    {
+        return GeneralUtility::makeInstance(UserService::class);
+    }
 
-	/**
-	 * @return DistrictRepository
-	 */
-	protected function getDistrictRepository() {
-		return $this->getObjectManager()->get(DistrictRepository::class);
-	}
+    /**
+     * @return DistrictRepository
+     */
+    protected function getDistrictRepository()
+    {
+        return $this->getObjectManager()->get(DistrictRepository::class);
+    }
 
-	/**
-	 * @return \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected function getObjectManager() {
-		return GeneralUtility::makeInstance(ObjectManager::class);
-	}
+    /**
+     * @return \TYPO3\CMS\Extbase\Object\ObjectManager
+     */
+    protected function getObjectManager()
+    {
+        return GeneralUtility::makeInstance(ObjectManager::class);
+    }
 
 }

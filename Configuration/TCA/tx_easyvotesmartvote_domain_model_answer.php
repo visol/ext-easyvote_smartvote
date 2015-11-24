@@ -3,9 +3,9 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_answer'] = array(
-	array(
-		'ctrl' => array(
+$GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_answer'] = [
+	[
+		'ctrl' => [
 			'title'	=> 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_answer',
 			'label' => 'question',
 			'tstamp' => 'tstamp',
@@ -17,109 +17,109 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_answer'] = array(
 			'transOrigPointerField' => 'l10n_parent',
 			'transOrigDiffSourceField' => 'l10n_diffsource',
 			'delete' => 'deleted',
-			'enablecolumns' => array(
+			'enablecolumns' => [
 				'disabled' => 'hidden',
 
-			),
+			],
 			'searchFields' => 'question,internal_identifier,value,comment,election,',
 			'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_answer.gif'
-		),
-	),
-	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, question, internal_identifier, value, comment, election, '),
-	),
-	'palettes' => array(
-		'1' => array('showitem' => ''),
-	),
-	'columns' => array(
+		],
+	],
+	'types' => [
+		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, question, internal_identifier, value, comment, election, '],
+	],
+	'palettes' => [
+		'1' => ['showitem' => ''],
+	],
+	'columns' => [
 
-		'sys_language_uid' => array(
+		'sys_language_uid' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
-					array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0)
-				),
-			),
-		),
-		'l10n_parent' => array(
+				'items' => [
+					['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
+					['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0]
+				],
+			],
+		],
+		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
-				'items' => array(
-					array('', 0),
-				),
+				'items' => [
+					['', 0],
+				],
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_answer',
 				'foreign_table_where' => 'AND tx_easyvotesmartvote_domain_model_answer.pid=###CURRENT_PID### AND tx_easyvotesmartvote_domain_model_answer.sys_language_uid IN (-1,0)',
-			),
-		),
-		'l10n_diffsource' => array(
-			'config' => array(
+			],
+		],
+		'l10n_diffsource' => [
+			'config' => [
 				'type' => 'passthrough',
-			),
-		),
+			],
+		],
 
-		'hidden' => array(
+		'hidden' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
-			'config' => array(
+			'config' => [
 				'type' => 'check',
-			),
-		),
+			],
+		],
 
-		'question' => array(
+		'question' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_answer.question',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 4,
 				'eval' => 'int'
-			)
-		),
-		'internal_identifier' => array(
+			]
+		],
+		'internal_identifier' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_answer.internal_identifier',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 4,
 				'eval' => 'int'
-			)
-		),
-		'value' => array(
+			]
+		],
+		'value' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_answer.value',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 4,
 				'eval' => 'int'
-			)
-		),
-		'comment' => array(
+			]
+		],
+		'comment' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_answer.comment',
-			'config' => array(
+			'config' => [
 				'type' => 'text',
 				'cols' => 40,
 				'rows' => 15,
 				'eval' => 'trim'
-			)
-		),
-		'election' => array(
+			]
+		],
+		'election' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/locallang_db.xlf:tx_easyvotesmartvote_domain_model_answer.election',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'tx_easyvotesmartvote_domain_model_election',
 				'minitems' => 0,
 				'maxitems' => 1,
-			),
-		),
+			],
+		],
 
-	),
-);
+	],
+];

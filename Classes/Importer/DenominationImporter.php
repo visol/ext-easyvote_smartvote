@@ -21,44 +21,47 @@ use Visol\EasyvoteSmartvote\Enumeration\Model;
 /**
  * Import Denominations from the SmartVote platform.
  */
-class DenominationImporter extends AbstractImporter {
+class DenominationImporter extends AbstractImporter
+{
 
-	/**
-	 * @var
-	 */
-	protected $tableName = 'tx_easyvotesmartvote_domain_model_denomination';
+    /**
+     * @var
+     */
+    protected $tableName = 'tx_easyvotesmartvote_domain_model_denomination';
 
-	/**
-	 * @var
-	 */
-	protected $internalIdentifier = 'id';
+    /**
+     * @var
+     */
+    protected $internalIdentifier = 'id';
 
-	/**
-	 * @var Election
-	 */
-	protected $election;
+    /**
+     * @var Election
+     */
+    protected $election;
 
-	/**
-	 * @var
-	 */
-	protected $mappingFields = array(
-		'name' => 'name',
-	);
+    /**
+     * @var
+     */
+    protected $mappingFields = array(
+        'name' => 'name',
+    );
 
-	/**
-	 * Import the
-	 *
-	 * @return array
-	 */
-	public function import() {
-		return parent::import(Model::DENOMINATION);
-	}
+    /**
+     * Import the
+     *
+     * @return array
+     */
+    public function import()
+    {
+        return parent::import(Model::DENOMINATION);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function localize() {
-		return parent::localize(Model::DENOMINATION);
-	}
+    /**
+     * @return array
+     */
+    public function localize()
+    {
+        return parent::localize(Model::DENOMINATION);
+    }
 
 }
