@@ -36,8 +36,8 @@ export default class FacetView extends Backbone.View {
 
 		this.model = new FacetModel();
 
-		if (this.model.hasState()) {
-			this.model.setState();
+		if (this.model.hasStateInUri()) {
+			this.model.setStateFromUri();
 		} else {
 			this.model.fetch()
 		}
@@ -102,6 +102,12 @@ export default class FacetView extends Backbone.View {
 			this.model.save(data);
 			Backbone.trigger('facet:changed');
 		}
+
+		// Save district name to solve issue for associated election.
+		this.model.set('districtName', $('#district option:selected').text());
+		this.model.save();
+
+		this.handleDistrictForAlternativeElection();
 	}
 
 	/**
@@ -124,8 +130,45 @@ export default class FacetView extends Backbone.View {
 		this.$el.html(content);
 		this.stickit();
 
+		console.log(123);
+		this.handleDistrictForAlternativeElection();
+
 		// Hide by default until we can tell whether the box should be shown or not.
 		$('#container-candidate-filter').closest('.csc-default').removeClass('hidden');
+	}
+
+	/**
+	 * @return void
+	 */
+	handleDistrictForAlternativeElection() {
+		if (this.model.get('district')) {
+
+			if (this.isDistrictCoherentWithCurrentElection()) {
+				// Store districtName to later retrieve the district id in an alternative election context.
+				this.model.set('districtName', $('#district option:selected').text());
+				this.model.save();
+			} else {
+				var districtName = this.model.get('districtName');
+				var value = $('#district option')
+						.filter((index, element) => {
+							return $(element).html() == districtName;
+						})
+						.val();
+
+				// Reset the new district value for this election.
+				if (value) {
+					this.model.set('district', value);
+					this.model.save();
+				}
+			}
+		}
+	}
+
+	/**
+	 * @return boolean
+	 */
+	isDistrictCoherentWithCurrentElection() {
+		return this.model.get('district') == $('#district').val();
 	}
 
 }

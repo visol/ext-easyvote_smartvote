@@ -18,6 +18,7 @@ export default class FacetModel extends Backbone.Model {
 			nationalParty: '',
 			persona: '',
 			district: EasyvoteSmartvote.userDistrict,
+			districtName: '', // store the district name to workaround Smartvote model: district do not have the same id for Nationalrat and Ständerat election.
 			minAge: '18',
 			maxAge: '90',
 			incumbent: '',
@@ -32,20 +33,33 @@ export default class FacetModel extends Backbone.Model {
 	 * Initialize object.
 	 */
 	initialize() {
-		this.localStorage = new Backbone.LocalStorage('candidates-facet-' + EasyvoteSmartvote.token);
+		this.localStorage = new Backbone.LocalStorage('candidates-facet-' + this.getToken());
+	}
+
+	/**
+	 * Compute the token.
+	 *
+	 * @returns {string}
+	 */
+	getToken() {
+		var token = EasyvoteSmartvote.token;
+		if (EasyvoteSmartvote.relatedToken) {
+			token = EasyvoteSmartvote.relatedToken;
+		}
+		return token;
 	}
 
 	/**
 	 * Return whether the object has a state
 	 */
-	hasState() {
-		return Object.keys(this.getState()).length;
+	hasStateInUri() {
+		return Object.keys(this.getStateFromUri()).length;
 	}
 
 	/**
 	 * Get state of the object coming form the URL hash.
 	 */
-	getState() {
+	getStateFromUri() {
 
 		if (!this.state) {
 			this.state = {};
@@ -70,8 +84,8 @@ export default class FacetModel extends Backbone.Model {
 	/**
 	 * Set default values form the URL hash.
 	 */
-	setState() {
-		this.save(this.getState());
+	setStateFromUri() {
+		this.save(this.getStateFromUri());
 	}
 
 }
