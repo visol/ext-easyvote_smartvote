@@ -8,7 +8,7 @@
 
 export default class SpiderChartPlotter {
 
-	static plot(id, serie1, options, serie2 = []) {
+	static plot(id, serie1, serieName1, options, serie2 = [], serieName2 = '') {
 
 		var config = {
 			radius: 5,
@@ -47,13 +47,18 @@ export default class SpiderChartPlotter {
 		var radius = config.factor * Math.min(config.w / 2, config.h / 2);
 		var Format = d3.format('%');
 		d3.select(id).select('svg').remove();
-
-		var g = d3.select(id)
+		d3.select(id)
 			.append('svg')
 			.attr('width', config.w + config.ExtraWidthX)
-			.attr('height', config.h + config.ExtraWidthY)
-			.append('g')
-			.attr('transform', "translate(" + config.TranslateX + "," + config.TranslateY + ")");
+			.attr('height', config.h + config.ExtraWidthY);
+
+		//var g = d3.select(id)
+		//	.append('svg')
+		//	.attr('width', config.w + config.ExtraWidthX)
+		//	.attr('height', config.h + config.ExtraWidthY)
+		//	.append('g')
+		//	.attr('transform', "translate(" + config.TranslateX + "," + config.TranslateY + ")");
+
 
 		/**
 		 * Function that returns a SVG path
@@ -143,7 +148,7 @@ export default class SpiderChartPlotter {
 		//		id: 'visiblePath'
 		//	});
 
-		var dataset = [
+		var dataSet = [
 			{
 				position: 1,
 				text1: EasyvoteSmartvote.cleavage1Text1,
@@ -203,7 +208,7 @@ export default class SpiderChartPlotter {
 		];
 
 		// Loop around the dataset and write text + draw lines around the axis.
-		for (j = 0; j < dataset.length; j++) {
+		for (j = 0; j < dataSet.length; j++) {
 
 			// Label 1
 			d3.select(id).select('svg')
@@ -211,7 +216,7 @@ export default class SpiderChartPlotter {
 				.attr('text-anchor', 'middle')
 				.attr('transform', function() {
 					let realWidth = config.w + 2 * config.TranslateX;
-					return 'rotate(' + dataset[j].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
+					return 'rotate(' + dataSet[j].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
 				})
 				.style({
 					'font-family': 'Arial,Helvetica,sans-serif',
@@ -220,9 +225,9 @@ export default class SpiderChartPlotter {
 				.append('textPath')
 				.attr({
 					startOffset: '50%',
-					'xlink:href': '#' + dataset[j].path
+					'xlink:href': '#' + dataSet[j].path
 				})
-				.text(dataset[j].text1)
+				.text(dataSet[j].text1)
 			;
 
 
@@ -232,7 +237,7 @@ export default class SpiderChartPlotter {
 				.attr('text-anchor', 'middle')
 				.attr('transform', function() {
 					let realWidth = config.w + 2 * config.TranslateX;
-					return 'rotate(' + dataset[j].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
+					return 'rotate(' + dataSet[j].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
 				})
 				.style({
 					'font-family': 'Arial,Helvetica,sans-serif',
@@ -241,9 +246,9 @@ export default class SpiderChartPlotter {
 				.append('textPath')
 				.attr({
 					startOffset: '50%',
-					'xlink:href': '#' + dataset[j].path + 'InnerCircle'
+					'xlink:href': '#' + dataSet[j].path + 'InnerCircle'
 				})
-				.text(dataset[j].text2)
+				.text(dataSet[j].text2)
 			;
 
 			// Draw the axe
@@ -265,8 +270,8 @@ export default class SpiderChartPlotter {
 					'stroke-opacity': '0.75',
 					transform: object => {
 
-						let unitAngle = 360 / dataset.length;
-						let angle = unitAngle * dataset[j].position;
+						let unitAngle = 360 / dataSet.length;
+						let angle = unitAngle * dataSet[j].position;
 
 						let rotationOriginPointX = config.w / 2 + config.TranslateX;
 						let rotationOriginPointY = config.h / 2 + config.TranslateY;
@@ -300,48 +305,11 @@ export default class SpiderChartPlotter {
 			;
 		}
 
-		// Previous spider lines, which was replaced by circles
-		//for (var j = 0; j < config.levels; j++) {
-		//	var levelFactor = config.factor * radius * ((j + 1) / config.levels);
-		//	g.selectAll(".levels")
-		//		.data(allAxis)
-		//		.enter()
-		//		.append("svg:line")
-		//		.attr("x1", function(d, i) {
-		//			return levelFactor * (1 - config.factor * Math.sin(i * config.radians / total));
-		//		})
-		//		.attr("y1", function(d, i) {
-		//			return levelFactor * (1 - config.factor * Math.cos(i * config.radians / total));
-		//		})
-		//		.attr("x2", function(d, i) {
-		//			return levelFactor * (1 - config.factor * Math.sin((i + 1) * config.radians / total));
-		//		})
-		//		.attr("y2", function(d, i) {
-		//			return levelFactor * (1 - config.factor * Math.cos((i + 1) * config.radians / total));
-		//		})
-		//		.attr('class', "line")
-		//		.style("stroke", "grey")
-		//		.style("stroke-opacity", "0.75")
-		//		.style("stroke-width", "0.3px")
-		//		.attr('transform', "translate(" + (config.w / 2 - levelFactor) + ", " + (config.h / 2 - levelFactor) + ")");
-		//}
-
-		//Text indicating at what % each level is
-		//for(var j=0; j<config.levels; j++){
-		//  var levelFactor = config.factor*radius*((j+1)/config.levels);
-		//  g.selectAll(".levels")
-		//   .data([1]) //dummy data
-		//   .enter()
-		//   .append("svg:text")
-		//   .attr("x", function(d){return levelFactor*(1-config.factor*Math.sin(0));})
-		//   .attr("y", function(d){return levelFactor*(1-config.factor*Math.cos(0));})
-		//   .attr('class', "legend")
-		//   .style("font-family", "sans-serif")
-		//   .style("font-size", "10px")
-		//   .attr('transform', "translate(" + (config.w/2-levelFactor + config.ToRight) + ", " + (config.h/2-levelFactor) + ")")
-		//   .attr("fill", "#737373")
-		//   .text(Format((j+1)*config.maxValue/config.levels));
-		//}
+		// Spider graph
+		var g = d3.select(id)
+			.selectAll('svg')
+			.insert('g')
+			.attr('transform', "translate(" + config.TranslateX + "," + config.TranslateY + ")");
 
 		var axis = g.selectAll('.axis')
 			.data(allAxis)
@@ -349,18 +317,14 @@ export default class SpiderChartPlotter {
 			.append('g')
 			.attr('class', 'axis');
 
-		//axis.append('line')
-		//	.attr("x1", config.w / 2)
-		//	.attr("y1", config.h / 2)
-		//	.attr("x2", function(d, i) {
-		//		return config.w / 2 * (1 - config.factor * Math.sin(i * config.radians / total));
-		//	})
-		//	.attr("y2", function(d, i) {
-		//		return config.h / 2 * (1 - config.factor * Math.cos(i * config.radians / total));
-		//	})
-		//	.attr('class', 'line')
-		//	.style('stroke', 'grey')
-		//	.style('stroke-width', '1px');
+		//Tooltip
+		var tooltip = d3.select(id)
+				.selectAll('svg')
+				.insert('text')
+				.style('opacity', 0)
+				.style('font-family', 'Arial,Helvetica,sans-serif')
+				.style('font-weight', 'bold')
+				.style('font-size', '11px');
 
 		axis.append("text")
 			.attr('class', "legend")
@@ -381,11 +345,10 @@ export default class SpiderChartPlotter {
 				return config.h / 2 * (1 - Math.cos(i * config.radians / total)) - 20 * Math.cos(i * config.radians / total);
 			});
 
-		var tooltip;
 		var counter = 0;
 		var series = [
-			{points: serie2, color: '#E5005E'},
-			{points: serie1, color: config.color}
+			{points: serie2, color: '#E5005E', name: serieName2},
+			{points: serie1, color: config.color, name: serieName1}
 		];
 
 		for (var serie of series) {
@@ -411,6 +374,7 @@ export default class SpiderChartPlotter {
 					.attr('class', "radar-chart-serie" + counter)
 					.style("stroke-width", "2px")
 					.style("stroke", serie.color)
+					.attr('data-name', serie.name)
 					.attr("points", function(d) {
 						var str = "";
 						for (var pti = 0; pti < d.length; pti++) {
@@ -420,19 +384,42 @@ export default class SpiderChartPlotter {
 					})
 					.style("fill", serie.color)
 					.style("fill-opacity", config.opacityArea)
-					.on('mouseover', function(d) {
-						z = "polygon." + d3.select(this).attr('class');
-						g.selectAll("polygon")
-							.transition(200)
-							.style("fill-opacity", 0.1);
-						g.selectAll(z)
-							.transition(200)
-							.style("fill-opacity", .7);
+					.on('mousemove', function(d) {
+
+						// Get the mouse coordinate.
+						var coordinates = d3.mouse(this);
+						var newX = coordinates[0];
+						var newY = coordinates[1];
+
+						// Fetch name from the polygon
+						var name = d3.select(this).attr('data-name');
+
+						// Activate tooltip
+						tooltip
+							.attr('x', newX - 50) // offset-x so that the tooltip is centered.
+							.attr('y', newY)
+							.text(name)
+							.transition(0)
+							.style('fill', '#333')
+							.style('opacity', 1);
 					})
+					//.on('mouseover', function() {
+					//	// Remove effect when hovering on polygon.
+					//	var z = "polygon." + d3.select(this).attr('class');
+					//	g.selectAll("polygon")
+					//		.transition(200)
+					//		.style("fill-opacity", 0.1);
+					//	g.selectAll(z)
+					//		.transition(200)
+					//		.style("fill-opacity", .7);
+					//})
 					.on('mouseout', function() {
-						g.selectAll("polygon")
-							.transition(200)
-							.style("fill-opacity", config.opacityArea);
+						tooltip.style('opacity', 0);
+
+						// Remove effect when hovering on polygon.
+						//g.selectAll("polygon")
+						//	.transition(200)
+						//	.style("fill-opacity", config.opacityArea);
 					});
 				counter++;
 			});
@@ -464,8 +451,10 @@ export default class SpiderChartPlotter {
 					.style("fill", serie.color)
 					.style("fill-opacity", .9)
 					.on('mouseover', function(d) {
-						//newX = parseFloat(d3.select(this).attr('cx')) - 10;
-						//newY = parseFloat(d3.select(this).attr('cy')) - 5;
+
+						// Remove tooltip when hovering upon point.
+						//var newX = parseFloat(d3.select(this).attr('cx')) - 10;
+						//var newY = parseFloat(d3.select(this).attr('cy')) - 5;
 
 						//tooltip
 						//	.attr('x', newX)
@@ -474,33 +463,32 @@ export default class SpiderChartPlotter {
 						//	.transition(200)
 						//	.style('opacity', 1);
 
-						z = "polygon." + d3.select(this).attr('class');
-						g.selectAll("polygon")
-							.transition(200)
-							.style("fill-opacity", 0.1);
-						g.selectAll(z)
-							.transition(200)
-							.style("fill-opacity", .7);
+						// Remove visual effect when hovering upon point.
+						//z = "polygon." + d3.select(this).attr('class');
+						//g.selectAll("polygon")
+						//	.transition(200)
+						//	.style("fill-opacity", 0.1);
+						//g.selectAll(z)
+						//	.transition(200)
+						//	.style("fill-opacity", .7);
 					})
 					.on('mouseout', function() {
+
+						// Remove tooltip when hovering upon point.
 						//tooltip
 						//	.transition(200)
 						//	.style('opacity', 0);
-						g.selectAll("polygon")
-							.transition(200)
-							.style("fill-opacity", config.opacityArea);
+
+						// Remove visual effect when hovering upon point.
+						//g.selectAll("polygon")
+						//	.transition(200)
+						//	.style("fill-opacity", config.opacityArea);
 					})
 					.append("svg:title");
 				//.text(function(j){return Math.max(j.value, 0)});
 
 				counter++;
 			});
-			//Tooltip
-			//tooltip = g.append('text')
-			//		   .style('opacity', 0)
-			//		   .style('font-family', 'sans-serif')
-			//		   .style('font-size', '13px');
-
 		}
 	}
 }

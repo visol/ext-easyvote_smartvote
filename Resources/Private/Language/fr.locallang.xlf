@@ -319,7 +319,7 @@
 			<trans-unit id="candidate.list">
 				<target>Liste</target>
 			</trans-unit>
-			
+
 			<trans-unit id="candidate.share.opengraph.title">
 				<target>%1$s %2$s au Palais fédéral</target>
 			</trans-unit>
@@ -337,7 +337,7 @@
 			</trans-unit>
 			<trans-unit id="candidate.share.twitter">
 				<target>au Palais fédéral!</target>
-			</trans-unit>			
+			</trans-unit>
 
 			<trans-unit id="filter_reset">
 				<target>Réinitialiser les filtres</target>
@@ -524,7 +524,7 @@
 			</trans-unit>
 			<trans-unit id="party.clip.position_energy">
 				<target>eLhvE8TBZFI</target>
-			</trans-unit>			
+			</trans-unit>
 
 			<trans-unit id="questions.show_recommendation">
 				<target>Recommandation de vote</target>
@@ -542,6 +542,12 @@
 				<target>Recommandation de vote:</target>
 			</trans-unit>
 
+			<trans-unit id="chart.candidate_opinion">
+				<source>Avis politique de %s</source>
+			</trans-unit>
+			<trans-unit id="chart.your_opinion">
+				<source>Ton avis politique</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

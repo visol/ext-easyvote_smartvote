@@ -130,7 +130,6 @@ export default class FacetView extends Backbone.View {
 		this.$el.html(content);
 		this.stickit();
 
-		console.log(123);
 		this.handleDistrictForAlternativeElection();
 
 		// Hide by default until we can tell whether the box should be shown or not.

@@ -224,6 +224,7 @@ export default class SpiderChart {
 		SpiderChartPlotter.plot(
 			"#chart",
 			[serie],
+			'', // serie name
 			{
 				w: 240,
 				h: 240,

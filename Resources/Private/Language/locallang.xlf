@@ -546,6 +546,13 @@
 				<source>Hier geht es zu deiner persönlichen Wahlempfehlung:</source>
 			</trans-unit>
 
+			<trans-unit id="chart.candidate_opinion">
+				<source>%s's politische Meinung</source>
+			</trans-unit>
+			<trans-unit id="chart.your_opinion">
+				<source>Deine politische Meinung</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
