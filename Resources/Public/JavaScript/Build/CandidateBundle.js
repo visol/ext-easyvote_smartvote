@@ -326,7 +326,8 @@ var SpiderChart = (function () {
 
 				var serie = this.getSerie();
 
-				SpiderChartPlotter.plot("#chart", [serie], {
+				SpiderChartPlotter.plot("#chart", [serie], "", // serie name
+				{
 					w: 240,
 					h: 240,
 					levels: 5,
@@ -429,8 +430,9 @@ var SpiderChartPlotter = (function () {
 
 	_createClass(SpiderChartPlotter, null, {
 		plot: {
-			value: function plot(id, serie1, options) {
-				var serie2 = arguments[3] === undefined ? [] : arguments[3];
+			value: function plot(id, serie1, serieName1, options) {
+				var serie2 = arguments[4] === undefined ? [] : arguments[4];
+				var serieName2 = arguments[5] === undefined ? "" : arguments[5];
 
 				var config = {
 					radius: 5,
@@ -469,8 +471,14 @@ var SpiderChartPlotter = (function () {
 				var radius = config.factor * Math.min(config.w / 2, config.h / 2);
 				var Format = d3.format("%");
 				d3.select(id).select("svg").remove();
+				d3.select(id).append("svg").attr("width", config.w + config.ExtraWidthX).attr("height", config.h + config.ExtraWidthY);
 
-				var g = d3.select(id).append("svg").attr("width", config.w + config.ExtraWidthX).attr("height", config.h + config.ExtraWidthY).append("g").attr("transform", "translate(" + config.TranslateX + "," + config.TranslateY + ")");
+				//var g = d3.select(id)
+				//	.append('svg')
+				//	.attr('width', config.w + config.ExtraWidthX)
+				//	.attr('height', config.h + config.ExtraWidthY)
+				//	.append('g')
+				//	.attr('transform', "translate(" + config.TranslateX + "," + config.TranslateY + ")");
 
 				/**
      * Function that returns a SVG path
@@ -543,7 +551,7 @@ var SpiderChartPlotter = (function () {
 				//		id: 'visiblePath'
 				//	});
 
-				var dataset = [{
+				var dataSet = [{
 					position: 1,
 					text1: EasyvoteSmartvote.cleavage1Text1,
 					text2: EasyvoteSmartvote.cleavage1Text2,
@@ -594,31 +602,31 @@ var SpiderChartPlotter = (function () {
 				}];
 
 				// Loop around the dataset and write text + draw lines around the axis.
-				for (j = 0; j < dataset.length; j++) {
+				for (j = 0; j < dataSet.length; j++) {
 
 					// Label 1
 					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
 						var realWidth = config.w + 2 * config.TranslateX;
-						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
+						return "rotate(" + dataSet[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
 					}).style({
 						"font-family": "Arial,Helvetica,sans-serif",
 						"font-size": "10px"
 					}).append("textPath").attr({
 						startOffset: "50%",
-						"xlink:href": "#" + dataset[j].path
-					}).text(dataset[j].text1);
+						"xlink:href": "#" + dataSet[j].path
+					}).text(dataSet[j].text1);
 
 					// Label 2
 					d3.select(id).select("svg").append("text").attr("text-anchor", "middle").attr("transform", function () {
 						var realWidth = config.w + 2 * config.TranslateX;
-						return "rotate(" + dataset[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
+						return "rotate(" + dataSet[j].rotation + "," + realWidth / 2 + "," + realWidth / 2 + ")";
 					}).style({
 						"font-family": "Arial,Helvetica,sans-serif",
 						"font-size": "10px"
 					}).append("textPath").attr({
 						startOffset: "50%",
-						"xlink:href": "#" + dataset[j].path + "InnerCircle"
-					}).text(dataset[j].text2);
+						"xlink:href": "#" + dataSet[j].path + "InnerCircle"
+					}).text(dataSet[j].text2);
 
 					// Draw the axe
 					d3.select(id).selectAll("svg").append("path").attr({
@@ -637,8 +645,8 @@ var SpiderChartPlotter = (function () {
 						"stroke-opacity": "0.75",
 						transform: function (object) {
 
-							var unitAngle = 360 / dataset.length;
-							var angle = unitAngle * dataset[j].position;
+							var unitAngle = 360 / dataSet.length;
+							var angle = unitAngle * dataSet[j].position;
 
 							var rotationOriginPointX = config.w / 2 + config.TranslateX;
 							var rotationOriginPointY = config.h / 2 + config.TranslateY;
@@ -669,63 +677,13 @@ var SpiderChartPlotter = (function () {
 					});
 				}
 
-				// Previous spider lines, which was replaced by circles
-				//for (var j = 0; j < config.levels; j++) {
-				//	var levelFactor = config.factor * radius * ((j + 1) / config.levels);
-				//	g.selectAll(".levels")
-				//		.data(allAxis)
-				//		.enter()
-				//		.append("svg:line")
-				//		.attr("x1", function(d, i) {
-				//			return levelFactor * (1 - config.factor * Math.sin(i * config.radians / total));
-				//		})
-				//		.attr("y1", function(d, i) {
-				//			return levelFactor * (1 - config.factor * Math.cos(i * config.radians / total));
-				//		})
-				//		.attr("x2", function(d, i) {
-				//			return levelFactor * (1 - config.factor * Math.sin((i + 1) * config.radians / total));
-				//		})
-				//		.attr("y2", function(d, i) {
-				//			return levelFactor * (1 - config.factor * Math.cos((i + 1) * config.radians / total));
-				//		})
-				//		.attr('class', "line")
-				//		.style("stroke", "grey")
-				//		.style("stroke-opacity", "0.75")
-				//		.style("stroke-width", "0.3px")
-				//		.attr('transform', "translate(" + (config.w / 2 - levelFactor) + ", " + (config.h / 2 - levelFactor) + ")");
-				//}
-
-				//Text indicating at what % each level is
-				//for(var j=0; j<config.levels; j++){
-				//  var levelFactor = config.factor*radius*((j+1)/config.levels);
-				//  g.selectAll(".levels")
-				//   .data([1]) //dummy data
-				//   .enter()
-				//   .append("svg:text")
-				//   .attr("x", function(d){return levelFactor*(1-config.factor*Math.sin(0));})
-				//   .attr("y", function(d){return levelFactor*(1-config.factor*Math.cos(0));})
-				//   .attr('class', "legend")
-				//   .style("font-family", "sans-serif")
-				//   .style("font-size", "10px")
-				//   .attr('transform', "translate(" + (config.w/2-levelFactor + config.ToRight) + ", " + (config.h/2-levelFactor) + ")")
-				//   .attr("fill", "#737373")
-				//   .text(Format((j+1)*config.maxValue/config.levels));
-				//}
+				// Spider graph
+				var g = d3.select(id).selectAll("svg").insert("g").attr("transform", "translate(" + config.TranslateX + "," + config.TranslateY + ")");
 
 				var axis = g.selectAll(".axis").data(allAxis).enter().append("g").attr("class", "axis");
 
-				//axis.append('line')
-				//	.attr("x1", config.w / 2)
-				//	.attr("y1", config.h / 2)
-				//	.attr("x2", function(d, i) {
-				//		return config.w / 2 * (1 - config.factor * Math.sin(i * config.radians / total));
-				//	})
-				//	.attr("y2", function(d, i) {
-				//		return config.h / 2 * (1 - config.factor * Math.cos(i * config.radians / total));
-				//	})
-				//	.attr('class', 'line')
-				//	.style('stroke', 'grey')
-				//	.style('stroke-width', '1px');
+				//Tooltip
+				var tooltip = d3.select(id).selectAll("svg").insert("text").style("opacity", 0).style("font-family", "Arial,Helvetica,sans-serif").style("font-weight", "bold").style("font-size", "11px");
 
 				axis.append("text").attr("class", "legend").text(function (d) {
 					return d;
@@ -737,9 +695,8 @@ var SpiderChartPlotter = (function () {
 					return config.h / 2 * (1 - Math.cos(i * config.radians / total)) - 20 * Math.cos(i * config.radians / total);
 				});
 
-				var tooltip;
 				var counter = 0;
-				var series = [{ points: serie2, color: "#E5005E" }, { points: serie1, color: config.color }];
+				var series = [{ points: serie2, color: "#E5005E", name: serieName2 }, { points: serie1, color: config.color, name: serieName1 }];
 
 				var _iteratorNormalCompletion = true;
 				var _didIteratorError = false;
@@ -760,18 +717,43 @@ var SpiderChartPlotter = (function () {
 								dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
 							});
 							dataValues.push(dataValues[0]);
-							g.selectAll(".area").data([dataValues]).enter().append("polygon").attr("class", "radar-chart-serie" + counter).style("stroke-width", "2px").style("stroke", serie.color).attr("points", function (d) {
+							g.selectAll(".area").data([dataValues]).enter().append("polygon").attr("class", "radar-chart-serie" + counter).style("stroke-width", "2px").style("stroke", serie.color).attr("data-name", serie.name).attr("points", function (d) {
 								var str = "";
 								for (var pti = 0; pti < d.length; pti++) {
 									str = str + d[pti][0] + "," + d[pti][1] + " ";
 								}
 								return str;
-							}).style("fill", serie.color).style("fill-opacity", config.opacityArea).on("mouseover", function (d) {
-								z = "polygon." + d3.select(this).attr("class");
-								g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-								g.selectAll(z).transition(200).style("fill-opacity", 0.7);
-							}).on("mouseout", function () {
-								g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
+							}).style("fill", serie.color).style("fill-opacity", config.opacityArea).on("mousemove", function (d) {
+
+								// Get the mouse coordinate.
+								var coordinates = d3.mouse(this);
+								var newX = coordinates[0];
+								var newY = coordinates[1];
+
+								// Fetch name from the polygon
+								var name = d3.select(this).attr("data-name");
+
+								// Activate tooltip
+								tooltip.attr("x", newX - 40) // offset-x so that the tooltip is centered.
+								.attr("y", newY).text(name).transition(0).style("fill", "#333").style("opacity", 1);
+							})
+							//.on('mouseover', function() {
+							//	// Remove effect when hovering on polygon.
+							//	var z = "polygon." + d3.select(this).attr('class');
+							//	g.selectAll("polygon")
+							//		.transition(200)
+							//		.style("fill-opacity", 0.1);
+							//	g.selectAll(z)
+							//		.transition(200)
+							//		.style("fill-opacity", .7);
+							//})
+							.on("mouseout", function () {
+								tooltip.style("opacity", 0);
+
+								// Remove effect when hovering on polygon.
+								//g.selectAll("polygon")
+								//	.transition(200)
+								//	.style("fill-opacity", config.opacityArea);
 							});
 							counter++;
 						});
@@ -787,35 +769,11 @@ var SpiderChartPlotter = (function () {
 								return config.h / 2 * (1 - Math.max(j.value, 0) / config.maxValue * config.factor * Math.cos(i * config.radians / total));
 							}).attr("data-id", function (j) {
 								return j.axis;
-							}).style("fill", serie.color).style("fill-opacity", 0.9).on("mouseover", function (d) {
-								//newX = parseFloat(d3.select(this).attr('cx')) - 10;
-								//newY = parseFloat(d3.select(this).attr('cy')) - 5;
-
-								//tooltip
-								//	.attr('x', newX)
-								//	.attr('y', newY)
-								//	.text(Format(d.value))
-								//	.transition(200)
-								//	.style('opacity', 1);
-
-								z = "polygon." + d3.select(this).attr("class");
-								g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-								g.selectAll(z).transition(200).style("fill-opacity", 0.7);
-							}).on("mouseout", function () {
-								//tooltip
-								//	.transition(200)
-								//	.style('opacity', 0);
-								g.selectAll("polygon").transition(200).style("fill-opacity", config.opacityArea);
-							}).append("svg:title");
+							}).style("fill", serie.color).style("fill-opacity", 0.9).on("mouseover", function (d) {}).on("mouseout", function () {}).append("svg:title");
 							//.text(function(j){return Math.max(j.value, 0)});
 
 							counter++;
 						});
-						//Tooltip
-						//tooltip = g.append('text')
-						//		   .style('opacity', 0)
-						//		   .style('font-family', 'sans-serif')
-						//		   .style('font-size', '13px');
 					}
 				} catch (err) {
 					_didIteratorError = true;
@@ -839,6 +797,36 @@ var SpiderChartPlotter = (function () {
 })();
 
 module.exports = SpiderChartPlotter;
+
+// Remove tooltip when hovering upon point.
+//var newX = parseFloat(d3.select(this).attr('cx')) - 10;
+//var newY = parseFloat(d3.select(this).attr('cy')) - 5;
+
+//tooltip
+//	.attr('x', newX)
+//	.attr('y', newY)
+//	.text(Format(d.value))
+//	.transition(200)
+//	.style('opacity', 1);
+
+// Remove visual effect when hovering upon point.
+//z = "polygon." + d3.select(this).attr('class');
+//g.selectAll("polygon")
+//	.transition(200)
+//	.style("fill-opacity", 0.1);
+//g.selectAll(z)
+//	.transition(200)
+//	.style("fill-opacity", .7);
+
+// Remove tooltip when hovering upon point.
+//tooltip
+//	.transition(200)
+//	.style('opacity', 0);
+
+// Remove visual effect when hovering upon point.
+//g.selectAll("polygon")
+//	.transition(200)
+//	.style("fill-opacity", config.opacityArea);
 },{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
@@ -1750,6 +1738,7 @@ var FacetModel = (function (_Backbone$Model) {
 					nationalParty: "",
 					persona: "",
 					district: EasyvoteSmartvote.userDistrict,
+					districtName: "", // store the district name to workaround Smartvote model: district do not have the same id for Nationalrat and Ständerat election.
 					minAge: "18",
 					maxAge: "90",
 					incumbent: "",
@@ -1767,26 +1756,42 @@ var FacetModel = (function (_Backbone$Model) {
     */
 
 			value: function initialize() {
-				this.localStorage = new Backbone.LocalStorage("candidates-facet-" + EasyvoteSmartvote.token);
+				this.localStorage = new Backbone.LocalStorage("candidates-facet-" + this.getToken());
 			}
 		},
-		hasState: {
+		getToken: {
+
+			/**
+    * Compute the token.
+    *
+    * @returns {string}
+    */
+
+			value: function getToken() {
+				var token = EasyvoteSmartvote.token;
+				if (EasyvoteSmartvote.relatedToken) {
+					token = EasyvoteSmartvote.relatedToken;
+				}
+				return token;
+			}
+		},
+		hasStateInUri: {
 
 			/**
     * Return whether the object has a state
     */
 
-			value: function hasState() {
-				return _core.Object.keys(this.getState()).length;
+			value: function hasStateInUri() {
+				return _core.Object.keys(this.getStateFromUri()).length;
 			}
 		},
-		getState: {
+		getStateFromUri: {
 
 			/**
     * Get state of the object coming form the URL hash.
     */
 
-			value: function getState() {
+			value: function getStateFromUri() {
 
 				if (!this.state) {
 					this.state = {};
@@ -1828,14 +1833,14 @@ var FacetModel = (function (_Backbone$Model) {
 				return this.state;
 			}
 		},
-		setState: {
+		setStateFromUri: {
 
 			/**
     * Set default values form the URL hash.
     */
 
-			value: function setState() {
-				this.save(this.getState());
+			value: function setStateFromUri() {
+				this.save(this.getStateFromUri());
 			}
 		}
 	});
@@ -2110,12 +2115,12 @@ var CandidateView = (function (_Backbone$View) {
 					userSeries = [userSerie];
 				}
 
-				SpiderChartPlotter.plot("#chart-candidate-" + candidateId, [serie], {
+				SpiderChartPlotter.plot("#chart-candidate-" + candidateId, [serie], EasyvoteSmartvote.labelCandidateOpinion.replace("%s", this.model.get("firstName")), {
 					w: 240,
 					h: 240,
 					levels: 5,
 					maxValue: 1
-				}, userSeries);
+				}, userSeries, EasyvoteSmartvote.labelYourOpinion);
 			}
 		},
 		getUserSerie: {
@@ -2276,8 +2281,8 @@ var FacetView = (function (_Backbone$View) {
 
 		this.model = new FacetModel();
 
-		if (this.model.hasState()) {
-			this.model.setState();
+		if (this.model.hasStateInUri()) {
+			this.model.setStateFromUri();
 		} else {
 			this.model.fetch();
 		}
@@ -2372,6 +2377,12 @@ var FacetView = (function (_Backbone$View) {
 					this.model.save(data);
 					Backbone.trigger("facet:changed");
 				}
+
+				// Save district name to solve issue for associated election.
+				this.model.set("districtName", $("#district option:selected").text());
+				this.model.save();
+
+				this.handleDistrictForAlternativeElection();
 			}
 		},
 		reset: {
@@ -2400,8 +2411,48 @@ var FacetView = (function (_Backbone$View) {
 				this.$el.html(content);
 				this.stickit();
 
+				this.handleDistrictForAlternativeElection();
+
 				// Hide by default until we can tell whether the box should be shown or not.
 				$("#container-candidate-filter").closest(".csc-default").removeClass("hidden");
+			}
+		},
+		handleDistrictForAlternativeElection: {
+
+			/**
+    * @return void
+    */
+
+			value: function handleDistrictForAlternativeElection() {
+				if (this.model.get("district")) {
+
+					if (this.isDistrictCoherentWithCurrentElection()) {
+						// Store districtName to later retrieve the district id in an alternative election context.
+						this.model.set("districtName", $("#district option:selected").text());
+						this.model.save();
+					} else {
+						var districtName = this.model.get("districtName");
+						var value = $("#district option").filter(function (index, element) {
+							return $(element).html() == districtName;
+						}).val();
+
+						// Reset the new district value for this election.
+						if (value) {
+							this.model.set("district", value);
+							this.model.save();
+						}
+					}
+				}
+			}
+		},
+		isDistrictCoherentWithCurrentElection: {
+
+			/**
+    * @return boolean
+    */
+
+			value: function isDistrictCoherentWithCurrentElection() {
+				return this.model.get("district") == $("#district").val();
 			}
 		}
 	});
@@ -2667,7 +2718,10 @@ var ListView = (function (_Backbone$View) {
 			value: function render() {
 				var _this = this;
 
-				if (this.facetView.hasMinimumFilter()) {
+				var displayElected = $(".evsv-displayElected").length > 0;
+				var displayDeselected = $(".evsv-displayDeselected").length > 0;
+
+				if (this.facetView.hasMinimumFilter() && !displayElected && !displayDeselected) {
 
 					// Only fetch chunk of data if necessary
 					if (this.district != this.facetView.model.get("district") || this.nationalParty != this.facetView.model.get("nationalParty") || this.elected != this.facetView.model.get("elected") || this.deselected != this.facetView.model.get("deselected") || this.persona != this.facetView.model.get("persona")) {
@@ -2696,7 +2750,7 @@ var ListView = (function (_Backbone$View) {
 						this.numberOfRenderedItems = 0;
 						this.renderList();
 					}
-				} else if ($(".evsv-displayElected").length) {
+				} else if (displayElected) {
 					// preset filter for elected candidates
 					this.district = this.facetView.model.get("district");
 					this.nationalParty = this.facetView.model.get("nationalParty");
@@ -2719,7 +2773,7 @@ var ListView = (function (_Backbone$View) {
 						_this.numberOfRenderedItems = 0;
 						_this.renderList();
 					});
-				} else if ($(".evsv-displayDeselected").length) {
+				} else if (displayDeselected) {
 					// preset filter for deselected candidates
 					this.district = this.facetView.model.get("district");
 					this.nationalParty = this.facetView.model.get("nationalParty");
