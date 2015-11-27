@@ -326,14 +326,16 @@ var SpiderChart = (function () {
 
 				var serie = this.getSerie();
 
-				SpiderChartPlotter.plot("#chart", [serie], "", // serie name
-				{
+				var spiderChart = new SpiderChartPlotter({
 					w: 240,
 					h: 240,
 					levels: 5,
 					maxValue: 1,
+					showTooltip: false,
 					color: "#E5005E"
 				});
+
+				spiderChart.plot("#chart", [serie]);
 			}
 		},
 		getSerie: {
@@ -447,6 +449,7 @@ var SpiderChartPlotter = (function () {
 			TranslateY: 8,
 			ExtraWidthX: 16,
 			ExtraWidthY: 16,
+			showTooltip: true,
 			color: "#1f77b4"
 		};
 
@@ -470,9 +473,8 @@ var SpiderChartPlotter = (function () {
     * @param {string} serieName2
     */
 
-			value: function plot(id, serie1, serieName1) {
-				var _this = this;
-
+			value: function plot(id, serie1) {
+				var serieName1 = arguments[2] === undefined ? "" : arguments[2];
 				var serie2 = arguments[3] === undefined ? [] : arguments[3];
 				var serieName2 = arguments[4] === undefined ? "" : arguments[4];
 
@@ -492,119 +494,27 @@ var SpiderChartPlotter = (function () {
 				var radius = this.config.factor * Math.min(this.config.w / 2, this.config.h / 2);
 				var Format = d3.format("%");
 				d3.select(id).select("svg").remove();
-				d3.select(id).append("svg").attr("width", this.config.w + this.config.ExtraWidthX).attr("height", this.config.h + this.config.ExtraWidthY);
+				var svg = d3.select(id).append("svg").attr("width", this.config.w + this.config.ExtraWidthX).attr("height", this.config.h + this.config.ExtraWidthY);
 
-				/**
-     * Function that returns a SVG path
-     * Example: m14,120 a114,114 0 0 1 228,0
-     *
-     * @param {int} sweepFlag
-     * @param {float} adjustment
-     * @param {object} config
-     * @returns {string}
-     */
-				function getPathData(sweepFlag, _x3, config) {
-					var adjustment = arguments[1] === undefined ? 0.95 : arguments[1];
+				// Draw some defs
+				this.drawDefsForTooltip(id);
+				this.drawDefsForLabels(id);
+				this.drawLabelsAndAxis();
 
-					// adjust the radius a little so our text's baseline isn't sitting directly on the circle
-					var radiusWithoutScalingFactor = Math.min(config.w / 2, config.h / 2);
-					var r = radiusWithoutScalingFactor * adjustment;
-					var startX = config.w / 2 - r + config.TranslateX;
-					return "m" + startX + "," + config.h / 2 + " " + "a" + r + "," + r + " 0 0 " + sweepFlag + " " + 2 * r + ",0";
-				}
-
-				// Draw first invisible path for the text, upper demi-circle
-				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function () {
-						var sweepFlag = 1;
-						var adjustment = 0.9;
-						return getPathData(sweepFlag, adjustment, _this.config);
-					},
-					id: "curvedTextPathUp"
-				});
-
-				// Draw first invisible path for the text, upper demi-circle
-				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function () {
-						var sweepFlag = 1;
-						var adjustment = 0.82;
-						return getPathData(sweepFlag, adjustment, _this.config);
-					},
-					id: "curvedTextPathUpInnerCircle"
-				});
-
-				// Draw second invisible path for the text, upper demi-circle
-				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function () {
-						var sweepFlag = 0;
-						var adjustment = 1.08;
-						return getPathData(sweepFlag, adjustment, _this.config);
-					},
-					id: "curvedTextPathDown"
-				});
-
-				// Draw second invisible path for the text, upper demi-circle
-				d3.select(id).selectAll("svg").insert("defs").append("path").attr({
-					d: function () {
-						var sweepFlag = 0;
-						var adjustment = 1;
-						return getPathData(sweepFlag, adjustment, _this.config);
-					},
-					id: "curvedTextPathDownInnerCircle"
-				});
-
-				// Debug: to see the path where the text is written
-				//d3.select(id).selectAll('svg')
-				//	.append('path')
-				//	.attr({
-				//		d: function() {
-				//			let sweepFlag = 0;
-				//			return getPathData(sweepFlag, this.config)
-				//		},
-				//		fill: 'red',
-				//		opacity: '0.4',
-				//		id: 'visiblePath'
-				//	});
-
-				var dataSet = this.getDataSet();
-				var config = this.config;
-
-				// Loop around the dataset and write text + draw lines around the axis.
-				var index = 0;
-				for (index = 0; index < dataSet.length; index++) {
-					this.drawLabelLevel1(index);
-					this.drawLabelLevel2(index);
-					this.drawAxis(index);
-				}
-
-				// Circular segments
-				for (index = 0; index < this.config.levels - 1; index++) {
-
-					var _radius = Math.min(this.config.w / 2, this.config.h / 2);
-					var circleRadius = _radius / this.config.levels * (index + 1);
-					var translateAxisX = this.config.w / 2 + this.config.TranslateX;
-					var translateAxisY = this.config.h / 2 + this.config.TranslateY;
-
-					d3.select(id).selectAll("svg").insert("circle").attr({
-						cx: "0",
-						cy: "0",
-						r: circleRadius,
-						fill: "none",
-						stroke: "grey",
-						"stroke-width": "0.3px",
-						"stroke-opacity": "0.75",
-						transform: "translate(" + translateAxisX + ", " + translateAxisY + ")"
-					});
-				}
+				// Loop around the dataSet and draw lines around the axis.
+				this.drawCircleAroundAxis(id);
 
 				// Spider graph
-				var g = d3.select(id).selectAll("svg").insert("g").attr("transform", "translate(" + this.config.TranslateX + "," + this.config.TranslateY + ")");
+				var g = svg.insert("g").attr("transform", "translate(" + this.config.TranslateX + "," + this.config.TranslateY + ")");
 
 				var axis = g.selectAll(".axis").data(allAxis).enter().append("g").attr("class", "axis");
 
-				//Tooltip
-				var tooltip = d3.select(id).selectAll("svg").insert("text").style("opacity", 0).style("font-family", "Arial,Helvetica,sans-serif").style("font-weight", "bold").style("font-size", "11px");
+				//this.initializeTooltip(); // maybe a good idea to implement
+				var tooltipBackground = svg.append("rect").style("opacity", 1).attr("rx", 5).attr("ry", 5).style("filter", "url(#drop-shadow)").attr("stroke", "#fff");
 
+				var tooltip = svg.append("text").style("opacity", 0).style("font-family", "Arial,Helvetica,sans-serif").style("font-weight", "bold").style("font-size", "11px");
+
+				var config = this.config;
 				axis.append("text").attr("class", "legend").text(function (d) {
 					return d;
 				}).style("font-family", "sans-serif").style("font-size", "11px").attr("text-anchor", "middle").attr("dy", "1.5em").attr("transform", function (d, i) {
@@ -616,7 +526,7 @@ var SpiderChartPlotter = (function () {
 				});
 
 				var counter = 0;
-				var series = [{ points: serie2, color: "#E5005E", name: serieName2 }, { points: serie1, color: this.config.color, name: serieName1 }];
+				var series = [{ points: serie2, color: "#E5005E", name: serieName2, tooltipBgColor: "#EF65A0" }, { points: serie1, color: this.config.color, name: serieName1, tooltipBgColor: "#ACE9FB" }];
 
 				var _iteratorNormalCompletion = true;
 				var _didIteratorError = false;
@@ -637,7 +547,7 @@ var SpiderChartPlotter = (function () {
 								dataValues.push([config.w / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.sin(i * config.radians / total)), config.h / 2 * (1 - parseFloat(Math.max(j.value, 0)) / config.maxValue * config.factor * Math.cos(i * config.radians / total))]);
 							});
 							dataValues.push(dataValues[0]);
-							g.selectAll(".area").data([dataValues]).enter().append("polygon").attr("class", "radar-chart-serie" + counter).style("stroke-width", "2px").style("stroke", serie.color).attr("data-name", serie.name).attr("points", function (d) {
+							g.selectAll(".area").data([dataValues]).enter().append("polygon").attr("class", "radar-chart-serie" + counter).style("stroke-width", "2px").style("stroke", serie.color).attr("data-name", serie.name).attr("data-color", serie.tooltipBgColor).attr("points", function (d) {
 								var str = "";
 								for (var pti = 0; pti < d.length; pti++) {
 									str = str + d[pti][0] + "," + d[pti][1] + " ";
@@ -645,19 +555,41 @@ var SpiderChartPlotter = (function () {
 								return str;
 							}).style("fill", serie.color).style("fill-opacity", config.opacityArea).on("mousemove", function (d) {
 
-								// Get the mouse coordinate.
-								var coordinates = d3.mouse(this);
-								var newX = coordinates[0];
-								var newY = coordinates[1];
+								console.log(config.showTooltip);
+								if (config.showTooltip) {
 
-								// Fetch name from the polygon
-								var name = d3.select(this).attr("data-name");
+									// Get the mouse coordinate.
+									var coordinates = d3.mouse(this);
 
-								// Activate tooltip
-								tooltip.attr("x", newX - 50) // offset-x so that the tooltip is centered.
-								.attr("y", newY).text(name).transition(0).style("fill", "#333").style("opacity", 1);
+									// Fetch name from the polygon
+									var name = d3.select(this).attr("data-name");
+									var color = d3.select(this).attr("data-color");
+
+									// Activate tooltip
+									tooltip.text(name).style("fill", "#333")
+									//.transition()
+									.style("opacity", 1);
+
+									// compute offsetX so that the tooltip is centered
+									var offsetX = (tooltip.node().getBBox().width - 20) / 2;
+									var newX = coordinates[0] - offsetX;
+									var newY = coordinates[1] - 10;
+
+									// Re-position text tooltip.
+									tooltip.attr("x", newX).attr("y", newY);
+
+									// Position background so that it suits the text.
+									tooltipBackground.attr("x", newX - 10) // offset-x so that the tooltip is centered.
+									.attr("y", newY - 15).attr("width", tooltip.node().getBBox().width + 18).attr("height", tooltip.node().getBBox().height + 10).style("fill", color)
+									//.transition()
+									//.duration(500)
+									.style("opacity", 1);
+								}
 							}).on("mouseout", function () {
-								tooltip.style("opacity", 0);
+								if (config.showTooltip) {
+									tooltip.style("opacity", 0);
+									tooltipBackground.style("opacity", 0);
+								}
 							});
 							counter++;
 						});
@@ -695,12 +627,184 @@ var SpiderChartPlotter = (function () {
 				}
 			}
 		},
+		drawDefsForTooltip: {
+
+			/**
+    * Draw defs for background tooltip
+    *
+    * @param {string} id
+    */
+
+			value: function drawDefsForTooltip(id) {
+
+				var svg = d3.select(id).selectAll("svg");
+
+				// filters go in defs element
+				var defs = svg.append("defs");
+
+				// create filter with id #drop-shadow
+				// height=130% so that the shadow is not clipped
+				var filter = defs.append("filter").attr("id", "drop-shadow").attr("height", "150%").attr("width", "150%");
+
+				// SourceAlpha refers to opacity of graphic that this filter will be applied to
+				// convolve that with a Gaussian with standard deviation 3 and store result
+				// in blur
+				filter.append("feGaussianBlur").attr("in", "SourceAlpha").attr("stdDeviation", 2).attr("result", "blur");
+
+				// translate output of Gaussian blur to the right and downwards with 2px
+				// store result in offsetBlur
+				filter.append("feOffset").attr("in", "blur").attr("dx", 2).attr("dy", 2).attr("result", "offsetBlur");
+
+				// overlay original SourceGraphic over translated blurred opacity by using
+				// feMerge filter. Order of specifying inputs is important!
+				var feMerge = filter.append("feMerge");
+
+				feMerge.append("feMergeNode").attr("in", "offsetBlur");
+				feMerge.append("feMergeNode").attr("in", "SourceGraphic");
+			}
+		},
+		drawCircleAroundAxis: {
+
+			/**
+    * Draw defs for labels
+    *
+    * @param {string} id
+    */
+
+			value: function drawCircleAroundAxis(id) {
+
+				var svg = d3.select(id).selectAll("svg");
+
+				// Loop around the dataSet and draw lines around the axis.
+				// Circular segments
+				for (var index = 0; index < this.config.levels - 1; index++) {
+
+					var _radius = Math.min(this.config.w / 2, this.config.h / 2);
+					var circleRadius = _radius / this.config.levels * (index + 1);
+					var translateAxisX = this.config.w / 2 + this.config.TranslateX;
+					var translateAxisY = this.config.h / 2 + this.config.TranslateY;
+
+					svg.insert("circle").attr({
+						cx: "0",
+						cy: "0",
+						r: circleRadius,
+						fill: "none",
+						stroke: "grey",
+						"stroke-width": "0.3px",
+						"stroke-opacity": "0.75",
+						transform: "translate(" + translateAxisX + ", " + translateAxisY + ")"
+					});
+				}
+			}
+		},
+		drawLabelsAndAxis: {
+
+			/**
+    * Draw the labels and the axis
+    */
+
+			value: function drawLabelsAndAxis() {
+				// Loop around the dataSet and write labels
+				var index = 0;
+				for (index = 0; index < this.getDataSet().length; index++) {
+					this.drawLabelLevel1(index);
+					this.drawLabelLevel2(index);
+					this.drawAxis(index);
+				}
+			}
+		},
+		drawDefsForLabels: {
+
+			/**
+    * Draw defs for labels
+    *
+    * @param {string} id
+    */
+
+			value: function drawDefsForLabels(id) {
+				var _this = this;
+
+				var svg = d3.select(id).selectAll("svg");
+
+				/**
+     * Function that returns a SVG path
+     * Example: m14,120 a114,114 0 0 1 228,0
+     *
+     * @param {int} sweepFlag
+     * @param {float} adjustment
+     * @param {object} config
+     * @returns {string}
+     */
+				function getPathData(sweepFlag, _x, config) {
+					var adjustment = arguments[1] === undefined ? 0.95 : arguments[1];
+
+					// adjust the radius a little so our text's baseline isn't sitting directly on the circle
+					var radiusWithoutScalingFactor = Math.min(config.w / 2, config.h / 2);
+					var r = radiusWithoutScalingFactor * adjustment;
+					var startX = config.w / 2 - r + config.TranslateX;
+					return "m" + startX + "," + config.h / 2 + " " + "a" + r + "," + r + " 0 0 " + sweepFlag + " " + 2 * r + ",0";
+				}
+
+				// Draw first invisible path for the text, upper demi-circle
+				svg.insert("defs").append("path").attr({
+					d: function () {
+						var sweepFlag = 1;
+						var adjustment = 0.9;
+						return getPathData(sweepFlag, adjustment, _this.config);
+					},
+					id: "curvedTextPathUp"
+				});
+
+				// Draw first invisible path for the text, upper demi-circle
+				svg.insert("defs").append("path").attr({
+					d: function () {
+						var sweepFlag = 1;
+						var adjustment = 0.82;
+						return getPathData(sweepFlag, adjustment, _this.config);
+					},
+					id: "curvedTextPathUpInnerCircle"
+				});
+
+				// Draw second invisible path for the text, upper demi-circle
+				svg.insert("defs").append("path").attr({
+					d: function () {
+						var sweepFlag = 0;
+						var adjustment = 1.08;
+						return getPathData(sweepFlag, adjustment, _this.config);
+					},
+					id: "curvedTextPathDown"
+				});
+
+				// Draw second invisible path for the text, upper demi-circle
+				svg.insert("defs").append("path").attr({
+					d: function () {
+						var sweepFlag = 0;
+						var adjustment = 1;
+						return getPathData(sweepFlag, adjustment, _this.config);
+					},
+					id: "curvedTextPathDownInnerCircle"
+				});
+
+				// Debug: to see the path where the text is written
+				//d3.select(id).selectAll('svg')
+				//	.append('path')
+				//	.attr({
+				//		d: function() {
+				//			let sweepFlag = 0;
+				//			return getPathData(sweepFlag, this.config)
+				//		},
+				//		fill: 'red',
+				//		opacity: '0.4',
+				//		id: 'visiblePath'
+				//	});
+			}
+		},
 		drawLabelLevel1: {
 
 			/**
     * Draw label of "level" 1.
     *
-    * @param {string} index
+    * @param {int} index
     */
 
 			value: function drawLabelLevel1(index) {
@@ -726,7 +830,7 @@ var SpiderChartPlotter = (function () {
 			/**
     * Draw label of "level" 2.
     *
-    * @param {string} index
+    * @param {int} index
     */
 
 			value: function drawLabelLevel2(index) {
@@ -750,7 +854,7 @@ var SpiderChartPlotter = (function () {
 		drawAxis: {
 
 			/**
-    * @param {string} index
+    * @param {int} index
     */
 
 			value: function drawAxis(index) {
@@ -2145,7 +2249,9 @@ var CandidateView = (function (_Backbone$View) {
 					maxValue: 1
 				});
 
-				spiderChart.plot("#chart-candidate-" + candidateId, [serie], EasyvoteSmartvote.labelCandidateOpinion.replace("%s", this.model.get("firstName")), userSeries, EasyvoteSmartvote.labelYourOpinion);
+				spiderChart.plot("#chart-candidate-" + candidateId, [serie],
+				//EasyvoteSmartvote.labelCandidateOpinion.replace('%s', this.model.get('firstName') + ' ' + this.model.get('lastName')),
+				this.model.get("firstName") + " " + this.model.get("lastName"), userSeries, EasyvoteSmartvote.labelYourOpinion);
 			}
 		},
 		getUserSerie: {
