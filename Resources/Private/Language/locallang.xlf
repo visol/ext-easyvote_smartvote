@@ -547,7 +547,7 @@
 			</trans-unit>
 
 			<trans-unit id="chart.candidate_opinion">
-				<source>%s's politische Meinung</source>
+				<source>Politische Meinung von %s</source>
 			</trans-unit>
 			<trans-unit id="chart.your_opinion">
 				<source>Deine politische Meinung</source>

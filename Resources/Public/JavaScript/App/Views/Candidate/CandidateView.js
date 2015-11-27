@@ -94,11 +94,11 @@ export default class CandidateView extends Backbone.View {
 			maxValue: 1
 		});
 
-
 		spiderChart.plot(
 			'#chart-candidate-' + candidateId,
 			[serie],
-			EasyvoteSmartvote.labelCandidateOpinion.replace('%s', this.model.get('firstName')),
+			//EasyvoteSmartvote.labelCandidateOpinion.replace('%s', this.model.get('firstName') + ' ' + this.model.get('lastName')),
+			this.model.get('firstName') + ' ' + this.model.get('lastName'),
 			userSeries,
 			EasyvoteSmartvote.labelYourOpinion
 		);

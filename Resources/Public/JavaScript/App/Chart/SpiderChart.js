@@ -226,6 +226,7 @@ export default class SpiderChart {
 			h: 240,
 			levels: 5,
 			maxValue: 1,
+			showTooltip: false,
 			color: '#E5005E'
 		});
 

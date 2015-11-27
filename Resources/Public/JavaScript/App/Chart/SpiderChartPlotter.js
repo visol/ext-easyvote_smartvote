@@ -27,6 +27,7 @@ export default class SpiderChartPlotter {
 			TranslateY: 8,
 			ExtraWidthX: 16,
 			ExtraWidthY: 16,
+			showTooltip: true,
 			color: '#1f77b4'
 		};
 
@@ -64,133 +65,22 @@ export default class SpiderChartPlotter {
 		var radius = this.config.factor * Math.min(this.config.w / 2, this.config.h / 2);
 		var Format = d3.format('%');
 		d3.select(id).select('svg').remove();
-		d3.select(id)
+		var svg = d3.select(id)
 			.append('svg')
 			.attr('width', this.config.w + this.config.ExtraWidthX)
 			.attr('height', this.config.h + this.config.ExtraWidthY);
 
-		/**
-		 * Function that returns a SVG path
-		 * Example: m14,120 a114,114 0 0 1 228,0
-		 *
-		 * @param {int} sweepFlag
-		 * @param {float} adjustment
-		 * @param {object} config
-		 * @returns {string}
-		 */
-		function getPathData(sweepFlag, adjustment = 0.95, config) {
-			// adjust the radius a little so our text's baseline isn't sitting directly on the circle
-			var radiusWithoutScalingFactor = Math.min(config.w / 2, config.h / 2);
-			var r = radiusWithoutScalingFactor * adjustment;
-			var startX = config.w / 2 - r + config.TranslateX;
-			return 'm' + startX + ',' + (config.h / 2) + ' ' +
-				'a' + r + ',' + r + ' 0 0 ' + sweepFlag + ' ' + (2 * r) + ',0';
-		}
 
-		// Draw first invisible path for the text, upper demi-circle
-		d3.select(id).selectAll('svg')
-			.insert('defs')
-			.append('path')
-			.attr({
-				d: () => {
-					let sweepFlag = 1;
-					let adjustment = 0.90;
-					return getPathData(sweepFlag, adjustment, this.config)
-				},
-				id: 'curvedTextPathUp'
-			});
+		// Draw some defs
+		this.drawDefsForTooltip(id);
+		this.drawDefsForLabels(id);
+		this.drawLabelsAndAxis();
 
-		// Draw first invisible path for the text, upper demi-circle
-		d3.select(id).selectAll('svg')
-			.insert('defs')
-			.append('path')
-			.attr({
-				d: () => {
-					let sweepFlag = 1;
-					let adjustment = 0.82;
-					return getPathData(sweepFlag, adjustment, this.config)
-				},
-				id: 'curvedTextPathUpInnerCircle'
-			});
-
-
-		// Draw second invisible path for the text, upper demi-circle
-		d3.select(id).selectAll('svg')
-			.insert('defs')
-			.append('path')
-			.attr({
-				d: () => {
-					let sweepFlag = 0;
-					let adjustment = 1.08;
-					return getPathData(sweepFlag, adjustment, this.config)
-				},
-				id: 'curvedTextPathDown'
-			});
-
-		// Draw second invisible path for the text, upper demi-circle
-		d3.select(id).selectAll('svg')
-			.insert('defs')
-			.append('path')
-			.attr({
-				d: () => {
-					let sweepFlag = 0;
-					let adjustment = 1;
-					return getPathData(sweepFlag, adjustment, this.config)
-				},
-				id: 'curvedTextPathDownInnerCircle'
-			});
-
-		// Debug: to see the path where the text is written
-		//d3.select(id).selectAll('svg')
-		//	.append('path')
-		//	.attr({
-		//		d: function() {
-		//			let sweepFlag = 0;
-		//			return getPathData(sweepFlag, this.config)
-		//		},
-		//		fill: 'red',
-		//		opacity: '0.4',
-		//		id: 'visiblePath'
-		//	});
-
-		var dataSet = this.getDataSet();
-		var config = this.config;
-
-		// Loop around the dataset and write text + draw lines around the axis.
-		var index = 0;
-		for (index = 0; index < dataSet.length; index++) {
-			this.drawLabelLevel1(index);
-			this.drawLabelLevel2(index);
-			this.drawAxis(index);
-		}
-
-		// Circular segments
-		for (index = 0; index < this.config.levels - 1; index++) {
-
-			var _radius = Math.min(this.config.w / 2, this.config.h / 2);
-			var circleRadius = (_radius / this.config.levels) * (index + 1);
-			var translateAxisX = this.config.w / 2 + this.config.TranslateX;
-			var translateAxisY = this.config.h / 2 + this.config.TranslateY;
-
-			d3.select(id).selectAll('svg')
-				.insert('circle')
-				.attr({
-					cx: '0',
-					cy: '0',
-					r: circleRadius,
-					fill: 'none',
-					stroke: 'grey',
-					'stroke-width': '0.3px',
-					'stroke-opacity': '0.75',
-					transform: 'translate(' + translateAxisX + ', ' + translateAxisY + ')'
-				})
-			;
-		}
+		// Loop around the dataSet and draw lines around the axis.
+		this.drawCircleAroundAxis(id);
 
 		// Spider graph
-		var g = d3.select(id)
-			.selectAll('svg')
-			.insert('g')
+		var g = svg.insert('g')
 			.attr('transform', "translate(" + this.config.TranslateX + "," + this.config.TranslateY + ")");
 
 		var axis = g.selectAll('.axis')
@@ -199,15 +89,22 @@ export default class SpiderChartPlotter {
 			.append('g')
 			.attr('class', 'axis');
 
-		//Tooltip
-		var tooltip = d3.select(id)
-				.selectAll('svg')
-				.insert('text')
-				.style('opacity', 0)
-				.style('font-family', 'Arial,Helvetica,sans-serif')
-				.style('font-weight', 'bold')
-				.style('font-size', '11px');
+		//this.initializeTooltip(); // maybe a good idea to implement
+		var tooltipBackground = svg.append('rect')
+			.style('opacity', 1)
+			.attr('rx', 5)
+			.attr('ry', 5)
+			.style("filter", "url(#drop-shadow)")
+			.attr('stroke', '#fff');
 
+		var tooltip = svg.append('text')
+			.style('opacity', 0)
+			.style('font-family', 'Arial,Helvetica,sans-serif')
+			.style('font-weight', 'bold')
+			.style('font-size', '11px');
+
+
+		var config = this.config;
 		axis.append("text")
 			.attr('class', "legend")
 			.text(function(d) {
@@ -229,8 +126,8 @@ export default class SpiderChartPlotter {
 
 		var counter = 0;
 		var series = [
-			{points: serie2, color: '#E5005E', name: serieName2},
-			{points: serie1, color: this.config.color, name: serieName1}
+			{points: serie2, color: '#E5005E', name: serieName2, tooltipBgColor: '#EF65A0'},
+			{points: serie1, color: this.config.color, name: serieName1, tooltipBgColor: '#ACE9FB'}
 		];
 
 		for (var serie of series) {
@@ -252,13 +149,14 @@ export default class SpiderChartPlotter {
 				g.selectAll(".area")
 					.data([dataValues])
 					.enter()
-					.append("polygon")
-					.attr('class', "radar-chart-serie" + counter)
-					.style("stroke-width", "2px")
-					.style("stroke", serie.color)
+					.append('polygon')
+					.attr('class', 'radar-chart-serie' + counter)
+					.style('stroke-width', '2px')
+					.style('stroke', serie.color)
 					.attr('data-name', serie.name)
+					.attr('data-color', serie.tooltipBgColor)
 					.attr("points", function(d) {
-						var str = "";
+						var str = '';
 						for (var pti = 0; pti < d.length; pti++) {
 							str = str + d[pti][0] + "," + d[pti][1] + " ";
 						}
@@ -268,25 +166,52 @@ export default class SpiderChartPlotter {
 					.style("fill-opacity", config.opacityArea)
 					.on('mousemove', function(d) {
 
-						// Get the mouse coordinate.
-						var coordinates = d3.mouse(this);
-						var newX = coordinates[0];
-						var newY = coordinates[1];
+						console.log(config.showTooltip);
+						if (config.showTooltip) {
 
-						// Fetch name from the polygon
-						var name = d3.select(this).attr('data-name');
+							// Get the mouse coordinate.
+							var coordinates = d3.mouse(this);
 
-						// Activate tooltip
-						tooltip
-							.attr('x', newX - 50) // offset-x so that the tooltip is centered.
-							.attr('y', newY)
-							.text(name)
-							.transition(0)
-							.style('fill', '#333')
-							.style('opacity', 1);
+							// Fetch name from the polygon
+							var name = d3.select(this).attr('data-name');
+							var color = d3.select(this).attr('data-color');
+
+							// Activate tooltip
+							tooltip
+								.text(name)
+								.style('fill', '#333')
+								//.transition()
+								.style('opacity', 1);
+
+							// compute offsetX so that the tooltip is centered
+							var offsetX = (tooltip.node().getBBox().width - 20) / 2;
+							var newX = coordinates[0] - offsetX;
+							var newY = coordinates[1] - 10;
+
+							// Re-position text tooltip.
+							tooltip
+								.attr('x', newX)
+								.attr('y', newY);
+
+							// Position background so that it suits the text.
+							tooltipBackground
+								.attr('x', newX - 10) // offset-x so that the tooltip is centered.
+								.attr('y', newY - 15)
+								.attr('width', tooltip.node().getBBox().width + 18)
+								.attr('height', tooltip.node().getBBox().height + 10)
+								.style('fill', color)
+								//.transition()
+								//.duration(500)
+								.style('opacity', 1)
+							;
+						}
+
 					})
 					.on('mouseout', function() {
-						tooltip.style('opacity', 0);
+						if (config.showTooltip) {
+							tooltip.style('opacity', 0);
+							tooltipBackground.style('opacity', 0);
+						}
 					});
 				counter++;
 			});
@@ -326,9 +251,191 @@ export default class SpiderChartPlotter {
 	}
 
 	/**
+	 * Draw defs for background tooltip
+	 *
+	 * @param {string} id
+	 */
+	drawDefsForTooltip(id) {
+
+		var svg = d3.select(id).selectAll('svg');
+
+		// filters go in defs element
+		var defs = svg.append("defs");
+
+		// create filter with id #drop-shadow
+		// height=130% so that the shadow is not clipped
+		var filter = defs.append("filter")
+			.attr("id", "drop-shadow")
+			.attr("height", "150%")
+			.attr("width", "150%");
+
+		// SourceAlpha refers to opacity of graphic that this filter will be applied to
+		// convolve that with a Gaussian with standard deviation 3 and store result
+		// in blur
+		filter.append("feGaussianBlur")
+			.attr("in", "SourceAlpha")
+			.attr("stdDeviation", 2)
+			.attr("result", "blur");
+
+		// translate output of Gaussian blur to the right and downwards with 2px
+		// store result in offsetBlur
+		filter.append("feOffset")
+			.attr("in", "blur")
+			.attr("dx", 2)
+			.attr("dy", 2)
+			.attr("result", "offsetBlur");
+
+		// overlay original SourceGraphic over translated blurred opacity by using
+		// feMerge filter. Order of specifying inputs is important!
+		var feMerge = filter.append("feMerge");
+
+		feMerge.append("feMergeNode")
+			.attr("in", "offsetBlur");
+		feMerge.append("feMergeNode")
+			.attr("in", "SourceGraphic");
+	}
+
+	/**
+	 * Draw defs for labels
+	 *
+	 * @param {string} id
+	 */
+	drawCircleAroundAxis(id) {
+
+		var svg = d3.select(id).selectAll('svg');
+
+		// Loop around the dataSet and draw lines around the axis.
+		// Circular segments
+		for (var index = 0; index < this.config.levels - 1; index++) {
+
+			var _radius = Math.min(this.config.w / 2, this.config.h / 2);
+			var circleRadius = (_radius / this.config.levels) * (index + 1);
+			var translateAxisX = this.config.w / 2 + this.config.TranslateX;
+			var translateAxisY = this.config.h / 2 + this.config.TranslateY;
+
+			svg.insert('circle')
+				.attr({
+					cx: '0',
+					cy: '0',
+					r: circleRadius,
+					fill: 'none',
+					stroke: 'grey',
+					'stroke-width': '0.3px',
+					'stroke-opacity': '0.75',
+					transform: 'translate(' + translateAxisX + ', ' + translateAxisY + ')'
+				})
+			;
+		}
+	}
+
+	/**
+	 * Draw the labels and the axis
+	 */
+	drawLabelsAndAxis() {
+		// Loop around the dataSet and write labels
+		var index = 0;
+		for (index = 0; index < this.getDataSet().length; index++) {
+			this.drawLabelLevel1(index);
+			this.drawLabelLevel2(index);
+			this.drawAxis(index);
+		}
+	}
+
+	/**
+	 * Draw defs for labels
+	 *
+	 * @param {string} id
+	 */
+	drawDefsForLabels(id) {
+
+		var svg = d3.select(id).selectAll('svg');
+
+		/**
+		 * Function that returns a SVG path
+		 * Example: m14,120 a114,114 0 0 1 228,0
+		 *
+		 * @param {int} sweepFlag
+		 * @param {float} adjustment
+		 * @param {object} config
+		 * @returns {string}
+		 */
+		function getPathData(sweepFlag, adjustment = 0.95, config) {
+			// adjust the radius a little so our text's baseline isn't sitting directly on the circle
+			var radiusWithoutScalingFactor = Math.min(config.w / 2, config.h / 2);
+			var r = radiusWithoutScalingFactor * adjustment;
+			var startX = config.w / 2 - r + config.TranslateX;
+			return 'm' + startX + ',' + (config.h / 2) + ' ' +
+				'a' + r + ',' + r + ' 0 0 ' + sweepFlag + ' ' + (2 * r) + ',0';
+		}
+
+
+		// Draw first invisible path for the text, upper demi-circle
+		svg.insert('defs')
+			.append('path')
+			.attr({
+				d: () => {
+					let sweepFlag = 1;
+					let adjustment = 0.90;
+					return getPathData(sweepFlag, adjustment, this.config)
+				},
+				id: 'curvedTextPathUp'
+			});
+
+		// Draw first invisible path for the text, upper demi-circle
+		svg.insert('defs')
+			.append('path')
+			.attr({
+				d: () => {
+					let sweepFlag = 1;
+					let adjustment = 0.82;
+					return getPathData(sweepFlag, adjustment, this.config)
+				},
+				id: 'curvedTextPathUpInnerCircle'
+			});
+
+
+		// Draw second invisible path for the text, upper demi-circle
+		svg.insert('defs')
+			.append('path')
+			.attr({
+				d: () => {
+					let sweepFlag = 0;
+					let adjustment = 1.08;
+					return getPathData(sweepFlag, adjustment, this.config)
+				},
+				id: 'curvedTextPathDown'
+			});
+
+		// Draw second invisible path for the text, upper demi-circle
+		svg.insert('defs')
+			.append('path')
+			.attr({
+				d: () => {
+					let sweepFlag = 0;
+					let adjustment = 1;
+					return getPathData(sweepFlag, adjustment, this.config)
+				},
+				id: 'curvedTextPathDownInnerCircle'
+			});
+
+		// Debug: to see the path where the text is written
+		//d3.select(id).selectAll('svg')
+		//	.append('path')
+		//	.attr({
+		//		d: function() {
+		//			let sweepFlag = 0;
+		//			return getPathData(sweepFlag, this.config)
+		//		},
+		//		fill: 'red',
+		//		opacity: '0.4',
+		//		id: 'visiblePath'
+		//	});
+	}
+
+	/**
 	 * Draw label of "level" 1.
 	 *
-	 * @param {string} index
+	 * @param {int} index
 	 */
 	drawLabelLevel1(index) {
 
@@ -336,29 +443,29 @@ export default class SpiderChartPlotter {
 
 		// Label 1
 		d3.select(this.id).select('svg')
-				.append('text')
-				.attr('text-anchor', 'middle')
-				.attr('transform', () => {
-					let realWidth = this.config.w + 2 * this.config.TranslateX;
-					return 'rotate(' + dataSet[index].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
-				})
-				.style({
-					'font-family': 'Arial,Helvetica,sans-serif',
-					'font-size': "10px"
-				})
-				.append('textPath')
-				.attr({
-					startOffset: '50%',
-					'xlink:href': '#' + dataSet[index].path
-				})
-				.text(dataSet[index].text1)
+			.append('text')
+			.attr('text-anchor', 'middle')
+			.attr('transform', () => {
+				let realWidth = this.config.w + 2 * this.config.TranslateX;
+				return 'rotate(' + dataSet[index].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
+			})
+			.style({
+				'font-family': 'Arial,Helvetica,sans-serif',
+				'font-size': "10px"
+			})
+			.append('textPath')
+			.attr({
+				startOffset: '50%',
+				'xlink:href': '#' + dataSet[index].path
+			})
+			.text(dataSet[index].text1)
 		;
 	}
 
 	/**
 	 * Draw label of "level" 2.
 	 *
-	 * @param {string} index
+	 * @param {int} index
 	 */
 	drawLabelLevel2(index) {
 
@@ -366,60 +473,61 @@ export default class SpiderChartPlotter {
 
 		// Label 2
 		d3.select(this.id).select('svg')
-				.append('text')
-				.attr('text-anchor', 'middle')
-				.attr('transform', () => {
-					let realWidth = this.config.w + 2 * this.config.TranslateX;
-					return 'rotate(' + dataSet[index].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
-				})
-				.style({
-					'font-family': 'Arial,Helvetica,sans-serif',
-					'font-size': "10px"
-				})
-				.append('textPath')
-				.attr({
-					startOffset: '50%',
-					'xlink:href': '#' + dataSet[index].path + 'InnerCircle'
-				})
-				.text(dataSet[index].text2);
+			.append('text')
+			.attr('text-anchor', 'middle')
+			.attr('transform', () => {
+				let realWidth = this.config.w + 2 * this.config.TranslateX;
+				return 'rotate(' + dataSet[index].rotation + ',' + realWidth / 2 + ',' + realWidth / 2 + ')';
+			})
+			.style({
+				'font-family': 'Arial,Helvetica,sans-serif',
+				'font-size': "10px"
+			})
+			.append('textPath')
+			.attr({
+				startOffset: '50%',
+				'xlink:href': '#' + dataSet[index].path + 'InnerCircle'
+			})
+			.text(dataSet[index].text2);
 	}
 
 
 	/**
-	 * @param {string} index
+	 * @param {int} index
 	 */
 	drawAxis(index) {
 
 		var dataSet = this.getDataSet();
 
 		// Draw the axis
-		d3.select(this.id).selectAll('svg')
-				.append('path')
-				.attr({
-					d: () => {
+		d3.select(this.id)
+			.selectAll('svg')
+			.append('path')
+			.attr({
+				d: () => {
 
-						let point1X = this.config.w / 2 + this.config.TranslateX;
-						let point1Y = this.config.h / 2 + this.config.TranslateY;
+					let point1X = this.config.w / 2 + this.config.TranslateX;
+					let point1Y = this.config.h / 2 + this.config.TranslateY;
 
-						let point2X = this.config.w - (this.config.TranslateX * 2);
-						let point2Y = this.config.h / 2 + this.config.TranslateY;
+					let point2X = this.config.w - (this.config.TranslateX * 2);
+					let point2Y = this.config.h / 2 + this.config.TranslateY;
 
-						return 'M ' + point1X + ', ' + point1Y + ' L ' + point2X + ', ' + point2Y
-					},
-					stroke: 'grey',
-					'stroke-width': '0.3px',
-					'stroke-opacity': '0.75',
-					transform: object => {
+					return 'M ' + point1X + ', ' + point1Y + ' L ' + point2X + ', ' + point2Y
+				},
+				stroke: 'grey',
+				'stroke-width': '0.3px',
+				'stroke-opacity': '0.75',
+				transform: object => {
 
-						let unitAngle = 360 / dataSet.length;
-						let angle = unitAngle * dataSet[index].position;
+					let unitAngle = 360 / dataSet.length;
+					let angle = unitAngle * dataSet[index].position;
 
-						let rotationOriginPointX = this.config.w / 2 + this.config.TranslateX;
-						let rotationOriginPointY = this.config.h / 2 + this.config.TranslateY;
+					let rotationOriginPointX = this.config.w / 2 + this.config.TranslateX;
+					let rotationOriginPointY = this.config.h / 2 + this.config.TranslateY;
 
-						return 'rotate(' + angle + ' , ' + rotationOriginPointX + ', ' + rotationOriginPointY + ')';
-					}
-				});
+					return 'rotate(' + angle + ' , ' + rotationOriginPointX + ', ' + rotationOriginPointY + ')';
+				}
+			});
 	}
 
 	/**
