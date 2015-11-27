@@ -221,17 +221,17 @@ export default class SpiderChart {
 
 		var serie = this.getSerie();
 
-		SpiderChartPlotter.plot(
+		var spiderChart = new SpiderChartPlotter({
+			w: 240,
+			h: 240,
+			levels: 5,
+			maxValue: 1,
+			color: '#E5005E'
+		});
+
+		spiderChart.plot(
 			"#chart",
-			[serie],
-			'', // serie name
-			{
-				w: 240,
-				h: 240,
-				levels: 5,
-				maxValue: 1,
-				color: '#E5005E'
-			}
+			[serie]
 		);
 	}
 

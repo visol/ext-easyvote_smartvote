@@ -87,16 +87,18 @@ export default class CandidateView extends Backbone.View {
 			userSeries = [userSerie];
 		}
 
-		SpiderChartPlotter.plot(
+		var spiderChart = new SpiderChartPlotter({
+			w: 240,
+			h: 240,
+			levels: 5,
+			maxValue: 1
+		});
+
+
+		spiderChart.plot(
 			'#chart-candidate-' + candidateId,
 			[serie],
 			EasyvoteSmartvote.labelCandidateOpinion.replace('%s', this.model.get('firstName')),
-			{
-				w: 240,
-				h: 240,
-				levels: 5,
-				maxValue: 1
-			},
 			userSeries,
 			EasyvoteSmartvote.labelYourOpinion
 		);
