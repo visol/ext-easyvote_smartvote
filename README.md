@@ -3,18 +3,6 @@ EasyVote Location
 
 TYPO3 CMS extension for form importing data from EasyVote using its API.
 
-TODO
-----
-
-* localization
-
-Installation
-------------
-
-Because of an issue with SVG image, the following settings must be configured on the page where the plugin is installed within in a TS template.
-
-config.baseURL >
-config.absRefPrefix = /
 
 Build assets
 ------------
