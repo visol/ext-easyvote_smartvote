@@ -26,7 +26,7 @@ export default class CandidateCollection extends Backbone.Collection {
 		this.direction = 'descending';
 
 		// Save all of the candidate items under the `'candidates'` namespace.
-		// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
+		// Was de-activated because of performance issue. Data can be very large over 10Mb.
 		//this.localStorage = new Backbone.LocalStorage('candidates-' + EasyvoteSmartvote.token);
 	}
 

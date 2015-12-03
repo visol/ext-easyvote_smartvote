@@ -8,13 +8,13 @@
 
 /**
  * Usage:
- * import SpiderChartPlotter from '../../Profiler'
+ * import SpiderChartPlotter from '../../SimpleProfiler'
  *
- * Profile.getInstance().track('Start something');
- * Profile.getInstance().track('Stop something');
+ * SimpleProfiler.getInstance().track('Start something');
+ * SimpleProfiler.getInstance().track('Stop something');
  */
 export default
-class Profiler {
+class SimpleProfiler {
 
 	/**
 	 * Constructor
@@ -46,7 +46,7 @@ class Profiler {
 	 */
 	static getInstance() {
 		if (!this.instance) {
-			this.instance = new Profiler();
+			this.instance = new SimpleProfiler();
 
 		}
 		return this.instance;
