@@ -105,7 +105,7 @@ class UserService implements SingletonInterface
      */
     protected function getUserCacheFileAndPath($token)
     {
-        $cachePath = PATH_site . 'uploads/tx_easyvotesmartvote';
+        $cachePath = $this->getCacheDirectory();
 
         // Make sure directory exists otherwise create it.
         if (!is_dir($cachePath)) {
@@ -114,6 +114,25 @@ class UserService implements SingletonInterface
 
         $cacheFileAndPath = $cachePath . '/user-' . $this->getUserData()['uid'] . '-' . $token;
         return $cacheFileAndPath;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getConfiguration()
+    {
+        return unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['easyvote_smartvote']);
+    }
+
+    /**
+     * @return string
+     */
+    private function getCacheDirectory()
+    {
+        $configuration = $this->getConfiguration();
+        $directory = $configuration['cache_directory'];
+
+        return PATH_site . $directory;
     }
 
 }

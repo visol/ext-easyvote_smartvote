@@ -1,0 +1,2 @@
+# cat=basic//10; type=string; label=Cache directory: Define in which directory should the cache be stored.
+cache_directory = uploads/tx_easyvotesmartvote

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-04-17T15:15:14Z" product-name="easyvote_smartvote">
+		<header/>
+		<body>
+			<trans-unit id="purge.name">
+				<source>Smartvote - purge cache files</source>
+			</trans-unit>
+			<trans-unit id="purge.description">
+				<source>Smartvote - purge cache files older than x days and send an email to the administrator</source>
+			</trans-unit>
+			<trans-unit id="purge.field.numberOfDays">
+				<source>Delete files older than x days</source>
+			</trans-unit>
+			<trans-unit id="purge.field.email">
+				<source>Email address where to send a report</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
