@@ -7,7 +7,7 @@
 				<div class="box-teaser">
 					<div class="row">
 						<div class="col-xs-3 col-md-3">
-							<% if (typeof(matching) == "number") { %>
+							<% if (typeof(matching) == "number" && matching > 0) { %>
 							<div class="matching-badge">
 								<div class="inner"><%- matching %>%</div>
 							</div>

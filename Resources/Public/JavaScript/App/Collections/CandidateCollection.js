@@ -70,7 +70,7 @@ export default class CandidateCollection extends Backbone.Collection {
 
 		return super.fetch({ data: filter });
 
-		// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
+		// Re-enable me after solving the performance issue. Data can be very large over 10Mb.
 		// Check whether localStorage contains record about this collection otherwise fetch it by ajax.
 		//let records = this.localStorage.findAll();
 		//if (_.isEmpty(records)) {
