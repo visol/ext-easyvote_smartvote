@@ -386,7 +386,7 @@ var SpiderChart = (function () {
 })();
 
 module.exports = SpiderChart;
-},{"./SpiderChartPlotter":2,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/interop-require":20}],2:[function(require,module,exports){
+},{"./SpiderChartPlotter":2,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/interop-require":21}],2:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -932,7 +932,7 @@ var SpiderChartPlotter = (function () {
 })();
 
 module.exports = SpiderChartPlotter;
-},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],3:[function(require,module,exports){
+},{"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18}],3:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -981,7 +981,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 		this.direction = "descending";
 
 		// Save all of the candidate items under the `'candidates'` namespace.
-		// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
+		// Was de-activated because of performance issue. Data can be very large over 10Mb.
 		//this.localStorage = new Backbone.LocalStorage('candidates-' + EasyvoteSmartvote.token);
 	}
 
@@ -1033,7 +1033,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 
 				return _get(_core.Object.getPrototypeOf(CandidateCollection.prototype), "fetch", this).call(this, { data: filter });
 
-				// @todo re-enable me after solving the performance issue. Data can be very large over 10Mb.
+				// Re-enable me after solving the performance issue. Data can be very large over 10Mb.
 				// Check whether localStorage contains record about this collection otherwise fetch it by ajax.
 				//let records = this.localStorage.findAll();
 				//if (_.isEmpty(records)) {
@@ -1184,7 +1184,7 @@ var CandidateCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = CandidateCollection;
-},{"../Filter/FilterEngine":5,"../Iterator/FacetIterator":6,"../Models/CandidateModel":7,"../Views/Candidate/FacetView":12,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],4:[function(require,module,exports){
+},{"../Filter/FilterEngine":6,"../Iterator/FacetIterator":7,"../Models/CandidateModel":8,"../Views/Candidate/FacetView":13,"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/get":19,"babel-runtime/helpers/inherits":20,"babel-runtime/helpers/interop-require":21}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1488,7 +1488,143 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":9,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],5:[function(require,module,exports){
+},{"../Models/QuestionModel":10,"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/get":19,"babel-runtime/helpers/inherits":20,"babel-runtime/helpers/interop-require":21}],5:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+/**
+ * Class EnvironmentChecker
+ */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var EnvironmentChecker = (function () {
+
+	/**
+  * Constructor
+  */
+
+	function EnvironmentChecker() {
+		_classCallCheck(this, EnvironmentChecker);
+
+		this.time = window.performance.now();
+	}
+
+	_createClass(EnvironmentChecker, {
+		isLocalStorageAvailable: {
+
+			/**
+    * Detect whether the local storage is accessible
+    *
+    * @returns {boolean}
+    */
+
+			value: (function (_isLocalStorageAvailable) {
+				var _isLocalStorageAvailableWrapper = function isLocalStorageAvailable() {
+					return _isLocalStorageAvailable.apply(this, arguments);
+				};
+
+				_isLocalStorageAvailableWrapper.toString = function () {
+					return _isLocalStorageAvailable.toString();
+				};
+
+				return _isLocalStorageAvailableWrapper;
+			})(function () {
+
+				var isLocalStorageAvailable = true;
+
+				var localStorage;
+				try {
+					localStorage = window.localStorage;
+					localStorage.getItem;
+				} catch (e) {
+					isLocalStorageAvailable = false;
+					alert("For technical reason the page will not be display correctly. Please make to have the LocalStorage enabled");
+				}
+
+				return isLocalStorageAvailable;
+			})
+		},
+		isLocalStorageReady: {
+
+			/**
+    * Detect whether the localStorage is full
+    *
+    * @returns {boolean}
+    */
+
+			value: (function (_isLocalStorageReady) {
+				var _isLocalStorageReadyWrapper = function isLocalStorageReady() {
+					return _isLocalStorageReady.apply(this, arguments);
+				};
+
+				_isLocalStorageReadyWrapper.toString = function () {
+					return _isLocalStorageReady.toString();
+				};
+
+				return _isLocalStorageReadyWrapper;
+			})(function () {
+
+				var isLocalStorageReady = true;
+
+				try {
+					localStorage.setItem("storage-check", "works!");
+				} catch (e) {
+					if (this.isQuotaExceeded(e)) {
+						localStorage.clear();
+					} else {
+						isLocalStorageReady = false;
+					}
+				}
+
+				return isLocalStorageReady;
+			})
+		},
+		isQuotaExceeded: {
+
+			/**
+    * @param e
+    * @returns {boolean}
+    */
+
+			value: function isQuotaExceeded(e) {
+				var quotaExceeded = false;
+				if (e) {
+					if (e.code) {
+						switch (e.code) {
+							case 22:
+								quotaExceeded = true;
+								break;
+							case 1014:
+								// Firefox
+								if (e.name === "NS_ERROR_DOM_QUOTA_REACHED") {
+									quotaExceeded = true;
+								}
+								break;
+						}
+					} else if (e.number === -2147024882) {
+						// Internet Explorer 8
+						quotaExceeded = true;
+					}
+				}
+				return quotaExceeded;
+			}
+		}
+	});
+
+	return EnvironmentChecker;
+})();
+
+module.exports = EnvironmentChecker;
+},{"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18}],6:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1621,7 +1757,7 @@ var FilterEngine = (function () {
 })();
 
 module.exports = FilterEngine;
-},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],6:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18}],7:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1665,7 +1801,7 @@ var FacetIterator = (function () {
 })();
 
 module.exports = FacetIterator;
-},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],7:[function(require,module,exports){
+},{"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18}],8:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -1799,7 +1935,7 @@ var CandidateModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = CandidateModel;
-},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],8:[function(require,module,exports){
+},{"../Collections/QuestionCollection":4,"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/inherits":20,"babel-runtime/helpers/interop-require":21}],9:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -1954,7 +2090,7 @@ var FacetModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = FacetModel;
-},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19}],9:[function(require,module,exports){
+},{"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/inherits":20}],10:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -2029,7 +2165,7 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/inherits":19}],10:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/inherits":20}],11:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
@@ -2040,20 +2176,29 @@ var SpiderChart = _interopRequire(require("./Chart/SpiderChart"));
 
 var Responsive = _interopRequire(require("./Responsive.js"));
 
+var EnvironmentChecker = _interopRequire(require("./EnvironmentChecker.js"));
+
 $(function () {
-	new ListView();
 
-	// Draw empty Spider Chart only if not yet initialized.
-	if (!$("#chart").html()) {
-		SpiderChart.getInstance().draw();
+	var environment = new EnvironmentChecker();
+	var isOk = environment.isLocalStorageAvailable() && environment.isLocalStorageReady();
+
+	if (isOk) {
+
+		new ListView();
+
+		// Draw empty Spider Chart only if not yet initialized.
+		if (!$("#chart").html()) {
+			SpiderChart.getInstance().draw();
+		}
+
+		// Add some responsiveness feature such as the search form
+		// which should be displayed elsewhere in the mobile layout.
+		var responsive = new Responsive();
+		responsive.bindAction();
 	}
-
-	// Add some responsiveness feature such as the search form
-	// which should be displayed elsewhere in the mobile layout.
-	var responsive = new Responsive();
-	responsive.bindAction();
 });
-},{"./Chart/SpiderChart":1,"./Responsive.js":11,"./Views/Question/ListView":13,"babel-runtime/helpers/interop-require":20}],11:[function(require,module,exports){
+},{"./Chart/SpiderChart":1,"./EnvironmentChecker.js":5,"./Responsive.js":12,"./Views/Question/ListView":14,"babel-runtime/helpers/interop-require":21}],12:[function(require,module,exports){
 "use strict";
 
 var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
@@ -2125,7 +2270,7 @@ var Responsive = (function () {
 })();
 
 module.exports = Responsive;
-},{"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17}],12:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18}],13:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -2362,7 +2507,7 @@ var FacetView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = FacetView;
-},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":6,"../../Models/FacetModel":8,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],13:[function(require,module,exports){
+},{"../../Collections/CandidateCollection":3,"../../Iterator/FacetIterator":7,"../../Models/FacetModel":9,"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/get":19,"babel-runtime/helpers/inherits":20,"babel-runtime/helpers/interop-require":21}],14:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -2806,7 +2951,7 @@ var ListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = ListView;
-},{"../../Chart/SpiderChart":1,"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./QuestionView":14,"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19,"babel-runtime/helpers/interop-require":20}],14:[function(require,module,exports){
+},{"../../Chart/SpiderChart":1,"../../Collections/CandidateCollection":3,"../../Collections/QuestionCollection":4,"./QuestionView":15,"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/get":19,"babel-runtime/helpers/inherits":20,"babel-runtime/helpers/interop-require":21}],15:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -2899,7 +3044,7 @@ var QuestionView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = QuestionView;
-},{"babel-runtime/core-js":15,"babel-runtime/helpers/class-call-check":16,"babel-runtime/helpers/create-class":17,"babel-runtime/helpers/get":18,"babel-runtime/helpers/inherits":19}],15:[function(require,module,exports){
+},{"babel-runtime/core-js":16,"babel-runtime/helpers/class-call-check":17,"babel-runtime/helpers/create-class":18,"babel-runtime/helpers/get":19,"babel-runtime/helpers/inherits":20}],16:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -5241,7 +5386,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -5251,7 +5396,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -5273,7 +5418,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -5317,7 +5462,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":15}],19:[function(require,module,exports){
+},{"babel-runtime/core-js":16}],20:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -5337,7 +5482,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
@@ -5345,4 +5490,4 @@ exports["default"] = function (obj) {
 };
 
 exports.__esModule = true;
-},{}]},{},[10]);
+},{}]},{},[11]);

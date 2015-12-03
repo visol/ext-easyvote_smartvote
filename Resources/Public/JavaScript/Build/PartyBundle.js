@@ -139,7 +139,7 @@ var PartyCollection = (function (_Backbone$Collection) {
 module.exports = PartyCollection;
 // Trigger final sort => will trigger the view to render.
 //this.sort(); // not needed here since manually triggered in the view.
-},{"../Models/PartyModel":3,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],2:[function(require,module,exports){
+},{"../Models/PartyModel":4,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],2:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -443,7 +443,143 @@ var QuestionCollection = (function (_Backbone$Collection) {
 })(Backbone.Collection);
 
 module.exports = QuestionCollection;
-},{"../Models/QuestionModel":4,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],3:[function(require,module,exports){
+},{"../Models/QuestionModel":5,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],3:[function(require,module,exports){
+/*jshint esnext:true */
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * See LICENSE.txt that was shipped with this package.
+ */
+
+/**
+ * Class EnvironmentChecker
+ */
+"use strict";
+
+var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
+
+var _createClass = require("babel-runtime/helpers/create-class")["default"];
+
+var EnvironmentChecker = (function () {
+
+	/**
+  * Constructor
+  */
+
+	function EnvironmentChecker() {
+		_classCallCheck(this, EnvironmentChecker);
+
+		this.time = window.performance.now();
+	}
+
+	_createClass(EnvironmentChecker, {
+		isLocalStorageAvailable: {
+
+			/**
+    * Detect whether the local storage is accessible
+    *
+    * @returns {boolean}
+    */
+
+			value: (function (_isLocalStorageAvailable) {
+				var _isLocalStorageAvailableWrapper = function isLocalStorageAvailable() {
+					return _isLocalStorageAvailable.apply(this, arguments);
+				};
+
+				_isLocalStorageAvailableWrapper.toString = function () {
+					return _isLocalStorageAvailable.toString();
+				};
+
+				return _isLocalStorageAvailableWrapper;
+			})(function () {
+
+				var isLocalStorageAvailable = true;
+
+				var localStorage;
+				try {
+					localStorage = window.localStorage;
+					localStorage.getItem;
+				} catch (e) {
+					isLocalStorageAvailable = false;
+					alert("For technical reason the page will not be display correctly. Please make to have the LocalStorage enabled");
+				}
+
+				return isLocalStorageAvailable;
+			})
+		},
+		isLocalStorageReady: {
+
+			/**
+    * Detect whether the localStorage is full
+    *
+    * @returns {boolean}
+    */
+
+			value: (function (_isLocalStorageReady) {
+				var _isLocalStorageReadyWrapper = function isLocalStorageReady() {
+					return _isLocalStorageReady.apply(this, arguments);
+				};
+
+				_isLocalStorageReadyWrapper.toString = function () {
+					return _isLocalStorageReady.toString();
+				};
+
+				return _isLocalStorageReadyWrapper;
+			})(function () {
+
+				var isLocalStorageReady = true;
+
+				try {
+					localStorage.setItem("storage-check", "works!");
+				} catch (e) {
+					if (this.isQuotaExceeded(e)) {
+						localStorage.clear();
+					} else {
+						isLocalStorageReady = false;
+					}
+				}
+
+				return isLocalStorageReady;
+			})
+		},
+		isQuotaExceeded: {
+
+			/**
+    * @param e
+    * @returns {boolean}
+    */
+
+			value: function isQuotaExceeded(e) {
+				var quotaExceeded = false;
+				if (e) {
+					if (e.code) {
+						switch (e.code) {
+							case 22:
+								quotaExceeded = true;
+								break;
+							case 1014:
+								// Firefox
+								if (e.name === "NS_ERROR_DOM_QUOTA_REACHED") {
+									quotaExceeded = true;
+								}
+								break;
+						}
+					} else if (e.number === -2147024882) {
+						// Internet Explorer 8
+						quotaExceeded = true;
+					}
+				}
+				return quotaExceeded;
+			}
+		}
+	});
+
+	return EnvironmentChecker;
+})();
+
+module.exports = EnvironmentChecker;
+},{"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11}],4:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -493,7 +629,7 @@ var PartyModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = PartyModel;
-},{"../Collections/QuestionCollection":2,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],4:[function(require,module,exports){
+},{"../Collections/QuestionCollection":2,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],5:[function(require,module,exports){
 /*jshint esnext:true */
 
 /*
@@ -568,17 +704,25 @@ var QuestionModel = (function (_Backbone$Model) {
 })(Backbone.Model);
 
 module.exports = QuestionModel;
-},{"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/inherits":12}],5:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/inherits":13}],6:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = require("babel-runtime/helpers/interop-require")["default"];
 
 var ListView = _interopRequire(require("./Views/Party/ListView"));
 
+var EnvironmentChecker = _interopRequire(require("./EnvironmentChecker.js"));
+
 $(function () {
-	new ListView();
+
+	var environment = new EnvironmentChecker();
+	var isOk = environment.isLocalStorageAvailable() && environment.isLocalStorageReady();
+
+	if (isOk) {
+		new ListView();
+	}
 });
-},{"./Views/Party/ListView":6,"babel-runtime/helpers/interop-require":13}],6:[function(require,module,exports){
+},{"./EnvironmentChecker.js":3,"./Views/Party/ListView":7,"babel-runtime/helpers/interop-require":14}],7:[function(require,module,exports){
 /*jshint esnext:true */
 "use strict";
 
@@ -715,7 +859,7 @@ var ListView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = ListView;
-},{"../../Collections/PartyCollection":1,"../../Collections/QuestionCollection":2,"./PartyView":7,"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12,"babel-runtime/helpers/interop-require":13}],7:[function(require,module,exports){
+},{"../../Collections/PartyCollection":1,"../../Collections/QuestionCollection":2,"./PartyView":8,"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13,"babel-runtime/helpers/interop-require":14}],8:[function(require,module,exports){
 /*jshint esnext:true */
 /*
  * This file is part of the TYPO3 CMS project.
@@ -779,7 +923,7 @@ var PartyView = (function (_Backbone$View) {
 })(Backbone.View);
 
 module.exports = PartyView;
-},{"babel-runtime/core-js":8,"babel-runtime/helpers/class-call-check":9,"babel-runtime/helpers/create-class":10,"babel-runtime/helpers/get":11,"babel-runtime/helpers/inherits":12}],8:[function(require,module,exports){
+},{"babel-runtime/core-js":9,"babel-runtime/helpers/class-call-check":10,"babel-runtime/helpers/create-class":11,"babel-runtime/helpers/get":12,"babel-runtime/helpers/inherits":13}],9:[function(require,module,exports){
 /**
  * Core.js 0.6.1
  * https://github.com/zloirock/core-js
@@ -3121,7 +3265,7 @@ $define(GLOBAL + FORCED, {global: global});
 }(typeof self != 'undefined' && self.Math === Math ? self : Function('return this')(), false);
 module.exports = { "default": module.exports, __esModule: true };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -3131,7 +3275,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 exports["default"] = (function () {
@@ -3153,7 +3297,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 
 var _core = require("babel-runtime/core-js")["default"];
@@ -3197,7 +3341,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js":8}],12:[function(require,module,exports){
+},{"babel-runtime/core-js":9}],13:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (subClass, superClass) {
@@ -3217,7 +3361,7 @@ exports["default"] = function (subClass, superClass) {
 };
 
 exports.__esModule = true;
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
@@ -3225,4 +3369,4 @@ exports["default"] = function (obj) {
 };
 
 exports.__esModule = true;
-},{}]},{},[5]);
+},{}]},{},[6]);
