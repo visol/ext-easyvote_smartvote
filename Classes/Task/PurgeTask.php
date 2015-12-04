@@ -45,7 +45,6 @@ class PurgeTask extends AbstractTask
             return false;
         }
 
-        $documentRoot = realpath(PATH_site) . '/';
         $numberOfDeleteFiles = 0;
         $now = new \DateTime();
         $directory = $this->getCacheDirectory();
@@ -67,7 +66,10 @@ class PurgeTask extends AbstractTask
             }
         }
 
-        $this->sendNotification($numberOfDeleteFiles);
+        // Only sent if files where deleted.
+        if ($numberOfDeleteFiles > 0) {
+            $this->sendNotification($numberOfDeleteFiles);
+        }
 
         return true;
     }
