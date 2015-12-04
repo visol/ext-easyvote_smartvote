@@ -1017,7 +1017,18 @@ var CandidateCollection = (function (_Backbone$Collection) {
 				} else if (this.sorting === "matching" && this.direction === "ascending") {
 					comparison = candidate1.getMatching() > candidate2.getMatching() ? 1 : -1;
 				} else {
+					// if (this.sorting === 'matching' && this.direction === 'descending')
+
 					comparison = candidate1.getMatching() < candidate2.getMatching() ? 1 : -1; // default choice
+
+					// Needed in case candidates have not matching we want them alphabetically sorted.
+					if (!candidate1.getMatching() && !candidate2.getMatching()) {
+						if (candidate1.get("lastName") === candidate2.get("lastName")) {
+							comparison = candidate1.get("firstName") > candidate2.get("firstName") ? 1 : -1;
+						} else {
+							comparison = candidate1.get("lastName") > candidate2.get("lastName") ? 1 : -1;
+						}
+					}
 				}
 
 				return comparison;
