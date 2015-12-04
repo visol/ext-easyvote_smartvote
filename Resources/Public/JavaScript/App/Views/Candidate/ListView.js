@@ -59,7 +59,8 @@ export default class ListView extends Backbone.View {
 		this.questionCollection.load().done(() => {
 
 			this.overlayWithQuestionState();
-			this.render()
+			this.render();
+
 		});
 
 		// Call parent constructor.
@@ -169,6 +170,11 @@ export default class ListView extends Backbone.View {
 
 		this.isRendering = false;
 		$('#container-candidates-loading').hide();
+
+		if (this.questionCollection.hasCompletedAnswers() === false) {
+			$('#btn-sorting option[value="matching&descending"]').remove();
+			$('#btn-sorting option[value="matching&ascending"]').remove();
+		}
 	}
 
 	/**
