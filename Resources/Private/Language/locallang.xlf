@@ -27,7 +27,7 @@
 				<source>Kanton</source>
 			</trans-unit>
 			<trans-unit id="filter.district.title.district">
-				<source>District</source>
+				<source>Wahlkreise</source>
 			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
 				<source>Jugendtyp</source>
