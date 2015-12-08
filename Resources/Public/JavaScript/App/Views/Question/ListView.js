@@ -37,6 +37,10 @@ export default class ListView extends Backbone.View {
 		// Render after loading the data-set.
 		this.questionCollection.load().done(() => {
 
+			// Update number of questions on the page.
+			$('#long-version-number-questions').html(this.questionCollection.count());
+			$('#short-version-number-questions').html(this.questionCollection.count(true)); // short version
+
 			// Count number of answers from localStorage
 			var numberOfAnswersFromLocalStorage = this.questionCollection.countAnsweredQuestions();
 

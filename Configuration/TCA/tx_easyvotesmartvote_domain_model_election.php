@@ -10,7 +10,6 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
-        'dividers2tabs' => TRUE,
         'delete' => 'deleted',
         'enablecolumns' => [
             'disabled' => 'hidden',
@@ -20,7 +19,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
         'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('easyvote_smartvote') . 'Resources/Public/Icons/tx_easyvotesmartvote_domain_model_election.png'
     ],
     'types' => [
-        '1' => ['showitem' => 'hidden;;1, title, short_title, smart_vote_identifier, election_date, related_election, import_log'],
+        '1' => ['showitem' => 'hidden;;1, title, short_title, smart_vote_identifier, election_date, related_election, scope, import_log'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -77,6 +76,21 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
                 'type' => 'text',
                 'rows' => 10,
                 'cols' => 5,
+            ],
+        ],
+        'scope' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:scope',
+            'config' => [
+                'type' => 'select',
+                'items' => [
+                    ['LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:scope.1', \Visol\EasyvoteSmartvote\Domain\Model\Election::SCOPE_NATIONAL],
+                    ['LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:scope.2', \Visol\EasyvoteSmartvote\Domain\Model\Election::SCOPE_EXECUTIVE_CANTONAL],
+                    ['LLL:EXT:easyvote_smartvote/Resources/Private/Language/tx_easyvotesmartvote_domain_model_election.xlf:scope.3', \Visol\EasyvoteSmartvote\Domain\Model\Election::SCOPE_LEGISLATIVE_CANTONAL],
+                ],
+                'size' => 1,
+                'maxitems' => 1,
+                'eval' => 'required'
             ],
         ],
         'total_cleavage1' => [
@@ -247,14 +261,17 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
                 'width' => '5px',
             ],
             'title' => [
-                'editable' => TRUE,
+                'editable' => true,
             ],
             'election_date' => [
                 'editable' => FALSE,
                 'format' => 'Fab\Vidi\Formatter\Date',
             ],
             'smart_vote_identifier' => [
-                'editable' => TRUE,
+                'editable' => true,
+            ],
+            'scope' => [
+                'visible' => true,
             ],
             '__import_wizard' => [
                 'renderer' => new Visol\EasyvoteSmartvote\Grid\ImportWizardColumn(),

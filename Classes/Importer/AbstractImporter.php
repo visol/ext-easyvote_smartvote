@@ -293,7 +293,7 @@ abstract class AbstractImporter implements ImporterInterface
         // Automatic values
         $values['election'] = $this->election->getUid();
         $values['tstamp'] = time();
-        $values['pid'] = '276';
+        $values['pid'] = $this->election->getPid();
 
         // Resolve the foreign relations.
         $values = $this->resolveForeignFieldValues($values, $item);

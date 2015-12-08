@@ -19,8 +19,14 @@
 			<f:translate key="questionnaire.introduction" />
 		</p>
 		<div id="questionnaire-type-links">
-			<a href="#version=short" id="btn-short-version" class="btn btn-primary link-questionnaire">{f:translate(key:'short_version')}</a>
-			<a href="#version=long" id="btn-long-version">{f:translate(key:'long_version')}</a>
+			<a href="#version=short" id="btn-short-version" class="btn btn-primary link-questionnaire">
+				<span id="short-version-number-questions"></span>
+				{f:translate(key:'questions')}
+			</a>
+			<a href="#version=long" id="btn-long-version">
+				<span id="long-version-number-questions"></span>
+				{f:translate(key:'questions')}
+			</a>
 		</div>
 	</div>
 
@@ -46,8 +52,6 @@
 
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
-		EasyvoteSmartvote.labelShortVersion = '{f:translate(key:"short_version")}';
-		EasyvoteSmartvote.labeLongVersion = '{f:translate(key:"long_version")}';
 		EasyvoteSmartvote.currentElection = '{currentElection.uid}' - 0;
 		EasyvoteSmartvote.token = '{smartvote:token()}';
 		EasyvoteSmartvote.tokenIgnoringTimeStamp = '{smartvote:token(ignoreTimeStamp: 1)}';

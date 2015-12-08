@@ -22,6 +22,10 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 class Election extends AbstractEntity
 {
 
+    const SCOPE_NATIONAL = 1;
+    const SCOPE_EXECUTIVE_CANTONAL = 2;
+    const SCOPE_LEGISLATIVE_CANTONAL = 3;
+
     /**
      * @var string
      * @validate NotEmpty
@@ -133,6 +137,11 @@ class Election extends AbstractEntity
      * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
      */
     protected $relatedElection;
+
+    /**
+     * @var int
+     */
+    protected $scope;
 
     /**
      * @return string $smartVoteIdentifier
@@ -526,6 +535,24 @@ class Election extends AbstractEntity
     public function setTotalCleavageShort8($totalCleavageShort8)
     {
         $this->totalCleavageShort8 = $totalCleavageShort8;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getScope()
+    {
+        return (int)$this->scope;
+    }
+
+    /**
+     * @param int $scope
+     * @return $this
+     */
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
         return $this;
     }
 

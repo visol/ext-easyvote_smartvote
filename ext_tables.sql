@@ -174,6 +174,7 @@ CREATE TABLE tx_easyvotesmartvote_domain_model_election (
 	election_date int(11) unsigned DEFAULT '0' NOT NULL,
 	smart_vote_identifier varchar(255) DEFAULT '' NOT NULL,
 	import_log text NOT NULL,
+	scope int(11) DEFAULT '1' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

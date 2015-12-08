@@ -37,6 +37,7 @@ class DistrictService implements SingletonInterface
             return NULL;
         }
         $userData = $this->getUserService()->getUserData();
+        // @todo skip that test in cantonal election scope
         if (array_key_exists('city_selection', $userData) && !empty($userData['city_selection'])) {
             return $this->getDistrictRepository()->findOneByElectionAndCityUid($election, $userData['city_selection']);
         } else {

@@ -31,16 +31,16 @@ Typical import workflow below. Important: make sure to connect the elections in 
 like the Ständerat election is connected to the National election in order to solve connected questionnaire.
 
 	# Nationalrat
-	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 15_ch_nr
-	./typo3/cli_dispatch.phpsh extbase smartvote:connectPartiesToNationalParty --identifier 15_ch_nr --verbose
-	./typo3/cli_dispatch.phpsh extbase smartvote:importCandidateImage --identifier 15_ch_nr --verbose
-	./typo3/cli_dispatch.phpsh extbase smartvote:connectDistrictsToCanton --identifier 15_ch_nr
+	election_identifier="15_ch_nr"
 
 	# Same for Ständerat
-	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier 15_ch_sr
-	./typo3/cli_dispatch.phpsh extbase smartvote:connectPartiesToNationalParty --identifier 15_ch_sr --verbose
-	./typo3/cli_dispatch.phpsh extbase smartvote:importCandidateImage --identifier 15_ch_sr --verbose
-	./typo3/cli_dispatch.phpsh extbase smartvote:connectDistrictsToCanton --identifier 15_ch_sr
+	election_identifier="15_ch_sr"
+	
+	# Each command accept option --verbose
+	./typo3/cli_dispatch.phpsh extbase smartvote:import --identifier $election_identifier
+	./typo3/cli_dispatch.phpsh extbase smartvote:connectPartiesToNationalParty --identifier $election_identifier
+	./typo3/cli_dispatch.phpsh extbase smartvote:importCandidateImage --identifier $election_identifier
+	./typo3/cli_dispatch.phpsh extbase smartvote:connectDistrictsToCanton --identifier $election_identifier
 
 The matching of parties to national parties might not be complete because there is no national party for some local/
 cantonal parties. These relations must be adjusted manually.

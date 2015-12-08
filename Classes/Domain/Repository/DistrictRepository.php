@@ -29,7 +29,7 @@ class DistrictRepository extends Repository
      *
      * @param Election $election
      * @param $cityUid
-     * @return null
+     * @return null|int
      */
     public function findOneByElectionAndCityUid(Election $election, $cityUid)
     {

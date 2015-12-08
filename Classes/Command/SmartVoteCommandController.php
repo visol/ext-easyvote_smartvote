@@ -100,17 +100,24 @@ class SmartVoteCommandController extends CommandController
         }
 
         foreach ($elections as $election) {
-            /** @var $election Election */
+
             $this->outputLine('***********************************************');
             $this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
             $this->outputLine('***********************************************');
             $this->outputLine();
 
-            $logs = $this->getPartyMatcherService($election)->matchPartiesToNationalParty($verbose);
-            $logLines = implode('', $logs);
-            $logs = $this->getPartyMatcherService($election)->setNationalPartyForCandidates($verbose);
-            $logLines = $logLines . implode('', $logs);
-            $this->outputLine($logLines);
+            // Add security check, we only want to connect the District to the Canton for National Election
+            /** @var $election Election */
+            if ($election->getScope() === Election::SCOPE_NATIONAL) {
+
+                $logs = $this->getPartyMatcherService($election)->matchPartiesToNationalParty($verbose);
+                $logLines = implode('', $logs);
+                $logs = $this->getPartyMatcherService($election)->setNationalPartyForCandidates($verbose);
+                $logLines = $logLines . implode('', $logs);
+                $this->outputLine($logLines);
+            } else {
+                $this->outputLine('Nothing to be done for election ' . $election->getSmartVoteIdentifier() . ' because of scope "cantonal".');
+            }
         }
     }
 
@@ -129,18 +136,26 @@ class SmartVoteCommandController extends CommandController
             $elections = $this->electionRepository->findAll();
         }
 
+        /** @var $election Election */
         foreach ($elections as $election) {
-            /** @var $election Election */
+
             $this->outputLine('***********************************************');
             $this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
             $this->outputLine('***********************************************');
             $this->outputLine();
 
-            $logs = $this->getDistrictToKantonMatcherService($election)->matchDistrictsToKanton($verbose);
-            $logLines = implode('', $logs);
-            $this->outputLine($logLines);
-        }
+            // Add security check, we only want to connect the District to the Canton for National Election
+            /** @var $election Election */
+            if ($election->getScope() === Election::SCOPE_NATIONAL) {
 
+                $logs = $this->getDistrictToKantonMatcherService($election)->matchDistrictsToKanton($verbose);
+                $logLines = implode('', $logs);
+                $this->outputLine($logLines);
+
+            } else {
+                $this->outputLine('Nothing to be done for election ' . $election->getSmartVoteIdentifier() . ' because of scope "cantonal".');
+            }
+        }
     }
 
     /**

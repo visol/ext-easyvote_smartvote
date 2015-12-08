@@ -99,6 +99,7 @@ class CandidateController extends ActionController
             $labelKey = 'candidate.persona.' . strtolower($value);
             $personas[$value] = LocalizationUtility::translate($labelKey, 'easyvote_smartvote');
         }
+        $this->view->assign('currentElection', $currentElection);
         $this->view->assign('personas', $personas);
     }
 

@@ -38,6 +38,18 @@
 			<trans-unit id="year">
 				<source>Year</source>
 			</trans-unit>
+			<trans-unit id="scope">
+				<source>Scope</source>
+			</trans-unit>
+			<trans-unit id="scope.1">
+				<source>National</source>
+			</trans-unit>
+			<trans-unit id="scope.2">
+				<source>Executive Cantonal</source>
+			</trans-unit>
+			<trans-unit id="scope.3">
+				<source>Legislative Cantonal</source>
+			</trans-unit>
 
 			<trans-unit id="import" xml:space="preserve">
 				<source>Import</source>

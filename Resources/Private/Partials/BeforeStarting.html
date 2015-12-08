@@ -23,12 +23,19 @@
 											   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.easyvote.title')}"
 											   prependOptionValue="" class="form-control" />
 							</div>
-							<div class="col-md-4">
-								<f:form.select name="district" options="{districts}"
-											   optionValueField="uid" optionLabelField="name"
-											   sortByOptionLabel="true" prependOptionLabel="{f:translate(key:'filter.district.title.canton')}"
-											   prependOptionValue="" class="form-control"/>
-							</div>
+							<f:comment><!-- 2 == executive cantonal, we want to hide this menu which is not relevant here --></f:comment>
+							<f:if condition="{currentElection.scope} != 2">
+								<div class="col-md-4">
+									<f:form.select name="district" options="{districts}"
+									               optionValueField="uid" optionLabelField="name"
+									               sortByOptionLabel="true" prependOptionLabel="
+													   {f:if(condition: '{currentElection.scope} == 1',
+													   then: '{f:translate(key:\'filter.district.title.canton\')}',
+													   else: '{f:translate(key:\'filter.district.title.district\')}')}
+											       "
+									               prependOptionValue="" class="form-control"/>
+								</div>
+							</f:if>
 							<div class="col-md-4">
 								<f:form.select name="nationalParty" options="{nationalParties}"
 								               optionValueField="uid" optionLabelField="title"
@@ -53,8 +60,16 @@
 				<f:translate key="anser_questionnaire_to_get_recommendation"/>
 			</p>
 
-			<f:link.page pageUid="{settings.questionnairePid}" section="version=short" class="btn btn-primary link-questionnaire">{f:translate(key:'to_questionnaire')}</f:link.page><br />
-			<f:link.page pageUid="{settings.questionnairePid}" section="version=long">{f:translate(key:'to_long_questionnaire')}</f:link.page>
+			<f:link.page pageUid="{settings.questionnairePid}" section="version=short" class="btn btn-primary link-questionnaire">
+				{f:translate(key:'to_questionnaire')}
+				(<span id="short-version-number-questions"></span>
+				{f:translate(key:'questions')})
+			</f:link.page><br />
+			<f:link.page pageUid="{settings.questionnairePid}" section="version=long">
+				{f:translate(key:'to_long_questionnaire')}
+				(<span id="long-version-number-questions"></span>
+				{f:translate(key:'questions')})
+			</f:link.page>
 			<% } %>
 
 			<% if ((isFormDefaultFilter && isLinkToAuthentication) || (isLinkToQuestionnaire && isLinkToAuthentication)) { %>

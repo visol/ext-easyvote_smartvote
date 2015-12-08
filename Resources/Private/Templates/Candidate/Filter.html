@@ -29,17 +29,24 @@
 						               prependOptionValue="" class="form-control form-control-select"/>
 					</div>
 
-					<div class="form-group">
-						<f:form.select id="district"
-						               name="district"
-						               options="{districts}"
-						               optionValueField="uid"
-						               optionLabelField="name"
-						               sortByOptionLabel="true"
-						               prependOptionLabel="{f:translate(key:'filter.district.title.canton')}"
-						               prependOptionValue=""
-						               class="form-control form-control-select"/>
-					</div>
+					<f:comment><!-- 2 == executive cantonal, we want to hide this menu which is not relevant here --></f:comment>
+					<f:if condition="{currentElection.scope} != 2">
+						<div class="form-group">
+							<f:form.select id="district"
+							               name="district"
+							               options="{districts}"
+							               optionValueField="uid"
+							               optionLabelField="name"
+							               sortByOptionLabel="true"
+							               prependOptionLabel="
+										   {f:if(condition: '{currentElection.scope} == 1',
+										   then: '{f:translate(key:\'filter.district.title.canton\')}',
+										   else: '{f:translate(key:\'filter.district.title.district\')}')}
+											"
+							               prependOptionValue=""
+							               class="form-control form-control-select"/>
+						</div>
+					</f:if>
 
 					<div class="form-group">
 						<f:form.select id="persona" name="persona" options="{personas}"

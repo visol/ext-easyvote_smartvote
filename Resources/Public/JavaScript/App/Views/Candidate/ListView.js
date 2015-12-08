@@ -61,6 +61,9 @@ export default class ListView extends Backbone.View {
 			this.overlayWithQuestionState();
 			this.render();
 
+			// Update number of questions on the page.
+			$('#long-version-number-questions').html(this.questionCollection.count());
+			$('#short-version-number-questions').html(this.questionCollection.count(true)); // short version
 		});
 
 		// Call parent constructor.

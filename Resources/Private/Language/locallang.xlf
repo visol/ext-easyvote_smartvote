@@ -26,6 +26,9 @@
 			<trans-unit id="filter.district.title.canton">
 				<source>Kanton</source>
 			</trans-unit>
+			<trans-unit id="filter.district.title.district">
+				<source>District</source>
+			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
 				<source>Jugendtyp</source>
 			</trans-unit>
@@ -351,18 +354,15 @@
 			<trans-unit id="candidate_found">
 				<source>Kandidierende/r gefunden</source>
 			</trans-unit>
-			<trans-unit id="long_version">
-				<source>75 Fragen</source>
-			</trans-unit>
-			<trans-unit id="short_version">
-				<source>30 Fragen</source>
+			<trans-unit id="questions">
+				<source>Fragen</source>
 			</trans-unit>
 
 			<trans-unit id="to_questionnaire">
-				<source>Zum Fragebogen (30 Fragen)</source>
+				<source>Zum Fragebogen</source>
 			</trans-unit>
 			<trans-unit id="to_long_questionnaire">
-				<source>Zum langen Fragebogen (75 Fragen)</source>
+				<source>Zum langen Fragebogen</source>
 			</trans-unit>
 			<trans-unit id="is_only_a_few_clicks">
 				<source>Bitte wähle eine der folgenden Möglichkeiten:</source>

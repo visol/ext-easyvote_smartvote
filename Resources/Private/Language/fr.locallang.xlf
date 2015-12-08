@@ -23,6 +23,9 @@
 			<trans-unit id="filter.district.title.canton">
 				<target>Canton</target>
 			</trans-unit>
+			<trans-unit id="filter.district.title.district">
+				<source>District</source>
+			</trans-unit>
 			<trans-unit id="filter.easyvote.title">
 				<target>Style de jeune</target>
 			</trans-unit>
@@ -348,18 +351,15 @@
 			<trans-unit id="candidate_found">
 				<target>Candidat/e trouvé/e</target>
 			</trans-unit>
-			<trans-unit id="long_version">
-				<target>75 questions</target>
-			</trans-unit>
-			<trans-unit id="short_version">
-				<target>30 questions</target>
+			<trans-unit id="questions">
+				<target>questions</target>
 			</trans-unit>
 
 			<trans-unit id="to_questionnaire">
-				<target>Vers le questionnaire (30 questions)</target>
+				<target>Vers le questionnaire</target>
 			</trans-unit>
 			<trans-unit id="to_long_questionnaire">
-				<target>Vers le questionnaire long (75 questions)</target>
+				<target>Vers le questionnaire long</target>
 			</trans-unit>
 			<trans-unit id="is_only_a_few_clicks">
 				<target>il ne reste plus que quelques clics !</target>
