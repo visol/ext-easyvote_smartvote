@@ -2577,6 +2577,10 @@ var ListView = (function (_Backbone$View) {
 		// Render after loading the data-set.
 		this.questionCollection.load().done(function () {
 
+			// Update number of questions on the page.
+			$("#long-version-number-questions").html(_this.questionCollection.count());
+			$("#short-version-number-questions").html(_this.questionCollection.count(true)); // short version
+
 			// Count number of answers from localStorage
 			var numberOfAnswersFromLocalStorage = _this.questionCollection.countAnsweredQuestions();
 

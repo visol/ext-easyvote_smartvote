@@ -2830,6 +2830,10 @@ var ListView = (function (_Backbone$View) {
 
 			_this.overlayWithQuestionState();
 			_this.render();
+
+			// Update number of questions on the page.
+			$("#long-version-number-questions").html(_this.questionCollection.count());
+			$("#short-version-number-questions").html(_this.questionCollection.count(true)); // short version
 		});
 
 		// Call parent constructor.
