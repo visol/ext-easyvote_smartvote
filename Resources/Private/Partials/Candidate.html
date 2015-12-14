@@ -32,7 +32,7 @@
 								<div class="action share">
 									<f:if condition="{settings.context} == 'app'">
 										<f:then>
-											<a href="share://title=<%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.app.title')}&text={f:translate(key:'candidate.share.app.description')} <%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.app.description.from')} <%- city %> (<%- partyName %>)&url={settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}">
+											<a href="share://title=<%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.app.title')}&text={f:translate(key:'candidate.share.app.description')} <%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.app.description.from')} <%- city %> (<%- partyName %>)&url={settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}-{page.uid}">
 												<i class="evicon-share"></i>
 											</a>
 										</f:then>
@@ -45,18 +45,18 @@
 													<i class="evicon-cancel"></i>
 												</a>
 												<div class="share-links">
-													<a class="share-popup" href="https://www.facebook.com/sharer/sharer.php?u={settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}">
+													<a class="share-popup" href="https://www.facebook.com/sharer/sharer.php?u={settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}-{page.uid}">
 														<i class="social-icon facebook"><span class="sr-only">Facebook</span></i>
 													</a>
 													<a class="share-popup" href="https://twitter.com/home?status=%23VoteNow2015: <%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.twitter')} - {settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid} @easyvote_ch">
 														<i class="social-icon twitter"><span class="sr-only">Twitter</span></i>
 													</a>
-													<a data-action="share/whatsapp/share" href="whatsapp://send?text={f:translate(key:'candidate.share.app.description')} <%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.app.description.from')} <%- city %> (<%- partyName %>) - {settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}">
+													<a data-action="share/whatsapp/share" href="whatsapp://send?text={f:translate(key:'candidate.share.app.description')} <%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.app.description.from')} <%- city %> (<%- partyName %>) - {settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}-{page.uid}">
 														<i class="social-icon whatsapp"><span class="sr-only">Whatsapp</span></i>
 													</a>
 												</div>
 												<div class="share-uri">
-													<input type="text" onclick="select()" id="participationLink" value="{settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}" />
+													<input type="text" onclick="select()" id="participationLink" value="{settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}-{page.uid}" />
 												</div>
 											</div>
 										</f:else>

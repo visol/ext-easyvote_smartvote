@@ -438,12 +438,6 @@
 			<trans-unit id="party.ch2055">
 				<target>Notre Suisse en 2055</target>
 			</trans-unit>
-			<trans-unit id="party.display_candidates_nr">
-				<target>Candidat-e-s au Conseil national</target>
-			</trans-unit>
-			<trans-unit id="party.display_candidates_sr">
-				<target>Candidat-e-s au Conseil des États</target>
-			</trans-unit>
 			<trans-unit id="party.candidates">
 				<target>Candidat-e-s</target>
 			</trans-unit>

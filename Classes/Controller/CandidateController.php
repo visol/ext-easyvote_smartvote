@@ -16,7 +16,9 @@ namespace Visol\EasyvoteSmartvote\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Visol\EasyvoteSmartvote\Domain\Model\Candidate;
 use Visol\EasyvoteSmartvote\Service\DistrictService;
 
 /**
@@ -54,8 +56,8 @@ class CandidateController extends ActionController
      */
     public function initializeObject()
     {
-        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
-        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        /** @var $querySettings Typo3QuerySettings */
+        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(FALSE);
         $this->nationalPartyRepository->setDefaultQuerySettings($querySettings);
         $this->districtRepository->setDefaultQuerySettings($querySettings);
@@ -77,6 +79,10 @@ class CandidateController extends ActionController
         $this->view->assign('currentElection', $currentElection);
         $this->view->assign('settings', $this->settings);
         $this->view->assign('userDistrict', $userDistrict);
+
+        $currentPageId = $this->getFrontendObject()->id;
+        $page = $this->getFrontendObject()->sys_page->getPage($currentPageId);
+        $this->view->assign('page', $page);
 
         $this->filterAction(); // to get the "nationalParties" and "districts" Fluid variable assigned.
     }
@@ -117,48 +123,41 @@ class CandidateController extends ActionController
     public function initializePermalinkAction()
     {
         if ($this->request->hasArgument('candidate')) {
-            $candidateAndLanguage = GeneralUtility::trimExplode('-', $this->request->getArgument('candidate'));
+
+            // Decode arguments
+            $candidateAndLanguage = GeneralUtility::trimExplode('-', $this->request->getArgument('candidate'), true);
+
+            // ... and rearrange them.
             $this->request->setArgument('candidate', (int)$candidateAndLanguage[0]);
-            $this->request->setArgument('language', (int)$candidateAndLanguage[1]);
-            if (is_null($this->candidateRepository->findByUid((int)$candidateAndLanguage[0]))) {
-                $targetUri = $this->uriBuilder->setArguments(array('L' => $candidateAndLanguage[1]))->setTargetPageUid((int)$this->settings['candidateDirectoryNRPid'])->build();
-                $this->redirectToUri($targetUri);
-            }
-        } else {
-            $targetUri = $this->uriBuilder->setTargetPageUid((int)$this->settings['candidateDirectoryNRPid'])->build();
-            $this->redirectToUri($targetUri);
+            $this->request->setArgument('language', isset($candidateAndLanguage[1]) ? (int)$candidateAndLanguage[1] : 0);
+            $this->request->setArgument('targetPid', isset($candidateAndLanguage[2]) ? (int)$candidateAndLanguage[2] : 0);
         }
     }
 
     /**
-     * @param \Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate
+     * @param Candidate $candidate
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
-    public function permalinkAction(\Visol\EasyvoteSmartvote\Domain\Model\Candidate $candidate = NULL)
+    public function permalinkAction(Candidate $candidate = NULL)
     {
         $languageUid = (int)$this->request->getArgument('language');
-        if ($candidate instanceof \Visol\EasyvoteSmartvote\Domain\Model\Candidate) {
+        $targetPageUid = (int)$this->request->getArgument('targetPid');
+        if ($candidate instanceof Candidate && $targetPageUid > 0) {
             if (strpos(GeneralUtility::getIndpEnv('HTTP_USER_AGENT'), 'facebookexternalhit') !== FALSE) {
                 $this->view->assign('languageUid', $languageUid);
                 $this->view->assign('candidate', $candidate);
                 $this->view->assign('baseUrl', GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'));
                 $this->view->assign('requestUri', GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
             } else {
-                // TODO for future elections this should be made more flexible
-                if (strpos($candidate->getElection()->getSmartVoteIdentifier(), 'nr') !== FALSE) {
-                    $targetPageUid = (int)$this->settings['candidateDirectoryNRPid'];
-                } else {
-                    $targetPageUid = (int)$this->settings['candidateDirectorySRPid'];
-                }
                 $section = 'candidate=' . $candidate->getUid() . '&district=' . $candidate->getDistrict()->getUid();
                 $redirectUri = $this->uriBuilder->setTargetPageUid($targetPageUid)->setSection($section)->setUseCacheHash(FALSE)->setArguments(array('L' => $languageUid))->build();
                 $this->redirectToUri($redirectUri);
             }
         } else {
-            // this shouldn't happen
-            die();
+            // We can't resolve the permalink, redirect to a 404.
+            $this->getFrontendObject()->pageNotFoundAndExit();
         }
     }
 
@@ -168,6 +167,16 @@ class CandidateController extends ActionController
     protected function getDistrictService()
     {
         return GeneralUtility::makeInstance(DistrictService::class);
+    }
+
+    /**
+     * Returns an instance of the Frontend object.
+     *
+     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     */
+    protected function getFrontendObject()
+    {
+        return $GLOBALS['TSFE'];
     }
 
 }

@@ -450,12 +450,6 @@
 			<trans-unit id="party.ch2055">
 				<source>Unsere Schweiz im Jahr 2055</source>
 			</trans-unit>
-			<trans-unit id="party.display_candidates_nr">
-				<source>KandidatInnen Nationalrat</source>
-			</trans-unit>
-			<trans-unit id="party.display_candidates_sr">
-				<source>KandidatInnen Ständerat</source>
-			</trans-unit>
 			<trans-unit id="party.candidates">
 				<source>KandidatInnen</source>
 			</trans-unit>
