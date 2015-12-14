@@ -49,6 +49,9 @@ class CandidateController extends ActionController
      */
     protected $districtRepository;
 
+    /**
+     * Object initialization.
+     */
     public function initializeObject()
     {
         /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */

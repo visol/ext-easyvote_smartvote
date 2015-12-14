@@ -79,9 +79,6 @@
 			<trans-unit id="total_cleavage8">
 				<source>Total cleavage 8</source>
 			</trans-unit>
-			<trans-unit id="related_election">
-				<source>Related election</source>
-			</trans-unit>
 
 			<trans-unit id="total_cleavage_short1">
 				<source>Total cleavage short 1</source>
@@ -108,7 +105,7 @@
 				<source>Total cleavage short 8</source>
 			</trans-unit>
 			<trans-unit id="related_election">
-				<source>Related election</source>
+				<source>Related election - connect executive -> legislative if applicable</source>
 			</trans-unit>
 		</body>
 	</file>

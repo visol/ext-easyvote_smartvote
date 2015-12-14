@@ -12,7 +12,7 @@
 				<el>
 					<settings.election>
 						<TCEforms>
-							<label>Related election</label>
+							<label>Election</label>
 							<config>
 								<type>select</type>
 								<foreign_table>tx_easyvotesmartvote_domain_model_election</foreign_table>

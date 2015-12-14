@@ -16,6 +16,7 @@ namespace Visol\EasyvoteSmartvote\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /**
  * Question Controller
@@ -30,6 +31,23 @@ class QuestionController extends ActionController
     protected $electionRepository;
 
     /**
+     * @var \Visol\EasyvoteSmartvote\Domain\Repository\DistrictRepository
+     * @inject
+     */
+    protected $districtRepository;
+
+    /**
+     * Object initialization.
+     */
+    public function initializeObject()
+    {
+        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
+        $querySettings->setRespectStoragePage(FALSE);
+        $this->districtRepository->setDefaultQuerySettings($querySettings);
+    }
+
+    /**
      * @return void
      */
     public function indexAction()
@@ -39,6 +57,9 @@ class QuestionController extends ActionController
         $this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
         $this->view->assign('currentElection', $currentElection);
         $this->view->assign('settings', $this->settings);
+
+        $districts = $this->districtRepository->findByElection($currentElection);
+        $this->view->assign('districts', $districts);
     }
 
 }

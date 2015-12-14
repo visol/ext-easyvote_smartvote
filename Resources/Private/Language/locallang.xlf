@@ -9,6 +9,15 @@
 			<trans-unit id="questionnaire.introduction">
 				<source>Kein Problem, wir helfen dir dabei. Fülle den kurzen oder langen Fragebogen von smartvote aus und finde heraus, welche KandidatInnen zu dir passen.</source>
 			</trans-unit>
+			<trans-unit id="questionnaire.start">
+				<source>Jetzt starten</source>
+			</trans-unit>
+			<trans-unit id="questionnaire.start.long">
+				<source>Lagen Fragebogen started</source>
+			</trans-unit>
+			<trans-unit id="questionnaire.info.persisted">
+				<source>Damit du "Wen wählen?" optimal nutzen kannst, werden deine Antworten bis maximal drei Monate nach dem Wahltermin gespeichert.</source>
+			</trans-unit>
 
 			<trans-unit id="voting_recommendation">
 				<source>Wen wählen?</source>

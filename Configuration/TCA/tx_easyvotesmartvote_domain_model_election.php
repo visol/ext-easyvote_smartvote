@@ -278,6 +278,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
             ],
             'import_log' => [
                 'renderer' => new Visol\EasyvoteSmartvote\Grid\ImportLogColumn(),
+                'width' => '60%',
             ],
             '__buttons' => [
                 'renderer' => new Fab\Vidi\Grid\ButtonGroupComponent(),

@@ -31,13 +31,19 @@ export default class ListView extends Backbone.View {
 		// Special binding since the reset button is outside the scope of this view.
 		_.bindAll(this, 'showShortVersion');
 		_.bindAll(this, 'showLongVersion');
+		_.bindAll(this, 'adjustUrlForDistrict');
 		$(document).on('click', '#btn-short-version', this.showShortVersion);
 		$(document).on('click', '#btn-long-version', this.showLongVersion);
+		$(document).on('click', '#btn-start-short', this.showShortVersion);
+		$(document).on('click', '#btn-start-long', this.showLongVersion);
+		$(document).on('change', '#btn-district', this.adjustUrlForDistrict);
 
 		// Render after loading the data-set.
 		this.questionCollection.load().done(() => {
 
 			// Update number of questions on the page.
+			$('#questionnaire-intro').show();
+
 			$('#long-version-number-questions').html(this.questionCollection.count());
 			$('#short-version-number-questions').html(this.questionCollection.count(true)); // short version
 
@@ -55,6 +61,9 @@ export default class ListView extends Backbone.View {
 			} else {
 				this.overlayWithQuestionState();
 			}
+
+			// Define default visibility of questionnaire based on answered questions and state from URI.
+			this.isQuestionnaireShown = numberOfAnswersFromLocalStorage > 0 || numberOfAnswersFromProfile > 0 || this.getQuestionnaireVersionFromUri();
 
 			this.render();
 
@@ -107,6 +116,7 @@ export default class ListView extends Backbone.View {
 
 		// Toggle property.
 		this.isShortVersion = true;
+		this.isQuestionnaireShown = true;
 
 		// Toggle property.
 		this.updateButtonStatusShortAndLongVersion();
@@ -119,6 +129,42 @@ export default class ListView extends Backbone.View {
 	/**
 	 * Render the main template.
 	 */
+	defineQuestionnaireVisibility() {
+
+		if (this.isQuestionnaireShown) {
+
+			// Show questionnaire, chart and links
+			$('#container-questions, #container-chart, #questionnaire-type-links').show();
+
+			// Hide starter box
+			$('#questionnaire-start').hide();
+
+		} else {
+
+			// Hide questionnaire, chart and links
+			$('#container-questions, #container-chart, #questionnaire-type-links').hide();
+
+			// Replace label with dynamic value.
+			let label = $('#questionnaire-start-label').html();
+			label = label.replace('%1', this.questionCollection.count(true));
+			label = label.replace('%2', this.questionCollection.count());
+			$('#questionnaire-start-label').html(label); // inject new label.
+
+			// Hide starter box
+			$('#questionnaire-start').show();
+		}
+
+		// Additional box if the User is authenticated.
+		if (EasyvoteSmartvote.isUserAuthenticated) {
+			$('#questionnaire-info-persisted').show();
+		} else {
+			$('#questionnaire-info-persisted').hide();
+		}
+	}
+
+	/**
+	 * Render the main template.
+	 */
 	showLongVersion(e) {
 
 		// Save in local storage.
@@ -126,6 +172,8 @@ export default class ListView extends Backbone.View {
 
 		// Toggle property.
 		this.isShortVersion = false;
+		this.isQuestionnaireShown = true;
+
 		this.updateButtonStatusShortAndLongVersion();
 		this.linkToDirectoriesIfAllQuestionsAnswered();
 
@@ -155,6 +203,7 @@ export default class ListView extends Backbone.View {
 
 		$('#container-question-list').html(container);
 		this.linkToDirectoriesIfAllQuestionsAnswered();
+		this.defineQuestionnaireVisibility();
 	}
 
 	/**
@@ -175,8 +224,8 @@ export default class ListView extends Backbone.View {
 	 */
 	linkToDirectoriesIfAllQuestionsAnswered() {
 
-		let numberOfQuestionAnswered = this.questionCollection.countAnsweredQuestions(this.isShortVersion);
-		let totalNumberOfQuestions = this.questionCollection.count(this.isShortVersion);
+		var numberOfQuestionAnswered = this.questionCollection.countAnsweredQuestions(this.isShortVersion);
+		var totalNumberOfQuestions = this.questionCollection.count(this.isShortVersion);
 		if (totalNumberOfQuestions === 0) {
 			// As long as no question is answered, totalNumberOfQuestions equals 0
 			// In this case we can make an early return
@@ -207,19 +256,32 @@ export default class ListView extends Backbone.View {
 	}
 
 	/**
-	 * @returns {bool}
+	 * @returns {boolean}
 	 */
 	isShortQuestionnaire() {
 
 		// default value
-		var value = 'short';
+		var version = 'short';
 
 		// Get a possible value from the localStorage.
 		if (localStorage.getItem('questionnaireVersionLength')) {
-			value = localStorage.getItem('questionnaireVersionLength');
+			version = localStorage.getItem('questionnaireVersionLength');
 		}
 
-		// sanitize arguments
+		// Sanitize arguments and override localStorage
+		var versionFromUri = this.getQuestionnaireVersionFromUri();
+		if (versionFromUri) {
+			version = versionFromUri;
+		}
+
+		return version === 'short';
+	}
+
+	/**
+	 * @returns {string}
+	 */
+	getQuestionnaireVersionFromUri() {
+		var version = '';
 		var allowedArguments = ['version'];
 		var query = window.location.hash.split('&');
 		for (let argument of query) {
@@ -228,11 +290,10 @@ export default class ListView extends Backbone.View {
 			argument = argument.replace('#', '');
 			var argumentParts = argument.split('=');
 			if (argumentParts.length === 2 && argumentParts[0] == 'version') {
-				value = argumentParts[1];
+				version = argumentParts[1];
 			}
 		}
-
-		return value === 'short';
+		return version;
 	}
 
 	/**
@@ -271,7 +332,6 @@ export default class ListView extends Backbone.View {
 			function() {
 
 				// Only persist state if FE User Exists.
-
 				var url = '/routing/state/?token=' + EasyvoteSmartvote.tokenIgnoringTimeStamp;
 
 				// Initialize payLoad which contains useful data to persist.
@@ -295,6 +355,23 @@ export default class ListView extends Backbone.View {
 			1000
 		);
 
+	}
+
+	/**
+	 * @return void
+	 */
+	adjustUrlForDistrict() {
+		var url = '';
+		var sanitizedUrl = '';
+
+		sanitizedUrl = $('#btn-candidate-directory-1').attr('href').replace(/\#.+/, '');
+		url = sanitizedUrl + '#district=' + $('#btn-district').val();
+		$('#btn-candidate-directory-1').attr('href', url);
+
+
+		sanitizedUrl = $('#btn-candidate-directory-2').attr('href').replace(/\#.+/, '');
+		url = sanitizedUrl + '#district=' + $('#btn-district').val();
+		$('#btn-candidate-directory-2').attr('href', url);
 	}
 
 	/**
