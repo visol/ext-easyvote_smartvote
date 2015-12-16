@@ -114,7 +114,7 @@ class CandidateRepository extends Repository
         if (count($candidates)) {
             foreach ($candidates as $key => $row) {
                 if (array_key_exists($row['party'], $parties)) {
-                    $candidates[$key]['party_name'] = $parties[$row['party']]['name'];
+                    $candidates[$key]['party_name'] = $parties[$row['party']]['title'];
                 } else {
                     $candidates[$key]['party_name'] = '';
                 }
