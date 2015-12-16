@@ -13,6 +13,7 @@ namespace Visol\EasyvoteSmartvote\Processor;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -152,7 +153,13 @@ class CandidateProcessor extends AbstractProcessor
         $processedItems = array();
         foreach ($items as $index => $item) {
             // only fetched for language overlay
-            unset($item['party']);
+            if ($this->isNationalScope) {
+                $item['party'] = $item['nationalParty'];
+            } else {
+                $item['party'] = $item['partyParent'];
+            }
+            unset($item['partyParent']);
+            unset($item['nationalParty']);
             unset($item['education']);
             $processedItems[$index] = $item;
         }

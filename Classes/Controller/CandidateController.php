@@ -19,6 +19,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Visol\EasyvoteSmartvote\Domain\Model\Candidate;
+use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Service\DistrictService;
 
 /**
@@ -46,6 +47,12 @@ class CandidateController extends ActionController
     protected $nationalPartyRepository;
 
     /**
+     * @var \Visol\EasyvoteSmartvote\Domain\Repository\PartyRepository
+     * @inject
+     */
+    protected $partyRepository;
+
+    /**
      * @var \Visol\EasyvoteSmartvote\Domain\Repository\DistrictRepository
      * @inject
      */
@@ -60,6 +67,7 @@ class CandidateController extends ActionController
         $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(FALSE);
         $this->nationalPartyRepository->setDefaultQuerySettings($querySettings);
+        $this->partyRepository->setDefaultQuerySettings($querySettings);
         $this->districtRepository->setDefaultQuerySettings($querySettings);
     }
 
@@ -92,13 +100,22 @@ class CandidateController extends ActionController
      */
     public function filterAction()
     {
-        $nationalParties = $this->nationalPartyRepository->findAll();
-        $this->view->assign('nationalParties', $nationalParties);
 
         $electionIdentifier = (int)$this->settings['election'];
-        $currentElection = $this->electionRepository->findByUid($electionIdentifier);
-        $districts = $this->districtRepository->findByElection($currentElection);
+
+        /** @var Election $election */
+        $election = $this->electionRepository->findByUid($electionIdentifier);
+        $districts = $this->districtRepository->findByElection($election);
         $this->view->assign('districts', $districts);
+
+
+        if ($election->isNationalScope()) {
+            $politicalParties = $this->nationalPartyRepository->findAll();
+        } else {
+            $politicalParties = $this->partyRepository->findByElection($election);
+        }
+
+        $this->view->assign('politicalParties', $politicalParties);
 
         $smartvotePersonaValues = array('GAMER', 'PARTY_ANIMAL', 'HIPPIE', 'REDNECK', 'EMO', 'HIPSTER', 'REDNECK',
             'TOEFFLIBUEB', 'SHOPPING_QUEEN', 'ROCKER', 'HIP-HOP_HEAD', 'HEARTTHROB', 'REBEL', 'CLASS_CLOWN',
@@ -108,7 +125,8 @@ class CandidateController extends ActionController
             $labelKey = 'candidate.persona.' . strtolower($value);
             $personas[$value] = LocalizationUtility::translate($labelKey, 'easyvote_smartvote');
         }
-        $this->view->assign('currentElection', $currentElection);
+
+        $this->view->assign('currentElection', $election);
         $this->view->assign('personas', $personas);
     }
 

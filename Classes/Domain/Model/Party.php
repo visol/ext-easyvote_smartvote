@@ -23,136 +23,101 @@ class Party extends AbstractEntity
 {
 
     /**
-     * name
-     *
      * @var string
      */
-    protected $name = '';
+    protected $title = '';
 
     /**
-     * internalIdentifier
-     *
      * @var string
      */
     protected $internalIdentifier = '';
 
     /**
-     * nameShort
-     *
      * @var string
      */
-    protected $nameShort = '';
+    protected $titleShort = '';
 
     /**
-     * logo
-     *
      * @var string
      */
     protected $logo = '';
 
     /**
-     * numberOfCandidates
-     *
      * @var integer
      */
     protected $numberOfCandidates = 0;
 
     /**
-     * numberOfAnswers
-     *
      * @var integer
      */
     protected $numberOfAnswers = 0;
 
     /**
-     * facebookProfile
-     *
      * @var string
      */
     protected $facebookProfile = '';
 
     /**
-     * website
-     *
      * @var string
      */
     protected $website = '';
 
     /**
-     * districts
-     *
      * @var integer
      */
     protected $districts = 0;
 
     /**
-     * electionLists
-     *
      * @var integer
      */
     protected $electionLists = 0;
 
     /**
-     * answers
-     *
      * @var integer
      */
     protected $answers = 0;
 
     /**
-     * serializedDistricts
-     *
      * @var string
      */
     protected $serializedDistricts = '';
 
     /**
-     * serializedElectionLists
-     *
      * @var string
      */
     protected $serializedElectionLists = '';
 
     /**
-     * serializedAnswers
-     *
      * @var string
      */
     protected $serializedAnswers = '';
 
     /**
-     * election
-     *
      * @var \Visol\EasyvoteSmartvote\Domain\Model\Election
      */
     protected $election = NULL;
 
     /**
-     * national party
-     *
      * @var \Visol\Easyvote\Domain\Model\Party
      */
     protected $nationalParty = NULL;
 
     /**
-     * Returns the name
-     *
-     * @return string $name
+     * @return string
      */
-    public function getName()
+    public function getTitle()
     {
-        return $this->name;
+        return $this->title;
     }
 
     /**
-     * Sets the name
-     *
-     * @param string $name
-     * @return void
+     * @param string $title
+     * @return $this
      */
-    public function setName($name)
+    public function setTitle($title)
     {
-        $this->name = $name;
+        $this->title = $title;
+        return $this;
     }
 
     /**
@@ -177,24 +142,24 @@ class Party extends AbstractEntity
     }
 
     /**
-     * Returns the nameShort
+     * Returns the titleShort
      *
-     * @return string $nameShort
+     * @return string $titleShort
      */
-    public function getNameShort()
+    public function getTitleShort()
     {
-        return $this->nameShort;
+        return $this->titleShort;
     }
 
     /**
-     * Sets the nameShort
+     * Sets the titleShort
      *
-     * @param string $nameShort
+     * @param string $titleShort
      * @return void
      */
-    public function setNameShort($nameShort)
+    public function setTitleShort($titleShort)
     {
-        $this->nameShort = $nameShort;
+        $this->titleShort = $titleShort;
     }
 
     /**

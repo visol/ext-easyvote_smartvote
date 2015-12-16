@@ -69,9 +69,12 @@
 							<% if (typeof(cantonAbbreviation) == "string" || easyvoteSupporter == true || polittalkParticipant == true || typeof(personaName) == "string") { %>
 							<div class="supertitle">
 								<div class="badges">
-									<% if (typeof(cantonAbbreviation) == "string") { %>
-										<img class="badge" src="/typo3conf/ext/usereasyvotetemplate/Resources/Public/Images/Flags/flag-<%- cantonAbbreviation %>.svg" />
-									<% } %>
+									<f:comment><!-- scope 1 == national --></f:comment>
+									<f:if condition="{currentElection.scope} == 1">
+										<% if (typeof(cantonAbbreviation) == "string") { %>
+											<img class="badge" src="/typo3conf/ext/usereasyvotetemplate/Resources/Public/Images/Flags/flag-<%- cantonAbbreviation %>.svg" />
+										<% } %>
+									</f:if>
 									<% if (easyvoteSupporter == true) { %>
 										<f:link.page pageUid="{settings.easyvoteSupporterPid}">
 											<img class="badge hasTooltip" src="/typo3conf/ext/easyvote_smartvote/Resources/Public/Images/easyvote-supporter.svg" />

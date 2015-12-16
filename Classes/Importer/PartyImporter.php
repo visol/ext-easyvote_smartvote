@@ -45,8 +45,8 @@ class PartyImporter extends AbstractImporter
      * @var
      */
     protected $mappingFields = array(
-        'party' => 'name',
-        'party_short' => 'name_short',
+        'party' => 'title',
+        'party_short' => 'title_short',
         'logo' => 'logo',
         'n_candidates' => 'number_of_candidates',
         'n_answers' => 'number_of_answers',
@@ -63,7 +63,36 @@ class PartyImporter extends AbstractImporter
      */
     public function import()
     {
-        return parent::import(Model::PARTY);
+        $collectedData = parent::import(Model::PARTY);
+
+        $this->postProcessParentParty();
+
+        return $collectedData;
+    }
+
+
+    /**
+     * Post-process the candidates to compute the answers.
+     * Goal is to convert the smartvote question id to the easyvote question id.
+     *
+     * @throws \Exception
+     */
+    protected function postProcessParentParty()
+    {
+
+        $items = $this->getItemsFromDatasource(Model::PARTY);
+
+        foreach ($items as $item) {
+            if (!empty($item['parents'])) {
+                $values = ['internal_identifier_parent' => $item['parents'][0]];
+                $condition = sprintf(
+                    'election = %s AND internal_identifier = %s',
+                    $this->election->getUid(),
+                    $item['ID_party']
+                );
+                $this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, $condition, $values);
+            }
+        }
     }
 
     /**

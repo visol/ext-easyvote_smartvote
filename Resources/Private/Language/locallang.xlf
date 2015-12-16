@@ -13,7 +13,7 @@
 				<source>Jetzt starten</source>
 			</trans-unit>
 			<trans-unit id="questionnaire.start.long">
-				<source>Lagen Fragebogen started</source>
+				<source>Lagen Fragebogen starten</source>
 			</trans-unit>
 			<trans-unit id="questionnaire.info.persisted">
 				<source>Damit du "Wen wählen?" optimal nutzen kannst, werden deine Antworten bis maximal drei Monate nach dem Wahltermin gespeichert.</source>

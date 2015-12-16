@@ -6,7 +6,7 @@
 	<meta property="og:type" content="article"/>
 	<meta property="og:url" content="{requestUri}"/>
 	<meta property="og:site_name" content="easyvote"/>
-	<meta property="og:description" content="{f:translate(key: 'candidate.share.opengraph.description', arguments: {1: candidate.firstName, 2: candidate.lastName, 3: candidate.city, 4: candidate.party.name})}">
+	<meta property="og:description" content="{f:translate(key: 'candidate.share.opengraph.description', arguments: {1: candidate.firstName, 2: candidate.lastName, 3: candidate.city, 4: candidate.party.title})}">
 	<f:if condition="{candidate.photo}">
 		<f:then>
 			<meta property="og:image" content="{baseUrl}/{f:uri.image(src: '{candidate.photo.uid}', treatIdAsReference: 1)}"/>

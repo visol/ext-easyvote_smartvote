@@ -56,7 +56,7 @@ class CandidateApiController extends AbstractBaseApiController
         if (!$candidates) {
             $candidates = $this->candidateRepository->findByElection($election, $district, $nationalParty, $persona, $elected, $deselected);
 
-            $candidates = $this->getCandidateProcessor()->process($candidates);
+            $candidates = $this->getCandidateProcessor($election)->process($candidates);
             $candidates = json_encode($candidates);
 
             $tags = array();
@@ -69,11 +69,12 @@ class CandidateApiController extends AbstractBaseApiController
     }
 
     /**
+     * @param Election $election
      * @return CandidateProcessor
      */
-    public function getCandidateProcessor()
+    public function getCandidateProcessor(Election $election)
     {
-        return $this->objectManager->get(CandidateProcessor::class);
+        return $this->objectManager->get(CandidateProcessor::class, $election->isNationalScope());
     }
 
 }

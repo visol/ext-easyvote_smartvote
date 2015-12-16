@@ -91,17 +91,17 @@ class PartyMatcherService
         $parties = $this->partyRepository->findByElection($this->election);
         foreach ($parties as $party) {
             /** @var $party \Visol\EasyvoteSmartvote\Domain\Model\Party */
-            $nationalParty = $this->nationalPartyRepository->findOneByShortTitle($party->getNameShort());
+            $nationalParty = $this->nationalPartyRepository->findOneByShortTitle($party->getTitleShort());
             if ($nationalParty instanceof \Visol\Easyvote\Domain\Model\Party) {
                 if ($verbose) {
-                    $this->log('[MATCH]    Party: ' . $party->getName() . ' (' . $party->getNameShort() . ') --> ' . $nationalParty->getTitle() . ' (' . $nationalParty->getShortTitle() . ')');
+                    $this->log('[MATCH]    Party: ' . $party->getTitle() . ' (' . $party->getTitleShort() . ') --> ' . $nationalParty->getTitle() . ' (' . $nationalParty->getShortTitle() . ')');
                 }
                 $party->setNationalParty($nationalParty);
                 $this->partyRepository->update($party);
                 $this->persistenceManager->persistAll();
             } else {
                 if ($verbose) {
-                    $this->log('[NO MATCH] Party: ' . $party->getName() . ' (' . $party->getNameShort() . ')');
+                    $this->log('[NO MATCH] Party: ' . $party->getTitle() . ' (' . $party->getTitleShort() . ')');
                 }
             }
 
@@ -131,7 +131,7 @@ class PartyMatcherService
                     }
                 } else {
                     if ($verbose) {
-                        $this->log('[FAIL] Candidate\'s party has no national party: ' . $candidate->getParty()->getName() . ' | ' . $candidate->getFirstName() . ' ' . $candidate->getLastName());
+                        $this->log('[FAIL] Candidate\'s party has no national party: ' . $candidate->getParty()->getTitle() . ' | ' . $candidate->getFirstName() . ' ' . $candidate->getLastName());
                     }
                 }
             } else {

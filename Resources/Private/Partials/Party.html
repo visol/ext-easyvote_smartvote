@@ -101,8 +101,8 @@
 							<h3><f:translate key="party.distribution_between_sexes" /></h3>
 							<p><%- sexDistributionFemale %>% {f:translate(key:'party.women')} / <%- sexDistributionMale %>% {f:translate(key:'party.men')}</p>
 							<div>
-								<a href="{f:uri.page(pageUid: settings.candidateDirectoryPid1)}#nationalParty=<%- id %>"><smartvote:pageTitle uid="{settings.candidateDirectoryPid1}" /></a><br />
-								<a href="{f:uri.page(pageUid: settings.candidateDirectoryPid2)}#nationalParty=<%- id %>"><smartvote:pageTitle uid="{settings.candidateDirectoryPid1}" /></a>
+								<a href="{f:uri.page(pageUid: settings.candidateDirectoryPid1)}#party=<%- id %>"><smartvote:pageTitle uid="{settings.candidateDirectoryPid1}" /></a><br />
+								<a href="{f:uri.page(pageUid: settings.candidateDirectoryPid2)}#party=<%- id %>"><smartvote:pageTitle uid="{settings.candidateDirectoryPid1}" /></a>
 							</div>
 						</div>
 					</div>

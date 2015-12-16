@@ -15,6 +15,7 @@ namespace Visol\EasyvoteSmartvote\Domain\Repository;
  */
 
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Visol\EasyvoteSmartvote\Domain\Model\Election;
 
 /**
  * The repository for Parties
@@ -22,5 +23,22 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class PartyRepository extends Repository
 {
 
+    /**
+     * @param Election $election
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findByElection(Election $election)
+    {
+        $query = $this->createQuery();
+
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('internal_identifier_parent', ''),
+                $query->equals('election', $election)
+            )
+        );
+
+        return $query->execute();
+    }
 
 }

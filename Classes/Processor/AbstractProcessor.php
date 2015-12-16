@@ -22,6 +22,20 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 abstract class AbstractProcessor
 {
+    /**
+     * @var bool
+     */
+    protected $isNationalScope;
+
+    /**
+     * AbstractProcessor constructor.
+     *
+     * @param bool $isNationalScope
+     */
+    public function __construct($isNationalScope = true)
+    {
+        $this->isNationalScope = $isNationalScope;
+    }
 
     /**
      * @param array $items

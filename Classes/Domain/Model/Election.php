@@ -556,4 +556,11 @@ class Election extends AbstractEntity
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isNationalScope()
+    {
+        return $this->getScope() == self::SCOPE_NATIONAL;
+    }
 }

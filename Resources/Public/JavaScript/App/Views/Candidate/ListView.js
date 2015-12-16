@@ -34,7 +34,7 @@ export default class ListView extends Backbone.View {
 		this.candidateCollection = CandidateCollection.getInstance();
 		this.questionCollection = QuestionCollection.getInstance();
 		this.district = 0;
-		this.nationalParty = 0;
+		this.party = 0;
 		this.persona = 0;
 		this.elected = 0;
 		this.deselected = 0;
@@ -192,20 +192,20 @@ export default class ListView extends Backbone.View {
 
 			// Only fetch chunk of data if necessary
 			if (this.district != this.facetView.model.get('district') ||
-				this.nationalParty != this.facetView.model.get('nationalParty') ||
+				this.party != this.facetView.model.get('party') ||
 				this.elected != this.facetView.model.get('elected') ||
 				this.deselected != this.facetView.model.get('deselected') ||
 				this.persona != this.facetView.model.get('persona')) {
 
 				this.district = this.facetView.model.get('district');
-				this.nationalParty = this.facetView.model.get('nationalParty');
+				this.party = this.facetView.model.get('party');
 				this.persona = this.facetView.model.get('persona');
 				this.elected = this.facetView.model.get('elected');
 				this.deselected = this.facetView.model.get('deselected');
 
 				let filter = {
 					district: this.district,
-					nationalParty: this.nationalParty,
+					party: this.party,
 					persona: this.persona,
 					elected: this.elected,
 					deselected: this.deselected
@@ -225,7 +225,7 @@ export default class ListView extends Backbone.View {
 		} else if (displayElected) {
 			// preset filter for elected candidates
 			this.district = this.facetView.model.get('district');
-			this.nationalParty = this.facetView.model.get('nationalParty');
+			this.party = this.facetView.model.get('party');
 			this.persona = this.facetView.model.get('persona');
 			this.elected = this.facetView.model.get('elected');
 			this.deselected = this.facetView.model.get('deselected');
@@ -234,7 +234,7 @@ export default class ListView extends Backbone.View {
 
 			let filter = {
 				district: this.district,
-				nationalParty: this.nationalParty,
+				party: this.party,
 				persona: this.persona,
 				elected: 1,
 				deselected: this.deselected
@@ -249,7 +249,7 @@ export default class ListView extends Backbone.View {
 		}  else if (displayDeselected) {
 			// preset filter for deselected candidates
 			this.district = this.facetView.model.get('district');
-			this.nationalParty = this.facetView.model.get('nationalParty');
+			this.party = this.facetView.model.get('party');
 			this.persona = this.facetView.model.get('persona');
 			this.elected = this.facetView.model.get('elected');
 			this.deselected = this.facetView.model.get('deselected');
@@ -258,7 +258,7 @@ export default class ListView extends Backbone.View {
 
 			let filter = {
 				district: this.district,
-				nationalParty: this.nationalParty,
+				party: this.party,
 				persona: this.persona,
 				elected: this.elected,
 				deselected: 1

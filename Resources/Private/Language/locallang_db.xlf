@@ -196,14 +196,14 @@
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party">
 				<source>Party</source>
 			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_party.name">
-				<source>Name</source>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.title">
+				<source>Title</source>
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party.internal_identifier">
 				<source>Internal Identifier</source>
 			</trans-unit>
-			<trans-unit id="tx_easyvotesmartvote_domain_model_party.name_short">
-				<source>Name Short</source>
+			<trans-unit id="tx_easyvotesmartvote_domain_model_party.title_short">
+				<source>Title Short</source>
 			</trans-unit>
 			<trans-unit id="tx_easyvotesmartvote_domain_model_party.national_party">
 				<source>National Party</source>

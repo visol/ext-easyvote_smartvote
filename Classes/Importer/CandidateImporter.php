@@ -82,7 +82,7 @@ class CandidateImporter extends AbstractImporter
     );
 
     /**
-     * @var
+     * @var array
      */
     protected $mappingFields = array(
         'firstname' => 'first_name',
@@ -163,10 +163,14 @@ class CandidateImporter extends AbstractImporter
 
         $clause = sprintf('election = %s', $this->election->getUid());
         $clause .= BackendUtility::deleteClause($this->tableName);
-        $candidates = $this->getDatabaseConnection()->exec_SELECTgetRows('uid, serialized_answers', $this->tableName, $clause);
+        $candidates = $this->getDatabaseConnection()->exec_SELECTgetRows('uid, serialized_answers, party', $this->tableName, $clause);
 
         foreach ($candidates as $candidate) {
 
+            // Reset values
+            $values = [];
+
+            // Answers case
             $answers = json_decode($candidate['serialized_answers'], TRUE);
             if (is_array($answers)) {
                 $convertedAnswers = array();
@@ -182,8 +186,20 @@ class CandidateImporter extends AbstractImporter
                 }
 
                 $values = ['serialized_answers_processed' => json_encode($convertedAnswers)];
-                $this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, 'uid = ' . $candidate['uid'], $values);
             }
+
+            // Parent party case
+            $clause = sprintf(
+                'internal_identifier IN (SELECT internal_identifier_parent FROM tx_easyvotesmartvote_domain_model_party where uid = %s) AND sys_language_uid = 0',
+                $candidate['party']
+            );
+            $party = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'tx_easyvotesmartvote_domain_model_party', $clause);
+            if (!empty($party)) {
+                $values['party_parent'] = $party['uid'];
+            }
+
+            // Update the record
+            $this->getDatabaseConnection()->exec_UPDATEquery($this->tableName, 'uid = ' . $candidate['uid'], $values);
         }
     }
 

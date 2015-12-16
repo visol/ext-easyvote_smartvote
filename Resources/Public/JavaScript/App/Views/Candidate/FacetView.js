@@ -44,7 +44,7 @@ export default class FacetView extends Backbone.View {
 
 		this.bindings = {
 			'#name': 'name',
-			'#nationalParty': 'nationalParty',
+			'#party': 'party',
 			'#district': 'district',
 			'#minAge': 'minAge',
 			'#maxAge': 'maxAge',
@@ -68,11 +68,11 @@ export default class FacetView extends Backbone.View {
 	 */
 	hasMinimumFilter() {
 		let district = this.model.get('district') - 0;
-		let nationalParty = this.model.get('nationalParty') - 0;
+		let party = this.model.get('party') - 0;
 		let persona = this.model.get('persona');
 		let elected = this.model.get('elected');
 		let deselected = this.model.get('deselected');
-		return district > 0 || nationalParty > 0 || persona !== '' || elected > 0 || deselected > 0;
+		return district > 0 || party > 0 || persona !== '' || elected > 0 || deselected > 0;
 	}
 
 	/**
@@ -105,6 +105,7 @@ export default class FacetView extends Backbone.View {
 
 		// Save district name to solve issue for associated election.
 		this.model.set('districtName', $('#district option:selected').text());
+		this.model.set('partyName', $('#party option:selected').text());
 		this.model.save();
 
 		this.handleDistrictForAlternativeElection();
@@ -130,7 +131,8 @@ export default class FacetView extends Backbone.View {
 		this.$el.html(content);
 		this.stickit();
 
-		this.handleDistrictForAlternativeElection();
+		this.handleDistrictForAlternativeElection('district');
+		this.handleDistrictForAlternativeElection('party');
 
 		// Hide by default until we can tell whether the box should be shown or not.
 		$('#container-candidate-filter').closest('.csc-default').removeClass('hidden');
@@ -139,24 +141,24 @@ export default class FacetView extends Backbone.View {
 	/**
 	 * @return void
 	 */
-	handleDistrictForAlternativeElection() {
-		if (this.model.get('district')) {
+	handleDistrictForAlternativeElection(fieldName) {
+		if (this.model.get(fieldName)) {
 
-			if (this.isDistrictCoherentWithCurrentElection()) {
+			if (this.isDistrictCoherentWithCurrentElection(fieldName)) {
 				// Store districtName to later retrieve the district id in an alternative election context.
-				this.model.set('districtName', $('#district option:selected').text());
+				this.model.set(fieldName + 'Name', $('#' + fieldName + ' option:selected').text());
 				this.model.save();
 			} else {
-				var districtName = this.model.get('districtName');
-				var value = $('#district option')
-						.filter((index, element) => {
-							return $(element).html() == districtName;
-						})
-						.val();
+				var name = this.model.get(fieldName + 'Name');
+				var value = $('#' + fieldName + ' option')
+					.filter((index, element) => {
+						return $(element).html() == name;
+					})
+					.val();
 
 				// Reset the new district value for this election.
 				if (value) {
-					this.model.set('district', value);
+					this.model.set(fieldName, value);
 					this.model.save();
 				}
 			}
@@ -166,8 +168,8 @@ export default class FacetView extends Backbone.View {
 	/**
 	 * @return boolean
 	 */
-	isDistrictCoherentWithCurrentElection() {
-		return this.model.get('district') == $('#district').val();
+	isDistrictCoherentWithCurrentElection(fieldName) {
+		return this.model.get(fieldName) == $('#' + fieldName).val();
 	}
 
 }

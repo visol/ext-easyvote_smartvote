@@ -9,16 +9,17 @@
 export default class FacetModel extends Backbone.Model {
 
 	/**
-	 * @returns {{id: number, name: string, nationalParty: string, district: string, minAge: string, maxAge: string, incumbent: string, elected: string, deselected: string, gender: string, candidate: string}}
+	 * @returns {{id: number, name: string, party: string, district: string, minAge: string, maxAge: string, incumbent: string, elected: string, deselected: string, gender: string, candidate: string}}
 	 */
 	defaults() {
 		return {
 			id: 1, // fictive id but is mandatory in order to retrieve the model in the session.
 			name: '',
-			nationalParty: '',
+			party: '',
+			partyName: '', // store the party name to workaround Smartvote model: parties do not have the same id for Legislative vs Executive
 			persona: '',
 			district: EasyvoteSmartvote.userDistrict,
-			districtName: '', // store the district name to workaround Smartvote model: district do not have the same id for Nationalrat and Ständerat election.
+			districtName: '', // store the district name to workaround Smartvote model: districts do not have the same id for Nationalrat and Ständerat election.
 			minAge: '18',
 			maxAge: '90',
 			incumbent: '',
@@ -64,7 +65,7 @@ export default class FacetModel extends Backbone.Model {
 		if (!this.state) {
 			this.state = {};
 
-			var allowedArguments = ['candidate', 'name', 'nationalParty', 'district', 'persona', 'minAge', 'maxAge', 'incumbent', 'elected', 'deselected', 'gender'];
+			var allowedArguments = ['candidate', 'name', 'party', 'district', 'persona', 'minAge', 'maxAge', 'incumbent', 'elected', 'deselected', 'gender'];
 			var query = window.location.hash.split('&');
 			for (let argument of query) {
 
