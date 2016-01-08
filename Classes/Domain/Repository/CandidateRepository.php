@@ -44,7 +44,7 @@ class CandidateRepository extends Repository
         $clause .= ' AND (sys_language_uid IN (-1,0) OR (sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid . ' AND l10n_parent = 0))';
         $clause .= $this->getPageRepository()->deleteClause($partyTable);
         $clause .= $this->getPageRepository()->enableFields($partyTable);
-        $fields = 'uid, pid, sys_language_uid, name';
+        $fields = 'uid, pid, sys_language_uid, title';
         $parties = $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $partyTable, $clause, NULL, NULL, NULL, 'uid');
         if (count($parties)) {
             foreach ($parties as $key => $row) {
