@@ -145,7 +145,7 @@ export default class QuestionCollection extends Backbone.Collection {
 				}
 			});
 		} else {
-			// call original fetch method
+			// call original fetch method.
 			return super.fetch();
 		}
 	}

@@ -166,7 +166,6 @@ export default class SpiderChartPlotter {
 					.style("fill-opacity", config.opacityArea)
 					.on('mousemove', function(d) {
 
-						console.log(config.showTooltip);
 						if (config.showTooltip) {
 
 							// Get the mouse coordinate.

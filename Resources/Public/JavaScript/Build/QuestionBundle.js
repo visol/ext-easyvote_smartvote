@@ -533,7 +533,6 @@ var SpiderChartPlotter = (function () {
 								return str;
 							}).style("fill", serie.color).style("fill-opacity", config.opacityArea).on("mousemove", function (d) {
 
-								console.log(config.showTooltip);
 								if (config.showTooltip) {
 
 									// Get the mouse coordinate.
@@ -1427,7 +1426,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 						}
 					});
 				} else {
-					// call original fetch method
+					// call original fetch method.
 					return _get(_core.Object.getPrototypeOf(QuestionCollection.prototype), "fetch", this).call(this);
 				}
 			}
@@ -2143,6 +2142,7 @@ var QuestionModel = (function (_Backbone$Model) {
 					name: "",
 					answer: 100,
 					index: 0,
+					rapide: 0,
 					cleavage1: 0,
 					cleavage2: 0,
 					cleavage3: 0,

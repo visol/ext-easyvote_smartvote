@@ -17,6 +17,7 @@ export default class QuestionModel extends Backbone.Model {
 			name: '',
 			answer: 100,
 			index: 0,
+			rapide: 0,
 			cleavage1: 0,
 			cleavage2: 0,
 			cleavage3: 0,
