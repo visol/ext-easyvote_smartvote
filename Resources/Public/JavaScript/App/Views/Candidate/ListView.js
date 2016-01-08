@@ -146,6 +146,14 @@ export default class ListView extends Backbone.View {
 		// Add lazy loading to images.
 		$("img.lazy", $('.batch-' + this.numberOfRenderedItems)).lazyload();
 
+		// Render votable widget.
+		var options = window.Votable || {};
+		options.whenUserIsLoggedOff = function(e) {
+			e.preventDefault();
+			$('.login-link').trigger('click');
+		};
+		$('.widget-votable').votable(options);
+
 		// Bind tooltips for candidate badges
 		Easyvote.bindToolTips();
 

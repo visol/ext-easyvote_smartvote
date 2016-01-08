@@ -103,6 +103,7 @@
 								<span class="name"><%- firstName %> <%- lastName %></span>
 								<span class="additional">{f:translate(key:'candidate.from')} <%- city %> | <%- yearOfBirth %></span>
 							</h2>
+							<div class="widget-votable" data-object="<%- id %>"/>
 							<% if (listPlaces !== "") { %>
 								<div class="list-places">
 									<f:translate key="candidate.listPlace" /> <%- listPlaces %><br />
