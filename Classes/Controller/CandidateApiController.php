@@ -43,12 +43,16 @@ class CandidateApiController extends AbstractBaseApiController
     {
         $this->initializeCache();
 
-
-        $district = (int)GeneralUtility::_GP('district');
         $nationalParty = (int)GeneralUtility::_GP('nationalParty');
         $persona = GeneralUtility::_GP('persona') !== '' ? GeneralUtility::_GP('persona') : 0;
         $elected = (int)GeneralUtility::_GP('elected');
         $deselected = (int)GeneralUtility::_GP('deselected');
+        $district = (int)GeneralUtility::_GP('district');
+
+        // Always ignore district for scope executive cantonal as it is irrelevant.
+        if ($election->getScope() === Election::SCOPE_EXECUTIVE_CANTONAL) {
+            $district = 0;
+        }
 
         $cacheIdentifier = sprintf('candidates-%s-%s-%s-%s-%s-%s-lang-%s', $election->getUid(), $district, $nationalParty, $persona, $elected, $deselected, (int)$GLOBALS['TSFE']->sys_language_uid);
         $candidates = $this->cacheInstance->get($cacheIdentifier);
