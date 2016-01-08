@@ -38,7 +38,7 @@ class ScriptViewHelper extends AbstractViewHelper
      * @param string $file
      * @param bool $canBeMinified
      */
-    public function render($file, $canBeMinified = FALSE)
+    public function render($file, $canBeMinified = false)
     {
         // Sipped minified file in Production context.
         if ($canBeMinified && (string)GeneralUtility::getApplicationContext() === 'Production') {

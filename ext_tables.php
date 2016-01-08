@@ -112,7 +112,6 @@ if (TYPO3_MODE === 'BE') {
         )
     );
 
-
     // Default User TSConfig to be added in any case.
     TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 

@@ -27,7 +27,7 @@ class IsUserAuthenticatedViewHelper extends AbstractViewHelper
     /**
      * Returns whether the User is authenticated.
      *
-     * @return string
+     * @return bool
      */
     public function render()
     {
