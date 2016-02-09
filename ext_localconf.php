@@ -126,3 +126,5 @@ if (TYPO3_MODE === 'BE') {
     // Configure commands that can be run from the cli_dispatch.phpsh script.
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Visol\EasyvoteSmartvote\Command\SmartVoteCommandController';
 }
+
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['votable']['rankCacheWhereClause'][] = \Visol\EasyvoteSmartvote\Hook\RankCacheWhereClause::class;
