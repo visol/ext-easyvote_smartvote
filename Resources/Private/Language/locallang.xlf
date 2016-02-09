@@ -13,7 +13,7 @@
 				<source>Jetzt starten</source>
 			</trans-unit>
 			<trans-unit id="questionnaire.start.long">
-				<source>Lagen Fragebogen starten</source>
+				<source>Langen Fragebogen starten</source>
 			</trans-unit>
 			<trans-unit id="questionnaire.info.persisted">
 				<source>Damit du "Wen wählen?" optimal nutzen kannst, werden deine Antworten bis maximal drei Monate nach dem Wahltermin gespeichert.</source>
@@ -336,22 +336,22 @@
 			</trans-unit>
 
 			<trans-unit id="candidate.share.opengraph.title">
-				<source>%1$s %2$s ins Bundeshaus</source>
+				<source>%1$s %2$s in den %3$s</source>
 			</trans-unit>
 			<trans-unit id="candidate.share.opengraph.description">
-				<source>Nimm dir fünf Minuten Zeit, geh auf www.easyvote.ch/wenwählen und finde raus, welche KandidatInnen zu dir passen. Meine Empfehlung: %1$s %2$s aus %3$s (%4$s).</source>
+				<source>Nimm dir fünf Minuten Zeit, geh auf www.easyvote.ch und finde raus, welche KandidatInnen zu dir passen. Meine Empfehlung: %1$s %2$s aus %3$s (%4$s).</source>
 			</trans-unit>
 			<trans-unit id="candidate.share.app.title">
-				<source>ins Bundeshaus</source>
+				<source>in den</source>
 			</trans-unit>
 			<trans-unit id="candidate.share.app.description">
-				<source>Nimm dir fünf Minuten Zeit, geh auf www.easyvote.ch/wenwählen und finde raus, welche KandidatInnen zu dir passen. Meine Empfehlung:</source>
+				<source>Nimm dir fünf Minuten Zeit, geh auf www.easyvote.ch und finde raus, welche KandidatInnen zu dir passen. Meine Empfehlung:</source>
 			</trans-unit>
 			<trans-unit id="candidate.share.app.description.from">
 				<source>aus</source>
 			</trans-unit>
 			<trans-unit id="candidate.share.twitter">
-				<source>ins Bundeshaus!</source>
+				<source>in den</source>
 			</trans-unit>
 
 			<trans-unit id="filter_reset">

@@ -324,22 +324,22 @@
 			</trans-unit>
 
 			<trans-unit id="candidate.share.opengraph.title">
-				<target>%1$s %2$s au Palais fédéral</target>
+				<target>%1$s %2$s au %3$s</target>
 			</trans-unit>
 			<trans-unit id="candidate.share.opengraph.description">
-				<target>Prends 5 minutes de ton temps, va sur www.easyvote.ch/quivoter et trouve quels candidats ont les mêmes opinions que toi. Mon résultat : %1$s %2$s aus %3$s (%4$s).</target>
+				<target>Prends 5 minutes de ton temps, va sur www.easyvote.ch et trouve quels candidats ont les mêmes opinions que toi. Mon résultat : %1$s %2$s aus %3$s (%4$s).</target>
 			</trans-unit>
 			<trans-unit id="candidate.share.app.title">
-				<target>au Palais fédéral</target>
+				<target>au</target>
 			</trans-unit>
 			<trans-unit id="candidate.share.app.description">
-				<target>Prends 5 minutes de ton temps, va sur www.easyvote.ch/quivoter et trouve quels candidats ont les mêmes opinions que toi. Mon résultat :</target>
+				<target>Prends 5 minutes de ton temps, va sur www.easyvote.ch et trouve quels candidats ont les mêmes opinions que toi. Mon résultat :</target>
 			</trans-unit>
 			<trans-unit id="candidate.share.app.description.from">
 				<target>de</target>
 			</trans-unit>
 			<trans-unit id="candidate.share.twitter">
-				<target>au Palais fédéral!</target>
+				<target>au</target>
 			</trans-unit>
 
 			<trans-unit id="filter_reset">

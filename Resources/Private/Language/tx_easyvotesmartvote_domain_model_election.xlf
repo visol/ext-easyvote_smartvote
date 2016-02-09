@@ -27,7 +27,7 @@
 				<source>Title</source>
 			</trans-unit>
 			<trans-unit id="short_title">
-				<source>Short title</source>
+				<source>Short title (used for sharing, use e.g. "Nationalrat", "Regierungsrat")</source>
 			</trans-unit>
 			<trans-unit id="election_date">
 				<source>Election date</source>
