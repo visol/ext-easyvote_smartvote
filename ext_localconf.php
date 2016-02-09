@@ -100,17 +100,17 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
 }
 
 // Override default Frontend Cache to be String instead of Variable
-if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['frontend'])) {
-    $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['frontend'] = 'TYPO3\CMS\Core\Cache\Frontend\StringFrontend';
+if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['frontend'])) {
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['frontend'] = 'TYPO3\CMS\Core\Cache\Frontend\StringFrontend';
 }
 
 // Override default Backend Cache to be File instead of Database
-if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['backend'])) {
-    $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['backend'] = 'TYPO3\\CMS\\Core\\Cache\\Backend\\FileBackend';
+if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['backend'])) {
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['backend'] = 'TYPO3\\CMS\\Core\\Cache\\Backend\\FileBackend';
 }
 
 // Register the cache table to be deleted when general caches is hit.
-$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['cf_easyvote_smartvote'] = 'cf_easyvote_smartvote';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['cf_easyvote_smartvote'] = 'cf_easyvote_smartvote';
 
 
 if (TYPO3_MODE === 'BE') {
