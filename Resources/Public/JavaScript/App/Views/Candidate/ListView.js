@@ -62,8 +62,15 @@ export default class ListView extends Backbone.View {
 			this.render();
 
 			// Update number of questions on the page.
-			$('#long-version-number-questions').html(this.questionCollection.count());
-			$('#short-version-number-questions').html(this.questionCollection.count(true)); // short version
+			var numberOfQuestionsLongVersion = this.questionCollection.count();
+			var numberOfQuestionsShortVersion = this.questionCollection.count(true);
+			if (numberOfQuestionsLongVersion === numberOfQuestionsShortVersion) {
+				$('#short-version-number-questions').html(numberOfQuestionsShortVersion);
+				$('.btn-long-version').hide(); // hide button for long version.
+			} else {
+				$('#long-version-number-questions').html(numberOfQuestionsLongVersion);
+				$('#short-version-number-questions').html(numberOfQuestionsShortVersion);
+			}
 		});
 
 		// Call parent constructor.

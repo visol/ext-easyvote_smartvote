@@ -44,8 +44,15 @@ export default class ListView extends Backbone.View {
 			// Update number of questions on the page.
 			$('#questionnaire-intro').show();
 
-			$('#long-version-number-questions').html(this.questionCollection.count());
-			$('#short-version-number-questions').html(this.questionCollection.count(true)); // short version
+			var numberOfQuestionsLongVersion = this.questionCollection.count();
+			var numberOfQuestionsShortVersion = this.questionCollection.count(true);
+			if (numberOfQuestionsLongVersion === numberOfQuestionsShortVersion) {
+				$('#short-version-number-questions').html(numberOfQuestionsShortVersion);
+				$('.btn-long-version').hide(); // hide button for long version.
+			} else {
+				$('#long-version-number-questions').html(numberOfQuestionsLongVersion);
+				$('#short-version-number-questions').html(numberOfQuestionsShortVersion);
+			}
 
 			// Count number of answers from localStorage
 			var numberOfAnswersFromLocalStorage = this.questionCollection.countAnsweredQuestions();
@@ -133,10 +140,10 @@ export default class ListView extends Backbone.View {
 
 		if (this.isQuestionnaireShown) {
 
-			// Show questionnaire, chart and links
+			// Show questionnaire, chart and links.
 			$('#container-questions, #container-chart, #questionnaire-type-links').show();
 
-			// Hide starter box
+			// Hide starter box.
 			$('#questionnaire-start').hide();
 
 		} else {
