@@ -94,6 +94,10 @@ class QuestionImporter extends AbstractImporter
             $this->postProcessTotalCleavage($languageUid);
         }
 
+        // Localize is done after import
+        // This should be the last post-processing, necessary only once.
+        $this->postProcessEnsureShortQuestionExistence();
+
         return $collectedData;
     }
 
@@ -166,12 +170,48 @@ class QuestionImporter extends AbstractImporter
             $values['total_cleavage_short' . $index] = $totalCleavage;
         }
 
-
         $this->getDatabaseConnection()->exec_UPDATEquery(
             'tx_easyvotesmartvote_domain_model_election',
             'uid = ' . $this->election->getUid(),
             $values
         );
+    }
+
+    /**
+     * Whether we don't have short question.
+     *
+     * @return void
+     */
+    protected function postProcessEnsureShortQuestionExistence()
+    {
+
+        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
+            'count(*) AS numberOfRecords',
+            'tx_easyvotesmartvote_domain_model_question',
+            'rapide = 1 AND election = ' . $this->election->getUid()
+        );
+
+        if ((int)$record['numberOfRecords'] === 0) {
+            $sql = 'UPDATE tx_easyvotesmartvote_domain_model_question SET rapide = 1 WHERE election = ' . $this->election->getUid();
+            $this->getDatabaseConnection()->sql_query($sql);
+
+            $sql = '
+UPDATE
+  tx_easyvotesmartvote_domain_model_election
+SET
+  total_cleavage_short1 = total_cleavage1,
+  total_cleavage_short2 = total_cleavage2,
+  total_cleavage_short3 = total_cleavage3,
+  total_cleavage_short4 = total_cleavage4,
+  total_cleavage_short5 = total_cleavage5,
+  total_cleavage_short6 = total_cleavage6,
+  total_cleavage_short7 = total_cleavage7,
+  total_cleavage_short8 = total_cleavage8
+WHERE
+  uid = ' . $this->election->getUid();
+
+            $this->getDatabaseConnection()->sql_query($sql);
+        }
     }
 
 }
