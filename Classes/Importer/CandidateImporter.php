@@ -188,7 +188,7 @@ class CandidateImporter extends AbstractImporter
                 $values = ['serialized_answers_processed' => json_encode($convertedAnswers)];
             }
 
-            // Parent party case
+            // Search for possible parent party.
             $clause = sprintf(
                 'internal_identifier IN (SELECT internal_identifier_parent FROM tx_easyvotesmartvote_domain_model_party where uid = %s) AND sys_language_uid = 0',
                 $candidate['party']
@@ -196,6 +196,8 @@ class CandidateImporter extends AbstractImporter
             $party = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'tx_easyvotesmartvote_domain_model_party', $clause);
             if (!empty($party)) {
                 $values['party_parent'] = $party['uid'];
+            } else {
+                $values['party_parent'] = $candidate['party'];
             }
 
             // Update the record
