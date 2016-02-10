@@ -66,12 +66,12 @@
 									<i class="evicon-down-open"></i>
 								</div>
 							</div>
-							<% if (typeof(cantonAbbreviation) == "string" || easyvoteSupporter == true || polittalkParticipant == true || typeof(personaName) == "string") { %>
+							<% if (cantonAbbreviation != "" || easyvoteSupporter == true || polittalkParticipant == true || typeof(personaName) == "string") { %>
 							<div class="supertitle">
 								<div class="badges">
 									<f:comment><!-- scope 1 == national --></f:comment>
 									<f:if condition="{currentElection.scope} == 1">
-										<% if (typeof(cantonAbbreviation) == "string") { %>
+										<% if (cantonAbbreviation != "") { %>
 											<img class="badge" src="/typo3conf/ext/usereasyvotetemplate/Resources/Public/Images/Flags/flag-<%- cantonAbbreviation %>.svg" />
 										<% } %>
 									</f:if>
