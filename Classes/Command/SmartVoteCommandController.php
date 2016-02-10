@@ -56,15 +56,7 @@ class SmartVoteCommandController extends CommandController
      */
     public function importCommand($verbose = FALSE, $identifier = '')
     {
-
-        if ($identifier) {
-            $election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
-            $elections = array($election);
-        } else {
-            $elections = $this->electionRepository->findAll();
-        }
-
-        foreach ($elections as $election) {
+        foreach ($this->getElections($identifier) as $election) {
 
             /** @var $election Election */
             $this->outputLine('***********************************************');
@@ -92,14 +84,7 @@ class SmartVoteCommandController extends CommandController
      */
     public function connectPartiesToNationalPartyCommand($verbose = FALSE, $identifier = '')
     {
-        if ($identifier) {
-            $election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
-            $elections = array($election);
-        } else {
-            $elections = $this->electionRepository->findAll();
-        }
-
-        foreach ($elections as $election) {
+        foreach ($this->getElections($identifier) as $election) {
 
             $this->outputLine('***********************************************');
             $this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
@@ -129,15 +114,7 @@ class SmartVoteCommandController extends CommandController
      */
     public function connectDistrictsToCantonCommand($verbose = FALSE, $identifier = '')
     {
-        if ($identifier) {
-            $election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
-            $elections = array($election);
-        } else {
-            $elections = $this->electionRepository->findAll();
-        }
-
-        /** @var $election Election */
-        foreach ($elections as $election) {
+        foreach ($this->getElections($identifier) as $election) {
 
             $this->outputLine('***********************************************');
             $this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
@@ -167,14 +144,8 @@ class SmartVoteCommandController extends CommandController
      */
     public function importCandidateImageCommand($verbose = FALSE, $identifier = '', $forceReimport = FALSE)
     {
-        if ($identifier) {
-            $election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
-            $elections = array($election);
-        } else {
-            $elections = $this->electionRepository->findAll();
-        }
+        foreach ($this->getElections($identifier) as $election) {
 
-        foreach ($elections as $election) {
             /** @var $election Election */
             $this->outputLine('***********************************************');
             $this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
@@ -200,14 +171,8 @@ class SmartVoteCommandController extends CommandController
      */
     public function warmupCacheCommand($verbose = FALSE, $identifier = '')
     {
-        if ($identifier) {
-            $election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
-            $elections = array($election);
-        } else {
-            $elections = $this->electionRepository->findAll();
-        }
+        foreach ($this->getElections($identifier) as $election) {
 
-        foreach ($elections as $election) {
             /** @var $election Election */
             $this->outputLine('***********************************************');
             $this->outputLine('smartvote identifier: ' . $election->getSmartVoteIdentifier());
@@ -323,6 +288,26 @@ class SmartVoteCommandController extends CommandController
 
         return implode("\n", $logs);
 
+    }
+
+    /**
+     * @param string $identifier
+     * @return array
+     */
+    protected function getElections($identifier)
+    {
+        $elections = [];
+        if ($identifier) {
+            $election = $this->electionRepository->findOneBySmartVoteIdentifier($identifier);
+            if ($election) {
+                $elections = [$election];
+            } else {
+                $this->outputLine('I could not retrieve an election with identifier ' . $identifier);
+            }
+        } else {
+            $elections = $this->electionRepository->findAll();
+        }
+        return $elections;
     }
 
     /**
