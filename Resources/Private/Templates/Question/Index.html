@@ -20,27 +20,30 @@
 		<div id="container-congratulations" class="content-box" style="display: none;">
 			<h3><f:translate key="questions.you_have_done_it" /></h3>
 			<p><f:translate key="questions.go_to_recommendation" /></p>
-			<div>
+			<div class="candidate-directory-links">
+				<div class="candidate-directory-link">
+					<f:form.select name="district" options="{districts}"
+								   optionValueField="uid" optionLabelField="name"
+								   sortByOptionLabel="true" prependOptionLabel="
+														   {f:if(condition: '{currentElection.scope} == 1',
+														   then: '{f:translate(key:\'filter.district.title.canton\')}',
+														   else: '{f:translate(key:\'filter.district.title.district\')}')}
+													   "
+								   prependOptionValue=""
+								   style="width: auto;"
+								   id="btn-district"
+								   class="form-control form-control-single canton-district-selector"/>
 
-				<f:form.select name="district" options="{districts}"
-				               optionValueField="uid" optionLabelField="name"
-				               sortByOptionLabel="true" prependOptionLabel="
-													   {f:if(condition: '{currentElection.scope} == 1',
-													   then: '{f:translate(key:\'filter.district.title.canton\')}',
-													   else: '{f:translate(key:\'filter.district.title.district\')}')}
-											       "
-				               prependOptionValue=""
-				               style="width: auto;"
-				               id="btn-district"
-				               class="form-control space-below"/>
-
-				<f:if condition="{settings.candidateDirectoryPid1}">
-					<v:link.typolink configuration="{parameter: '{settings.candidateDirectoryPid1}', ATagParams: 'class=\'btn btn-primary\' id=\'btn-candidate-directory-1\''}"/>
-				</f:if>
-
-				<f:if condition="{settings.candidateDirectoryPid2}">
-					<v:link.typolink configuration="{parameter: '{settings.candidateDirectoryPid2}', ATagParams: 'class=\'btn btn-primary\' id=\'btn-candidate-directory-2\''}"/>
-				</f:if>
+					<f:if condition="{settings.candidateDirectoryPid1}">
+						<v:link.typolink configuration="{parameter: '{settings.candidateDirectoryPid1}', ATagParams: 'class=\'btn btn-primary\' id=\'btn-candidate-directory-1\''}"/>
+					</f:if>
+				</div>
+				<div class="candidate-directory-link">
+					<div class="canton-district-selector"></div>
+					<f:if condition="{settings.candidateDirectoryPid2}">
+						<v:link.typolink configuration="{parameter: '{settings.candidateDirectoryPid2}', ATagParams: 'class=\'btn btn-primary\' id=\'btn-candidate-directory-2\''}"/>
+					</f:if>
+				</div>
 			</div>
 		</div>
 		<div id="container-question-list"></div>
