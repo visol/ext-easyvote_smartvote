@@ -106,7 +106,7 @@ export default class QuestionCollection extends Backbone.Collection {
 	}
 
 	/**
-	 * @returns {bool}
+	 * @returns {boolean}
 	 */
 	hasAnsweredQuestions() {
 		return this.countAnsweredQuestions() > 0;

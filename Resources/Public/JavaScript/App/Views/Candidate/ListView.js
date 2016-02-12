@@ -24,10 +24,10 @@ export default class ListView extends Backbone.View {
 		// the App already present in the HTML.
 		this.setElement($('#container-candidates'), true);
 
-		// Contains the "number of candidates" and button to reset the filter.
+		// Contains a form to pre-select political parties
 		this.beforeStartingTemplate = _.template($('#template-before-starting').html());
 
-		// Contains the "number of candidates" and button to reset the filter.
+		// Contains the number of candidates and button to reset the filter.
 		this.listTopTemplate = _.template($('#template-candidates-top').html());
 
 		/** @var candidateCollection CandidateCollection*/
@@ -205,14 +205,15 @@ export default class ListView extends Backbone.View {
 		var displayElected = $('.evsv-displayElected').length > 0;
 		var displayDeselected = $('.evsv-displayDeselected').length > 0;
 
-		if (this.facetView.hasMinimumFilter() && !displayElected && !displayDeselected) {
+		if ((this.facetView.hasMinimumFilter() || this.isScopeExecutive()) && !displayElected && !displayDeselected) {
 
 			// Only fetch chunk of data if necessary
 			if (this.district != this.facetView.model.get('district') ||
 				this.party != this.facetView.model.get('party') ||
 				this.elected != this.facetView.model.get('elected') ||
 				this.deselected != this.facetView.model.get('deselected') ||
-				this.persona != this.facetView.model.get('persona')) {
+				this.persona != this.facetView.model.get('persona') ||
+				EasyvoteSmartvote.currentElectionScope === 2) { // we want to filter executive candidates in any case.
 
 				this.district = this.facetView.model.get('district');
 				this.party = this.facetView.model.get('party');
@@ -325,6 +326,12 @@ export default class ListView extends Backbone.View {
 		}
 	}
 
+	/**
+	 * Tell whether the scope of the election is executive and we can further proceed.
+	 */
+	isScopeExecutive() {
+		return EasyvoteSmartvote.currentElectionScope === 2 && this.questionCollection.countAnsweredQuestions() > 0;
+	}
 
 	/**
 	 * update facet view.

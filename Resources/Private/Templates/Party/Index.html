@@ -30,6 +30,7 @@
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
 		EasyvoteSmartvote.currentElection = '{currentElection.uid}' - 0;
+		EasyvoteSmartvote.currentElectionScope = parseInt('{currentElection.scope}');
 		EasyvoteSmartvote.relatedElection = '{currentElection.relatedElection.uid}' - 0;
 		EasyvoteSmartvote.token = '{smartvote:token()}';
 		EasyvoteSmartvote.pageUid = '{contentObjectData.pid}';
