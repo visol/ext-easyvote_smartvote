@@ -44,8 +44,10 @@ class FlushCandidateCacheSlot
                 // $this->cacheInstance->flush is not selective enough
                 $path = 'typo3temp/Cache/Data/easyvote_smartvote/candidates-' . $record['election'] . '-*';
                 $files = glob($path);
-                foreach ($files as $file) {
-                    unlink($file);
+                if (is_array($files)) {
+                    foreach ($files as $file) {
+                        unlink($file);
+                    }
                 }
             }
         }
