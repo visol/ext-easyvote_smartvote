@@ -397,7 +397,10 @@
 				<source>Übereinstimmung</source>
 			</trans-unit>
 			<trans-unit id="votes">
-				<source>Votes</source>
+				<source>Stimmen</source>
+			</trans-unit>
+			<trans-unit id="vote">
+				<source>Stimme</source>
 			</trans-unit>
 			<trans-unit id="name">
 				<source>Name</source>

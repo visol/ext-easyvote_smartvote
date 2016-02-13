@@ -107,7 +107,7 @@ class CandidateRepository extends Repository
 		            serialized_spider_values, serialized_photos, photo_cached_remote_filesize,
 		            serialized_list_places, occupation, education, hobbies, personal_website,
 		            link_to_twitter,link_to_facebook,email,ch2055,motivation, easyvote_supporter,
-		            polittalk_participant, persona, party, party_parent, rank';
+		            polittalk_participant, persona, party, party_parent, rank, votes';
         $candidates = $this->getDatabaseConnection()->exec_SELECTgetRows($fields, $tableName, $clause, '', 'uid ASC');
 
         // Add the overlaid partyName, educationName and cantonAbbreviation to the candidates

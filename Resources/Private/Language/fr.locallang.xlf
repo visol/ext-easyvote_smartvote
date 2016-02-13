@@ -19,7 +19,7 @@
 				<target><![CDATA[
 					Tes réponses fournies dans le cadre de « Qui voter » sont conservées au maximum pendant trois mois, après la fin des élections. Tu trouveras des informations supplémentaires à la protection des données au sein d’easyvote <a href="%s" target="_blank">ici</a>.
 				]]></target>
-			</trans-unit>			
+			</trans-unit>
 
 			<trans-unit id="voting_recommendation">
 				<target>Recommandation de vote</target>
@@ -395,6 +395,9 @@
 			</trans-unit>
 			<trans-unit id="votes">
 				<target>Votes</target>
+			</trans-unit>
+			<trans-unit id="vote">
+				<target>Vote</target>
 			</trans-unit>
 			<trans-unit id="name">
 				<target>Nom</target>
