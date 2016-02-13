@@ -282,7 +282,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		hasAnsweredQuestions: {
 
 			/**
-    * @returns {bool}
+    * @returns {boolean}
     */
 
 			value: function hasAnsweredQuestions() {

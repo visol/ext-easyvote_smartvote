@@ -1043,6 +1043,12 @@ var CandidateCollection = (function (_Backbone$Collection) {
 					} else {
 						comparison = candidate1.get("lastName") < candidate2.get("lastName") ? 1 : -1;
 					}
+				} else if (this.sorting === "rank" && this.direction === "ascending") {
+					if (candidate1.get("rank") === candidate2.get("rank")) {
+						comparison = candidate1.get("lastName") < candidate2.get("lastName") ? 1 : -1;
+					} else {
+						comparison = candidate1.get("rank") > candidate2.get("rank") ? 1 : -1;
+					}
 				} else if (this.sorting === "matching" && this.direction === "ascending") {
 					comparison = candidate1.getMatching() > candidate2.getMatching() ? 1 : -1;
 				} else {
@@ -1367,7 +1373,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		hasAnsweredQuestions: {
 
 			/**
-    * @returns {bool}
+    * @returns {boolean}
     */
 
 			value: function hasAnsweredQuestions() {
@@ -2360,8 +2366,10 @@ var CandidateView = (function (_Backbone$View) {
     * @returns string
     */
 
-			value: function render() {
-				var content = this.template(this.model.toJSON());
+			value: function render(isSortedBy) {
+				var values = this.model.toJSON();
+				values.isSortedBy = isSortedBy;
+				var content = this.template(values);
 				this.$el.html(content);
 				return this.el;
 			}
@@ -2797,10 +2805,10 @@ var ListView = (function (_Backbone$View) {
 		// the App already present in the HTML.
 		this.setElement($("#container-candidates"), true);
 
-		// Contains the "number of candidates" and button to reset the filter.
+		// Contains a form to pre-select political parties
 		this.beforeStartingTemplate = _.template($("#template-before-starting").html());
 
-		// Contains the "number of candidates" and button to reset the filter.
+		// Contains the number of candidates and button to reset the filter.
 		this.listTopTemplate = _.template($("#template-candidates-top").html());
 
 		/** @var candidateCollection CandidateCollection*/
@@ -2813,6 +2821,7 @@ var ListView = (function (_Backbone$View) {
 		this.deselected = 0;
 		this.numberOfRenderedItems = 0;
 		this.isRendering = false;
+		this.isSortedBy = null;
 
 		// Important: define listener before fetching data.
 		this.listenTo(this.candidateCollection, "sort", this.renderList);
@@ -3036,10 +3045,11 @@ var ListView = (function (_Backbone$View) {
 				var displayElected = $(".evsv-displayElected").length > 0;
 				var displayDeselected = $(".evsv-displayDeselected").length > 0;
 
-				if (this.facetView.hasMinimumFilter() && !displayElected && !displayDeselected) {
+				if ((this.facetView.hasMinimumFilter() || this.isScopeExecutive()) && !displayElected && !displayDeselected) {
 
 					// Only fetch chunk of data if necessary
-					if (this.district != this.facetView.model.get("district") || this.party != this.facetView.model.get("party") || this.elected != this.facetView.model.get("elected") || this.deselected != this.facetView.model.get("deselected") || this.persona != this.facetView.model.get("persona")) {
+					if (this.district != this.facetView.model.get("district") || this.party != this.facetView.model.get("party") || this.elected != this.facetView.model.get("elected") || this.deselected != this.facetView.model.get("deselected") || this.persona != this.facetView.model.get("persona") || EasyvoteSmartvote.currentElectionScope === 2) {
+						// we want to filter executive candidates in any case.
 
 						this.district = this.facetView.model.get("district");
 						this.party = this.facetView.model.get("party");
@@ -3144,12 +3154,25 @@ var ListView = (function (_Backbone$View) {
 					candidateCollection.setSorting(sorting);
 					candidateCollection.setDirection(direction);
 
+					// Store sorting
+					this.isSortedBy = sorting;
+
 					// Reset list
 					$("#container-candidate-list").html("");
 					this.numberOfRenderedItems = 0;
 
 					candidateCollection.sort(); // trigger rendering
 				}
+			}
+		},
+		isScopeExecutive: {
+
+			/**
+    * Tell whether the scope of the election is executive and we can further proceed.
+    */
+
+			value: function isScopeExecutive() {
+				return EasyvoteSmartvote.currentElectionScope === 2 && this.questionCollection.countAnsweredQuestions() > 0;
 			}
 		},
 		changeFacetView: {
@@ -3214,7 +3237,7 @@ var ListView = (function (_Backbone$View) {
 
 			value: function renderOne(model) {
 				var view = new CandidateView({ model: model });
-				return view.render();
+				return view.render(this.isSortedBy);
 			}
 		},
 		isAuthenticated: {

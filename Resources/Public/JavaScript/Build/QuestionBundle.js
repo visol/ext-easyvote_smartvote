@@ -1013,6 +1013,12 @@ var CandidateCollection = (function (_Backbone$Collection) {
 					} else {
 						comparison = candidate1.get("lastName") < candidate2.get("lastName") ? 1 : -1;
 					}
+				} else if (this.sorting === "rank" && this.direction === "ascending") {
+					if (candidate1.get("rank") === candidate2.get("rank")) {
+						comparison = candidate1.get("lastName") < candidate2.get("lastName") ? 1 : -1;
+					} else {
+						comparison = candidate1.get("rank") > candidate2.get("rank") ? 1 : -1;
+					}
 				} else if (this.sorting === "matching" && this.direction === "ascending") {
 					comparison = candidate1.getMatching() > candidate2.getMatching() ? 1 : -1;
 				} else {
@@ -1337,7 +1343,7 @@ var QuestionCollection = (function (_Backbone$Collection) {
 		hasAnsweredQuestions: {
 
 			/**
-    * @returns {bool}
+    * @returns {boolean}
     */
 
 			value: function hasAnsweredQuestions() {
@@ -3122,10 +3128,10 @@ var QuestionView = (function (_Backbone$View) {
 
 			value: function render() {
 				// Serialise model and add counter info on the top of it.
-				var data = this.model.toJSON();
-				data.counter = this.counter;
+				var values = this.model.toJSON();
+				values.counter = this.counter;
 
-				this.$el.html(this.template(data));
+				this.$el.html(this.template(values));
 
 				// Adjust layout
 				this.$el.toggleClass("hidden", !this.model.get("visible"));
