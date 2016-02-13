@@ -188,7 +188,7 @@ export default class ListView extends Backbone.View {
 		$('#wrapper-candidates').removeClass('hidden');
 		$('#wrapper-filter').removeClass('hidden');
 
-		if (this.questionCollection.countAnsweredQuestions() !== 0 && this.isScopeExecutive()) {
+		if (!this.isScopeExecutive() || this.questionCollection.countAnsweredQuestions() !== 0) {
 			$('#container-before-starting').addClass('hidden');
 		}
 
