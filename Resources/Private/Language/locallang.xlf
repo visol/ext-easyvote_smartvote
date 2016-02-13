@@ -16,7 +16,9 @@
 				<source>Langen Fragebogen starten</source>
 			</trans-unit>
 			<trans-unit id="questionnaire.info.persisted">
-				<source>Damit du "Wen wählen?" optimal nutzen kannst, werden deine Antworten bis maximal drei Monate nach dem Wahltermin gespeichert.</source>
+				<source><![CDATA[
+					Damit du "Wen wählen?" optimal nutzen kannst, werden deine Antworten bis maximal drei Monate nach dem Wahltermin gespeichert und danach gelöscht. Weitere Informationen zum Datenschutz bei easyvote findest du <a href="%s" target="_blank">hier</a>.
+				]]></source>
 			</trans-unit>
 
 			<trans-unit id="voting_recommendation">

@@ -9,6 +9,17 @@
 			<trans-unit id="questionnaire.introduction">
 				<target>Aucun soucis, nous sommes là pour t'aider. Remplis le bref ou le long questionnaire de smartvote et découvre quels candidats te correspondent le mieux.</target>
 			</trans-unit>
+			<trans-unit id="questionnaire.start">
+				<target>Jetzt starten</target>
+			</trans-unit>
+			<trans-unit id="questionnaire.start.long">
+				<target>Langen Fragebogen starten</target>
+			</trans-unit>
+			<trans-unit id="questionnaire.info.persisted">
+				<target><![CDATA[
+					Tes réponses fournies dans le cadre de « Qui voter » sont conservées au maximum pendant trois mois, après la fin des élections. Tu trouveras des informations supplémentaires à la protection des données au sein d’easyvote <a href="%s" target="_blank">ici</a>.
+				]]></target>
+			</trans-unit>			
 
 			<trans-unit id="voting_recommendation">
 				<target>Recommandation de vote</target>

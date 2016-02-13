@@ -9,6 +9,17 @@
 			<trans-unit id="questionnaire.introduction">
 				<target>Non preoccuparti, ti aiutiamo noi. Compila il questionario breve o lungo di smartvote e trova il/la candidato/a che fa per te.</target>
 			</trans-unit>
+			<trans-unit id="questionnaire.start">
+				<target>Jetzt starten</target>
+			</trans-unit>
+			<trans-unit id="questionnaire.start.long">
+				<target>Langen Fragebogen starten</target>
+			</trans-unit>
+			<trans-unit id="questionnaire.info.persisted">
+				<target><![CDATA[
+					Per poter usare in modo ottimale lo strumento “Chi eleggere?”, le tue risposte verranno salvate fino a tre mesi dopo la data delle elezioni, dopo di che verranno cancellate. Ulteriori informazioni sulla protezioni dati per easyvote le puoi trovare <a href="%s" target="_blank">qui</a>.
+				]]></target>
+			</trans-unit>
 
 			<trans-unit id="voting_recommendation">
 				<target>Il tuo consiglio per le elezioni</target>
