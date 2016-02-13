@@ -187,7 +187,10 @@ export default class ListView extends Backbone.View {
 		$('#container-candidates-top').html(content);
 		$('#wrapper-candidates').removeClass('hidden');
 		$('#wrapper-filter').removeClass('hidden');
-		$('#container-before-starting').addClass('hidden');
+
+		if (this.questionCollection.countAnsweredQuestions() !== 0 && this.isScopeExecutive()) {
+			$('#container-before-starting').addClass('hidden');
+		}
 
 		this.isRendering = false;
 		$('#container-candidates-loading').hide();
@@ -214,7 +217,7 @@ export default class ListView extends Backbone.View {
 				this.elected != this.facetView.model.get('elected') ||
 				this.deselected != this.facetView.model.get('deselected') ||
 				this.persona != this.facetView.model.get('persona') ||
-				EasyvoteSmartvote.currentElectionScope === 2) { // we want to filter executive candidates in any case.
+				this.isScopeExecutive()) { // we want to filter executive candidates in any case.
 
 				this.district = this.facetView.model.get('district');
 				this.party = this.facetView.model.get('party');
@@ -235,6 +238,18 @@ export default class ListView extends Backbone.View {
 					this.numberOfRenderedItems = 0;
 					this.renderList();
 				});
+
+				if (this.questionCollection.countAnsweredQuestions() === 0) {
+
+					// User must pick some option
+					let content = this.beforeStartingTemplate({
+						isLinkToQuestionnaire: !this.questionCollection.hasAnsweredQuestions(),
+						isFormDefaultFilter: !this.facetView.hasMinimumFilter(),
+						isLinkToAuthentication: !this.isAuthenticated()
+					});
+
+					$('#container-before-starting').html(content).removeClass('hidden');
+				}
 			} else {
 				$('#container-candidate-list').html(''); // empty list
 				this.numberOfRenderedItems = 0;
@@ -334,7 +349,7 @@ export default class ListView extends Backbone.View {
 	 * Tell whether the scope of the election is executive and we can further proceed.
 	 */
 	isScopeExecutive() {
-		return EasyvoteSmartvote.currentElectionScope === 2 && this.questionCollection.countAnsweredQuestions() > 0;
+		return EasyvoteSmartvote.currentElectionScope === 2;
 	}
 
 	/**
