@@ -51,8 +51,10 @@ export default class CandidateView extends Backbone.View {
 	 *
 	 * @returns string
 	 */
-	render() {
-		let content = this.template(this.model.toJSON());
+	render(isSortedBy) {
+		let values = this.model.toJSON();
+		values['isSortedBy'] = isSortedBy;
+		let content = this.template(values);
 		this.$el.html(content);
 		return this.el;
 	}

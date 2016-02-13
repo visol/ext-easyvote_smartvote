@@ -393,6 +393,9 @@
 			<trans-unit id="matching">
 				<target>correspondance</target>
 			</trans-unit>
+			<trans-unit id="votes">
+				<target>Votes</target>
+			</trans-unit>
 			<trans-unit id="name">
 				<target>Nom</target>
 			</trans-unit>

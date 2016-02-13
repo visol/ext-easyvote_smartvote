@@ -61,10 +61,15 @@
 					<% if (sorting == 'name' && direction == 'descending') { %>selected="selected"<% } %>>
 					<f:translate key="name"/> Z - A
 				</option>
+
+				<f:if condition="{hasVotableActive}">
+					<option value="rank&ascending"
+						<% if (sorting == 'rank' && direction == 'ascending') { %>selected="selected"<% } %>>
+						<f:translate key="votes"/>
+					</option>
+				</f:if>
 			</select>
 		</div>
-
-
 	</script>
 
 	<f:render partial="BeforeStarting" section="BeforeStarting" arguments="{_all}"/>
@@ -73,6 +78,7 @@
 
 	<script>
 		window.EasyvoteSmartvote = window.EasyvoteSmartvote || {};
+		EasyvoteSmartvote.hasVotableActive = parseInt('{hasVotableActive}');
 		EasyvoteSmartvote.currentElection = '{currentElection.uid}' - 0;
 		EasyvoteSmartvote.currentElectionScope = parseInt('{currentElection.scope}');
 		EasyvoteSmartvote.relatedElection = '{currentElection.relatedElection.uid}' - 0;

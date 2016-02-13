@@ -40,6 +40,7 @@ export default class ListView extends Backbone.View {
 		this.deselected = 0;
 		this.numberOfRenderedItems = 0;
 		this.isRendering = false;
+		this.isSortedBy = null;
 
 		// Important: define listener before fetching data.
 		this.listenTo(this.candidateCollection, 'sort', this.renderList);
@@ -318,6 +319,9 @@ export default class ListView extends Backbone.View {
 			candidateCollection.setSorting(sorting);
 			candidateCollection.setDirection(direction);
 
+			// Store sorting
+			this.isSortedBy = sorting;
+
 			// Reset list
 			$('#container-candidate-list').html('');
 			this.numberOfRenderedItems = 0;
@@ -380,7 +384,7 @@ export default class ListView extends Backbone.View {
 	 */
 	renderOne(model) {
 		let view = new CandidateView({model});
-		return view.render();
+		return view.render(this.isSortedBy);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <?php
-namespace Visol\EasyvoteSmartvote\Hook;
+namespace Visol\EasyvoteSmartvote\VotableAspect;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -20,11 +20,11 @@ use Visol\Votable\Hook\RankCacheHookInterface;
 /**
  * Class RankCacheWhereClause
  */
-class RankCacheWhereClause implements RankCacheHookInterface
+class RankCacheWhereClauseHook implements RankCacheHookInterface
 {
 
     /**
-     * @param $possibleWhereClause
+     * @param string $possibleWhereClause
      * @param \Visol\Votable\Domain\Model\Vote $vote
      * @return string
      */
@@ -42,7 +42,6 @@ class RankCacheWhereClause implements RankCacheHookInterface
 
         return $possibleWhereClause;
     }
-
 
     /**
      * Returns a pointer to the database.

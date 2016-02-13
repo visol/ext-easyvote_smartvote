@@ -21,6 +21,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Visol\EasyvoteSmartvote\Domain\Model\Candidate;
 use Visol\EasyvoteSmartvote\Domain\Model\Election;
 use Visol\EasyvoteSmartvote\Service\DistrictService;
+use Visol\EasyvoteSmartvote\Service\VotablePlugin;
 
 /**
  * CandidateController
@@ -86,6 +87,7 @@ class CandidateController extends ActionController
         $this->view->assign('contentObjectData', $this->configurationManager->getContentObject()->data);
         $this->view->assign('currentElection', $currentElection);
         $this->view->assign('settings', $this->settings);
+        $this->view->assign('hasVotableActive', (int)VotablePlugin::getInstance()->isActiveOnCurrentPage());
         $this->view->assign('userDistrict', $userDistrict);
 
         $currentPageId = $this->getFrontendObject()->id;

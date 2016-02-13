@@ -81,4 +81,14 @@ class CandidateApiController extends AbstractBaseApiController
         return $this->objectManager->get(CandidateProcessor::class, $election->isNationalScope());
     }
 
+    /**
+     * Returns an instance of the Frontend object.
+     *
+     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     */
+    protected function getFrontendObject()
+    {
+        return $GLOBALS['TSFE'];
+    }
+
 }

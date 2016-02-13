@@ -396,6 +396,9 @@
 			<trans-unit id="matching">
 				<source>Übereinstimmung</source>
 			</trans-unit>
+			<trans-unit id="votes">
+				<source>Votes</source>
+			</trans-unit>
 			<trans-unit id="name">
 				<source>Name</source>
 			</trans-unit>

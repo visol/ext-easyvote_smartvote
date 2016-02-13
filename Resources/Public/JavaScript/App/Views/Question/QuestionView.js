@@ -38,10 +38,10 @@ export default class QuestionView extends Backbone.View {
 	 */
 	render() {
 		// Serialise model and add counter info on the top of it.
-		let data = this.model.toJSON();
-		data['counter'] = this.counter;
+		let values = this.model.toJSON();
+		values['counter'] = this.counter;
 
-		this.$el.html(this.template(data));
+		this.$el.html(this.template(values));
 
 		// Adjust layout
 		this.$el.toggleClass('hidden', !this.model.get('visible'));

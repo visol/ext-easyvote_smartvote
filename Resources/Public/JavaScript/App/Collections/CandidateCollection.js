@@ -53,6 +53,12 @@ export default class CandidateCollection extends Backbone.Collection {
 			} else {
 				comparison = candidate1.get('lastName') < candidate2.get('lastName') ? 1 : -1;
 			}
+		} else if (this.sorting === 'rank' && this.direction === 'ascending') {
+			if (candidate1.get('rank') === candidate2.get('rank')) {
+				comparison = candidate1.get('lastName') < candidate2.get('lastName') ? 1 : -1;
+			} else {
+				comparison = candidate1.get('rank') > candidate2.get('rank') ? 1 : -1;
+			}
 		} else if (this.sorting === 'matching' && this.direction === 'ascending') {
 			comparison = candidate1.getMatching() > candidate2.getMatching() ? 1 : -1;
 		} else { // if (this.sorting === 'matching' && this.direction === 'descending')

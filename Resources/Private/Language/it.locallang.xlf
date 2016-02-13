@@ -393,6 +393,9 @@
 			<trans-unit id="matching">
 				<target>Compatibilità</target>
 			</trans-unit>
+			<trans-unit id="votes">
+				<target>Voti</target>
+			</trans-unit>
 			<trans-unit id="name">
 				<target>Nome</target>
 			</trans-unit>

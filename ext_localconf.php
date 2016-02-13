@@ -127,4 +127,17 @@ if (TYPO3_MODE === 'BE') {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Visol\EasyvoteSmartvote\Command\SmartVoteCommandController';
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['votable']['rankCacheWhereClause'][] = \Visol\EasyvoteSmartvote\Hook\RankCacheWhereClause::class;
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['votable']['rankCacheWhereClause'][] = \Visol\EasyvoteSmartvote\VotableAspect\RankCacheWhereClauseHook::class;
+
+// Votable Signal Slot to clear the candidate files cache.
+/** @var $signalSlotDispatcher \TYPO3\CMS\Extbase\SignalSlot\Dispatcher */
+$signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+
+// Connect "afterVoteChange" signal slot with the "VotableAspects".
+$signalSlotDispatcher->connect(
+    \Visol\Votable\Controller\VoteController::class,
+    'afterVoteChange',
+    \Visol\EasyvoteSmartvote\VotableAspect\FlushCandidateCacheSlot::class,
+    'flush',
+    TRUE
+);

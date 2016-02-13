@@ -7,10 +7,14 @@
 				<div class="box-teaser">
 					<div class="row">
 						<div class="col-xs-3 col-md-3">
-							<% if (typeof(matching) == "number" && matching > 0) { %>
-							<div class="matching-badge">
-								<div class="inner"><%- matching %>%</div>
-							</div>
+							<% if (isSortedBy == 'rank') { %>
+								<div class="matching-badge">
+									<div class="inner"><%- rank %></div>
+								</div>
+							<% } else if (typeof(matching) == "number" && matching > 0) { %>
+								<div class="matching-badge">
+									<div class="inner"><%- matching %>%</div>
+								</div>
 							<% } %>
 
 							<% if (typeof(photo) == "string") { %>
