@@ -134,7 +134,7 @@ export default class ListView extends Backbone.View {
 		var container = document.createDocumentFragment();
 		var box = container.appendChild(document.createElement('div'));
 		box.className = 'batch-' + this.numberOfRenderedItems;
-		for (let candidate of filteredCandidates) {
+		for (var candidate of filteredCandidates) {
 			let content = this.renderOne(candidate);
 			box.appendChild(content);
 
@@ -157,14 +157,47 @@ export default class ListView extends Backbone.View {
 		// Render votable widget if available.
 		if ($().votable) {
 			var options = window.Votable || {};
+
+			// Add custom handler.
 			options.whenUserIsLoggedOff = function(e) {
 				e.preventDefault();
 				$('.login-link').trigger('click');
 			};
+
+			// Add custom handler.
+			options.afterVoteChange = function(e, addOrRemove) {
+				e.preventDefault();
+
+				var numberOfVotes = 1; // initialize variable
+				var $votesContainer = $(e.target).closest('.content-box').find('.votes-count');
+
+				if ($votesContainer.find('.number-of-votes').length > 0) {
+					let numberOfVotesValue = $votesContainer.find('.number-of-votes').html();
+					numberOfVotes = parseInt(numberOfVotesValue);
+
+					if (addOrRemove === 'add') {
+						numberOfVotes++;
+					} else {
+						numberOfVotes--;
+					}
+
+					$votesContainer.find('.number-of-votes').html(numberOfVotes);
+				}
+
+				if (numberOfVotes > 1) {
+					let content = '<strong class="number-of-votes">' + numberOfVotes + '</strong> ' + EasyvoteSmartvote.labelVotes;
+					$votesContainer.html(content);
+				} else if (numberOfVotes > 0) {
+					let content = '<strong class="number-of-votes">' + numberOfVotes + '</strong> ' + EasyvoteSmartvote.labelVote;
+					$votesContainer.html(content);
+				} else {
+					$votesContainer.html(''); // empty content as we don't have any votes to display
+				}
+			};
 			$('.widget-votable').votable(options);
 		}
 
-		// Bind tooltips for candidate badges
+		// Bind tooltips for candidate badges.
 		Easyvote.bindToolTips();
 
 		// Bind fancybox
@@ -217,7 +250,7 @@ export default class ListView extends Backbone.View {
 				this.elected != this.facetView.model.get('elected') ||
 				this.deselected != this.facetView.model.get('deselected') ||
 				this.persona != this.facetView.model.get('persona') ||
-				this.isScopeExecutive()) { // we want to filter executive candidates in any case.
+				this.isScopeExecutive()) { // We want to filter executive candidates in any case.
 
 				this.district = this.facetView.model.get('district');
 				this.party = this.facetView.model.get('party');
