@@ -2992,14 +2992,47 @@ var ListView = (function (_Backbone$View) {
 				// Render votable widget if available.
 				if ($().votable) {
 					var options = window.Votable || {};
+
+					// Add custom handler.
 					options.whenUserIsLoggedOff = function (e) {
 						e.preventDefault();
 						$(".login-link").trigger("click");
 					};
+
+					// Add custom handler.
+					options.afterVoteChange = function (e, addOrRemove) {
+						e.preventDefault();
+
+						var numberOfVotes = 1; // initialize variable
+						var $votesContainer = $(e.target).closest(".content-box").find(".votes-count");
+
+						if ($votesContainer.find(".number-of-votes").length > 0) {
+							var numberOfVotesValue = $votesContainer.find(".number-of-votes").html();
+							numberOfVotes = parseInt(numberOfVotesValue);
+
+							if (addOrRemove === "add") {
+								numberOfVotes++;
+							} else {
+								numberOfVotes--;
+							}
+
+							$votesContainer.find(".number-of-votes").html(numberOfVotes);
+						}
+
+						if (numberOfVotes > 1) {
+							var _content2 = "<strong class=\"number-of-votes\">" + numberOfVotes + "</strong> " + EasyvoteSmartvote.labelVotes;
+							$votesContainer.html(_content2);
+						} else if (numberOfVotes > 0) {
+							var _content3 = "<strong class=\"number-of-votes\">" + numberOfVotes + "</strong> " + EasyvoteSmartvote.labelVote;
+							$votesContainer.html(_content3);
+						} else {
+							$votesContainer.html(""); // empty content as we don't have any votes to display
+						}
+					};
 					$(".widget-votable").votable(options);
 				}
 
-				// Bind tooltips for candidate badges
+				// Bind tooltips for candidate badges.
 				Easyvote.bindToolTips();
 
 				// Bind fancybox
@@ -3052,7 +3085,7 @@ var ListView = (function (_Backbone$View) {
 
 					// Only fetch chunk of data if necessary
 					if (this.district != this.facetView.model.get("district") || this.party != this.facetView.model.get("party") || this.elected != this.facetView.model.get("elected") || this.deselected != this.facetView.model.get("deselected") || this.persona != this.facetView.model.get("persona") || this.isScopeExecutive()) {
-						// we want to filter executive candidates in any case.
+						// We want to filter executive candidates in any case.
 
 						this.district = this.facetView.model.get("district");
 						this.party = this.facetView.model.get("party");
