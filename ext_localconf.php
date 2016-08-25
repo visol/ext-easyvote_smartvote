@@ -109,10 +109,6 @@ if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['easyvote_smartvote']['backend'] = 'TYPO3\\CMS\\Core\\Cache\\Backend\\FileBackend';
 }
 
-// Register the cache table to be deleted when general caches is hit.
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['cf_easyvote_smartvote'] = 'cf_easyvote_smartvote';
-
-
 if (TYPO3_MODE === 'BE') {
 
     // Register Tasks
