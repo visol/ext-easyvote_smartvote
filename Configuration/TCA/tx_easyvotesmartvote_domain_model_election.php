@@ -251,6 +251,7 @@ $GLOBALS['TCA']['tx_easyvotesmartvote_domain_model_election'] = [
         ],
     ],
     'grid' => [
+        'facets' => [],
         'columns' => [
             '__checkbox' => [
                 'renderer' => new Fab\Vidi\Grid\CheckBoxComponent(),
