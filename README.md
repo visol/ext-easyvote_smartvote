@@ -85,3 +85,8 @@ Guidance for running the Unit Test in this extension
 	# Run the test
 	typo3_src/bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/easyvote_smartvote/Tests/Unit
 ```
+
+TODO
+====
+
+* Image import is failing in the conext of the scheduler
