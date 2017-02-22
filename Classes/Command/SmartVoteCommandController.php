@@ -75,8 +75,8 @@ class SmartVoteCommandController extends CommandController
             $this->outputLine($logLines);
 
             $this->flushCache($election, 'candidates');
-            $this->flushCache($election, 'election');
-            $this->flushCache($election, 'questions');
+            #$this->flushCache($election, 'election');
+            #$this->flushCache($election, 'questions');
         }
 
     }
