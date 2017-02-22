@@ -73,6 +73,28 @@ class SmartVoteCommandController extends CommandController
             $this->electionRepository->update($election);
 
             $this->outputLine($logLines);
+
+            $this->flushCache($election, 'candidates');
+            $this->flushCache($election, 'election');
+            $this->flushCache($election, 'questions');
+        }
+
+    }
+
+    /**
+     * @param Election $election
+     * @param string $cacheName
+     */
+    public function flushCache(Election $election, $cacheName)
+    {
+        $directoryNameAndPath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote/' . $cacheName . '-' . $election->getUid();
+        if (is_dir($directoryNameAndPath)) {
+            $isRemoved = GeneralUtility::rmdir($directoryNameAndPath, true);
+            if ($isRemoved) {
+                $this->outputLine('Flushed cache of ' . $cacheName);
+            } else {
+                $this->outputLine('Problem flushing cache of ' . $cacheName);
+            }
         }
     }
 
