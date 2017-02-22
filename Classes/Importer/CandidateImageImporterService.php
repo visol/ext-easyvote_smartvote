@@ -91,7 +91,13 @@ class CandidateImageImporterService
             $candidateInfo = ' / ' . $candidate['first_name'] . ' ' . $candidate['last_name'] . ' (' . $candidate['uid'] . ')';
             if (!empty($candidate['serialized_photos']) && count(json_decode($candidate['serialized_photos']))) {
                 $photos = json_decode($candidate['serialized_photos']);
-                $remotePhotoUrl = 'https://www.smartvote.ch' . $photos[0];
+
+                // Encoding of file name is required since name could contains accents and spaces.
+                $baseName = urlencode(basename($photos[0]));
+                $urlPath = dirname($photos[0]);
+                $remotePhotoUrl = 'https://www.smartvote.ch' . $urlPath . '/' . $baseName;
+
+                // Download the file
                 $remoteFilesize = $this->getRemoteFilesize($remotePhotoUrl);
                 if ((int)$candidate['photo_cached_remote_filesize'] === $remoteFilesize && !$forceReimport) {
                     $this->log('[CHECK]   [OK]          No photo update needed.' . $candidateInfo);
