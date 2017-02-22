@@ -74,9 +74,19 @@ class SmartVoteCommandController extends CommandController
 
             $this->outputLine($logLines);
 
-            $this->flushCache($election, 'candidates');
-            #$this->flushCache($election, 'election');
-            #$this->flushCache($election, 'questions');
+
+            foreach ($this->getCacheDirectories($election, 'candidates') as $cacheDirectory) {
+                $this->flushCache($cacheDirectory);
+            }
+
+            # To be checked if necessary
+            #foreach ($this->getCacheDirectories($election, 'election') as $cacheDirectory) {
+            #    $this->flushCache($cacheDirectory);
+            #}
+
+            foreach ($this->getCacheDirectories($election, 'questions') as $cacheDirectory) {
+                $this->flushCache($cacheDirectory);
+            }
         }
 
     }
@@ -84,19 +94,38 @@ class SmartVoteCommandController extends CommandController
     /**
      * @param Election $election
      * @param string $cacheName
+     * @return array
      */
-    public function flushCache(Election $election, $cacheName)
+    public function getCacheDirectories(Election $election, $cacheName)
     {
-        $directoryNameAndPath = PATH_site . 'typo3temp/Cache/Data/easyvote_smartvote/' . $cacheName . '-' . $election->getUid();
+
+        $directoryNameAndPath = sprintf(
+            '%stypo3temp/Cache/Data/easyvote_smartvote/%s-%s-*',
+            PATH_site,
+            $cacheName,
+            $election->getUid()
+        );
+
+        return glob($directoryNameAndPath);
+    }
+
+
+    /**
+     * @param $directoryNameAndPath
+     */
+    protected function flushCache($directoryNameAndPath)
+    {
         if (is_dir($directoryNameAndPath)) {
             $isRemoved = GeneralUtility::rmdir($directoryNameAndPath, true);
+            $shortPathName = str_replace(PATH_site, '', $directoryNameAndPath);
             if ($isRemoved) {
-                $this->outputLine('Flushed cache of ' . $cacheName);
+                $this->outputLine('Cache data flushed ' . $shortPathName);
             } else {
-                $this->outputLine('Problem flushing cache of ' . $cacheName);
+                $this->outputLine('Problem flushing cache of ' . $shortPathName);
             }
         }
     }
+
 
     /**
      * Try matching local parties to their national parties
