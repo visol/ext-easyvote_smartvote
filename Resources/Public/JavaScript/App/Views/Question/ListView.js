@@ -371,14 +371,17 @@ export default class ListView extends Backbone.View {
 		var url = '';
 		var sanitizedUrl = '';
 
-		sanitizedUrl = $('#btn-candidate-directory-1').attr('href').replace(/\#.+/, '');
-		url = sanitizedUrl + '#district=' + $('#btn-district').val();
-		$('#btn-candidate-directory-1').attr('href', url);
+		if ($('#btn-candidate-directory-1') && $('#btn-candidate-directory-1').attr('href')) {
+			sanitizedUrl = $('#btn-candidate-directory-1').attr('href').replace(/\#.+/, '');
+			url = sanitizedUrl + '#district=' + $('#btn-district').val();
+			$('#btn-candidate-directory-1').attr('href', url);
+		}
 
-
-		sanitizedUrl = $('#btn-candidate-directory-2').attr('href').replace(/\#.+/, '');
-		url = sanitizedUrl + '#district=' + $('#btn-district').val();
-		$('#btn-candidate-directory-2').attr('href', url);
+		if ($('#btn-candidate-directory-2') && $('#btn-candidate-directory-2').attr('href')) {
+			sanitizedUrl = $('#btn-candidate-directory-2').attr('href').replace(/\#.+/, '');
+			url = sanitizedUrl + '#district=' + $('#btn-district').val();
+			$('#btn-candidate-directory-2').attr('href', url);
+		}
 	}
 
 	/**
