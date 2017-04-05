@@ -10,10 +10,10 @@
 				<target>Aucun soucis, nous sommes là pour t'aider. Remplis le bref ou le long questionnaire de smartvote et découvre quels candidats te correspondent le mieux.</target>
 			</trans-unit>
 			<trans-unit id="questionnaire.start">
-				<target>Jetzt starten</target>
+				<target>Démarrer</target>
 			</trans-unit>
 			<trans-unit id="questionnaire.start.long">
-				<target>Langen Fragebogen starten</target>
+				<target>Démarrer le questionnaire "long"</target>
 			</trans-unit>
 			<trans-unit id="questionnaire.info.persisted">
 				<target><![CDATA[
