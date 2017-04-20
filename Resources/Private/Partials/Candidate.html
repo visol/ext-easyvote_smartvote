@@ -52,9 +52,10 @@
 											</a>
 										</f:then>
 										<f:else>
-											<a href="#" class="shareTrigger hasModal">
+											<a href="#" class="shareTrigger hasSharingModal" data-share-uri="{settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}-{page.uid}" data-share-text="{f:translate(key:'voting_recommendation')} {f:translate(key:'candidate.share.app.description')} <%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.app.description.from')} <%- city %> (<%- partyName %>)" data-share-title="{f:translate(key:'voting_recommendation')} <%- firstName %> <%- lastName %> {f:translate(key:'candidate.share.app.description.from')} <%- city %> (<%- partyName %>)">
 												<i class="evicon-share"></i>
 											</a>
+											<f:comment><!-- pre 2017 sharing -->
 											<div class="hidden">
 												<a class="pull-right modal-close" aria-label="schliessen">
 													<i class="evicon-cancel"></i>
@@ -74,6 +75,7 @@
 													<input type="text" onclick="select()" id="participationLink" value="{settings.siteBaseUrl}permalink/c/<%- id %>-{contentObjectData.sys_language_uid}-{page.uid}" />
 												</div>
 											</div>
+											</f:comment>
 										</f:else>
 									</f:if>
 								</div>
