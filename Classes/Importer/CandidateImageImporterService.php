@@ -167,6 +167,9 @@ class CandidateImageImporterService
                 /** @var \TYPO3\CMS\Core\Resource\FileReference $existingFileReference */
                 $existingFileReference = $existingFileReferences[0];
                 $existingFile = $existingFileReference->getOriginalFile();
+                if (!$existingFile->exists()) {
+                    copy($temporaryFilename, PATH_site . $existingFile->getPublicUrl());
+                }
                 $this->replaceExistingPhoto($existingFile, $temporaryFilename, $remoteFileSize, $candidate);
             } else {
                 $this->importPhoto($temporaryFilename, $remoteFileSize, $candidate);
